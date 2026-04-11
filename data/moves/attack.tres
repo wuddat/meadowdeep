@@ -1,0 +1,42 @@
+[gd_resource type="Resource" format=3 uid="uid://b0nemgkee4xya"]
+
+[ext_resource type="Script" uid="uid://dl8as5sydvjp8" path="res://data/moves/attack.gd" id="1_hneox"]
+[ext_resource type="Script" uid="uid://breq3elxr1644" path="res://custom_resources/status.gd" id="2_x4pox"]
+
+[resource]
+script = ExtResource("1_hneox")
+id = ""
+name = ""
+type = 0
+rarity = 0
+target = 0
+cost = 0
+power = 0
+target_damage_percent_hp = 0.0
+damage_type = ""
+exhausts = false
+pkmn_owner_uid = ""
+pkmn_owner_name = ""
+base_power = 0
+tooltip_text = ""
+status_effects = Array[ExtResource("2_x4pox")]([])
+effect_chance = 1.0
+dmg_block = 0
+multiplay = 1
+randomplay = 0
+requires_status = ""
+bonus_damage_if_target_has_status = ""
+bonus_damage_multiplier = 1.0
+splash_damage = 0
+shift_enabled = 0
+lead_effects = {}
+card_draw = 0
+self_heal = 0
+self_damage = 0
+self_damage_percent_hp = 0.0
+self_status = Array[ExtResource("2_x4pox")]([])
+self_block = 0
+self_shift = 0
+current_cost = 0
+lead_enabled = false
+metadata/_custom_type_script = "uid://v0y8cuyxdriv"
