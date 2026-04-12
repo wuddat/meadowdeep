@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://2tjyspb0netw" path="res://player.gd" id="2_kvjms"]
 [ext_resource type="PackedScene" uid="uid://df8i4w4bngm5j" path="res://scenes/meadow/meadmowmap.tscn" id="3_kvjms"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="4_bn14v"]
+[ext_resource type="PackedScene" uid="uid://lu7ntum8hgj4" path="res://creatures/slime.tscn" id="5_ppo6b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bn14v"]
 atlas = ExtResource("1_8aly8")
@@ -293,15 +294,19 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8aly8"]
-size = Vector2(16, 27)
+size = Vector2(10, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
+size = Vector2(10, 9)
 
 [node name="Meadow" type="Node2D" unique_id=428296654]
 
 [node name="BG" parent="." unique_id=1020387881 instance=ExtResource("3_kvjms")]
 
-[node name="PlayerModel" type="CharacterBody2D" parent="." unique_id=1772075460]
+[node name="PlayerModel" type="CharacterBody2D" parent="." unique_id=1772075460 groups=["player"]]
 position = Vector2(589, 331)
 script = ExtResource("2_kvjms")
+speed = 75.0
 
 [node name="Player" type="AnimatedSprite2D" parent="PlayerModel" unique_id=15775779]
 sprite_frames = SubResource("SpriteFrames_2k1gd")
@@ -309,7 +314,7 @@ animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerModel" unique_id=1063140414]
 visible = false
-position = Vector2(-2, 3.5)
+position = Vector2(-2, 4.5)
 shape = SubResource("RectangleShape2D_8aly8")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1905531462]
@@ -318,5 +323,31 @@ scale = Vector2(82.46371, 8.475021)
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 script = ExtResource("4_bn14v")
+
+[node name="Slime" parent="." unique_id=576682274 instance=ExtResource("5_ppo6b")]
+position = Vector2(631, 196)
+boredom_wander_threshold = 20.0
+sleepiness_sleep_threshold = 80.0
+
+[node name="Food" type="Area2D" parent="." unique_id=84511921 groups=["food"]]
+position = Vector2(536, 281)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Food" unique_id=1442299800]
+shape = SubResource("RectangleShape2D_ppo6b")
+
+[node name="Slime2" parent="." unique_id=714243357 instance=ExtResource("5_ppo6b")]
+position = Vector2(566, 202)
+boredom_wander_threshold = 20.0
+sleepiness_sleep_threshold = 80.0
+
+[node name="Slime3" parent="." unique_id=1573631462 instance=ExtResource("5_ppo6b")]
+position = Vector2(700, 237)
+boredom_wander_threshold = 20.0
+sleepiness_sleep_threshold = 80.0
+
+[node name="Slime4" parent="." unique_id=213066633 instance=ExtResource("5_ppo6b")]
+position = Vector2(632, 287)
+boredom_wander_threshold = 20.0
+sleepiness_sleep_threshold = 80.0
 
 [connection signal="animation_finished" from="PlayerModel/Player" to="PlayerModel" method="_on_player_animation_finished"]

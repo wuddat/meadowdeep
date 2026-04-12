@@ -26,6 +26,12 @@ Utils="*uid://dfe5m60sn6t2u"
 SFXPlayer="*uid://jv7j2cr5yec0"
 TypeChart="*uid://jmg7srsnsxpn"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
+mouse_cursor/custom_image="uid://cmkbmjnaa50ds"
+
 [input]
 
 ui_left={
@@ -91,4 +97,5 @@ left_mouse={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=3
 rendering_device/driver.windows="d3d12"

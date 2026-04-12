@@ -2,7 +2,6 @@
 extends Node2D
 
 const ARC_POINTS := 10
-const PC_LOGOFF = preload("res://art/sounds/sfx/pc_logoff.wav")
 
 @onready var area_2d: Area2D = $Area2D
 @onready var card_arc: Line2D = $CanvasLayer/CardArc

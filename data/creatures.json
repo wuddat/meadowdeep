@@ -76,7 +76,7 @@
 	  "egg_depth_found": 2,
 	  "sprite_path": "res://art/placeholder.png",
 	  "icon_path": "res://art/placeholder.png",
-	  "move_ids": ["rockthrow", "harden", "rocktomb", "defensecurl", "earthquake", "irondefense"],
+	  "move_ids": ["rockthrow", "harden", "rocktomb", "defensecurl", "irondefense"],
 	  "evolves_to": "",
 	  "evolution_level": 101,
 	  "stat_block": {
