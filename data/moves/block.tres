@@ -1,4 +1,4 @@
-[gd_resource type="Resource" format=3 uid="uid://bbjd13posqve7"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bbjd13posqve7"]
 
 [ext_resource type="Script" uid="uid://dx2y46iy64m5m" path="res://data/moves/block.gd" id="1_i5q37"]
 [ext_resource type="Script" uid="uid://breq3elxr1644" path="res://custom_resources/status.gd" id="2_cxle8"]

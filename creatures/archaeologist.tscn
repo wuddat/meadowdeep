@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://arc0mdw000001"]
+
+[ext_resource type="Script" uid="uid://bxpwh8m5t77s2" path="res://creatures/archaeologist.gd" id="1_arch1"]
+[ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_arch1"]
+[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_arch1"]
+
+[node name="Archaeologist" type="Node2D"]
+script = ExtResource("1_arch1")
+
+[node name="StatsUI" type="Node" parent="."]
+
+[node name="StatusHandler" type="GridContainer" parent="."]
+script = ExtResource("2_arch1")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("3_arch1")

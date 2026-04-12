@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbu0mdw000001"]
+
+[ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
+[ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_cbu01"]
+[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
+
+[node name="CreatureBattleUnit" type="Node2D" groups=["active_creatures"]]
+script = ExtResource("1_cbu01")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="StatsUI" type="Node" parent="."]
+
+[node name="StatusHandler" type="GridContainer" parent="."]
+script = ExtResource("2_cbu01")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("3_cbu01")
+
+[node name="UnitStatusIndicator" type="Node" parent="."]
+unique_name_in_owner = true

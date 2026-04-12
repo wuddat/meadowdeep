@@ -34,6 +34,8 @@ func _ready() -> void:
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 	Events.evolution_triggered.connect(_on_evolution_triggered)
 	Events.evolution_completed.connect(_on_evolution_completed)
+	char_stats = char_stats.create_instance()
+	start_battle()
 
 
 func start_battle() -> void:

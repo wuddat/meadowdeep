@@ -2,19 +2,19 @@
 extends Node
 
 # Card-related Events
-signal card_drag_started(card_ui: CardUI)
-signal card_drag_ended(card_ui: CardUI)
-signal card_aim_started(card_ui: CardUI)
-signal card_aim_ended(card_ui: CardUI)
+signal card_drag_started(card_ui)
+signal card_drag_ended(card_ui)
+signal card_aim_started(card_ui)
+signal card_aim_ended(card_ui)
 signal card_played(card: Card)
 signal card_tooltip_requested(card: Card)
 signal tooltip_hide_requested
 
 # Item-related Events
-signal item_aim_started(item: Item)
-signal item_aim_ended(item: Item)
-signal item_used(item: Item)
-signal item_added(item: Item)
+signal item_aim_started(item)
+signal item_aim_ended(item)
+signal item_used(item)
+signal item_added(item)
 
 # Player-related Events
 signal player_hand_drawn
@@ -60,7 +60,7 @@ signal creature_reward_requested(creature_stats: CreatureStats)
 signal creature_reward_completed
 
 # Map-related Events
-signal map_exited(room: Room)
+signal map_exited(room)
 signal save_game(on_map: bool)
 
 # Shop-related Events

@@ -47,7 +47,6 @@ Running log of reminders, red flags, known issues, things to revisit, and decisi
 - **`Utils.get_evolution_options`** — References `creature.icon`, `creature.species_id`, `creature.uid` off `CreatureStats` — all three fields now exist, so this should resolve correctly.
 - **Art asset paths** — All `preload("res://art/sounds/...")` paths are copied from PokéSpire. These will be broken until the art folder is populated or paths are updated.
 - **`vulnerable.gd`** — Calls `target.status_handler.queue_remove_on_next_damage("vulnerable")`. This method may not exist on StatusHandler — needs verification when StatusHandler is ported.
-- **`Player` class reference in `status_effect.gd`** — The `Player` class check (`target is Player`) is not Pokemon-specific but will need to become `Archaeologist` (or whatever the player character class ends up being called) when that system is built.
 
 ---
 

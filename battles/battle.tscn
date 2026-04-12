@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://btl0mdw000001"]
+
+[ext_resource type="Script" uid="uid://c7id0r1756qef" path="res://battles/battle.gd" id="1_btl01"]
+[ext_resource type="Script" uid="uid://diji38omq1swm" path="res://battles/player_handler.gd" id="2_btl01"]
+[ext_resource type="Resource" uid="uid://c2ypkkq037xkr" path="res://battles/test_battle.tres" id="2_whm1g"]
+[ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="3_6tbm7"]
+[ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_btl01"]
+[ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="4_btl01"]
+[ext_resource type="PackedScene" uid="uid://rc0mdw000001" path="res://creatures/archaeologist.tscn" id="5_btl01"]
+[ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
+[ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="8_2iid6"]
+
+[node name="Battle" type="Node2D" unique_id=1217962655]
+script = ExtResource("1_btl01")
+battle_stats = ExtResource("2_whm1g")
+char_stats = ExtResource("3_6tbm7")
+
+[node name="BattleUI" type="Node" parent="." unique_id=707740850]
+
+[node name="EndTurnButton" type="Button" parent="BattleUI" unique_id=2028955860]
+unique_name_in_owner = true
+offset_left = 941.0
+offset_top = 476.0
+offset_right = 1019.0
+offset_bottom = 507.0
+text = "End Turn"
+
+[node name="PlayerHandler" type="Node" parent="." unique_id=788124326 node_paths=PackedStringArray("archaeologist")]
+script = ExtResource("2_btl01")
+archaeologist = NodePath("../Archaeologist")
+
+[node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859]
+script = ExtResource("3_btl01")
+enemy_scene = ExtResource("6_vay6r")
+
+[node name="PartyHandler" type="Node" parent="." unique_id=1615292015]
+script = ExtResource("4_btl01")
+creature_battle_unit_scene = ExtResource("8_2iid6")
+
+[node name="Archaeologist" parent="." unique_id=1785742355 instance=ExtResource("5_btl01")]
+
+[node name="StatUI" type="Node" parent="." unique_id=1543670243]
+
+[node name="LeftPanel" type="VBoxContainer" parent="StatUI" unique_id=1326972430]
+
+[node name="RightPanel" type="VBoxContainer" parent="StatUI" unique_id=53310414]

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Exposed" format=3 uid="uid://cp53ioh4pvhr7"]
+
+[ext_resource type="Texture2D" uid="uid://gplc6hx47r0w" path="res://art/statuseffects/stone.png" id="1_0rmh8"]
+[ext_resource type="Script" uid="uid://dly4bqw77lpfc" path="res://statuses/exposed.gd" id="2_gtvil"]
+
+[resource]
+script = ExtResource("2_gtvil")
+id = "exposed"
+display_string = " is looking vulnerable!"
+type = 1
+chance = 1.0
+stack_type = 2
+can_expire = true
+duration = 2
+stacks = 0
+max_stacks = 999
+max_duration = 999
+icon = ExtResource("1_0rmh8")
+tooltip = "[color=sandybrown]EXPOSED:[/color]
+Receive 50% more damage."
+metadata/_custom_type_script = "uid://breq3elxr1644"

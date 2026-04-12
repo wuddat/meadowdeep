@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://enm0mdw000001"]
+
+[ext_resource type="Script" uid="uid://de3iwgnmkrukk" path="res://creatures/enemy.gd" id="1_enm01"]
+[ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_enm01"]
+[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
+
+
+[node name="Enemy" type="Area2D"]
+script = ExtResource("1_enm01")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Arrow" type="Sprite2D" parent="."]
+
+[node name="AnimationHandler" type="Node" parent="."]
+
+[node name="StatsUI" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="IntentUI" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="NameContainer" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="UnitStatusIndicator" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="StatusHandler" type="GridContainer" parent="."]
+script = ExtResource("2_enm01")
+
+[node name="ModifierHandler" type="Node" parent="."]
+script = ExtResource("3_enm01")

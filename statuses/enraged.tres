@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnragedStatus" format=3 uid="uid://bodjiemku8e14"]
+
+[ext_resource type="Script" uid="uid://cb2kg4f17h8i8" path="res://statuses/enraged.gd" id="1_arq51"]
+[ext_resource type="Texture2D" uid="uid://we077unk7u3w" path="res://art/statuseffects/flame.png" id="1_wdi67"]
+
+[resource]
+script = ExtResource("1_arq51")
+id = "enraged"
+display_string = " looks angry!"
+type = 0
+chance = 1.0
+stack_type = 0
+can_expire = false
+duration = 0
+stacks = 0
+max_stacks = 999
+max_duration = 999
+icon = ExtResource("1_wdi67")
+tooltip = "[color=tomato]ENRAGED: [/color]
+At the start of turn, gain %s AtkPwr."
+metadata/_custom_type_script = "uid://breq3elxr1644"

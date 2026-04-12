@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="QuiverDance" format=3 uid="uid://doem1h6fn6chi"]
+
+[ext_resource type="Script" uid="uid://cbr6o74rqd784" path="res://statuses/quiverdance.gd" id="1_0qfyo"]
+
+[resource]
+script = ExtResource("1_0qfyo")
+id = "quiverdance"
+display_string = " begins vibrating intensely..."
+tooltip = "[color=tomato]QUIVERDANCE: [/color]
+At the start of turn, gain 2 ATKPWR and 2 DEXTERITY."

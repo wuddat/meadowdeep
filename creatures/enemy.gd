@@ -105,7 +105,7 @@ func update_action() -> void:
 		return
 
 	if enemy_action_picker.has_method("get_first_conditional_action"):
-		var new_conditional := enemy_action_picker.get_first_conditional_action()
+		var new_conditional = enemy_action_picker.get_first_conditional_action()
 		if new_conditional and current_action != new_conditional:
 			current_action = new_conditional
 
@@ -240,7 +240,7 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 
 		var combat_scene = load("res://scenes/ui/combat_text_label.tscn")
 		if combat_scene:
-			var dmg_text := combat_scene.instantiate()
+			var dmg_text = combat_scene.instantiate()
 			add_child(dmg_text)
 			if dmg_text.has_method("show_text"):
 				dmg_text.show_text("%s" % modified_damage)
@@ -265,7 +265,7 @@ func heal(amount: int) -> void:
 		if actual_heal > 0:
 			var combat_scene = load("res://scenes/ui/combat_text_label.tscn")
 			if combat_scene:
-				var label := combat_scene.instantiate()
+				var label = combat_scene.instantiate()
 				add_child(label)
 				if label.has_method("show_text"):
 					label.show_text("+ %s HP" % amount, Color.GREEN)
@@ -304,7 +304,7 @@ func _play_dodge_tween() -> void:
 	tween.tween_property(self, "global_position", start_pos - dodge_offset, 0.1)
 	var combat_scene = load("res://scenes/ui/combat_text_label.tscn")
 	if combat_scene:
-		var label := combat_scene.instantiate()
+		var label = combat_scene.instantiate()
 		add_child(label)
 		if label.has_method("show_text"):
 			label.show_text("DODGE!")

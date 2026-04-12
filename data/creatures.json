@@ -1,114 +1,114 @@
 {
   "creatures": {
-    "verdant": {
-      "species_id": "verdant",
-      "creature_name": "Verdant",
-      "element_type": "verdant",
-      "max_health": 30,
-      "is_companion": true,
-      "egg_rarity": "companion",
-      "egg_depth_found": 0,
-      "sprite_path": "res://art/placeholder.png",
-      "icon_path": "res://art/placeholder.png",
-      "move_ids": ["tackle", "defensecurl", "growth", "vinewhip", "bodyslam", "coil"],
-      "evolves_to": "",
-      "evolution_level": 101,
-      "stat_block": {
-        "personality": "brave",
-        "power_grade": 3,
-        "agility_grade": 2,
-        "resilience_grade": 4,
-        "mystic_grade": 1,
-        "focus_grade": 3
-      }
-    },
-    "ember": {
-      "species_id": "ember",
-      "creature_name": "Ember",
-      "element_type": "ember",
-      "max_health": 18,
-      "is_companion": false,
-      "egg_rarity": "common",
-      "egg_depth_found": 1,
-      "sprite_path": "res://art/placeholder.png",
-      "icon_path": "res://art/placeholder.png",
-      "move_ids": ["ember", "flamecharge", "flareblitz", "doubleedge", "firefang", "smokescreen"],
-      "evolves_to": "",
-      "evolution_level": 101,
-      "stat_block": {
-        "personality": "fierce",
-        "power_grade": 5,
-        "agility_grade": 3,
-        "resilience_grade": 1,
-        "mystic_grade": 2,
-        "focus_grade": 2
-      }
-    },
-    "tide": {
-      "species_id": "tide",
-      "creature_name": "Tide",
-      "element_type": "tide",
-      "max_health": 24,
-      "is_companion": false,
-      "egg_rarity": "common",
-      "egg_depth_found": 1,
-      "sprite_path": "res://art/placeholder.png",
-      "icon_path": "res://art/placeholder.png",
-      "move_ids": ["bubble", "defensecurl", "haze", "synthesis", "watergun", "safeguard"],
-      "evolves_to": "",
-      "evolution_level": 101,
-      "stat_block": {
-        "personality": "gentle",
-        "power_grade": 1,
-        "agility_grade": 2,
-        "resilience_grade": 3,
-        "mystic_grade": 3,
-        "focus_grade": 4
-      }
-    },
-    "stone": {
-      "species_id": "stone",
-      "creature_name": "Stone",
-      "element_type": "stone",
-      "max_health": 36,
-      "is_companion": false,
-      "egg_rarity": "uncommon",
-      "egg_depth_found": 2,
-      "sprite_path": "res://art/placeholder.png",
-      "icon_path": "res://art/placeholder.png",
-      "move_ids": ["rockthrow", "harden", "rocktomb", "defensecurl", "earthquake", "irondefense"],
-      "evolves_to": "",
-      "evolution_level": 101,
-      "stat_block": {
-        "personality": "stoic",
-        "power_grade": 4,
-        "agility_grade": 1,
-        "resilience_grade": 5,
-        "mystic_grade": 1,
-        "focus_grade": 2
-      }
-    },
-    "wisp": {
-      "species_id": "wisp",
-      "creature_name": "Wisp",
-      "element_type": "shade",
-      "max_health": 16,
-      "is_companion": false,
-      "egg_rarity": "rare",
-      "egg_depth_found": 3,
-      "sprite_path": "res://art/placeholder.png",
-      "icon_path": "res://art/placeholder.png",
-      "move_ids": ["confuseray", "hypnosis", "willowisp", "nightshade", "dreameater", "lick"],
-      "evolves_to": "",
-      "evolution_level": 101,
-      "stat_block": {
-        "personality": "aloof",
-        "power_grade": 1,
-        "agility_grade": 4,
-        "resilience_grade": 1,
-        "mystic_grade": 5,
-        "focus_grade": 3
-      }
-    }
+	"verdant": {
+	  "species_id": "verdant",
+	  "creature_name": "Verdant",
+	  "element_type": "verdant",
+	  "max_health": 30,
+	  "is_companion": true,
+	  "egg_rarity": "companion",
+	  "egg_depth_found": 0,
+	  "sprite_path": "res://art/placeholder.png",
+	  "icon_path": "res://art/placeholder.png",
+	  "move_ids": ["tackle", "defensecurl", "growth", "vinewhip", "bodyslam", "coil"],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "stat_block": {
+		"personality": "brave",
+		"power_grade": 3,
+		"agility_grade": 2,
+		"resilience_grade": 4,
+		"mystic_grade": 1,
+		"focus_grade": 3
+	  }
+	},
+	"ember": {
+	  "species_id": "ember",
+	  "creature_name": "Ember",
+	  "element_type": "ember",
+	  "max_health": 18,
+	  "is_companion": false,
+	  "egg_rarity": "common",
+	  "egg_depth_found": 1,
+	  "sprite_path": "res://art/placeholder.png",
+	  "icon_path": "res://art/placeholder.png",
+	  "move_ids": ["ember", "flamecharge", "flareblitz", "doubleedge", "firefang", "smokescreen"],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "stat_block": {
+		"personality": "fierce",
+		"power_grade": 5,
+		"agility_grade": 3,
+		"resilience_grade": 1,
+		"mystic_grade": 2,
+		"focus_grade": 2
+	  }
+	},
+	"tide": {
+	  "species_id": "tide",
+	  "creature_name": "Tide",
+	  "element_type": "tide",
+	  "max_health": 24,
+	  "is_companion": false,
+	  "egg_rarity": "common",
+	  "egg_depth_found": 1,
+	  "sprite_path": "res://art/placeholder.png",
+	  "icon_path": "res://art/placeholder.png",
+	  "move_ids": ["bubble", "defensecurl", "haze", "synthesis", "watergun", "safeguard"],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "stat_block": {
+		"personality": "gentle",
+		"power_grade": 1,
+		"agility_grade": 2,
+		"resilience_grade": 3,
+		"mystic_grade": 3,
+		"focus_grade": 4
+	  }
+	},
+	"stone": {
+	  "species_id": "stone",
+	  "creature_name": "Stone",
+	  "element_type": "stone",
+	  "max_health": 36,
+	  "is_companion": false,
+	  "egg_rarity": "uncommon",
+	  "egg_depth_found": 2,
+	  "sprite_path": "res://art/placeholder.png",
+	  "icon_path": "res://art/placeholder.png",
+	  "move_ids": ["rockthrow", "harden", "rocktomb", "defensecurl", "earthquake", "irondefense"],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "stat_block": {
+		"personality": "stoic",
+		"power_grade": 4,
+		"agility_grade": 1,
+		"resilience_grade": 5,
+		"mystic_grade": 1,
+		"focus_grade": 2
+	  }
+	},
+	"wisp": {
+	  "species_id": "wisp",
+	  "creature_name": "Wisp",
+	  "element_type": "shade",
+	  "max_health": 16,
+	  "is_companion": false,
+	  "egg_rarity": "rare",
+	  "egg_depth_found": 3,
+	  "sprite_path": "res://art/placeholder.png",
+	  "icon_path": "res://art/placeholder.png",
+	  "move_ids": ["confuseray", "hypnosis", "willowisp", "nightshade", "dreameater", "lick"],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "stat_block": {
+		"personality": "aloof",
+		"power_grade": 1,
+		"agility_grade": 4,
+		"resilience_grade": 1,
+		"mystic_grade": 5,
+		"focus_grade": 3
+	  }
+	}
   }
 }

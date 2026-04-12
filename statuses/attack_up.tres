@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AttackPower" format=3 uid="uid://bnjj3deir31e3"]
+
+[ext_resource type="Texture2D" uid="uid://coj4mhxug6ia6" path="res://art/status_effects/atkup.png" id="1_mv4ol"]
+[ext_resource type="Script" uid="uid://cvxirryx7k44x" path="res://statuses/attack_up.gd" id="2_cr3f4"]
+
+[resource]
+script = ExtResource("2_cr3f4")
+id = "attack_up"
+display_string = " gained ATKPWR!"
+type = 2
+chance = 1.0
+stack_type = 1
+can_expire = false
+duration = 0
+stacks = 1
+max_stacks = 999
+max_duration = 999
+icon = ExtResource("1_mv4ol")
+tooltip = "[color=rosybrown]ATKUP: [/color]
+Attacks deal [color=red]%s[/color] more damage."
+metadata/_custom_type_script = "uid://breq3elxr1644"

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ph00mdw000001"]
+
+[ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="1_ph001"]
+
+[node name="PartyHandler" type="Node"]
+script = ExtResource("1_ph001")

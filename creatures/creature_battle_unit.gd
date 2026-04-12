@@ -207,7 +207,7 @@ func show_combat_text(text: String, color: Color = Color.WHITE, animation: Strin
 	var scene = load("res://scenes/ui/combat_text_label.tscn")
 	if not scene:
 		return
-	var label := scene.instantiate()
+	var label = scene.instantiate()
 	add_child(label)
 	if label.has_method("show_text"):
 		label.show_text(text, color, animation)

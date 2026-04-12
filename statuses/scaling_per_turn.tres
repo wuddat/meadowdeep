@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Scaling" format=3 uid="uid://bbi23q0wbw578"]
+
+[ext_resource type="Script" uid="uid://jirbw0t7g7vv" path="res://statuses/scaling_per_turn.gd" id="1_doryd"]
+
+[resource]
+script = ExtResource("1_doryd")
+id = "scaling"
+display_string = ""
+type = 0
+chance = 1.0
+stack_type = 0
+can_expire = false
+duration = 0
+stacks = 0
+max_stacks = 999
+max_duration = 999
+tooltip = ""
+metadata/_custom_type_script = "uid://breq3elxr1644"
