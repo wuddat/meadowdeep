@@ -20,7 +20,7 @@ static func execute_damage(
 		if target.has_method("dodge_check") and target.dodge_check():
 			continue
 
-		var type_multiplier = TypeChart.get_multiplier(damage_type, target.stats.type)
+		var type_multiplier = TypeChart.get_multiplier(damage_type, [target.stats.element_type])
 		var modified_damage = modifiers.get_modified_value(amount, Modifier.Type.DMG_DEALT)
 		var final_damage = round(modified_damage * type_multiplier)
 
@@ -179,20 +179,13 @@ static func execute_enemy_damage(
 		if target.has_method("dodge_check") and target.dodge_check():
 			continue
 
-		var type_multiplier = TypeChart.get_multiplier(damage_type, target.stats.type)
+		var type_multiplier = TypeChart.get_multiplier(damage_type, [target.stats.element_type])
 		var final_damage = round(amount * type_multiplier)
 
 		var damage_effect = DamageEffect.new()
 		if sound:
 			damage_effect.sound = sound
 		damage_effect.amount = final_damage
-
-		# Set sound based on effectiveness
-		if type_multiplier > 1:
-			damage_effect.sound = preload("res://art/sounds/sfx/supereffective.wav")
-		elif type_multiplier < 1:
-			damage_effect.sound = preload("res://art/sounds/not_effective.wav")
-
 		damage_effect.execute([target])
 		total_damage_dealt += final_damage
 

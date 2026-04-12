@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://drx41b0rgs5aa"]
+
+[ext_resource type="Script" path="res://scenes/ui/hand.gd" id="1_hnd01"]
+
+[node name="Hand" type="HBoxContainer"]
+script = ExtResource("1_hnd01")

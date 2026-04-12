@@ -75,7 +75,11 @@ func setup_ai() -> void:
 	if enemy_action_picker:
 		enemy_action_picker.queue_free()
 
-	if not stats or not stats.ai:
+	if not stats:
+		return
+	if not stats.ai:
+		stats.ai = load("res://creatures/enemy_action_picker.tscn")
+	if not stats.ai:
 		return
 
 	var new_action_picker: Node = stats.ai.instantiate()
@@ -313,10 +317,12 @@ func _play_dodge_tween() -> void:
 
 
 func _on_mouse_entered() -> void:
-	if name_container:
-		name_container.show()
+	pass
+	#if name_container:
+		#name_container.show()
 
 
 func _on_mouse_exited() -> void:
-	if name_container:
-		name_container.hide()
+	pass
+	#if name_container:
+		#name_container.hide()

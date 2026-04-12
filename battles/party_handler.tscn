@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="1_ph001"]
 
-[node name="PartyHandler" type="Node"]
+[node name="PartyHandler" type="Node" groups=["party_handler"]]
 script = ExtResource("1_ph001")

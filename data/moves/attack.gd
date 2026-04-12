@@ -25,7 +25,7 @@ func get_updated_tooltip(player_modifiers: ModifierHandler, enemy_modifiers: Mod
 				break
 
 	if targets and is_instance_valid(targets[0]) and (targets[0] is CreatureBattleUnit or targets[0] is Enemy):
-		var type_multiplier = TypeChart.get_multiplier(damage_type, targets[0].stats.type)
+		var type_multiplier = TypeChart.get_multiplier(damage_type, [targets[0].stats.element_type])
 		mod_dmg = round(mod_dmg * type_multiplier)
 
 	if lead_enabled:

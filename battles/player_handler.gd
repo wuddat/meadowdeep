@@ -17,10 +17,14 @@ var character: ArchaeologistStats
 
 func _ready() -> void:
 	_establish_connections()
+	if end_turn_button:
+		end_turn_button.pressed.connect(func(): Events.player_turn_ended.emit())
 
 
 func start_battle(char_stats: ArchaeologistStats) -> void:
 	character = char_stats
+	if hand and "char_stats" in hand:
+		hand.set("char_stats", char_stats)
 	character.faint_pile.clear()
 
 	character.battle_deck = character.build_battle_deck(party_handler.active_battle_party)
