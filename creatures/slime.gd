@@ -74,6 +74,8 @@ var _current_action: StringName:
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var _debug_box: VBoxContainer = %Label
 @onready var hunger: Label = %Hunger
+@onready var pop: AudioStreamPlayer = $Pop
+@onready var nomnom: AudioStreamPlayer = $nomnom
 
 var _home: Vector2
 var _player: CharacterBody2D   # resolved lazily via "player" group
@@ -87,6 +89,7 @@ var _food: Area2D              # resolved lazily via "food" group
 func _ready() -> void:
 	_home = global_position
 	_on_ready_creature()
+	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
 
 
@@ -206,6 +209,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
 		&"wander":
 			_sprite.play("run")
+			pop.pitch_scale = randf_range(0.9, 1.1)
+			pop.play()
 		&"sleep":
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")   
@@ -213,13 +218,19 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			animation_player.play("bubble_fade_in")
 		&"seek_player":
 			_sprite.play("run")
+			pop.pitch_scale = randf_range(0.9, 1.1)
+			pop.play()
 		&"seek_food":
 			_sprite.play("run")
+			pop.pitch_scale = randf_range(0.9, 1.1)
+			pop.play()
 		&"eat_food":
 			_sprite.play("eat")
 			emotion.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
+			nomnom.pitch_scale = randf_range(0.9, 1.1)
+			nomnom.play()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -266,7 +277,11 @@ func _tick_sleep(data: Dictionary, delta: float) -> void:
 func _tick_eat_food(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
 	_raise("hunger", 20.0 * delta)
+	if not nomnom.playing:
+		nomnom.pitch_scale = randf_range(0.9, 1.1)
+		nomnom.play()
 	if data["timer"] <= 0.0 or emotions["hunger"] >= 100.0:
+		nomnom.stop()
 		animation_player.play("bubble_fade_out")
 		_action_done()
 
@@ -327,6 +342,12 @@ func _get_player() -> CharacterBody2D:
 		if players.size() > 0:
 			_player = players[0] as CharacterBody2D
 	return _player
+
+func _on_sprite_animation_looped() -> void:
+	if _sprite.animation == &"run":
+		pop.pitch_scale = randf_range(0.9, 1.1)
+		pop.play()
+
 
 func _get_food() -> Area2D:
 	if not _food:

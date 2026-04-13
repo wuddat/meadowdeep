@@ -4,6 +4,8 @@
 [ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_8gjs3"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_ipsh6"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="5_51dqd"]
+[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="5_nosak"]
+[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="6_nosak"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
 shader = ExtResource("2_8gjs3")
@@ -170,3 +172,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 5
 text = "%s: %s"
 label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
+stream = ExtResource("5_nosak")
+volume_db = -14.144
+autoplay = true
+bus = &"SFX"
+
+[node name="nomnom" type="AudioStreamPlayer" parent="." unique_id=21209218]
+stream = ExtResource("6_nosak")
+volume_db = -14.144
+autoplay = true
+bus = &"SFX"

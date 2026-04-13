@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://df8i4w4bngm5j" path="res://scenes/meadow/meadmowmap.tscn" id="3_kvjms"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="4_bn14v"]
 [ext_resource type="PackedScene" uid="uid://lu7ntum8hgj4" path="res://creatures/slime.tscn" id="5_ppo6b"]
+[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_nrc7r"]
+[ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bn14v"]
 atlas = ExtResource("1_8aly8")
@@ -353,4 +355,16 @@ collision_layer = 16
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 
+[node name="MeadowMusic" type="AudioStreamPlayer" parent="." unique_id=2064506534]
+stream = ExtResource("meadow_music")
+volume_db = -14.144
+autoplay = true
+
+[node name="Pop" type="AudioStreamPlayer" parent="." unique_id=2109370644]
+stream = ExtResource("7_nrc7r")
+volume_db = -14.144
+autoplay = true
+bus = &"SFX"
+
+[connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
 [connection signal="animation_finished" from="PlayerModel/Player" to="PlayerModel" method="_on_player_animation_finished"]
