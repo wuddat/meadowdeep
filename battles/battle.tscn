@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://creatures/player_character.tscn" id="12_nille"]
 [ext_resource type="PackedScene" uid="uid://ih1u373ufo54" path="res://scenes/ui/card_target_selector/card_target_selector.tscn" id="13_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://ofgutpuj26p0" path="res://scenes/ui/battle_over_panel.tscn" id="14_nille"]
+[ext_resource type="Script" uid="uid://8k4w8mgyymjk" path="res://scenes/ui/battle_over_panel.gd" id="15_aieny"]
 
 [sub_resource type="Resource" id="Resource_nille"]
 script = ExtResource("6_4r7wf")
@@ -99,6 +100,7 @@ layer = 5
 
 [node name="BattleOverPanel" parent="BattleOverLayer" unique_id=1853279945 instance=ExtResource("14_nille")]
 visible = false
+script = ExtResource("15_aieny")
 
 [node name="Node" type="Node2D" parent="." unique_id=1812583134]
 position = Vector2(525, 189)

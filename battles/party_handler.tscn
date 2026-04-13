@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://ph00mdw000001"]
+[gd_scene format=3 uid="uid://dvset66acfeqq"]
 
 [ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="1_ph001"]
 
