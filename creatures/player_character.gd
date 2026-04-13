@@ -1,26 +1,24 @@
-#archaeologist.gd
-# The player character node. Holds stat reference and status/modifier handlers.
-# Rename note: replaces Player from PokéSpire. Full class is called Archaeologist
-# per the MeadowDeep design doc, but the design of this character is not final.
-class_name Archaeologist
+#player_character.gd
+# The player character node for battle. Holds stat reference and status/modifier handlers.
+class_name PlayerCharacter
 extends Node2D
 
-@export var stats: ArchaeologistStats : set = set_archaeologist_stats
+@export var stats: PlayerStats : set = set_player_stats
 
 @onready var stats_ui: Node = $StatsUI              # Will become typed StatsUI once ported
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 
 
-func set_archaeologist_stats(value: ArchaeologistStats) -> void:
+func set_player_stats(value: PlayerStats) -> void:
 	stats = value
 	if not stats.stats_changed.is_connected(update_stats):
 		stats.stats_changed.connect(update_stats)
-	update_archaeologist()
+	update_player()
 
 
-func update_archaeologist() -> void:
-	if not stats is ArchaeologistStats:
+func update_player() -> void:
+	if not stats is PlayerStats:
 		return
 	if not is_inside_tree():
 		await ready

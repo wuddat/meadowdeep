@@ -4,7 +4,7 @@ extends Control
 signal reparent_requested(which_card_ui: CardUI)
 
 @export var card: Card : set = _set_card
-@export var char_stats: ArchaeologistStats
+@export var char_stats: PlayerStats
 @export var player_pkmn_modifiers: ModifierHandler
 @export var battle_unit_owner: CreatureBattleUnit
 @export var party_handler: PartyHandler

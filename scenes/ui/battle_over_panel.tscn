@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://ofgutpuj26p0"]
+[gd_scene format=3 uid="uid://ofgutpuj26p0"]
 
-[ext_resource type="Script" uid="uid://c7c8c2dwbxwcp" path="res://scenes/ui/battle_over_panel.gd" id="1_dna7b"]
+[ext_resource type="Script" path="res://scenes/battle/battle_over_panel.gd" id="1_dna7b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebas6"]
-bg_color = Color(0, 0, 0, 0.188235)
+bg_color = Color(0, 0, 0, 0.7411765)
 
 [sub_resource type="LabelSettings" id="LabelSettings_dna7b"]
 font_size = 32
 
-[node name="BattleOverPanel" type="Panel"]
+[node name="BattleOverPanel" type="Panel" unique_id=1853279945]
 process_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ebas6")
 script = ExtResource("1_dna7b")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2029470123]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,7 +32,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1792274]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Victory!"
@@ -40,14 +40,14 @@ label_settings = SubResource("LabelSettings_dna7b")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ContinueButton" type="Button" parent="VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="VBoxContainer" unique_id=1512204341]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Continue ?"
 
-[node name="RestartButton" type="Button" parent="VBoxContainer"]
+[node name="RestartButton" type="Button" parent="VBoxContainer" unique_id=1396245444]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 24)
 layout_mode = 2

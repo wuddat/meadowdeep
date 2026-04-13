@@ -1,5 +1,5 @@
-#archaeologist_stats.gd
-class_name ArchaeologistStats
+#player_stats.gd
+class_name PlayerStats
 extends Stats
 
 @export_group("Visuals")
@@ -49,7 +49,7 @@ func card_playable(card: Card) -> bool:
 
 
 func create_instance() -> Resource:
-	var instance: ArchaeologistStats = self.duplicate()
+	var instance: PlayerStats = self.duplicate()
 	instance.health = max_health
 	instance.block = 0
 	instance.reset_mana()

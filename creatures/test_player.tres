@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="ArchaeologistStats" format=3 uid="uid://dlnmlib5qptfj"]
+[gd_resource type="Resource" script_class="PlayerStats" format=3 uid="uid://dlnmlib5qptfj"]
 
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="1_grcbt"]
-[ext_resource type="Script" uid="uid://bbtoptfaqjvgr" path="res://custom_resources/archaeologist_stats.gd" id="2_bv3h6"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
 
 [resource]
 script = ExtResource("2_bv3h6")
 starting_moves = Array[String](["tackle", "tackle", "tackle", "defensecurl", "vinewhip"])
 starting_party = Array[String](["verdant"])
-metadata/_custom_type_script = "uid://bbtoptfaqjvgr"
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"

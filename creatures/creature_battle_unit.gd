@@ -6,9 +6,11 @@ extends Node2D
 
 @export var stats: CreatureStats : set = set_creature_stats
 @export var spawn_position: String
+@export var sprite_frames: SpriteFrames
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var stats_ui: Node = $StatsUI                        # Will become StatsUI once ported
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var stats_ui: HBoxContainer = $StatsUI
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var unit_status_indicator: Node = %UnitStatusIndicator  # Will become UnitStatusIndicator once ported
@@ -60,9 +62,15 @@ func set_creature_stats(value: CreatureStats) -> void:
 func update_creature() -> void:
 	if not stats is CreatureStats: return
 	if not is_inside_tree(): await ready
-	sprite_2d.texture = stats.art
-	update_stats()
+	if sprite_frames:
+		animated_sprite_2d.sprite_frames = sprite_frames
+		animated_sprite_2d.play("idle")
+		update_stats()
 
+func play_animation(anim_name: StringName) -> void:
+	if animated_sprite_2d and animated_sprite_2d.sprite_frames:
+		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
+			animated_sprite_2d.play(anim_name)
 
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):

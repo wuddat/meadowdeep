@@ -2,12 +2,12 @@
 class_name PartyHandler
 extends Node
 
-@export var POS_0 := Vector2(152, 192)
+@export var POS_0 := Vector2(100, 189)
 @export var POS_1 := Vector2(200, 210)
 @export var POS_2 := Vector2(95, 210)
 
 @export var max_party_size := 6
-@export var character_stats: ArchaeologistStats
+@export var character_stats: PlayerStats
 
 # Assign in the Godot editor — point to CreatureBattleUnit.tscn once created.
 @export var creature_battle_unit_scene: PackedScene

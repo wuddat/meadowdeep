@@ -7,19 +7,19 @@
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_btl01"]
 [ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="4_btl01"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="5_2iid6"]
-[ext_resource type="PackedScene" uid="uid://rc0mdw000001" path="res://creatures/archaeologist.tscn" id="5_btl01"]
-[ext_resource type="Script" uid="uid://bbtoptfaqjvgr" path="res://custom_resources/archaeologist_stats.gd" id="6_4r7wf"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="6_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
 [ext_resource type="PackedScene" uid="uid://drx41b0rgs5aa" path="res://scenes/ui/hand.tscn" id="7_hnd01"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="8_2iid6"]
+[ext_resource type="PackedScene" path="res://creatures/player_character.tscn" id="12_nille"]
 [ext_resource type="PackedScene" uid="uid://ih1u373ufo54" path="res://scenes/ui/card_target_selector/card_target_selector.tscn" id="13_4r7wf"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iid6"]
-size = Vector2(1150, 419)
+[ext_resource type="PackedScene" uid="uid://ofgutpuj26p0" path="res://scenes/ui/battle_over_panel.tscn" id="14_nille"]
 
 [sub_resource type="Resource" id="Resource_nille"]
 script = ExtResource("6_4r7wf")
-metadata/_custom_type_script = "uid://bbtoptfaqjvgr"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iid6"]
+size = Vector2(1150, 408)
 
 [node name="Battle" type="Node2D" unique_id=1217962655]
 script = ExtResource("1_btl01")
@@ -27,49 +27,53 @@ battle_stats = ExtResource("2_whm1g")
 char_stats = ExtResource("3_6tbm7")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=100000001 groups=["ui_layer"]]
-layer = 10
+layer = 3
+follow_viewport_enabled = true
 
-[node name="CardDropArea" type="Area2D" parent="." unique_id=1758312783]
-collision_layer = 3
+[node name="BattleUI" type="Node" parent="UILayer" unique_id=707740850]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CardDropArea" unique_id=1796175242]
-position = Vector2(574, 199.5)
-shape = SubResource("RectangleShape2D_2iid6")
-
-[node name="BattleUI" type="Node" parent="." unique_id=707740850]
-
-[node name="Hand" parent="BattleUI" unique_id=509732134 node_paths=PackedStringArray("party_handler", "player_handler", "archaeologist") instance=ExtResource("7_hnd01")]
+[node name="Hand" parent="UILayer/BattleUI" unique_id=509732134 node_paths=PackedStringArray("party_handler", "player_handler", "player_character") instance=ExtResource("7_hnd01")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 0
 char_stats = SubResource("Resource_nille")
-party_handler = NodePath("../../PartyHandler")
-player_handler = NodePath("../../PlayerHandler")
-archaeologist = NodePath("../../Archaeologist")
+party_handler = NodePath("../../../PartyHandler")
+player_handler = NodePath("../../../PlayerHandler")
+player_character = NodePath("../../../PlayerCharacter")
 
-[node name="EndTurnButton" type="Button" parent="BattleUI" unique_id=2028955860]
+[node name="EndTurnButton" type="Button" parent="UILayer/BattleUI" unique_id=2028955860]
 unique_name_in_owner = true
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -202.0
-offset_top = -137.0
-offset_right = -124.0
-offset_bottom = -106.0
+offset_left = -115.0
+offset_top = -64.0
+offset_right = -37.0
+offset_bottom = -33.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "End Turn"
 
-[node name="PlayerHandler" type="Node" parent="." unique_id=788124326 node_paths=PackedStringArray("hand", "archaeologist")]
+[node name="CardDropArea" type="Area2D" parent="." unique_id=1758312783]
+visible = false
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CardDropArea" unique_id=1796175242]
+position = Vector2(574, 205)
+shape = SubResource("RectangleShape2D_2iid6")
+
+[node name="PlayerHandler" type="Node" parent="." unique_id=788124326 node_paths=PackedStringArray("hand", "player_character")]
 script = ExtResource("2_btl01")
-hand = NodePath("../BattleUI/Hand")
-archaeologist = NodePath("../Archaeologist")
+hand = NodePath("../UILayer/BattleUI/Hand")
+player_character = NodePath("../PlayerCharacter")
 
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859 groups=["enemy_handler"]]
 script = ExtResource("3_btl01")
@@ -79,7 +83,8 @@ enemy_scene = ExtResource("6_vay6r")
 script = ExtResource("4_btl01")
 creature_battle_unit_scene = ExtResource("8_2iid6")
 
-[node name="Archaeologist" parent="." unique_id=1785742355 instance=ExtResource("5_btl01")]
+[node name="PlayerCharacter" parent="." unique_id=1240763690 instance=ExtResource("12_nille")]
+stats = ExtResource("3_6tbm7")
 
 [node name="StatUI" type="Node" parent="." unique_id=1543670243]
 
@@ -88,3 +93,12 @@ creature_battle_unit_scene = ExtResource("8_2iid6")
 [node name="RightPanel" type="VBoxContainer" parent="StatUI" unique_id=53310414]
 
 [node name="CardTargetSelector" parent="." unique_id=346684082 instance=ExtResource("13_4r7wf")]
+
+[node name="BattleOverLayer" type="CanvasLayer" parent="." unique_id=992586351]
+layer = 5
+
+[node name="BattleOverPanel" parent="BattleOverLayer" unique_id=1853279945 instance=ExtResource("14_nille")]
+visible = false
+
+[node name="Node" type="Node2D" parent="." unique_id=1812583134]
+position = Vector2(525, 189)

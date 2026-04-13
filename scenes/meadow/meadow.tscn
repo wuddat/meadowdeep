@@ -320,12 +320,12 @@ shape = SubResource("RectangleShape2D_8aly8")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1905531462]
 position = Vector2(647, 1071)
 scale = Vector2(82.46371, 8.475021)
-zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 script = ExtResource("4_bn14v")
 
 [node name="Slime" parent="." unique_id=576682274 instance=ExtResource("5_ppo6b")]
 position = Vector2(631, 196)
+collision_layer = 2
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 
@@ -337,16 +337,19 @@ shape = SubResource("RectangleShape2D_ppo6b")
 
 [node name="Slime2" parent="." unique_id=714243357 instance=ExtResource("5_ppo6b")]
 position = Vector2(566, 202)
+collision_layer = 4
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 
 [node name="Slime3" parent="." unique_id=1573631462 instance=ExtResource("5_ppo6b")]
 position = Vector2(700, 237)
+collision_layer = 8
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 
 [node name="Slime4" parent="." unique_id=213066633 instance=ExtResource("5_ppo6b")]
 position = Vector2(632, 287)
+collision_layer = 16
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 

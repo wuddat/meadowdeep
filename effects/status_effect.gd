@@ -10,7 +10,7 @@ func execute(targets: Array[Node]) -> void:
 	for target in targets:
 		if not target:
 			continue
-		if target is Enemy or target is Archaeologist or target is CreatureBattleUnit:
+		if target is Enemy or target is PlayerCharacter or target is CreatureBattleUnit:
 			var unique_status = status.duplicate()
 			unique_status.status_source = source
 			if not target.status_handler.has_status(status.id) and status.id == "sleep" and !target.has_slept:

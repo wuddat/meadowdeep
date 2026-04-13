@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(ls \"C:/Users/steve/Desktop/Code/meadowdeep/custom_resources/\"*.uid)"
+    ]
+  }
+}

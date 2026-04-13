@@ -7,8 +7,10 @@ extends Area2D
 const ARROW_OFFSET := 20
 
 @export var stats: EnemyStats : set = set_enemy_stats
+@export var sprite_frames: SpriteFrames
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var arrow: Sprite2D = $Arrow
 @onready var stats_ui: Node = %StatsUI                          # Will become StatsUI once ported
 @onready var intent_ui: Node = %IntentUI                        # Will become IntentUI once ported
@@ -40,13 +42,17 @@ func _ready() -> void:
 		var creature_data := CreatureData.get_creature_data(stats.species_id)
 		if not creature_data.is_empty():
 			stats.load_from_data(creature_data)
-			sprite_2d.texture = stats.art
+			if sprite_frames:
+				animated_sprite_2d.sprite_frames = sprite_frames
+				animated_sprite_2d.play("idle")
 			setup_ai()
 		else:
 			push_warning("No creature data found for: " + stats.species_id)
 	else:
 		if stats:
-			sprite_2d.texture = stats.art
+			if sprite_frames:
+				animated_sprite_2d.sprite_frames = sprite_frames
+				animated_sprite_2d.play("idle")
 		setup_ai()
 
 	if intent_ui:

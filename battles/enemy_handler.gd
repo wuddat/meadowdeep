@@ -4,7 +4,7 @@
 class_name EnemyHandler
 extends Node2D
 
-@export var char_stats: ArchaeologistStats : set = set_character
+@export var char_stats: PlayerStats : set = set_character
 
 @onready var right_panel: VBoxContainer = $"../StatUI/RightPanel"
 @onready var party_handler: PartyHandler = $"../PartyHandler"
@@ -26,7 +26,7 @@ func _ready() -> void:
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 
 
-func set_character(new_char_stats: ArchaeologistStats) -> void:
+func set_character(new_char_stats: PlayerStats) -> void:
 	char_stats = new_char_stats
 
 

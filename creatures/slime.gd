@@ -92,7 +92,13 @@ func _ready() -> void:
 
 # Override in child scripts for creature-specific setup
 func _on_ready_creature() -> void:
-	pass
+	var h = randf()          # any hue
+	var s = randf_range(0.5, 0.9)   # not too grey
+	var v = randf_range(0.6, 1.0)   # not too dark
+	var mat := ShaderMaterial.new()
+	mat.shader = preload("res://creatures/creature_tint.gdshader")
+	mat.set_shader_parameter("tint_color", Color.from_hsv(h, s, v))
+	_sprite.material = mat
 
 
 func _physics_process(delta: float) -> void:
@@ -100,9 +106,9 @@ func _physics_process(delta: float) -> void:
 	_check_emotion_triggers()
 	_tick_current_action(delta)
 	_update_emotion_text()
-	var screen_pos = get_viewport().get_screen_transform() * (get_canvas_transform() * global_position)
-	_debug_box.global_position = (screen_pos + Vector2(-26,20))
-	active_behavior.global_position = (screen_pos + Vector2(-26,-60))
+	var viewport_pos := get_viewport().get_canvas_transform() * global_position
+	_debug_box.position = viewport_pos + Vector2(-18, 20)
+	active_behavior.position = viewport_pos + Vector2(-18, 10)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Emotions
@@ -289,7 +295,7 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 		_action_done()
 		return
 	var dir: Vector2 = food.global_position - global_position
-	if dir.length() < 24.0:
+	if dir.length() < 20.0:
 		_action_done()
 		return
 		

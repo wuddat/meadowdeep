@@ -5,14 +5,14 @@ extends Node
 const HAND_DRAW_INTERVAL := 0.3
 const HAND_DISCARD_INTERVAL := 0.2
 
-# Typed as Node until Hand and Archaeologist scenes are wired in the battle scene.
+# Typed as Node until Hand and PlayerCharacter scenes are wired in the battle scene.
 @export var hand: Node
-@export var archaeologist: Node
+@export var player_character: Node
 
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 @onready var end_turn_button: Button = %EndTurnButton
 
-var character: ArchaeologistStats
+var character: PlayerStats
 
 
 func _ready() -> void:
@@ -21,7 +21,7 @@ func _ready() -> void:
 		end_turn_button.pressed.connect(func(): Events.player_turn_ended.emit())
 
 
-func start_battle(char_stats: ArchaeologistStats) -> void:
+func start_battle(char_stats: PlayerStats) -> void:
 	character = char_stats
 	if hand and "char_stats" in hand:
 		hand.set("char_stats", char_stats)
@@ -42,8 +42,8 @@ func start_battle(char_stats: ArchaeologistStats) -> void:
 
 
 func start_turn() -> void:
-	if archaeologist and archaeologist.has_node("StatusHandler"):
-		archaeologist.get_node("StatusHandler").apply_statuses_by_type(Status.Type.START_OF_TURN)
+	if player_character and player_character.has_node("StatusHandler"):
+		player_character.get_node("StatusHandler").apply_statuses_by_type(Status.Type.START_OF_TURN)
 	character.block = 0
 	character.reset_mana()
 	end_turn_button.show()
@@ -57,8 +57,8 @@ func end_turn() -> void:
 		hand.disable_hand()
 	end_turn_button.hide()
 
-	if archaeologist and archaeologist.has_node("StatusHandler"):
-		archaeologist.get_node("StatusHandler").apply_statuses_by_type(Status.Type.END_OF_TURN)
+	if player_character and player_character.has_node("StatusHandler"):
+		player_character.get_node("StatusHandler").apply_statuses_by_type(Status.Type.END_OF_TURN)
 
 	for creature_node in party_handler.get_active_creature_nodes():
 		creature_node.status_handler.apply_statuses_by_type(Status.Type.END_OF_TURN)
@@ -224,8 +224,8 @@ func _establish_connections() -> void:
 	if not Events.evolution_completed.is_connected(_on_evolution_completed):
 		Events.evolution_completed.connect(_on_evolution_completed)
 
-	if archaeologist and archaeologist.has_node("StatusHandler"):
-		var sh = archaeologist.get_node("StatusHandler")
+	if player_character and player_character.has_node("StatusHandler"):
+		var sh = player_character.get_node("StatusHandler")
 		if not sh.statuses_applied.is_connected(_on_statuses_applied):
 			sh.statuses_applied.connect(_on_statuses_applied)
 

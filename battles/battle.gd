@@ -6,14 +6,14 @@ class_name Battle
 extends Node2D
 
 @export var battle_stats: BattleStats
-@export var char_stats: ArchaeologistStats
+@export var char_stats: PlayerStats
 @export var music: AudioStream
 @export var battle_music: AudioStream
 
 @onready var battle_ui: Node = $BattleUI               # Will become BattleUI once ported
 @onready var player_handler: PlayerHandler = $PlayerHandler
 @onready var enemy_handler: EnemyHandler = $EnemyHandler
-@onready var archaeologist: Archaeologist = $Archaeologist
+@onready var player_character: PlayerCharacter = $PlayerCharacter
 @onready var party_handler: PartyHandler = $PartyHandler
 @onready var left_panel: VBoxContainer = $StatUI/LeftPanel
 
@@ -21,7 +21,6 @@ extends Node2D
 @export var stats_ui_scene: PackedScene
 
 var stat_ui_by_uid: Dictionary = {}
-
 
 func _ready() -> void:
 	enemy_handler.child_order_changed.connect(_on_enemies_child_order_changed)
@@ -37,14 +36,13 @@ func _ready() -> void:
 	char_stats = char_stats.create_instance()
 	start_battle()
 
-
 func start_battle() -> void:
 	get_tree().paused = false
 
 	if battle_ui and "char_stats" in battle_ui:
 		battle_ui.set("char_stats", char_stats)
 
-	archaeologist.stats = char_stats
+	player_character.stats = char_stats
 
 	for creature in char_stats.current_party:
 		creature.leveled_up_in_battle = false
@@ -124,7 +122,7 @@ func _on_enemy_turn_ended() -> void:
 
 
 func _on_player_died() -> void:
-	Events.battle_over_screen_requested.emit("You Whited Out!", BattleOverPanel.Type.LOSE)
+	Events.battle_over_screen_requested.emit("Oh no!", BattleOverPanel.Type.LOSE)
 	# SaveData.delete_data()  # TODO: Port SaveData when save system is built
 
 

@@ -1,0 +1,403 @@
+[gd_scene format=3 uid="uid://doghjvsjwr138"]
+
+[node name="RuinsPrePMenu" type="Control" unique_id=861773403]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="Control" parent="." unique_id=1756296118]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -576.0
+offset_right = 576.0
+offset_bottom = 61.0
+grow_horizontal = 2
+
+[node name="Panel" type="Panel" parent="TopBar" unique_id=1102515178]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopBar" unique_id=1739045159]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TopBar/HBoxContainer" unique_id=1311220733]
+layout_mode = 2
+text = "Depth:"
+
+[node name="BG" type="Panel" parent="." unique_id=703360106]
+layout_mode = 0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 1151.0
+offset_bottom = 645.0
+
+[node name="SkillBook" type="Panel" parent="." unique_id=1090478093]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 16.0
+offset_right = 1134.0
+offset_bottom = 626.0
+
+[node name="Skill5" type="Panel" parent="SkillBook" unique_id=695958143]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 40.0
+offset_right = 212.0
+offset_bottom = 137.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill5" unique_id=474841306]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill6" type="Panel" parent="SkillBook" unique_id=1654952220]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 40.0
+offset_right = 427.0
+offset_bottom = 137.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill6" unique_id=1955540226]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill7" type="Panel" parent="SkillBook" unique_id=1575717252]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 40.0
+offset_right = 648.0
+offset_bottom = 137.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill7" unique_id=27057919]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill8" type="Panel" parent="SkillBook" unique_id=141314034]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 170.0
+offset_right = 213.0
+offset_bottom = 267.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill8" unique_id=35767228]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill9" type="Panel" parent="SkillBook" unique_id=1829537118]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 170.0
+offset_right = 428.0
+offset_bottom = 267.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill9" unique_id=339518535]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill10" type="Panel" parent="SkillBook" unique_id=887905956]
+layout_mode = 0
+offset_left = 467.0
+offset_top = 170.0
+offset_right = 649.0
+offset_bottom = 267.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill10" unique_id=567148609]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill11" type="Panel" parent="SkillBook" unique_id=348255207]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 300.0
+offset_right = 216.0
+offset_bottom = 397.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill11" unique_id=785293512]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill12" type="Panel" parent="SkillBook" unique_id=1765024139]
+layout_mode = 0
+offset_left = 249.0
+offset_top = 300.0
+offset_right = 431.0
+offset_bottom = 397.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill12" unique_id=1602059793]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill13" type="Panel" parent="SkillBook" unique_id=2027534462]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 300.0
+offset_right = 652.0
+offset_bottom = 397.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill13" unique_id=1707109927]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill14" type="Panel" parent="SkillBook" unique_id=1221560179]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 427.0
+offset_right = 219.0
+offset_bottom = 524.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill14" unique_id=414541019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill15" type="Panel" parent="SkillBook" unique_id=1875404305]
+layout_mode = 0
+offset_left = 252.0
+offset_top = 427.0
+offset_right = 434.0
+offset_bottom = 524.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill15" unique_id=1538748121]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill16" type="Panel" parent="SkillBook" unique_id=515141809]
+layout_mode = 0
+offset_left = 473.0
+offset_top = 427.0
+offset_right = 655.0
+offset_bottom = 524.0
+
+[node name="Label" type="Label" parent="SkillBook/Skill16" unique_id=726918647]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreatureContainer" type="Panel" parent="." unique_id=1246120590]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 18.0
+offset_right = 427.0
+offset_bottom = 349.0
+
+[node name="Name" type="Panel" parent="." unique_id=2088532850]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 361.0
+offset_right = 162.0
+offset_bottom = 399.0
+
+[node name="Label" type="Label" parent="Name" unique_id=141604010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreatureType" type="Panel" parent="." unique_id=1497267940]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 361.0
+offset_right = 427.0
+offset_bottom = 399.0
+
+[node name="Label" type="Label" parent="CreatureType" unique_id=229269318]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Creature Type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Element" type="Panel" parent="." unique_id=1013713575]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 361.0
+offset_right = 279.0
+offset_bottom = 399.0
+
+[node name="Label" type="Label" parent="Element" unique_id=1065544203]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Element"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill1" type="Panel" parent="." unique_id=1411072248]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 416.0
+offset_right = 207.0
+offset_bottom = 513.0
+
+[node name="Label" type="Label" parent="Skill1" unique_id=1945480089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill2" type="Panel" parent="." unique_id=323948467]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 416.0
+offset_right = 429.0
+offset_bottom = 513.0
+
+[node name="Label" type="Label" parent="Skill2" unique_id=64538252]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill3" type="Panel" parent="." unique_id=1627831977]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 529.0
+offset_right = 207.0
+offset_bottom = 626.0
+
+[node name="Label" type="Label" parent="Skill3" unique_id=880471998]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skill4" type="Panel" parent="." unique_id=500089882]
+layout_mode = 0
+offset_left = 252.0
+offset_top = 530.0
+offset_right = 434.0
+offset_bottom = 627.0
+
+[node name="Label" type="Label" parent="Skill4" unique_id=574329691]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Skill"
+horizontal_alignment = 1
+vertical_alignment = 1

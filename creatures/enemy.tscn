@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_enm01"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="2_jm0xe"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
+[ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
 [ext_resource type="PackedScene" uid="uid://djn4clek6m1mn" path="res://scenes/ui/intent_ui.tscn" id="6_2bth1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
@@ -13,12 +14,20 @@ size = Vector2(48, 64)
 [node name="Enemy" type="Area2D" unique_id=1743903814 groups=["enemies"]]
 collision_layer = 4
 script = ExtResource("1_enm01")
+sprite_frames = ExtResource("3_xdx88")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1578258546]
 shape = SubResource("RectangleShape2D_enm01")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298247572]
+visible = false
 texture = ExtResource("2_adabv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328390287]
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("3_xdx88")
+animation = &"idle"
+flip_h = true
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=1164419915]
 
@@ -29,8 +38,8 @@ unique_name_in_owner = true
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 26.0
-offset_bottom = 74.0
+offset_top = 6.0
+offset_bottom = 54.0
 grow_vertical = 0
 
 [node name="NameContainer" type="Node" parent="." unique_id=159970826]

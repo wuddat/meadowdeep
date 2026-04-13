@@ -1,21 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbu0mdw000001"]
+[gd_scene format=3 uid="uid://cbu0mdw000001"]
 
 [ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
 [ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_cbu01"]
+[ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="2_yfbhk"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
+[ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
 
-[node name="CreatureBattleUnit" type="Node2D" groups=["active_creatures"]]
+[node name="CreatureBattleUnit" type="Node2D" unique_id=68470423 groups=["active_creatures"]]
 script = ExtResource("1_cbu01")
+sprite_frames = ExtResource("2_yfbhk")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1967409830]
+visible = false
 
-[node name="StatsUI" type="Node" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1949228296]
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("2_yfbhk")
+animation = &"die"
 
-[node name="StatusHandler" type="GridContainer" parent="."]
+[node name="StatusHandler" type="GridContainer" parent="." unique_id=2051289691]
 script = ExtResource("2_cbu01")
 
-[node name="ModifierHandler" type="Node" parent="."]
+[node name="ModifierHandler" type="Node" parent="." unique_id=689255252]
 script = ExtResource("3_cbu01")
 
-[node name="UnitStatusIndicator" type="Node" parent="."]
+[node name="UnitStatusIndicator" type="Node" parent="." unique_id=1761858998]
 unique_name_in_owner = true
+
+[node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
+offset_top = 7.0
+offset_bottom = 55.0

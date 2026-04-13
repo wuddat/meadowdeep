@@ -1,10 +1,10 @@
 class_name Hand
 extends HBoxContainer
 
-@export var char_stats: ArchaeologistStats
+@export var char_stats: PlayerStats
 @export var party_handler: PartyHandler
 @export var player_handler: PlayerHandler
-@export var archaeologist: Archaeologist
+@export var player_character: PlayerCharacter
 
 @onready var card_ui_scene := preload("res://scenes/card_ui/card_ui.tscn")
 
@@ -36,8 +36,8 @@ func add_card(card: Card) -> void:
 
 	if card.creature_owner_uid != "":
 		_assign_battle_unit(new_card_ui, card.creature_owner_uid)
-	elif archaeologist:
-		new_card_ui.player_pkmn_modifiers = archaeologist.modifier_handler
+	elif player_character:
+		new_card_ui.player_pkmn_modifiers = player_character.modifier_handler
 
 	_count_children()
 
