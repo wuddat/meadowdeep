@@ -4,12 +4,20 @@ extends CharacterBody2D
 @export var roll_speed: float = 400.0
 @export var roll_duration: float = 0.3
 
-@onready var sprite: AnimatedSprite2D = $Player 
+@onready var sprite: AnimatedSprite2D = $Player
 
 var is_rolling := false
 var roll_timer := 0.0
 var roll_direction := Vector2.ZERO
 var is_attacking := false
+
+var nearby_food: Node2D = null
+var carried_food: Node2D = null
+
+
+func _ready() -> void:
+	add_to_group("player")
+
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
@@ -55,6 +63,25 @@ func _physics_process(delta):
 				sprite.play("idle")
 	
 	move_and_slide()
+
+	if carried_food:
+		for i in get_slide_collision_count():
+			var collider = get_slide_collision(i).get_collider()
+			if collider.has_method("receive_food") and collider.emotions.get("hunger", 100.0) < 80.0:
+				collider.receive_food(carried_food, self)
+				break
+
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo:
+		if carried_food:
+			carried_food.drop()
+			carried_food = null
+		elif nearby_food:
+			nearby_food.pickup(self)
+			carried_food = nearby_food
+			nearby_food = null
 
 
 func _on_player_animation_finished() -> void:
