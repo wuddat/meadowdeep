@@ -22,6 +22,9 @@ extends Stats
 @export var leveled_up_in_battle: bool = false
 
 # ── Moves ─────────────────────────────────────────────────────────────────────
+@export_group("Visuals")
+@export var frames: SpriteFrames
+
 @export_group("Moves")
 @export var move_ids: Array[String] = []
 
@@ -75,7 +78,11 @@ func evolve_to(new_species_id: String) -> void:
 		return
 
 	species_id = new_species_id
-	art = load(data.get("sprite_path", "res://art/dottedline.png"))
+	var sprite_res = load(data.get("sprite_path", "res://art/dottedline.png"))
+	if sprite_res is SpriteFrames:
+		frames = sprite_res
+	else:
+		art = sprite_res
 	icon = load(data.get("icon_path", "res://art/dottedline.png"))
 	max_health += 10
 	health = max_health

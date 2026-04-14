@@ -62,10 +62,11 @@ func set_creature_stats(value: CreatureStats) -> void:
 func update_creature() -> void:
 	if not stats is CreatureStats: return
 	if not is_inside_tree(): await ready
-	if sprite_frames:
-		animated_sprite_2d.sprite_frames = sprite_frames
+	var frames_to_use: SpriteFrames = stats.frames if stats.frames else sprite_frames
+	if frames_to_use:
+		animated_sprite_2d.sprite_frames = frames_to_use
 		animated_sprite_2d.play("idle")
-		update_stats()
+	update_stats()
 
 func play_animation(anim_name: StringName) -> void:
 	if animated_sprite_2d and animated_sprite_2d.sprite_frames:

@@ -1,19 +1,19 @@
-[gd_scene format=3 uid="uid://lu7ntum8hgj4"]
+[gd_scene format=3 uid="uid://b1dvaoxu2xm0p"]
 
-[ext_resource type="Script" uid="uid://cggefqx26tlx7" path="res://creatures/slime.gd" id="1_ipsh6"]
-[ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_8gjs3"]
-[ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_ipsh6"]
-[ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="5_51dqd"]
-[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="5_nosak"]
-[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="6_nosak"]
+[ext_resource type="Script" uid="uid://c6fnwb36kt2qi" path="res://creatures/base_creature.gd" id="1_q71xr"]
+[ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_1scoh"]
+[ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="3_q71xr"]
+[ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="6_02nsd"]
+[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_7nk6g"]
+[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="8_ewel5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
-shader = ExtResource("2_8gjs3")
+shader = ExtResource("2_1scoh")
 shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/highlight_threshold = 0.85
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx7dx"]
-size = Vector2(17, 12)
+size = Vector2(13, 12)
 
 [sub_resource type="Animation" id="Animation_nosak"]
 length = 0.001
@@ -70,26 +70,62 @@ _data = {
 [sub_resource type="LabelSettings" id="LabelSettings_ipsh6"]
 font_size = 6
 
-[node name="Slime" type="CharacterBody2D" unique_id=576682274]
-script = ExtResource("1_ipsh6")
+[sub_resource type="Animation" id="Animation_i8k6i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ode48"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 1.5, 2),
+"transitions": PackedFloat32Array(1, 0.49481615, 1.9318736, 1.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -5), Vector2(0, 5), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vrhir"]
+_data = {
+&"RESET": SubResource("Animation_i8k6i"),
+&"hover": SubResource("Animation_ode48")
+}
+
+[node name="WaterSprite" type="CharacterBody2D" unique_id=576682274]
+script = ExtResource("1_q71xr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=249581040]
 material = SubResource("ShaderMaterial_a4vea")
-sprite_frames = ExtResource("3_ipsh6")
-animation = &"run"
-autoplay = "idle"
-frame_progress = 0.3953036
+sprite_frames = ExtResource("3_q71xr")
+animation = &"eat"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
 visible = false
-position = Vector2(-0.5, 2)
+position = Vector2(1, 4)
 shape = SubResource("RectangleShape2D_hx7dx")
 
 [node name="Emotion" type="Sprite2D" parent="." unique_id=981894687]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(10, -15)
 scale = Vector2(0.53125, 0.53125)
-texture = ExtResource("5_51dqd")
+texture = ExtResource("6_02nsd")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Emotion" unique_id=1899814673]
 unique_name_in_owner = true
@@ -97,6 +133,7 @@ libraries/ = SubResource("AnimationLibrary_a4vea")
 
 [node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1455247989]
 layer = 10
+visible = false
 
 [node name="Active" type="Label" parent="DebugLayer" unique_id=1774678728]
 unique_name_in_owner = true
@@ -115,7 +152,6 @@ vertical_alignment = 1
 
 [node name="Label" type="VBoxContainer" parent="DebugLayer" unique_id=1007775186]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -167,23 +203,25 @@ label_settings = SubResource("LabelSettings_ipsh6")
 
 [node name="Hunger" type="Label" parent="DebugLayer/Label" unique_id=339128789]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 5
 text = "%s: %s"
 label_settings = SubResource("LabelSettings_ipsh6")
 
 [node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
-stream = ExtResource("5_nosak")
+stream = ExtResource("7_7nk6g")
 volume_db = -14.144
 autoplay = true
 bus = &"SFX"
 
 [node name="nomnom" type="AudioStreamPlayer" parent="." unique_id=21209218]
-stream = ExtResource("6_nosak")
+stream = ExtResource("8_ewel5")
 volume_db = -14.144
 autoplay = true
 bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=275598625]
+libraries/ = SubResource("AnimationLibrary_vrhir")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

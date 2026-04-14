@@ -57,7 +57,11 @@ func create_creature_instance(species_id: String) -> CreatureStats:
 	creature.is_companion = data.get("is_companion", false)
 	creature.egg_rarity = data.get("egg_rarity", "common")
 	creature.egg_depth_found = data.get("egg_depth_found", 0)
-	creature.art = load(data.get("sprite_path", "res://art/placeholder.png"))
+	var sprite_res = load(data.get("sprite_path", "res://art/placeholder.png"))
+	if sprite_res is SpriteFrames:
+		creature.frames = sprite_res
+	else:
+		creature.art = sprite_res
 	creature.icon = load(data.get("icon_path", "res://art/placeholder.png"))
 	creature.uid = "creature_" + str(Time.get_unix_time_from_system()) + "_" + species_id
 	creature.evolves_to = data.get("evolves_to", "")

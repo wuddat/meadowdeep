@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://scenes/meadow/creature_food.tscn" id="8_pxhms"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
+[ext_resource type="PackedScene" uid="uid://b1dvaoxu2xm0p" path="res://creatures/water_sprite.tscn" id="11_c4haw"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
@@ -76,5 +77,8 @@ position = Vector2(661, 260)
 [node name="CreatureFood5" parent="." unique_id=1786960480 instance=ExtResource("8_pxhms")]
 position = Vector2(661, 260)
 food_data = SubResource("Resource_1he0p")
+
+[node name="WaterSprite" parent="." unique_id=938064638 instance=ExtResource("11_c4haw")]
+position = Vector2(616, 287)
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

@@ -9,10 +9,11 @@ extends CharacterBody2D
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
-var SLEEP_BUBBLE   = preload("res://art/game_art/emoticons/sleep.png")
-var LOVE_BUBBLE    = preload("res://art/game_art/emoticons/love.png")
-var RELAXED_BUBBLE = preload("res://art/game_art/emoticons/relaxed.png")
-var JOY_BUBBLE     = preload("res://art/game_art/emoticons/joy.png")
+const SLEEP_BUBBLE   = preload("res://art/game_art/emoticons/sleep.png")
+const LOVE_BUBBLE    = preload("res://art/game_art/emoticons/love.png")
+const RELAXED_BUBBLE = preload("res://art/game_art/emoticons/relaxed.png")
+const JOY_BUBBLE     = preload("res://art/game_art/emoticons/joy.png")
+const HIGHLIGHT_SHADER := preload("res://art/game_art/shaders/highlight.gdshader")
 
 # ── Tuning ────────────────────────────────────────────────────────────────────
 @export_group("Movement")
@@ -83,6 +84,13 @@ func _ready() -> void:
 	_on_ready_creature()
 	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
+	var shader_material := ShaderMaterial.new()
+	shader_material.shader = HIGHLIGHT_SHADER
+	shader_material.set_shader_parameter("width", 0.0)
+	_sprite.material = shader_material
+	input_pickable = true
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 
 # Override in child scripts for creature-specific setup (visuals, shaders, etc.)
@@ -360,3 +368,15 @@ func _on_sprite_animation_looped() -> void:
 	if _sprite.animation == &"run":
 		pop.pitch_scale = randf_range(0.9, 1.1)
 		pop.play()
+		
+func _set_shader(intensity: float) -> void:
+	if _sprite.material is ShaderMaterial:
+		(_sprite.material as ShaderMaterial).set_shader_parameter("width", intensity)
+	
+	
+
+func _on_mouse_entered() -> void:
+	_set_shader(1.5)
+
+func _on_mouse_exited() -> void:
+	_set_shader(0.0)
