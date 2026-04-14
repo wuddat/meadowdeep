@@ -80,3 +80,6 @@ signal treasure_room_exited
 
 # RandomEvent-related Events
 signal event_room_exited
+
+# Egg Chamber-related Events
+signal egg_chamber_exited

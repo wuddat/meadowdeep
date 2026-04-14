@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="4_bn14v"]
 [ext_resource type="PackedScene" uid="uid://lu7ntum8hgj4" path="res://creatures/slime.tscn" id="5_ppo6b"]
 [ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_nrc7r"]
+[ext_resource type="PackedScene" uid="uid://c35itp8qrvibi" path="res://creatures/fire_sprite.tscn" id="8_5q5jk"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bn14v"]
@@ -313,6 +314,8 @@ speed = 75.0
 [node name="Player" type="AnimatedSprite2D" parent="PlayerModel" unique_id=15775779]
 sprite_frames = SubResource("SpriteFrames_2k1gd")
 animation = &"attack"
+frame = 5
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerModel" unique_id=1063140414]
 visible = false
@@ -343,18 +346,6 @@ collision_layer = 4
 boredom_wander_threshold = 20.0
 sleepiness_sleep_threshold = 80.0
 
-[node name="Slime3" parent="." unique_id=1573631462 instance=ExtResource("5_ppo6b")]
-position = Vector2(700, 237)
-collision_layer = 8
-boredom_wander_threshold = 20.0
-sleepiness_sleep_threshold = 80.0
-
-[node name="Slime4" parent="." unique_id=213066633 instance=ExtResource("5_ppo6b")]
-position = Vector2(632, 287)
-collision_layer = 16
-boredom_wander_threshold = 20.0
-sleepiness_sleep_threshold = 80.0
-
 [node name="MeadowMusic" type="AudioStreamPlayer" parent="." unique_id=2064506534]
 stream = ExtResource("meadow_music")
 volume_db = -14.144
@@ -366,5 +357,8 @@ volume_db = -14.144
 autoplay = true
 bus = &"SFX"
 
-[connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
+[node name="FireSprite" parent="." unique_id=958117396 instance=ExtResource("8_5q5jk")]
+position = Vector2(679, 311)
+
 [connection signal="animation_finished" from="PlayerModel/Player" to="PlayerModel" method="_on_player_animation_finished"]
+[connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

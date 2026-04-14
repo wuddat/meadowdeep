@@ -1,0 +1,17 @@
+class_name Room
+extends Resource
+
+enum Type {NOT_ASSIGNED, COMBAT, TREASURE, REST_SITE, SHOP, BOSS, EVENT, EGG_CHAMBER}
+
+@export var type: Type
+@export var row: int
+@export var column: int
+@export var position: Vector2
+@export var next_rooms: Array[Room]
+@export var selected := false
+@export var battle_stats: BattleStats
+@export var tier: int = 0
+
+
+func _to_string() -> String:
+	return "%s (%s)" % [column, Type.keys()[type]]

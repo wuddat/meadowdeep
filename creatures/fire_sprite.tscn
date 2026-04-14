@@ -1,0 +1,419 @@
+[gd_scene format=3 uid="uid://c35itp8qrvibi"]
+
+[ext_resource type="Script" uid="uid://d0pmmqmyu85k0" path="res://creatures/fire_sprite.gd" id="1_i8k6i"]
+[ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_ode48"]
+[ext_resource type="Texture2D" uid="uid://rqd8sgqvtfyo" path="res://art/game_art/creatures/fire_sprite/fire_sprite_idle.png" id="3_i8k6i"]
+[ext_resource type="Texture2D" uid="uid://b8iw7r8ccl1un" path="res://art/game_art/creatures/fire_sprite/fire_sprite_eat.png" id="3_vrhir"]
+[ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="4_1od87"]
+[ext_resource type="Texture2D" uid="uid://beqqt0hecxsex" path="res://art/game_art/creatures/fire_sprite/fire_sprite_sleep.png" id="5_1od87"]
+[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="5_o27xp"]
+[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="6_xjjbh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
+shader = ExtResource("2_ode48")
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/highlight_threshold = 0.85
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x50e0"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4mqf"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8qav"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wo2pw"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fs4v0"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qvsn"]
+atlas = ExtResource("3_vrhir")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ode48"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrhir"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1od87"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o27xp"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjjbh"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5bbq"]
+atlas = ExtResource("3_i8k6i")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33ktt"]
+atlas = ExtResource("5_1od87")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_54s5y"]
+atlas = ExtResource("5_1od87")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kuh15"]
+atlas = ExtResource("5_1od87")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi0gb"]
+atlas = ExtResource("5_1od87")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buv0r"]
+atlas = ExtResource("5_1od87")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb0y0"]
+atlas = ExtResource("5_1od87")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x50e0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x50e0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4mqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8qav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wo2pw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fs4v0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qvsn")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ode48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrhir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1od87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o27xp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjjbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5bbq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ode48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrhir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1od87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o27xp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjjbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5bbq")
+}],
+"loop": true,
+"name": &"idle_4",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ode48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrhir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1od87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o27xp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjjbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5bbq")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33ktt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_54s5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kuh15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bi0gb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buv0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fb0y0")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hx7dx"]
+size = Vector2(17, 12)
+
+[sub_resource type="Animation" id="Animation_nosak"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_35ai6"]
+resource_name = "bubble_fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8gjs3"]
+resource_name = "bubble_fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a4vea"]
+_data = {
+&"RESET": SubResource("Animation_nosak"),
+&"bubble_fade_in": SubResource("Animation_35ai6"),
+&"bubble_fade_out": SubResource("Animation_8gjs3")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_ipsh6"]
+font_size = 6
+
+[sub_resource type="Animation" id="Animation_i8k6i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ode48"]
+resource_name = "hover"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 1.5, 2),
+"transitions": PackedFloat32Array(1, 0.49481615, 1.9318736, 1.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -5), Vector2(0, 5), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vrhir"]
+_data = {
+&"RESET": SubResource("Animation_i8k6i"),
+&"hover": SubResource("Animation_ode48")
+}
+
+[node name="FireSprite" type="CharacterBody2D" unique_id=576682274]
+script = ExtResource("1_i8k6i")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=249581040]
+material = SubResource("ShaderMaterial_a4vea")
+sprite_frames = SubResource("SpriteFrames_x50e0")
+animation = &"sleep"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
+visible = false
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_hx7dx")
+
+[node name="Emotion" type="Sprite2D" parent="." unique_id=981894687]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(10, -15)
+scale = Vector2(0.53125, 0.53125)
+texture = ExtResource("4_1od87")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Emotion" unique_id=1899814673]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_a4vea")
+
+[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1455247989]
+layer = 10
+visible = false
+
+[node name="Active" type="Label" parent="DebugLayer" unique_id=1774678728]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -596.0
+offset_top = -17.0
+offset_right = -556.0
+offset_bottom = -8.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 7
+text = "%s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="VBoxContainer" parent="DebugLayer" unique_id=1007775186]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -602.0
+offset_top = -710.0
+offset_right = -550.0
+offset_bottom = -607.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -2
+
+[node name="Boredom" type="Label" parent="DebugLayer/Label" unique_id=120295542]
+unique_name_in_owner = true
+texture_filter = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Lonely" type="Label" parent="DebugLayer/Label" unique_id=1163009203]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Sleepy" type="Label" parent="DebugLayer/Label" unique_id=55915589]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Joy" type="Label" parent="DebugLayer/Label" unique_id=1321572900]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Fear" type="Label" parent="DebugLayer/Label" unique_id=566913804]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Hunger" type="Label" parent="DebugLayer/Label" unique_id=339128789]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
+stream = ExtResource("5_o27xp")
+volume_db = -14.144
+autoplay = true
+bus = &"SFX"
+
+[node name="nomnom" type="AudioStreamPlayer" parent="." unique_id=21209218]
+stream = ExtResource("6_xjjbh")
+volume_db = -14.144
+autoplay = true
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=275598625]
+libraries/ = SubResource("AnimationLibrary_vrhir")
+autoplay = &"hover"
