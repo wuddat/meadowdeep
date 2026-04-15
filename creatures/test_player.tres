@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_bv3h6")
-starting_moves = Array[String](["ember", "ember", "ember", "defensecurl", "vinewhip"])
-starting_party = Array[String](["ember"])
+starting_moves = Array[String](["tackle", "tackle", "tackle", "defensecurl", "vinewhip"])
+starting_party = Array[String](["verdant"])
 metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
