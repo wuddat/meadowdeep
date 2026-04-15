@@ -3,7 +3,11 @@
     "allow": [
       "Bash(find:*)",
       "Bash(ls \"C:/Users/steve/Desktop/Code/meadowdeep/custom_resources/\"*.uid)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(sort -t'\"' -k4)",
+      "Bash(uniq -f3)",
+      "Bash(python3 -c ':*)",
+      "Bash(node -e ':*)"
     ]
   }
 }

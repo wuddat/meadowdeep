@@ -67,6 +67,9 @@ func create_creature_instance(species_id: String) -> CreatureStats:
 	creature.evolves_to = data.get("evolves_to", "")
 	creature.evolution_level = data.get("evolution_level", 101)
 	creature.move_ids = Utils.to_typed_string_array(data.get("move_ids", []))
+	creature.starting_moves = Utils.to_typed_string_array(data.get("starting_moves", []))
+	creature.known_moves = creature.starting_moves.duplicate()
+	creature.assigned_moves = creature.known_moves.duplicate()
 
 	# Build stat block from JSON
 	if data.has("stat_block"):

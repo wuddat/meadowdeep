@@ -63,6 +63,10 @@ func create_instance() -> Resource:
 			push_warning("Missing creature data for %s" % species_id)
 
 	instance.deck = CardPile.new()
+	# Player's fixed cards — added once regardless of party
+	var player_cards := Utils.create_card_pile(starting_moves)
+	instance.deck.cards.append_array(player_cards.cards)
+	# Each creature contributes their own move_ids
 	for creature in instance.current_party:
 		var creature_cards = build_deck_from_creature(creature)
 		instance.deck.cards.append_array(creature_cards.cards)
@@ -88,7 +92,7 @@ func get_all_creatures() -> Array[CreatureStats]:
 
 func build_deck_from_creature(creature: CreatureStats) -> CardPile:
 	var pile := CardPile.new()
-	var move_cards := Utils.create_card_pile(starting_moves).cards
+	var move_cards := Utils.create_card_pile(creature.assigned_moves).cards
 	for card in move_cards:
 		card.creature_owner_uid = creature.uid
 		card.creature_icon = creature.icon

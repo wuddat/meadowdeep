@@ -6,6 +6,18 @@ extends Node
 
 const EFFECTIVENESS: Dictionary = {}
 
+const DISPLAY_NAMES: Dictionary = {
+	"grass":  "Verdant",
+	"fire":   "Ember",
+	"water":  "Tide",
+	"stone":  "Stone",
+	"shade":  "Shade",
+	"normal": "Normal",
+}
+
+static func get_display_name(internal_type: String) -> String:
+	return DISPLAY_NAMES.get(internal_type, internal_type.capitalize())
+
 static func get_multiplier(attack_type: String, target_types: Array[String]) -> float:
 	var multiplier := 1.0
 	for target_type in target_types:

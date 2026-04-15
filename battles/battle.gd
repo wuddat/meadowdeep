@@ -3,7 +3,7 @@
 # Evolution cutscene system stripped for Phase 0 — signals are wired but no UI plays.
 # Mewtwo/boss-specific code removed entirely.
 class_name Battle
-extends Node2D
+extends Control
 
 @export var battle_stats: BattleStats
 @export var char_stats: PlayerStats
@@ -11,6 +11,7 @@ extends Node2D
 @export var battle_music: AudioStream
 
 @onready var battle_ui: Node = $BattleUI               # Will become BattleUI once ported
+@onready var mana_ui: ManaUI = %ManaUI
 @onready var player_handler: PlayerHandler = $PlayerHandler
 @onready var enemy_handler: EnemyHandler = $EnemyHandler
 @onready var player_character: PlayerCharacter = $PlayerCharacter
@@ -21,6 +22,7 @@ extends Node2D
 @export var stats_ui_scene: PackedScene
 
 var stat_ui_by_uid: Dictionary = {}
+var _battle_ended := false
 
 func _ready() -> void:
 	enemy_handler.child_order_changed.connect(_on_enemies_child_order_changed)
@@ -33,7 +35,8 @@ func _ready() -> void:
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 	Events.evolution_triggered.connect(_on_evolution_triggered)
 	Events.evolution_completed.connect(_on_evolution_completed)
-	char_stats = char_stats.create_instance()
+	if char_stats.current_party.is_empty():
+		char_stats = char_stats.create_instance()
 	start_battle()
 
 func start_battle() -> void:
@@ -43,6 +46,7 @@ func start_battle() -> void:
 		battle_ui.set("char_stats", char_stats)
 
 	player_character.stats = char_stats
+	mana_ui.char_stats = char_stats
 
 	for creature in char_stats.current_party:
 		creature.leveled_up_in_battle = false
@@ -112,6 +116,9 @@ func _on_enemies_child_order_changed() -> void:
 	await get_tree().create_timer(1).timeout
 
 	if enemy_handler.get_child_count() == 0:
+		if _battle_ended:
+			return
+		_battle_ended = true
 		# MusicPlayer.play(music, true)  # TODO: Register MusicPlayer autoload
 		Events.battle_over_screen_requested.emit("Victorious!", BattleOverPanel.Type.WIN)
 
@@ -122,6 +129,9 @@ func _on_enemy_turn_ended() -> void:
 
 
 func _on_player_died() -> void:
+	if _battle_ended:
+		return
+	_battle_ended = true
 	Events.battle_over_screen_requested.emit("Oh no!", BattleOverPanel.Type.LOSE)
 	# SaveData.delete_data()  # TODO: Port SaveData when save system is built
 

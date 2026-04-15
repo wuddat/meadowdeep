@@ -26,7 +26,10 @@ extends Stats
 @export var frames: SpriteFrames
 
 @export_group("Moves")
-@export var move_ids: Array[String] = []
+@export var move_ids: Array[String] = []        # learnable pool
+@export var starting_moves: Array[String] = []  # moves at creation
+@export var known_moves: Array[String] = []     # moves learned so far
+@export var assigned_moves: Array[String] = []  # chosen for next run
 
 # ── Progression ───────────────────────────────────────────────────────────────
 @export_group("Progression")

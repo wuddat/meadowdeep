@@ -13,11 +13,14 @@ const BATTLE_SCENE := preload("res://battles/battle.tscn")
 @onready var current_view: Node = $CurrentView
 @onready var fade: ColorRect = %Fade
 
+var active_stats: PlayerStats
+
 
 func _ready() -> void:
 	if not player_stats:
 		push_warning("Run: no player_stats assigned — set in editor")
 		return
+	active_stats = player_stats.create_instance()
 	_setup_event_connections()
 	map.generate_new_map()
 	map.unlock_floor(0)
@@ -50,7 +53,7 @@ func _load_battle(room: Room) -> void:
 	map.hide_map()
 	# Set properties before add_child so they're ready when _ready() fires
 	var battle_scene := BATTLE_SCENE.instantiate() as Battle
-	battle_scene.char_stats = player_stats
+	battle_scene.char_stats = active_stats
 	battle_scene.battle_stats = room.battle_stats
 	current_view.add_child(battle_scene)
 
@@ -74,7 +77,6 @@ func _show_placeholder(label_text: String, exit_signal: Signal) -> void:
 
 
 func _on_map_exited(room: Room) -> void:
-	print("Room entered: %s | battle_stats: %s" % [Room.Type.keys()[room.type], room.battle_stats])
 	match room.type:
 		Room.Type.COMBAT, Room.Type.BOSS:
 			_load_battle(room)
