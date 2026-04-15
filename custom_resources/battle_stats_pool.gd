@@ -15,7 +15,6 @@ func _get_all_battles_for_tier_and_type(tier: int, type: String) -> Array[Battle
 
 func get_random_battle_for_tier_and_type(tier: int, type: String) -> BattleStats:
 	var filtered := _get_all_battles_for_tier_and_type(tier, type)
-	print("BattleStatsPool: pool=%d, filtered(tier=%d,type=%s)=%d" % [pool.size(), tier, type, filtered.size()])
 	if filtered.is_empty():
 		push_warning("BattleStatsPool: no battles for tier %d type %s" % [tier, type])
 		return null

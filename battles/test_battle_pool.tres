@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://dgm6doux8c6bc" path="res://custom_resources/battle_stats_pool.gd" id="2_4417o"]
 [ext_resource type="Resource" uid="uid://c2ypkkq037xkr" path="res://battles/test_battle.tres" id="2_xbpw7"]
 [ext_resource type="Resource" uid="uid://c4j6mpgc6muu4" path="res://battles/test_boss.tres" id="3_xbpw7"]
+[ext_resource type="Resource" uid="uid://fbbh4ql6iita" path="res://battles/test_battle_tier1.tres" id="4_xlxwr"]
 
 [resource]
 script = ExtResource("2_4417o")
-pool = Array[ExtResource("1_7vmao")]([ExtResource("2_xbpw7"), ExtResource("3_xbpw7")])
+pool = Array[ExtResource("1_7vmao")]([ExtResource("2_xbpw7"), ExtResource("3_xbpw7"), ExtResource("4_xlxwr")])

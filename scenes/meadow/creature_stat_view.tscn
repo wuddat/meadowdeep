@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://ckyc6blh5lggp"]
 
-[node name="CreatureWindow" type="Control" unique_id=1178772064]
+[ext_resource type="Script" path="res://scenes/meadow/creature_stat_view.gd" id="1_csv"]
+
+[node name="CreatureStatView" type="Control" unique_id=1178772064]
+script = ExtResource("1_csv")
 layout_mode = 3
 anchor_right = 0.27
 anchor_bottom = 0.57100004
@@ -22,9 +25,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Name" type="Label" parent="bg/VBoxContainer" unique_id=871638635]
+[node name="CreatureName" type="Label" parent="bg/VBoxContainer" unique_id=871638635]
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Creature"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Personality" type="Label" parent="bg/VBoxContainer" unique_id=1625019020]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Playful"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -47,101 +58,137 @@ alignment = 1
 [node name="Stat" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=130899722]
 layout_mode = 2
 
-[node name="Stat1" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=406393705]
+[node name="PWR" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=406393705]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Power:"
+text = "PWR:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=1302075913]
+[node name="PWRval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=1302075913]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "99"
+vertical_alignment = 1
+
+[node name="PWRgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=1340555420]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
 vertical_alignment = 1
 
 [node name="Stat2" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=1391887707]
 layout_mode = 2
 
-[node name="Stat" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=490813633]
+[node name="AGI" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=490813633]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Agility:"
+text = "AGI:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=1482644193]
+[node name="AGIval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=1482644193]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "99"
+vertical_alignment = 1
+
+[node name="AGIgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=1700576826]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
 vertical_alignment = 1
 
 [node name="Stat3" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=1641169166]
 layout_mode = 2
 
-[node name="Stat" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1854549179]
+[node name="RES" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1854549179]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Wit:"
+text = "RES:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1829433575]
+[node name="RESval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1829433575]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "99"
+vertical_alignment = 1
+
+[node name="RESgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=845964215]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
 vertical_alignment = 1
 
 [node name="Stat4" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=846354731]
 layout_mode = 2
 
-[node name="Stat" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=468862081]
+[node name="MYS" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=468862081]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Girth:"
+text = "MYS:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=15890600]
+[node name="MYSval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=15890600]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "99"
+vertical_alignment = 1
+
+[node name="MYSgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=561467226]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
 vertical_alignment = 1
 
 [node name="Stat5" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=2094826682]
 layout_mode = 2
 
-[node name="Stat" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=1366654196]
+[node name="FCS" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=1366654196]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Luck:"
+text = "FCS:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=742389788]
+[node name="FCSval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=742389788]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "99"
 vertical_alignment = 1
 
+[node name="FCSgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=1254480903]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
+vertical_alignment = 1
+
 [node name="Stat6" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=927714734]
 layout_mode = 2
 
-[node name="Stat" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=305901173]
+[node name="LCK" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=305901173]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "Personality: "
+text = "LCK:"
 vertical_alignment = 1
 
-[node name="Stat2" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=907034199]
+[node name="LCKval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=907034199]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
-text = "lol"
+text = "99"
+vertical_alignment = 1
+
+[node name="LCKgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=238838948]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "S"
 vertical_alignment = 1

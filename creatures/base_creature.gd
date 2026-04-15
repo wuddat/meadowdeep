@@ -69,10 +69,18 @@ var _current_action: StringName:
 @onready var pop: AudioStreamPlayer    = $Pop
 @onready var nomnom: AudioStreamPlayer = $nomnom
 
+@export var creature_stats: CreatureStats
+
 var _home: Vector2
 var _player: CharacterBody2D
 var _food: Area2D
 var _eating_food: Node2D = null
+
+var is_held := false
+var _holder: Node2D = null
+const HOLD_OFFSET := Vector2(20, -24)
+var _saved_collision_layer := 0
+var _saved_collision_mask := 0
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -81,6 +89,7 @@ var _eating_food: Node2D = null
 
 func _ready() -> void:
 	_home = global_position
+	_ensure_stats()
 	_on_ready_creature()
 	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
@@ -98,7 +107,52 @@ func _on_ready_creature() -> void:
 	pass
 
 
+func _ensure_stats() -> void:
+	if not creature_stats:
+		creature_stats = CreatureStats.new()
+		creature_stats.creature_name = name
+	var sb := creature_stats.stat_block
+	if not sb:
+		creature_stats.stat_block = CreatureStatBlock.new()
+		sb = creature_stats.stat_block
+	# Auto-generate grades if all at default (all C = grade index 2)
+	var all_default := (
+		sb.power.grade == StatBlock.Grade.C and
+		sb.agility.grade == StatBlock.Grade.C and
+		sb.resilience.grade == StatBlock.Grade.C and
+		sb.mystic.grade == StatBlock.Grade.C and
+		sb.focus.grade == StatBlock.Grade.C
+	)
+	if all_default:
+		sb.power.grade      = _random_grade()
+		sb.agility.grade    = _random_grade()
+		sb.resilience.grade = _random_grade()
+		sb.mystic.grade     = _random_grade()
+		sb.focus.grade      = _random_grade()
+		sb.personality      = _random_personality()
+
+
+func _random_grade() -> StatBlock.Grade:
+	# Weighted: C most common, S/E rare
+	var roll := randi() % 100
+	if roll < 5:   return StatBlock.Grade.S
+	elif roll < 15: return StatBlock.Grade.A
+	elif roll < 35: return StatBlock.Grade.B
+	elif roll < 65: return StatBlock.Grade.C
+	elif roll < 85: return StatBlock.Grade.D
+	else:           return StatBlock.Grade.E
+
+
+func _random_personality() -> CreatureStatBlock.Personality:
+	var values := CreatureStatBlock.Personality.values()
+	return values[randi() % values.size()]
+
+
 func _physics_process(delta: float) -> void:
+	if is_held:
+		global_position = _holder.global_position + HOLD_OFFSET
+		velocity = Vector2.ZERO
+		return
 	_tick_emotions(delta)
 	_check_emotion_triggers()
 	_tick_current_action(delta)
@@ -313,6 +367,23 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 # ═══════════════════════════════════════════════════════════════════════════════
 # Food interaction
 # ═══════════════════════════════════════════════════════════════════════════════
+
+func pickup(holder: Node2D) -> void:
+	is_held = true
+	_holder = holder
+	_saved_collision_layer = collision_layer
+	_saved_collision_mask = collision_mask
+	collision_layer = 0
+	collision_mask = 0
+
+
+func release() -> void:
+	is_held = false
+	_holder = null
+	collision_layer = _saved_collision_layer
+	collision_mask = _saved_collision_mask
+	_push_action_front(&"idle", {})
+
 
 func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	from_player.set("carried_food", null)

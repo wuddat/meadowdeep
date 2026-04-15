@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cyclrtdygm8eu"]
+
+[ext_resource type="SpriteFrames" uid="uid://b1k2n6ljfpm3u" path="res://scenes/meadow/egg_spriteframes.tres" id="1_4symw"]
+[ext_resource type="Script" uid="uid://bysou201tfb6f" path="res://scenes/meadow/meadow_egg.gd" id="1_lmsu8"]
+[ext_resource type="Texture2D" uid="uid://bk47eto14hyt" path="res://art/game_art/creatures/egg_top_sm.png" id="3_lmsu8"]
+[ext_resource type="Texture2D" uid="uid://dskvc4fiuv5vm" path="res://art/game_art/creatures/egg_bottom_sm.png" id="4_mfowf"]
+
+[node name="MeadowEgg" type="Node2D" unique_id=882203231]
+script = ExtResource("1_lmsu8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=109274400]
+sprite_frames = ExtResource("1_4symw")
+animation = &"idle"
+
+[node name="TopHalf" type="Sprite2D" parent="." unique_id=851473516]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("3_lmsu8")
+
+[node name="BottomHalf" type="Sprite2D" parent="." unique_id=43631876]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("4_mfowf")

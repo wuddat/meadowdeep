@@ -2,13 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dhbx5rvxyagkt" path="res://scenes/ruins/map.gd" id="1_map"]
 [ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="2_gen"]
-[ext_resource type="Script" uid="uid://cl6frcau8od6p" path="res://custom_resources/battle_stats.gd" id="3_x1ojv"]
-[ext_resource type="Resource" uid="uid://c2ypkkq037xkr" path="res://battles/test_battle.tres" id="4_hs2cn"]
-[ext_resource type="Script" uid="uid://dgm6doux8c6bc" path="res://custom_resources/battle_stats_pool.gd" id="4_ikun0"]
-
-[sub_resource type="Resource" id="Resource_hs2cn"]
-script = ExtResource("4_ikun0")
-pool = Array[ExtResource("3_x1ojv")]([ExtResource("4_hs2cn")])
+[ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="3_7j41d"]
 
 [node name="Map" type="Node2D" unique_id=1128032877]
 script = ExtResource("1_map")
@@ -26,4 +20,4 @@ offset = Vector2(256, 144)
 
 [node name="MapGenerator" type="Node" parent="." unique_id=693428281]
 script = ExtResource("2_gen")
-battle_stats_pool = SubResource("Resource_hs2cn")
+battle_stats_pool = ExtResource("3_7j41d")
