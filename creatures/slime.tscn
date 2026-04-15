@@ -71,6 +71,7 @@ _data = {
 font_size = 6
 
 [node name="Slime" type="CharacterBody2D" unique_id=576682274]
+collision_layer = 4
 script = ExtResource("1_ipsh6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=249581040]

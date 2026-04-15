@@ -13,7 +13,7 @@ shader_parameter/tint_color = Color(1, 1, 1, 1)
 shader_parameter/highlight_threshold = 0.85
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx7dx"]
-size = Vector2(17, 12)
+size = Vector2(18, 20)
 
 [sub_resource type="Animation" id="Animation_nosak"]
 length = 0.001
@@ -109,6 +109,7 @@ _data = {
 }
 
 [node name="FireSprite" type="CharacterBody2D" unique_id=576682274]
+collision_layer = 4
 script = ExtResource("1_i8k6i")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=249581040]
@@ -117,8 +118,7 @@ sprite_frames = ExtResource("3_i8k6i")
 animation = &"sleep"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
-visible = false
-position = Vector2(-0.5, 2)
+position = Vector2(1, 3)
 shape = SubResource("RectangleShape2D_hx7dx")
 
 [node name="Emotion" type="Sprite2D" parent="." unique_id=981894687]
