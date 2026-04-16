@@ -118,6 +118,7 @@ func _show_stat_view() -> void:
 	_stat_view = STAT_VIEW_SCENE.instantiate()
 	canvas.add_child(_stat_view)
 	_stat_view.populate(held_creature.creature_stats)
+	_stat_view.update_display()
 	print("[StatView] shown for: ", held_creature.creature_stats.creature_name)
 
 

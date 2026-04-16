@@ -1,18 +1,18 @@
-[gd_scene format=3 uid="uid://bxmeadow_food1"]
+[gd_scene format=3 uid="uid://ccwrihbuuotsk"]
 
-[ext_resource type="Script" path="res://scenes/meadow/creature_food.gd" id="1_food"]
+[ext_resource type="Script" uid="uid://obikihp8metj" path="res://scenes/meadow/creature_food_item.gd" id="1_food"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="2_berry"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_food"]
-radius = 20.0
+radius = 8.0
 
-[node name="CreatureFood" type="Area2D"]
+[node name="CreatureFood" type="Area2D" unique_id=552193260]
 script = ExtResource("1_food")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=432934203]
 texture = ExtResource("2_berry")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=132071644]
 shape = SubResource("CircleShape2D_food")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

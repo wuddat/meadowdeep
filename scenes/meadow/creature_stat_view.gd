@@ -20,11 +20,19 @@ func _ready() -> void:
 	lck_row.hide()  # no luck stat yet
 
 
+var _creature_stats: CreatureStats = null
+
+
 func populate(creature_stats: CreatureStats) -> void:
-	if not creature_stats:
+	_creature_stats = creature_stats
+	update_display()
+
+
+func update_display() -> void:
+	if not _creature_stats:
 		return
-	var sb: CreatureStatBlock = creature_stats.stat_block
-	creature_name_label.text = creature_stats.creature_name
+	var sb: CreatureStatBlock = _creature_stats.stat_block
+	creature_name_label.text = _creature_stats.creature_name
 	personality_label.text   = CreatureStatBlock.Personality.keys()[sb.personality].capitalize()
 	_set_stat(pwr_val, pwr_grade, sb.power)
 	_set_stat(agi_val, agi_grade, sb.agility)

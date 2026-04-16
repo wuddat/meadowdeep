@@ -8,8 +8,12 @@ extends Area2D
 
 const CARRY_OFFSET := Vector2(0, -10)
 
+@export var stages: int = 5
+
 var is_carried := false
 var _carrier: Node2D = null
+var being_eaten := false
+var _total_stages: int = 0
 
 
 func _ready() -> void:
@@ -25,10 +29,24 @@ func _process(_delta: float) -> void:
 		global_position = _carrier.global_position + CARRY_OFFSET
 
 
+func decrement_stage() -> void:
+	if stages <= 0:
+		print("food eating complete")
+		return
+	stages -= 1
+	scale = Vector2.ONE * (float(stages) / float(_total_stages))
+	print("stages: %s" % stages )
+
+
 func pickup(carrier: Node2D) -> void:
 	is_carried = true
 	_carrier = carrier
 	collision_shape.disabled = true
+
+
+func start_eating() -> void:
+	being_eaten = true
+	_total_stages = stages
 
 
 func drop() -> void:

@@ -351,6 +351,25 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 
 func _tick_eat_food(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
+	data["stage_timer"] = data.get("stage_timer", 0.0) + delta
+	if data["stage_timer"] >= 1.0 and _eating_food:
+		data["stage_timer"] -= 1.0
+		_eating_food.decrement_stage()
+		var food_data: CreatureFood = _eating_food.get("food_data")
+		if food_data and creature_stats and creature_stats.stat_block:
+			const STAT_NAMES := {
+				StatBlock.StatType.POWER:      "power",
+				StatBlock.StatType.AGILITY:    "agility",
+				StatBlock.StatType.RESILIENCE: "resilience",
+				StatBlock.StatType.MYSTIC:     "mystic",
+				StatBlock.StatType.FOCUS:      "focus",
+			}
+			var stat_name: String = STAT_NAMES.get(food_data.creature_attribute, "")
+			if stat_name:
+				var stat: StatBlock = creature_stats.stat_block.get(stat_name)
+				if stat:
+					stat.points += food_data.attribute_increment
+					print("stat increment: %s +%s (total: %s)" % [stat_name, food_data.attribute_increment, stat.points])
 	_raise("hunger", 20.0 * delta)
 	if not nomnom.playing:
 		nomnom.pitch_scale = randf_range(0.9, 1.1)
@@ -359,7 +378,12 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		nomnom.stop()
 		animation_player.play("bubble_fade_out")
 		if _eating_food:
-			_eating_food.queue_free()
+			if _eating_food.get("stages") == 0:
+				_eating_food.queue_free()
+			else:
+				if _eating_food.has_method("drop"):
+					_eating_food.drop()
+				_eating_food.set("being_eaten", false)
 			_eating_food = null
 		_action_done()
 
@@ -390,6 +414,8 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	from_player.set("nearby_food", null)
 	if food_item.has_method("drop"):
 		food_item.drop()
+	if food_item.has_method("start_eating"):
+		food_item.start_eating()
 	food_item.global_position = global_position + Vector2(5, 5)
 	_eating_food = food_item
 	_food = null

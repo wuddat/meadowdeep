@@ -5,6 +5,7 @@ extends Resource
 # SA2-inspired stat grades — determines how efficiently points convert to effective value.
 # TODO: Grade multipliers are placeholders. Tune once combat feel is testable.
 enum Grade { E, D, C, B, A, S }
+enum StatType { POWER, AGILITY, RESILIENCE, MYSTIC, FOCUS }
 
 const GRADE_MULTIPLIERS := {
 	Grade.E: 0.5,
