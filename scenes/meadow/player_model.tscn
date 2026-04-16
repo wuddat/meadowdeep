@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://2tjyspb0netw" path="res://player.gd" id="1_ju0yt"]
 [ext_resource type="Texture2D" uid="uid://cwul6mx6gmqev" path="res://art/game_art/Archaeologist Sprite Sheet.png" id="2_ejka7"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="2_u562n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bn14v"]
 atlas = ExtResource("2_ejka7")
@@ -296,6 +297,13 @@ size = Vector2(10, 17)
 [node name="PlayerModel" type="CharacterBody2D" unique_id=1075955909 groups=["player"]]
 script = ExtResource("1_ju0yt")
 speed = 75.0
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1546575552]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-0.49999952, 5)
+scale = Vector2(0.59375, 1)
+texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
 sprite_frames = SubResource("SpriteFrames_2k1gd")

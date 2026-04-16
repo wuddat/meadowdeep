@@ -29,6 +29,7 @@ metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 [node name="Meadow" type="Node2D" unique_id=428296654]
 
 [node name="BG" parent="." unique_id=1020387881 instance=ExtResource("3_kvjms")]
+z_index = -5
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("2_nrc7r")]
 z_index = 1
