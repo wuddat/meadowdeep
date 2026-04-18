@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_ode48"]
 [ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="3_i8k6i"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="4_1od87"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="6_i8k6i"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="7_ode48"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
@@ -108,12 +109,19 @@ _data = {
 collision_layer = 4
 script = ExtResource("1_i8k6i")
 
+[node name="Shadow" type="Sprite2D" parent="." unique_id=554806506]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, 7)
+scale = Vector2(0.546875, 1)
+texture = ExtResource("6_i8k6i")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=249581040]
 material = SubResource("ShaderMaterial_a4vea")
 sprite_frames = ExtResource("3_i8k6i")
 animation = &"run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
+visible = false
 position = Vector2(1, 3)
 shape = SubResource("RectangleShape2D_hx7dx")
 

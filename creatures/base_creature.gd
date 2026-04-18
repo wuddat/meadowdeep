@@ -167,7 +167,6 @@ func _queue_contains(id: StringName) -> bool:
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
-	print(name, " queue: ", _action_queue.map(func(e): return e["id"]))
 	match id:
 		&"idle":
 			velocity = Vector2.ZERO
