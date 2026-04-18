@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bdppximmf2egb"]
+
+[ext_resource type="Texture2D" uid="uid://cg4v0q208cksl" path="res://art/game_art/gui/pill_empty.png" id="1_ct42y"]
+[ext_resource type="Script" uid="uid://bd16w1plnfcfr" path="res://scenes/meadow/creature_stat_bar.gd" id="1_phjan"]
+
+[node name="CreatureStatBar" type="Control" unique_id=1907918716]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 98.0
+offset_bottom = 26.0
+script = ExtResource("1_phjan")
+
+[node name="StatName" type="Label" parent="." unique_id=800761962]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 26.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 7
+text = "PWR"
+vertical_alignment = 1
+
+[node name="Lvl" type="Label" parent="." unique_id=1579625144]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 9.0
+offset_right = 26.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 5
+text = "LV: %S"
+vertical_alignment = 1
+
+[node name="PillBox" type="HBoxContainer" parent="." unique_id=1009680382]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 27.0
+offset_top = 6.0
+offset_right = 94.0
+offset_bottom = 19.0
+theme_override_constants/separation = 5
+
+[node name="Pill" type="TextureRect" parent="PillBox" unique_id=1924103888]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill2" type="TextureRect" parent="PillBox" unique_id=1057056597]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill3" type="TextureRect" parent="PillBox" unique_id=1336035028]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill4" type="TextureRect" parent="PillBox" unique_id=220774078]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill5" type="TextureRect" parent="PillBox" unique_id=1066264081]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill6" type="TextureRect" parent="PillBox" unique_id=1673673005]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill7" type="TextureRect" parent="PillBox" unique_id=56232350]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4
+
+[node name="Pill8" type="TextureRect" parent="PillBox" unique_id=192773958]
+layout_mode = 2
+texture = ExtResource("1_ct42y")
+stretch_mode = 4

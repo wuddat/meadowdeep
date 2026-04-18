@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bledjw2w1myu3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ipsh6"]
+font_size = 6
+
+[node name="DebugLayer" type="CanvasLayer" unique_id=276869185]
+layer = 10
+visible = false
+
+[node name="Active" type="Label" parent="." unique_id=1375534912]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -596.0
+offset_top = -17.0
+offset_right = -556.0
+offset_bottom = -8.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 7
+text = "%s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="VBoxContainer" parent="." unique_id=1652326089]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -602.0
+offset_top = -710.0
+offset_right = -550.0
+offset_bottom = -607.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -2
+
+[node name="Boredom" type="Label" parent="Label" unique_id=1713692581]
+unique_name_in_owner = true
+texture_filter = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Lonely" type="Label" parent="Label" unique_id=1951546302]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Sleepy" type="Label" parent="Label" unique_id=1729516564]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Joy" type="Label" parent="Label" unique_id=1140006004]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Fear" type="Label" parent="Label" unique_id=313259368]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")
+
+[node name="Hunger" type="Label" parent="Label" unique_id=1398162483]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "%s: %s"
+label_settings = SubResource("LabelSettings_ipsh6")

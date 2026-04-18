@@ -59,8 +59,9 @@ func _physics_process(delta):
 			if input_vector.x != 0:
 				sprite.flip_h = input_vector.x < 0
 		else:
-			if sprite.animation != "idle":
-				sprite.play("idle")
+			var idle_anim := "carry" if held_creature || carried_food else "idle"
+			if sprite.animation != idle_anim:
+				sprite.play(idle_anim)
 
 	move_and_slide()
 
@@ -68,7 +69,7 @@ func _physics_process(delta):
 	if carried_food:
 		for i in get_slide_collision_count():
 			var collider = get_slide_collision(i).get_collider()
-			if collider.has_method("receive_food") and collider.emotions.get("hunger", 100.0) < 80.0:
+			if collider.has_method("receive_food") and collider.emotion_handler.emotions.get("hunger", 100.0) < 80.0:
 				collider.receive_food(carried_food, self)
 				break
 

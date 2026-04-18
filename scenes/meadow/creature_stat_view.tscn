@@ -1,194 +1,72 @@
 [gd_scene format=3 uid="uid://ckyc6blh5lggp"]
 
-[ext_resource type="Script" path="res://scenes/meadow/creature_stat_view.gd" id="1_csv"]
+[ext_resource type="Script" uid="uid://c72utnurnj1hb" path="res://scenes/meadow/creature_stat_view.gd" id="1_csv"]
+[ext_resource type="Theme" uid="uid://c3anpexwnb0eu" path="res://art/game_art/themes/main_theme.tres" id="1_gyyiw"]
+[ext_resource type="PackedScene" uid="uid://bdppximmf2egb" path="res://scenes/meadow/creature_stat_bar.tscn" id="3_7jxp2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vbgi8"]
+content_margin_left = 5.0
+content_margin_top = 10.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [node name="CreatureStatView" type="Control" unique_id=1178772064]
-script = ExtResource("1_csv")
 layout_mode = 3
 anchor_right = 0.27
 anchor_bottom = 0.57100004
-offset_right = 1.199997
-offset_bottom = 0.43998718
+offset_right = -26.800003
+offset_bottom = -74.56001
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_gyyiw")
+script = ExtResource("1_csv")
 
-[node name="bg" type="Panel" parent="." unique_id=1242641810]
-layout_mode = 0
-offset_right = 174.0
-offset_bottom = 207.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="bg" unique_id=1232375920]
+[node name="bg" type="PanelContainer" parent="." unique_id=1775526712]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vbgi8")
 
-[node name="CreatureName" type="Label" parent="bg/VBoxContainer" unique_id=871638635]
+[node name="VBoxContainer" type="VBoxContainer" parent="bg" unique_id=248633373]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Creature"
+
+[node name="CreatureName" type="Label" parent="bg/VBoxContainer" unique_id=473506935]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Creature Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Personality" type="Label" parent="bg/VBoxContainer" unique_id=1625019020]
+[node name="StatContainer" type="VBoxContainer" parent="bg/VBoxContainer" unique_id=1232375920]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Playful"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/separation = 19
 
-[node name="Panel" type="Panel" parent="bg/VBoxContainer" unique_id=1837624059]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="bg/VBoxContainer/Panel" unique_id=1997191358]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_right = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 17
-alignment = 1
-
-[node name="Stat" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=130899722]
+[node name="CreatureStatPWR" parent="bg/VBoxContainer/StatContainer" unique_id=1907918716 instance=ExtResource("3_7jxp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PWR" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=406393705]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "PWR:"
-vertical_alignment = 1
-
-[node name="PWRval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=1302075913]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="PWRgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat" unique_id=1340555420]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1
-
-[node name="Stat2" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=1391887707]
+[node name="CreatureStatAGI" parent="bg/VBoxContainer/StatContainer" unique_id=834348533 instance=ExtResource("3_7jxp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AGI" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=490813633]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "AGI:"
-vertical_alignment = 1
-
-[node name="AGIval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=1482644193]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="AGIgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat2" unique_id=1700576826]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1
-
-[node name="Stat3" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=1641169166]
+[node name="CreatureStatRES" parent="bg/VBoxContainer/StatContainer" unique_id=285354449 instance=ExtResource("3_7jxp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RES" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1854549179]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "RES:"
-vertical_alignment = 1
-
-[node name="RESval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=1829433575]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="RESgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat3" unique_id=845964215]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1
-
-[node name="Stat4" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=846354731]
+[node name="CreatureStatMYS" parent="bg/VBoxContainer/StatContainer" unique_id=2085593385 instance=ExtResource("3_7jxp2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MYS" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=468862081]
+[node name="CreatureStatFOC" parent="bg/VBoxContainer/StatContainer" unique_id=1908448187 instance=ExtResource("3_7jxp2")]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "MYS:"
-vertical_alignment = 1
-
-[node name="MYSval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=15890600]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="MYSgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat4" unique_id=561467226]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1
-
-[node name="Stat5" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=2094826682]
-layout_mode = 2
-
-[node name="FCS" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=1366654196]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "FCS:"
-vertical_alignment = 1
-
-[node name="FCSval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=742389788]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="FCSgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat5" unique_id=1254480903]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1
-
-[node name="Stat6" type="HBoxContainer" parent="bg/VBoxContainer/Panel/VBoxContainer" unique_id=927714734]
-layout_mode = 2
-
-[node name="LCK" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=305901173]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "LCK:"
-vertical_alignment = 1
-
-[node name="LCKval" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=907034199]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 10
-text = "99"
-vertical_alignment = 1
-
-[node name="LCKgrade" type="Label" parent="bg/VBoxContainer/Panel/VBoxContainer/Stat6" unique_id=238838948]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "S"
-vertical_alignment = 1

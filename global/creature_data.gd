@@ -24,6 +24,14 @@ const PERSONALITY_MAP := {
 	"aloof":    CreatureStatBlock.Personality.ALOOF,
 }
 
+const STAT_NAMES := {
+	StatBlock.StatType.PWR: "PWR",
+	StatBlock.StatType.AGI: "AGI",
+	StatBlock.StatType.RES: "RES",
+	StatBlock.StatType.MYS: "MYS",
+	StatBlock.StatType.FOC: "FOC",
+}
+
 
 func _ready() -> void:
 	var file := FileAccess.open("res://data/creatures.json", FileAccess.READ)
@@ -75,14 +83,12 @@ func create_creature_instance(species_id: String) -> CreatureStats:
 	if data.has("stat_block"):
 		var sb_data: Dictionary = data["stat_block"]
 		var sb := creature.stat_block
-
 		sb.personality = PERSONALITY_MAP.get(sb_data.get("personality", "neutral"), CreatureStatBlock.Personality.NEUTRAL)
-		sb.power.grade       = GRADE_MAP.get(sb_data.get("power_grade", 3),      StatBlock.Grade.C)
-		sb.agility.grade     = GRADE_MAP.get(sb_data.get("agility_grade", 3),    StatBlock.Grade.C)
-		sb.resilience.grade  = GRADE_MAP.get(sb_data.get("resilience_grade", 3), StatBlock.Grade.C)
-		sb.mystic.grade      = GRADE_MAP.get(sb_data.get("mystic_grade", 3),     StatBlock.Grade.C)
-		sb.focus.grade       = GRADE_MAP.get(sb_data.get("focus_grade", 3),      StatBlock.Grade.C)
-
+		sb.PWR.grade       = GRADE_MAP.get(sb_data.get("PWR_grade", 3),      StatBlock.Grade.C)
+		sb.AGI.grade     = GRADE_MAP.get(sb_data.get("AGI_grade", 3),    StatBlock.Grade.C)
+		sb.RES.grade  = GRADE_MAP.get(sb_data.get("RES_grade", 3), StatBlock.Grade.C)
+		sb.MYS.grade      = GRADE_MAP.get(sb_data.get("MYS_grade", 3),     StatBlock.Grade.C)
+		sb.FOC.grade       = GRADE_MAP.get(sb_data.get("FOC_grade", 3),      StatBlock.Grade.C)
 	return creature
 
 

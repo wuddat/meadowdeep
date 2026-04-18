@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://2tjyspb0netw" path="res://player.gd" id="1_ju0yt"]
 [ext_resource type="Texture2D" uid="uid://cwul6mx6gmqev" path="res://art/game_art/Archaeologist Sprite Sheet.png" id="2_ejka7"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="2_u562n"]
+[ext_resource type="Texture2D" uid="uid://jrharb7nvc7c" path="res://art/game_art/archaeologist_holding.png" id="4_u562n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bn14v"]
 atlas = ExtResource("2_ejka7")
@@ -179,6 +180,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("4_u562n")
+}],
+"loop": true,
+"name": &"carry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_5ncuc")
 }, {
 "duration": 1.0,
@@ -307,9 +316,7 @@ texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
 sprite_frames = SubResource("SpriteFrames_2k1gd")
-animation = &"attack"
-frame = 5
-frame_progress = 1.0
+animation = &"carry"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
 visible = false

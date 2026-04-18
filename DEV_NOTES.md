@@ -50,6 +50,20 @@ Running log of reminders, red flags, known issues, things to revisit, and decisi
 
 ---
 
+## Session Notes — 2026-04-15/16
+
+### Creature Food System
+- `CreatureFoodItem` (scene script) renamed from `creature_food.gd` → `creature_food_item.gd` to resolve naming conflict with `CreatureFood` resource
+- Added `stages` (@export, default 5) to `CreatureFoodItem` — food shrinks by `1/total_stages` each second while being eaten
+- Stage decrement driven by creature's `_tick_eat_food` (not food's `_process`) — each creature ticks its own stage timer so only the eating creature gets stat increments
+- When eating stops early (hunger full / timer out), food dropped back to world with `being_eaten = false` if stages remain; `queue_free` only if stages == 0
+- `CreatureFood.creature_attribute` changed from `String` → `StatBlock.StatType` enum — inspector now shows dropdown
+- `StatBlock.StatType` enum added to `stat_block.gd` (POWER, AGILITY, RESILIENCE, MYSTIC, FOCUS) — shared enum for anything that needs to reference a stat
+- `CreatureFood.attribute_increment: int` — points added to the target stat per stage consumed
+- `CreatureStatView` refactored: `populate()` stores ref, `update_display()` does label refresh — called on every creature pickup so stats are always current
+
+---
+
 ## Known Issues / Red Flags
 
 - **`.tres` resource files not ported** — All status `.tres` files (e.g. `statuses/attack_up.tres`) exist in PokéSpire but have not been created in MeadowDeep. `StatusData` preloads these at startup — the project will error on load until they exist. These are Godot resource files that need to be created in-editor or copied and re-saved.

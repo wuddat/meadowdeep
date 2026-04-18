@@ -10,6 +10,9 @@ signal card_played(card: Card)
 signal card_tooltip_requested(card: Card)
 signal tooltip_hide_requested
 
+#Meadow Creature-related Events
+signal trigger_action(creature, action, duration)
+
 # Item-related Events
 signal item_aim_started(item)
 signal item_aim_ended(item)

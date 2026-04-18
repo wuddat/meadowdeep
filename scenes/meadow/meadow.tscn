@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="2_nrc7r"]
 [ext_resource type="PackedScene" uid="uid://df8i4w4bngm5j" path="res://scenes/meadow/meadmowmap.tscn" id="3_kvjms"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="4_bn14v"]
-[ext_resource type="Script" path="res://scenes/meadow/creature_food.gd" id="7_c4haw"]
 [ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_nrc7r"]
 [ext_resource type="PackedScene" uid="uid://ccwrihbuuotsk" path="res://scenes/meadow/creature_food.tscn" id="8_pxhms"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
@@ -22,7 +21,7 @@ metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
 [sub_resource type="Resource" id="Resource_c4haw"]
 script = ExtResource("10_c4haw")
-creature_attribute = 1
+creature_attribute = 2
 attribute_increment = 1
 metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
@@ -33,7 +32,7 @@ z_index = -5
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("2_nrc7r")]
 z_index = 1
-position = Vector2(615, 271)
+position = Vector2(473, 391)
 collision_layer = 5
 collision_mask = 5
 
@@ -43,7 +42,7 @@ scale = Vector2(82.46371, 8.475021)
 position_smoothing_enabled = true
 script = ExtResource("4_bn14v")
 
-[node name="Food" type="Area2D" parent="." unique_id=84511921 groups=["food"]]
+[node name="Food" type="Area2D" parent="." unique_id=84511921]
 position = Vector2(536, 281)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Food" unique_id=1442299800]
@@ -61,26 +60,30 @@ autoplay = true
 bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
-position = Vector2(661, 260)
-script = ExtResource("7_c4haw")
+position = Vector2(451, 193)
 food_data = SubResource("Resource_5ncuc")
 
 [node name="CreatureFood2" parent="." unique_id=1642560484 instance=ExtResource("8_pxhms")]
 modulate = Color(1, 1, 0.36862746, 1)
-position = Vector2(661, 260)
-script = ExtResource("7_c4haw")
+position = Vector2(602, 447)
 food_data = SubResource("Resource_c4haw")
 
-[node name="MeadowEgg" parent="." unique_id=847037931 instance=ExtResource("13_a8g20")]
-modulate = Color(1, 0.3372549, 0, 1)
-position = Vector2(600, 214)
+[node name="CreatureFood3" parent="." unique_id=552193260 instance=ExtResource("8_pxhms")]
+modulate = Color(2.40685, 1.9309977, 1.4642963, 1)
+position = Vector2(403, 431)
+food_data = SubResource("Resource_c4haw")
+stages = 10
 
-[node name="MeadowEgg2" parent="." unique_id=889453204 instance=ExtResource("13_a8g20")]
-modulate = Color(0, 0.6, 1, 1)
-position = Vector2(685, 214)
+[node name="EmberEgg" parent="." unique_id=847037931 instance=ExtResource("13_a8g20")]
+modulate = Color(1, 0.3372549, 0, 1)
+position = Vector2(430, 306)
+
+[node name="WaterEgg" parent="." unique_id=882203231 instance=ExtResource("13_a8g20")]
+modulate = Color(0.29146275, 0.6314283, 0.829214, 1)
+position = Vector2(380, 380)
 species_id = "tide"
 
 [node name="FireSprite" parent="." unique_id=576682274 instance=ExtResource("10_5ncuc")]
-position = Vector2(585, 323)
+position = Vector2(550, 427)
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

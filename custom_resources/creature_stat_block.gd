@@ -19,25 +19,25 @@ enum Personality {
 
 # ── Growth Stats ──────────────────────────────────────────────────────────────
 @export_group("Growth Stats")
-@export var power: StatBlock
-@export var agility: StatBlock
-@export var resilience: StatBlock
-@export var mystic: StatBlock
-@export var focus: StatBlock
+@export var PWR: StatBlock
+@export var AGI: StatBlock
+@export var RES: StatBlock
+@export var MYS: StatBlock
+@export var FOC: StatBlock
 
 # ── Identity ──────────────────────────────────────────────────────────────────
 @export_group("Identity")
 @export var personality: Personality = Personality.NEUTRAL
-@export var dominant_stat: String = ""   # "power" | "agility" | "resilience" | "mystic" | "focus"
+@export var dominant_stat: String = ""   # "PWR" | "AGI" | "RES" | "MYS" | "FOC"
 @export var evolution_stage: int = 0
 
 # ── Alignment ─────────────────────────────────────────────────────────────────
 # TODO: Placeholder axes — ranges and meaning to be designed.
 # wild_bonded: -1.0 (fully wild) to 1.0 (fully bonded)
-# feral_mystic: -1.0 (fully feral) to 1.0 (fully mystic)
+# feral_MYS: -1.0 (fully feral) to 1.0 (fully MYS)
 @export_group("Alignment")
 @export var wild_bonded_alignment: float = 0.0
-@export var feral_mystic_alignment: float = 0.0
+@export var feral_MYS_alignment: float = 0.0
 
 # ── Bonds ─────────────────────────────────────────────────────────────────────
 @export_group("Bonds")
@@ -52,8 +52,8 @@ var bonds_with_creatures: Dictionary = {}       # uid (String) → bond score (f
 
 
 func _init() -> void:
-	power = StatBlock.new()
-	agility = StatBlock.new()
-	resilience = StatBlock.new()
-	mystic = StatBlock.new()
-	focus = StatBlock.new()
+	PWR = StatBlock.new()
+	AGI = StatBlock.new()
+	RES = StatBlock.new()
+	MYS = StatBlock.new()
+	FOC = StatBlock.new()

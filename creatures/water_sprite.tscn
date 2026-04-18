@@ -5,6 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="3_q71xr"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="6_02nsd"]
 [ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_7nk6g"]
+[ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="7_bvs05"]
 [ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="8_ewel5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
@@ -60,15 +61,12 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_a4vea"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bvs05"]
 _data = {
 &"RESET": SubResource("Animation_nosak"),
 &"bubble_fade_in": SubResource("Animation_35ai6"),
 &"bubble_fade_out": SubResource("Animation_8gjs3")
 }
-
-[sub_resource type="LabelSettings" id="LabelSettings_ipsh6"]
-font_size = 6
 
 [sub_resource type="Animation" id="Animation_i8k6i"]
 length = 0.001
@@ -122,92 +120,15 @@ visible = false
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_hx7dx")
 
-[node name="Emotion" type="Sprite2D" parent="." unique_id=981894687]
+[node name="EmotionDisplay" type="Sprite2D" parent="." unique_id=955882206]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(10, -15)
 scale = Vector2(0.53125, 0.53125)
 texture = ExtResource("6_02nsd")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Emotion" unique_id=1899814673]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EmotionDisplay" unique_id=1178070994]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_a4vea")
-
-[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1455247989]
-layer = 10
-visible = false
-
-[node name="Active" type="Label" parent="DebugLayer" unique_id=1774678728]
-unique_name_in_owner = true
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -596.0
-offset_top = -17.0
-offset_right = -556.0
-offset_bottom = -8.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 7
-text = "%s"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label" type="VBoxContainer" parent="DebugLayer" unique_id=1007775186]
-unique_name_in_owner = true
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -602.0
-offset_top = -710.0
-offset_right = -550.0
-offset_bottom = -607.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/separation = -2
-
-[node name="Boredom" type="Label" parent="DebugLayer/Label" unique_id=120295542]
-unique_name_in_owner = true
-texture_filter = 2
-layout_mode = 2
-theme_override_font_sizes/font_size = 15
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
-
-[node name="Lonely" type="Label" parent="DebugLayer/Label" unique_id=1163009203]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
-
-[node name="Sleepy" type="Label" parent="DebugLayer/Label" unique_id=55915589]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
-
-[node name="Joy" type="Label" parent="DebugLayer/Label" unique_id=1321572900]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
-
-[node name="Fear" type="Label" parent="DebugLayer/Label" unique_id=566913804]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
-
-[node name="Hunger" type="Label" parent="DebugLayer/Label" unique_id=339128789]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_font_sizes/font_size = 5
-text = "%s: %s"
-label_settings = SubResource("LabelSettings_ipsh6")
+libraries/ = SubResource("AnimationLibrary_bvs05")
 
 [node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
 stream = ExtResource("7_7nk6g")
@@ -223,6 +144,11 @@ bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=275598625]
 libraries/ = SubResource("AnimationLibrary_vrhir")
+
+[node name="EmotionHandler" type="Node" parent="." unique_id=1542403359]
+unique_name_in_owner = true
+script = ExtResource("7_bvs05")
+metadata/_custom_type_script = "uid://d3o5ga610agt8"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -20,33 +20,12 @@ const HIGHLIGHT_SHADER := preload("res://art/game_art/shaders/highlight.gdshader
 @export var move_speed: float        = 40.0
 @export var wander_radius: float     = 80.0
 
-@export_group("Emotion Rates (per second)")
-@export var boredom_rate: float      = 4.0
-@export var lonely_rate: float       = 2.0
-@export var sleepiness_rate: float   = 1.5
-@export var hunger_rate: float       = 2.0
-
-@export_group("Emotion Thresholds")
-@export var boredom_wander_threshold: float   = 60.0
-@export var lonely_seek_threshold: float      = 80.0
-@export var sleepiness_sleep_threshold: float = 90.0
-@export var hunger_seek_food_threshold: float = 50.0
-
 @export_group("Action Timing")
 @export var idle_time_min: float      = 1.5
 @export var idle_time_max: float      = 4.0
-@export var sleep_duration_min: float = 4.0
-@export var sleep_duration_max: float = 10.0
+@export var action_duration_min: float = 4.0
+@export var action_duration_max: float = 10.0
 
-# ── Emotion state ─────────────────────────────────────────────────────────────
-var emotions: Dictionary = {
-	"boredom":    0.0,
-	"lonely":     0.0,
-	"sleepiness": 0.0,
-	"joy":        0.0,
-	"fear":       0.0,
-	"hunger":     55.0,
-}
 
 # ── Action queue ──────────────────────────────────────────────────────────────
 var _action_queue: Array[Dictionary] = []
@@ -56,18 +35,11 @@ var _current_action: StringName:
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var boredom: Label            = %Boredom
-@onready var lonely: Label             = %Lonely
-@onready var sleepy: Label             = %Sleepy
-@onready var joy: Label                = %Joy
-@onready var fear: Label               = %Fear
-@onready var active_behavior: Label    = %Active
-@onready var emotion: Sprite2D         = $Emotion
+@onready var emotion_display: Sprite2D         = $EmotionDisplay
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-@onready var _debug_box: VBoxContainer = %Label
-@onready var hunger: Label             = %Hunger
 @onready var pop: AudioStreamPlayer    = $Pop
 @onready var nomnom: AudioStreamPlayer = $nomnom
+@onready var emotion_handler: Node = %EmotionHandler
 
 @export var creature_stats: CreatureStats
 
@@ -117,18 +89,18 @@ func _ensure_stats() -> void:
 		sb = creature_stats.stat_block
 	# Auto-generate grades if all at default (all C = grade index 2)
 	var all_default := (
-		sb.power.grade == StatBlock.Grade.C and
-		sb.agility.grade == StatBlock.Grade.C and
-		sb.resilience.grade == StatBlock.Grade.C and
-		sb.mystic.grade == StatBlock.Grade.C and
-		sb.focus.grade == StatBlock.Grade.C
+		sb.PWR.grade == StatBlock.Grade.C and
+		sb.AGI.grade == StatBlock.Grade.C and
+		sb.RES.grade == StatBlock.Grade.C and
+		sb.MYS.grade == StatBlock.Grade.C and
+		sb.FOC.grade == StatBlock.Grade.C
 	)
 	if all_default:
-		sb.power.grade      = _random_grade()
-		sb.agility.grade    = _random_grade()
-		sb.resilience.grade = _random_grade()
-		sb.mystic.grade     = _random_grade()
-		sb.focus.grade      = _random_grade()
+		sb.PWR.grade      = _random_grade()
+		sb.AGI.grade    = _random_grade()
+		sb.RES.grade = _random_grade()
+		sb.MYS.grade     = _random_grade()
+		sb.FOC.grade      = _random_grade()
 		sb.personality      = _random_personality()
 
 
@@ -153,62 +125,10 @@ func _physics_process(delta: float) -> void:
 		global_position = _holder.global_position + HOLD_OFFSET
 		velocity = Vector2.ZERO
 		return
-	_tick_emotions(delta)
+	emotion_handler.tick_emotions(delta, _current_action)
 	_check_emotion_triggers()
 	_tick_current_action(delta)
-	_update_emotion_text()
-	var viewport_pos := get_viewport().get_canvas_transform() * global_position
-	_debug_box.position = viewport_pos + Vector2(-18, 20)
-	active_behavior.position = viewport_pos + Vector2(-18, 10)
 
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# Emotions
-# ═══════════════════════════════════════════════════════════════════════════════
-
-func _tick_emotions(delta: float) -> void:
-	_raise("sleepiness", sleepiness_rate * delta)
-	_raise("lonely",     lonely_rate     * delta)
-
-	if _current_action == &"idle":
-		_raise("boredom", boredom_rate * delta)
-		_lower("hunger", hunger_rate * 0.5 * delta)
-	else:
-		_lower("boredom", boredom_rate * 0.5 * delta)
-		_lower("hunger", hunger_rate * delta)
-
-
-func _check_emotion_triggers() -> void:
-	if emotions["sleepiness"] >= sleepiness_sleep_threshold:
-		if _current_action != &"sleep":
-			_push_action_front(&"sleep", {
-				"timer": randf_range(sleep_duration_min, sleep_duration_max)
-			})
-		return
-
-	if emotions["hunger"] <= hunger_seek_food_threshold:
-		if _current_action != &"seek_food" and not _queue_contains(&"seek_food"):
-			_enqueue_action(&"seek_food", {})
-			_enqueue_action(&"eat_food", {"timer": randf_range(sleep_duration_min, sleep_duration_max)})
-			return
-
-	if emotions["lonely"] >= lonely_seek_threshold:
-		if _current_action != &"seek_player" and not _queue_contains(&"seek_player"):
-			_enqueue_action(&"seek_player", {})
-
-	if emotions["boredom"] >= boredom_wander_threshold:
-		if _current_action != &"wander" and not _queue_contains(&"wander"):
-			_enqueue_action(&"wander", { "target": _pick_wander_target() })
-
-
-func _update_emotion_text() -> void:
-	boredom.text        = "boredom: %s"   % int(emotions["boredom"])
-	lonely.text         = "lonely: %s"    % int(emotions["lonely"])
-	sleepy.text         = "sleepy: %s"    % int(emotions["sleepiness"])
-	joy.text            = "joy: %s"       % int(emotions["joy"])
-	fear.text           = "fear: %s"      % int(emotions["fear"])
-	hunger.text         = "hunger: %s"    % int(emotions["hunger"])
-	active_behavior.text = _current_action
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -256,7 +176,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"sleep":
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")
-			emotion.texture = SLEEP_BUBBLE
+			emotion_display.texture = SLEEP_BUBBLE
 			animation_player.play("bubble_fade_in")
 		&"seek_player":
 			_sprite.play("run")
@@ -268,9 +188,9 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			pop.play()
 		&"eat_food":
 			_sprite.play("eat")
-			emotion.texture = JOY_BUBBLE
+			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
-			data["timer"] = randf_range(idle_time_min, idle_time_max)
+			data["timer"] = randf_range(action_duration_min, action_duration_max)
 			nomnom.pitch_scale = randf_range(0.9, 1.1)
 			nomnom.play()
 
@@ -278,6 +198,28 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 # ═══════════════════════════════════════════════════════════════════════════════
 # Per-frame action ticks
 # ═══════════════════════════════════════════════════════════════════════════════
+
+func _check_emotion_triggers() -> void:
+	if emotion_handler.emotions["sleepiness"] >= emotion_handler.sleepiness_sleep_threshold:
+		if _current_action != &"sleep":
+			_push_action_front(&"sleep", {
+				"timer": randf_range(action_duration_min, action_duration_max)
+			})
+		return
+
+	if emotion_handler.emotions["hunger"] <= emotion_handler.hunger_seek_food_threshold:
+		if _current_action != &"seek_food" and not _queue_contains(&"seek_food"):
+			_enqueue_action(&"seek_food", {})
+			_enqueue_action(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
+			return
+
+	if emotion_handler.emotions["lonely"] >= emotion_handler.lonely_seek_threshold:
+		if _current_action != &"seek_player" and not _queue_contains(&"seek_player"):
+			_enqueue_action(&"seek_player", {})
+
+	if emotion_handler.emotions["boredom"] >= emotion_handler.boredom_wander_threshold:
+		if _current_action != &"wander" and not _queue_contains(&"wander"):
+			_enqueue_action(&"wander", { "target": _pick_wander_target() })
 
 func _tick_current_action(delta: float) -> void:
 	if _action_queue.is_empty():
@@ -301,7 +243,7 @@ func _tick_idle(data: Dictionary, delta: float) -> void:
 func _tick_wander(data: Dictionary, _delta: float) -> void:
 	var dir: Vector2 = data["target"] - global_position
 	if dir.length() < 4.0:
-		_lower("boredom", 40.0)
+		emotion_handler.lower("boredom", 40.0)
 		_action_done()
 		return
 	velocity = dir.normalized() * move_speed
@@ -311,8 +253,8 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 
 func _tick_sleep(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
-	_lower("sleepiness", 20.0 * delta)
-	if data["timer"] <= 0.0 or emotions["sleepiness"] <= 0.0:
+	emotion_handler.lower("sleepiness", 20.0 * delta)
+	if data["timer"] <= 0.0 or emotion_handler.emotions["sleepiness"] <= 0.0:
 		_action_done()
 		animation_player.play("bubble_fade_out")
 
@@ -322,11 +264,10 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 	if not player:
 		_action_done()
 		return
-
 	var dir: Vector2 = player.global_position - global_position
 	if dir.length() < 24.0:
-		_lower("lonely", 60.0)
-		_raise("joy",    30.0)
+		emotion_handler.lower("lonely", 60.0)
+		emotion_handler.raise("joy",    30.0)
 		_action_done()
 		return
 
@@ -342,6 +283,8 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 		return
 	var dir: Vector2 = food.global_position - global_position
 	if dir.length() < 20.0:
+		_eating_food = food
+		food.start_eating()
 		_action_done()
 		return
 	velocity = dir.normalized() * move_speed
@@ -357,24 +300,12 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		_eating_food.decrement_stage()
 		var food_data: CreatureFood = _eating_food.get("food_data")
 		if food_data and creature_stats and creature_stats.stat_block:
-			const STAT_NAMES := {
-				StatBlock.StatType.POWER:      "power",
-				StatBlock.StatType.AGILITY:    "agility",
-				StatBlock.StatType.RESILIENCE: "resilience",
-				StatBlock.StatType.MYSTIC:     "mystic",
-				StatBlock.StatType.FOCUS:      "focus",
-			}
-			var stat_name: String = STAT_NAMES.get(food_data.creature_attribute, "")
-			if stat_name:
-				var stat: StatBlock = creature_stats.stat_block.get(stat_name)
-				if stat:
-					stat.points += food_data.attribute_increment
-					print("stat increment: %s +%s (total: %s)" % [stat_name, food_data.attribute_increment, stat.points])
-	_raise("hunger", 20.0 * delta)
+			_eating_food.increase_creature_stat(self.creature_stats.stat_block)
+	emotion_handler.raise("hunger", 20.0 * delta)
 	if not nomnom.playing:
 		nomnom.pitch_scale = randf_range(0.9, 1.1)
 		nomnom.play()
-	if data["timer"] <= 0.0 or emotions["hunger"] >= 100.0:
+	if data["timer"] <= 0.0 or emotion_handler.emotions["hunger"] >= 100.0:
 		nomnom.stop()
 		animation_player.play("bubble_fade_out")
 		if _eating_food:
@@ -423,21 +354,14 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 		func(e): return e["id"] != &"seek_food" and e["id"] != &"eat_food"
 	)
 	_push_action_front(&"eat_food", {
-		"timer": randf_range(sleep_duration_min, sleep_duration_max)
+		"timer": randf_range(action_duration_min, action_duration_max)
 	})
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Helpers
 # ═══════════════════════════════════════════════════════════════════════════════
-
-func _raise(emotion_key: StringName, amount: float) -> void:
-	emotions[emotion_key] = minf(emotions[emotion_key] + amount, 100.0)
-
-
-func _lower(emotion_key: StringName, amount: float) -> void:
-	emotions[emotion_key] = maxf(emotions[emotion_key] - amount, 0.0)
-
 
 func _pick_wander_target() -> Vector2:
 	var angle := randf() * TAU
@@ -454,11 +378,17 @@ func _get_player() -> CharacterBody2D:
 
 
 func _get_food() -> Area2D:
-	if not _food:
-		var foods := get_tree().get_nodes_in_group("food")
-		if foods.size() > 0:
-			_food = foods[0] as Area2D
-	return _food
+	var foods := get_tree().get_nodes_in_group("food")
+	if foods.is_empty():
+		return null
+	var nearest_food: Area2D = null
+	var nearest_dist: = INF
+	for f in foods:
+		var dis := global_position.distance_squared_to(f.global_position)
+		if dis < nearest_dist:
+			nearest_dist = dis
+			nearest_food = f
+	return nearest_food
 
 
 func _on_sprite_animation_looped() -> void:

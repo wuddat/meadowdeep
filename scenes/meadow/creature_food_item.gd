@@ -54,6 +54,14 @@ func drop() -> void:
 	_carrier = null
 	collision_shape.call_deferred("set_disabled", false)
 
+func increase_creature_stat(creature_stats: CreatureStatBlock) -> void:
+	var stat_name: String = CreatureData.STAT_NAMES.get(food_data.creature_attribute, "")
+	if stat_name:
+		var stat: StatBlock = creature_stats.get(stat_name)
+		if stat:
+				stat.points += food_data.attribute_increment
+				print("stat increment: %s +%s (total: %s)" % [stat_name, food_data.attribute_increment, stat.points])
+
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
