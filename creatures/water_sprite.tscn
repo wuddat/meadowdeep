@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="6_02nsd"]
 [ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_7nk6g"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="7_bvs05"]
-[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="8_ewel5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
 shader = ExtResource("2_1scoh")
@@ -130,18 +129,6 @@ texture = ExtResource("6_02nsd")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_bvs05")
 
-[node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
-stream = ExtResource("7_7nk6g")
-volume_db = -14.144
-autoplay = true
-bus = &"SFX"
-
-[node name="nomnom" type="AudioStreamPlayer" parent="." unique_id=21209218]
-stream = ExtResource("8_ewel5")
-volume_db = -14.144
-autoplay = true
-bus = &"SFX"
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=275598625]
 libraries/ = SubResource("AnimationLibrary_vrhir")
 
@@ -149,6 +136,18 @@ libraries/ = SubResource("AnimationLibrary_vrhir")
 unique_name_in_owner = true
 script = ExtResource("7_bvs05")
 metadata/_custom_type_script = "uid://d3o5ga610agt8"
+
+[node name="MoveSFX" type="AudioStreamPlayer" parent="." unique_id=1843176178]
+unique_name_in_owner = true
+stream = ExtResource("7_7nk6g")
+volume_db = -14.144
+bus = &"SFX"
+
+[node name="ActionSFX" type="AudioStreamPlayer" parent="." unique_id=769434108]
+unique_name_in_owner = true
+stream = ExtResource("7_7nk6g")
+volume_db = -14.144
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

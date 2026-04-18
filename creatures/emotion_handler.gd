@@ -14,7 +14,7 @@ extends Node
 @export var hunger_seek_food_threshold: float = 50.0
 
 # ── Emotion state ─────────────────────────────────────────────────────────────
-var emotions: Dictionary = {
+@export var emotions: Dictionary = {
 	"boredom":    0.0,
 	"lonely":     0.0,
 	"sleepiness": 0.0,

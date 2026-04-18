@@ -37,11 +37,14 @@ var _current_action: StringName:
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var emotion_display: Sprite2D         = $EmotionDisplay
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-@onready var pop: AudioStreamPlayer    = $Pop
-@onready var nomnom: AudioStreamPlayer = $nomnom
 @onready var emotion_handler: Node = %EmotionHandler
+@onready var move_sfx: AudioStreamPlayer = %MoveSFX
+@onready var action_sfx: AudioStreamPlayer = %ActionSFX
 
 @export var creature_stats: CreatureStats
+
+const SNORE_SOUND  = preload("res://art/game_art/sfx/snore1.wav")
+const NOMNOM_SOUND = preload("res://art/game_art/sfx/nomnom.wav")
 
 var _home: Vector2
 var _player: CharacterBody2D
@@ -164,6 +167,7 @@ func _queue_contains(id: StringName) -> bool:
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
+	print(name, " queue: ", _action_queue.map(func(e): return e["id"]))
 	match id:
 		&"idle":
 			velocity = Vector2.ZERO
@@ -171,28 +175,31 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
 		&"wander":
 			_sprite.play("run")
-			pop.pitch_scale = randf_range(0.9, 1.1)
-			pop.play()
+			move_sfx.pitch_scale = randf_range(0.9, 1.1)
+			move_sfx.play()
 		&"sleep":
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")
 			emotion_display.texture = SLEEP_BUBBLE
 			animation_player.play("bubble_fade_in")
+			action_sfx.stream = SNORE_SOUND
+			action_sfx.play()
 		&"seek_player":
 			_sprite.play("run")
-			pop.pitch_scale = randf_range(0.9, 1.1)
-			pop.play()
+			move_sfx.pitch_scale = randf_range(0.9, 1.1)
+			move_sfx.play()
 		&"seek_food":
 			_sprite.play("run")
-			pop.pitch_scale = randf_range(0.9, 1.1)
-			pop.play()
+			move_sfx.pitch_scale = randf_range(0.9, 1.1)
+			move_sfx.play()
 		&"eat_food":
 			_sprite.play("eat")
 			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
 			data["timer"] = randf_range(action_duration_min, action_duration_max)
-			nomnom.pitch_scale = randf_range(0.9, 1.1)
-			nomnom.play()
+			action_sfx.stream = NOMNOM_SOUND
+			action_sfx.pitch_scale = randf_range(0.9, 1.1)
+			action_sfx.play()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -208,7 +215,7 @@ func _check_emotion_triggers() -> void:
 		return
 
 	if emotion_handler.emotions["hunger"] <= emotion_handler.hunger_seek_food_threshold:
-		if _current_action != &"seek_food" and not _queue_contains(&"seek_food"):
+		if _current_action != &"seek_food" and _current_action != &"eat_food" and not _queue_contains(&"seek_food"):
 			_enqueue_action(&"seek_food", {})
 			_enqueue_action(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 			return
@@ -254,7 +261,11 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 func _tick_sleep(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
 	emotion_handler.lower("sleepiness", 20.0 * delta)
+	if not action_sfx.playing:
+		action_sfx.pitch_scale = randf_range(0.9, 1.1)
+		action_sfx.play()
 	if data["timer"] <= 0.0 or emotion_handler.emotions["sleepiness"] <= 0.0:
+		action_sfx.stop()
 		_action_done()
 		animation_player.play("bubble_fade_out")
 
@@ -302,11 +313,11 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		if food_data and creature_stats and creature_stats.stat_block:
 			_eating_food.increase_creature_stat(self.creature_stats.stat_block)
 	emotion_handler.raise("hunger", 20.0 * delta)
-	if not nomnom.playing:
-		nomnom.pitch_scale = randf_range(0.9, 1.1)
-		nomnom.play()
+	if not action_sfx.playing:
+		action_sfx.pitch_scale = randf_range(0.9, 1.1)
+		action_sfx.play()
 	if data["timer"] <= 0.0 or emotion_handler.emotions["hunger"] >= 100.0:
-		nomnom.stop()
+		action_sfx.stop()
 		animation_player.play("bubble_fade_out")
 		if _eating_food:
 			if _eating_food.get("stages") == 0:
@@ -316,6 +327,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 					_eating_food.drop()
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
+		_action_queue.insert(1, { "id": &"idle", "data": {} })
 		_action_done()
 
 
@@ -392,9 +404,9 @@ func _get_food() -> Area2D:
 
 
 func _on_sprite_animation_looped() -> void:
-	if _sprite.animation == &"run":
-		pop.pitch_scale = randf_range(0.9, 1.1)
-		pop.play()
+	if _sprite.animation == &"run" || &"sleep":
+		move_sfx.pitch_scale = randf_range(0.9, 1.1)
+		move_sfx.play()
 		
 func _set_shader(intensity: float) -> void:
 	if _sprite.material is ShaderMaterial:

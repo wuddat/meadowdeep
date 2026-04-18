@@ -56,7 +56,6 @@ autoplay = true
 [node name="Pop" type="AudioStreamPlayer" parent="." unique_id=2109370644]
 stream = ExtResource("7_nrc7r")
 volume_db = -14.144
-autoplay = true
 bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
@@ -84,6 +83,6 @@ position = Vector2(380, 380)
 species_id = "tide"
 
 [node name="FireSprite" parent="." unique_id=576682274 instance=ExtResource("10_5ncuc")]
-position = Vector2(550, 427)
+position = Vector2(514, 397)
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

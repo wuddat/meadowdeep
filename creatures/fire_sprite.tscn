@@ -4,8 +4,6 @@
 [ext_resource type="Shader" uid="uid://dociriwhdo7bo" path="res://creatures/creature_tint.gdshader" id="2_ode48"]
 [ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="3_i8k6i"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="4_1od87"]
-[ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="5_o27xp"]
-[ext_resource type="AudioStream" uid="uid://u2px6blt4twc" path="res://art/game_art/sfx/nomnom.wav" id="6_xjjbh"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="7_ode48"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
@@ -129,16 +127,14 @@ texture = ExtResource("4_1od87")
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_a4vea")
 
-[node name="Pop" type="AudioStreamPlayer" parent="." unique_id=632200258]
-stream = ExtResource("5_o27xp")
+[node name="MoveSFX" type="AudioStreamPlayer" parent="." unique_id=632200258]
+unique_name_in_owner = true
 volume_db = -14.144
-autoplay = true
 bus = &"SFX"
 
-[node name="nomnom" type="AudioStreamPlayer" parent="." unique_id=21209218]
-stream = ExtResource("6_xjjbh")
+[node name="ActionSFX" type="AudioStreamPlayer" parent="." unique_id=52331657]
+unique_name_in_owner = true
 volume_db = -14.144
-autoplay = true
 bus = &"SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=275598625]
@@ -148,6 +144,15 @@ autoplay = &"hover"
 [node name="EmotionHandler" type="Node" parent="." unique_id=295570438]
 unique_name_in_owner = true
 script = ExtResource("7_ode48")
+boredom_wander_threshold = 40.0
+emotions = {
+"boredom": 0.0,
+"fear": 0.0,
+"hunger": 55.0,
+"joy": 0.0,
+"lonely": 0.0,
+"sleepiness": 85.0
+}
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
