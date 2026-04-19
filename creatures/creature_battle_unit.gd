@@ -14,6 +14,8 @@ extends Node2D
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var unit_status_indicator: Node = %UnitStatusIndicator  # Will become UnitStatusIndicator once ported
+@onready var action_timer: Panel = %ActionTimer
+@onready var action_name: Label = %ActionName
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -26,8 +28,14 @@ var is_froze: bool = false
 var is_wild_creature: bool = false  # True for enemy-side creatures (was is_trainer_pkmn)
 var last_damage_taken: int = 0
 
+var battle_moves: Array[Card] = []
+var _move_index: int = 0
+var _action_timer: Timer = null
+var _action_fill: ColorRect = null
+
 
 func _ready() -> void:
+	add_to_group("active_creatures")
 	status_handler.status_owner = self
 	status_handler.statuses_applied.connect(_on_statuses_applied)
 
@@ -39,6 +47,71 @@ func _ready() -> void:
 
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
+
+
+func start_combat() -> void:
+	battle_moves.clear()
+	_move_index = 0
+	for move_id in stats.assigned_moves:
+		var card := Utils.create_card(move_id)
+		if card:
+			battle_moves.append(card)
+
+	if battle_moves.is_empty():
+		push_warning("%s has no assigned moves — skipping combat timer" % stats.creature_name)
+		return
+
+
+	_action_timer = Timer.new()
+	_action_timer.wait_time = stats.get_action_interval()
+	_action_timer.autostart = true
+	_action_timer.timeout.connect(_on_action_timer_timeout)
+	add_child(_action_timer)
+	_action_fill = action_timer.get_node("Fill")
+	action_name.text = battle_moves[_move_index].name
+
+
+func _process(_delta: float) -> void:
+	if _action_timer and _action_fill and not _action_timer.is_stopped():
+		var fill := 1.0 - (_action_timer.time_left / _action_timer.wait_time)
+		_action_fill.size.x = action_timer.size.x * fill
+
+
+func stop_combat() -> void:
+	if _action_timer:
+		_action_timer.stop()
+		_action_timer.queue_free()
+		_action_timer = null
+
+
+func _on_action_timer_timeout() -> void:
+	if stats.health <= 0 or battle_moves.is_empty():
+		return
+	var card: Card = battle_moves[_move_index]
+	_move_index = (_move_index + 1) % battle_moves.size()
+	Events.creature_action_started.emit(self, card)
+	var preselected := _pick_targets(card)
+	var resolved := card._get_targets(preselected, self)
+	card.apply_effects(resolved, modifier_handler, self)
+	Events.creature_action_completed.emit(self)
+	action_name.text = battle_moves[_move_index].name
+
+
+func _pick_targets(card: Card) -> Array[Node]:
+	match card.target:
+		Card.Target.SINGLE_ENEMY, Card.Target.SPLASH:
+			var enemies := get_tree().get_nodes_in_group("enemies")
+			if enemies.is_empty():
+				return []
+			return [enemies[RNG.instance.randi() % enemies.size()]]
+		Card.Target.SINGLE_ALLY:
+			var allies: Array[Node] = get_tree().get_nodes_in_group("active_creatures")
+			allies = allies.filter(func(a): return a != self and a.stats.health > 0)
+			if allies.is_empty():
+				return [self]
+			return [allies[RNG.instance.randi() % allies.size()]]
+		_:
+			return []
 
 
 func start_of_turn() -> void:

@@ -40,6 +40,7 @@ var _current_action: StringName:
 @onready var emotion_handler: Node = %EmotionHandler
 @onready var move_sfx: AudioStreamPlayer = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer = %ActionSFX
+@onready var creature_stat_handler: Node = %CreatureStatHandler
 
 @export var creature_stats: CreatureStats
 
@@ -65,6 +66,7 @@ var _saved_collision_mask := 0
 func _ready() -> void:
 	_home = global_position
 	_ensure_stats()
+	creature_stat_handler.stat_block = creature_stats.stat_block
 	_on_ready_creature()
 	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
@@ -309,8 +311,8 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		data["stage_timer"] -= 1.0
 		_eating_food.decrement_stage()
 		var food_data: CreatureFood = _eating_food.get("food_data")
-		if food_data and creature_stats and creature_stats.stat_block:
-			_eating_food.increase_creature_stat(self.creature_stats.stat_block)
+		if food_data:
+			creature_stat_handler.apply_food(food_data)
 	emotion_handler.raise("hunger", 20.0 * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)

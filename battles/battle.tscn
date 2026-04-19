@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://btl0mdw000001"]
 
 [ext_resource type="Script" uid="uid://c7id0r1756qef" path="res://battles/battle.gd" id="1_btl01"]
-[ext_resource type="Script" uid="uid://diji38omq1swm" path="res://battles/player_handler.gd" id="2_btl01"]
 [ext_resource type="Resource" uid="uid://c2ypkkq037xkr" path="res://battles/test_battle.tres" id="2_whm1g"]
 [ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="3_6tbm7"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_btl01"]
@@ -11,10 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
 [ext_resource type="PackedScene" uid="uid://drx41b0rgs5aa" path="res://scenes/ui/hand.tscn" id="7_hnd01"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="8_2iid6"]
-[ext_resource type="PackedScene" path="res://creatures/player_character.tscn" id="12_nille"]
 [ext_resource type="PackedScene" uid="uid://ih1u373ufo54" path="res://scenes/ui/card_target_selector/card_target_selector.tscn" id="13_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://ofgutpuj26p0" path="res://scenes/ui/battle_over_panel.tscn" id="14_nille"]
-[ext_resource type="PackedScene" uid="uid://b1j2o4bdr8i4q" path="res://scenes/ui/mana_ui.tscn" id="15_aieny"]
+[ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="16_0msic"]
 
 [sub_resource type="Resource" id="Resource_nille"]
 script = ExtResource("6_4r7wf")
@@ -27,6 +25,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_btl01")
@@ -39,7 +39,7 @@ follow_viewport_enabled = true
 
 [node name="BattleUI" type="Node" parent="UILayer" unique_id=707740850]
 
-[node name="Hand" parent="UILayer/BattleUI" unique_id=509732134 node_paths=PackedStringArray("party_handler", "player_handler", "player_character") instance=ExtResource("7_hnd01")]
+[node name="Hand" parent="UILayer/BattleUI" unique_id=509732134 node_paths=PackedStringArray("party_handler") instance=ExtResource("7_hnd01")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -51,11 +51,10 @@ grow_horizontal = 2
 grow_vertical = 0
 char_stats = SubResource("Resource_nille")
 party_handler = NodePath("../../../PartyHandler")
-player_handler = NodePath("../../../PlayerHandler")
-player_character = NodePath("../../../PlayerCharacter")
 
 [node name="EndTurnButton" type="Button" parent="UILayer/BattleUI" unique_id=2028955860]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -69,13 +68,6 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "End Turn"
 
-[node name="ManaUI" parent="UILayer/BattleUI" unique_id=1210888488 instance=ExtResource("15_aieny")]
-unique_name_in_owner = true
-offset_left = 30.0
-offset_top = -64.0
-offset_right = 60.0
-offset_bottom = -34.0
-
 [node name="CardDropArea" type="Area2D" parent="." unique_id=1758312783]
 visible = false
 collision_layer = 3
@@ -84,21 +76,14 @@ collision_layer = 3
 position = Vector2(574, 205)
 shape = SubResource("RectangleShape2D_2iid6")
 
-[node name="PlayerHandler" type="Node" parent="." unique_id=788124326 node_paths=PackedStringArray("hand", "player_character")]
-script = ExtResource("2_btl01")
-hand = NodePath("../UILayer/BattleUI/Hand")
-player_character = NodePath("../PlayerCharacter")
-
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859 groups=["enemy_handler"]]
 script = ExtResource("3_btl01")
 enemy_scene = ExtResource("6_vay6r")
 
 [node name="PartyHandler" type="Node" parent="." unique_id=1615292015 groups=["party_handler"]]
 script = ExtResource("4_btl01")
+character_stats = ExtResource("3_6tbm7")
 creature_battle_unit_scene = ExtResource("8_2iid6")
-
-[node name="PlayerCharacter" parent="." unique_id=1240763690 instance=ExtResource("12_nille")]
-stats = ExtResource("3_6tbm7")
 
 [node name="StatUI" type="Node" parent="." unique_id=1543670243]
 
@@ -116,3 +101,7 @@ visible = false
 
 [node name="Node" type="Node2D" parent="." unique_id=1812583134]
 position = Vector2(525, 189)
+
+[node name="CreatureCombatHandler" type="Node" parent="." unique_id=1568878833]
+unique_name_in_owner = true
+script = ExtResource("16_0msic")

@@ -110,6 +110,7 @@ func reshuffle_deck_from_discard() -> void:
 
 
 func exhaust_cards_on_faint(uid: String) -> void:
+	return
 	if not character.faint_pile.has(uid):
 		character.faint_pile[uid] = CardPile.new()
 
@@ -217,12 +218,12 @@ func _on_evolution_completed() -> void:
 
 
 func _establish_connections() -> void:
-	if not Events.card_played.is_connected(_on_card_played):
-		Events.card_played.connect(_on_card_played)
-	if not Events.evolution_triggered.is_connected(_on_evolution_triggered):
-		Events.evolution_triggered.connect(_on_evolution_triggered)
-	if not Events.evolution_completed.is_connected(_on_evolution_completed):
-		Events.evolution_completed.connect(_on_evolution_completed)
+	#if not Events.card_played.is_connected(_on_card_played):
+		#Events.card_played.connect(_on_card_played)
+	#if not Events.evolution_triggered.is_connected(_on_evolution_triggered):
+		#Events.evolution_triggered.connect(_on_evolution_triggered)
+	#if not Events.evolution_completed.is_connected(_on_evolution_completed):
+		#Events.evolution_completed.connect(_on_evolution_completed)
 
 	if player_character and player_character.has_node("StatusHandler"):
 		var sh = player_character.get_node("StatusHandler")
@@ -233,5 +234,5 @@ func _establish_connections() -> void:
 		Events.party_creature_fainted.connect(_on_party_creature_fainted)
 	if not Events.player_creature_switch_requested.is_connected(_on_party_creature_switch_requested):
 		Events.player_creature_switch_requested.connect(_on_party_creature_switch_requested)
-	if not Events.card_draw_requested.is_connected(draw_cards):
-		Events.card_draw_requested.connect(draw_cards)
+	#if not Events.card_draw_requested.is_connected(draw_cards):
+		#Events.card_draw_requested.connect(draw_cards)

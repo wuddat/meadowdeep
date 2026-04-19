@@ -8,7 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="PackedScene" uid="uid://c35itp8qrvibi" path="res://creatures/fire_sprite.tscn" id="10_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
+[ext_resource type="Texture2D" uid="uid://bccgg8v60jr3x" path="res://art/game_art/concepts/test_cute.png" id="11_1he0p"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="12_a8g20"]
 [ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
+[ext_resource type="Texture2D" uid="uid://1mh835s3wgqq" path="res://art/game_art/concepts/test_base.png" id="13_bh7u7"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
@@ -84,5 +87,25 @@ species_id = "tide"
 
 [node name="FireSprite" parent="." unique_id=576682274 instance=ExtResource("10_5ncuc")]
 position = Vector2(514, 397)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=182807558]
+position = Vector2(433, 352)
+texture = ExtResource("11_1he0p")
+
+[node name="Shadow" type="Sprite2D" parent="Sprite2D" unique_id=683396207]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, 7)
+scale = Vector2(0.546875, 1)
+texture = ExtResource("12_a8g20")
+
+[node name="Shadow2" type="Sprite2D" parent="Sprite2D" unique_id=118230175]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(35, 0)
+scale = Vector2(0.546875, 1)
+texture = ExtResource("12_a8g20")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=642887282]
+position = Vector2(468, 354)
+texture = ExtResource("13_bh7u7")
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

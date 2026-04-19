@@ -36,6 +36,7 @@ var enemy_text_delay: float = 0.4
 
 
 func _ready() -> void:
+	add_to_group("enemies")
 	await get_tree().process_frame
 
 	if stats and stats.species_id != "" and stats.uid == "":

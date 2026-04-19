@@ -96,6 +96,13 @@ func evolve_to(new_species_id: String) -> void:
 	stat_block.evolution_stage += 1
 
 
+# ── Combat ────────────────────────────────────────────────────────────────────
+
+func get_action_interval() -> float:
+	var agi_points: float = stat_block.AGI.points if stat_block else 5.0
+	return lerp(3.0, 1.0, agi_points / 10.0)
+
+
 # ── Card Helpers ──────────────────────────────────────────────────────────────
 
 func get_draft_cards_from_element() -> Array[String]:

@@ -31,11 +31,9 @@ func _process(_delta: float) -> void:
 
 func decrement_stage() -> void:
 	if stages <= 0:
-		print("food eating complete")
 		return
 	stages -= 1
 	scale = Vector2.ONE * (float(stages) / float(_total_stages))
-	print("stages: %s" % stages )
 
 
 func pickup(carrier: Node2D) -> void:
@@ -53,15 +51,6 @@ func drop() -> void:
 	is_carried = false
 	_carrier = null
 	collision_shape.call_deferred("set_disabled", false)
-
-func increase_creature_stat(creature_stats: CreatureStatBlock) -> void:
-	var stat_name: String = CreatureData.STAT_NAMES.get(food_data.creature_attribute, "")
-	if stat_name:
-		var stat: StatBlock = creature_stats.get(stat_name)
-		if stat:
-				stat.points += food_data.attribute_increment
-				print("stat increment: %s +%s (total: %s)" % [stat_name, food_data.attribute_increment, stat.points])
-
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

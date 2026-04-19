@@ -13,8 +13,8 @@ var hand_max: int = 10
 var hand_size: int = 0
 
 
-func _ready() -> void:
-	_establish_connections()
+#func _ready() -> void:
+	#_establish_connections()
 
 
 func add_card(card: Card) -> void:
@@ -98,10 +98,10 @@ func _count_children() -> void:
 		add_theme_constant_override("separation", 0)
 
 
-func _establish_connections() -> void:
-	if not Events.card_play_initiated.is_connected(disable_hand):
-		Events.card_play_initiated.connect(disable_hand)
-	if not Events.card_play_completed.is_connected(enable_hand):
-		Events.card_play_completed.connect(enable_hand)
-	if not Events.card_added_to_hand.is_connected(add_card):
-		Events.card_added_to_hand.connect(add_card)
+#func _establish_connections() -> void:
+	#if not Events.card_play_initiated.is_connected(disable_hand):
+		#Events.card_play_initiated.connect(disable_hand)
+	#if not Events.card_play_completed.is_connected(enable_hand):
+		#Events.card_play_completed.connect(enable_hand)
+	#if not Events.card_added_to_hand.is_connected(add_card):
+		#Events.card_added_to_hand.connect(add_card)

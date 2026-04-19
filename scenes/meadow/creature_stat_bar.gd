@@ -6,6 +6,8 @@ extends Control
 @onready var stat_name: Label = %StatName
 @onready var lvl: Label = %Lvl
 @onready var pill_box: HBoxContainer = %PillBox
+@onready var stat_grade: Label = %StatGrade
+@onready var score: Label = %Score
 
 const PILL_EMPTY = preload("uid://cg4v0q208cksl")
 const PILL_FULL = preload("uid://d3wnng60mj0x0")

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="4_1od87"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="6_i8k6i"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="7_ode48"]
+[ext_resource type="PackedScene" uid="uid://i4rscngixp3r" path="res://creatures/creature_stat_handler.tscn" id="7_vrhir"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a4vea"]
 shader = ExtResource("2_ode48")
@@ -156,11 +157,14 @@ boredom_wander_threshold = 40.0
 emotions = {
 "boredom": 0.0,
 "fear": 0.0,
-"hunger": 55.0,
+"hunger": 5.0,
 "joy": 0.0,
 "lonely": 0.0,
-"sleepiness": 85.0
+"sleepiness": 0.0
 }
+
+[node name="CreatureStatHandler" parent="." unique_id=1409835000 instance=ExtResource("7_vrhir")]
+unique_name_in_owner = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

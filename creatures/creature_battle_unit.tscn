@@ -26,19 +26,18 @@ script = ExtResource("2_cbu01")
 [node name="ModifierHandler" type="Node" parent="." unique_id=689255252]
 script = ExtResource("3_cbu01")
 
-[node name="DmgDealtModifier" parent="ModifierHandler" instance=ExtResource("4_mod")]
-type = 0
+[node name="DmgDealtModifier" parent="ModifierHandler" unique_id=501878021 instance=ExtResource("4_mod")]
 
-[node name="DmgTakenModifier" parent="ModifierHandler" instance=ExtResource("4_mod")]
+[node name="DmgTakenModifier" parent="ModifierHandler" unique_id=1094195427 instance=ExtResource("4_mod")]
 type = 1
 
-[node name="CardCostModifier" parent="ModifierHandler" instance=ExtResource("4_mod")]
+[node name="CardCostModifier" parent="ModifierHandler" unique_id=1995895497 instance=ExtResource("4_mod")]
 type = 2
 
-[node name="BlockGainedModifier" parent="ModifierHandler" instance=ExtResource("4_mod")]
+[node name="BlockGainedModifier" parent="ModifierHandler" unique_id=1813275059 instance=ExtResource("4_mod")]
 type = 4
 
-[node name="HealModifier" parent="ModifierHandler" instance=ExtResource("4_mod")]
+[node name="HealModifier" parent="ModifierHandler" unique_id=2017218852 instance=ExtResource("4_mod")]
 type = 5
 
 [node name="UnitStatusIndicator" parent="." unique_id=1761858998 instance=ExtResource("6_usi")]
@@ -47,3 +46,23 @@ unique_name_in_owner = true
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
 offset_top = 7.0
 offset_bottom = 55.0
+
+[node name="ActionName" type="Label" parent="." unique_id=1087500009]
+unique_name_in_owner = true
+offset_left = -75.0
+offset_top = 39.0
+offset_right = -35.0
+offset_bottom = 62.0
+
+[node name="ActionTimer" type="Panel" parent="." unique_id=1844236757]
+unique_name_in_owner = true
+clip_children = 2
+offset_left = -75.0
+offset_top = 39.0
+offset_right = 79.0
+offset_bottom = 66.0
+
+[node name="Fill" type="ColorRect" parent="ActionTimer" unique_id=1348657927]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

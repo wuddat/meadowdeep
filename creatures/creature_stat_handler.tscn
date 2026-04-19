@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://i4rscngixp3r"]
+
+[ext_resource type="Script" uid="uid://bpk1bmdrhefv8" path="res://creatures/creature_stat_handler.gd" id="1_83ri5"]
+
+[node name="CreatureStatHandler" type="Node" unique_id=1409835000]
+script = ExtResource("1_83ri5")

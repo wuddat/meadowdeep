@@ -21,8 +21,6 @@ var enemy_text_delay: float = 0.4
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
 	Events.enemy_action_completed.connect(_on_enemy_action_completed)
-	Events.player_hand_drawn.connect(_on_player_hand_drawn)
-	Events.player_hand_discarded.connect(_on_player_hand_drawn)
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 
 
@@ -137,7 +135,8 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 
 func _start_next_enemy_turn() -> void:
 	if acting_enemies.is_empty():
-		Events.enemy_turn_ended.emit()
+		await get_tree().create_timer(enemy_text_delay * 3.0).timeout
+		start_turn()
 		return
 	await get_tree().process_frame
 	acting_enemies[0].status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
@@ -184,11 +183,6 @@ func _on_party_creature_fainted(unit: CreatureBattleUnit) -> void:
 			if enemy.current_action.get("target") == unit:
 				if enemy.enemy_action_picker and enemy.enemy_action_picker.has_method("select_valid_target"):
 					enemy.enemy_action_picker.select_valid_target()
-
-
-func _on_player_hand_drawn() -> void:
-	for enemy: Enemy in get_children():
-		enemy.update_intent(enemy.current_action)
 
 
 func get_enemies() -> Array[Node]:

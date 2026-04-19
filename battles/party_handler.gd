@@ -74,8 +74,8 @@ func spawn_active_creatures() -> void:
 		add_child(unit)
 
 
-func get_active_creature_nodes() -> Array[Node]:
-	var result: Array[Node] = []
+func get_active_creature_nodes() -> Array[CreatureBattleUnit]:
+	var result: Array[CreatureBattleUnit] = []
 	for node in get_children():
 		if node is CreatureBattleUnit:
 			result.append(node)

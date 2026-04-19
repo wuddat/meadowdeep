@@ -20,14 +20,20 @@ signal item_used(item)
 signal item_added(item)
 
 # Player-related Events
-signal player_hand_drawn
-signal player_hand_discarded
-signal player_turn_ended
+#signal player_hand_drawn       # dead — autobattle
+#signal player_hand_discarded   # dead — autobattle
+#signal player_turn_ended       # dead — autobattle
 signal player_hit
 signal player_died
-signal card_play_initiated
-signal card_play_completed
-signal card_draw_requested(amount: int)
+#signal card_play_initiated     # dead — autobattle
+#signal card_play_completed     # dead — autobattle
+#signal card_draw_requested(amount: int)  # dead — autobattle
+
+# Autobattle Events
+signal creature_action_started(unit: CreatureBattleUnit, card: Card)
+signal creature_action_completed(unit: CreatureBattleUnit)
+signal combat_started
+signal combat_ended
 
 # Enemy-related Events
 signal enemy_action_completed(enemy: Enemy)

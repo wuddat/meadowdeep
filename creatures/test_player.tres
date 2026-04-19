@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="1_grcbt"]
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
+[ext_resource type="Resource" uid="uid://df5yfjw8qqk8j" path="res://creatures/test_creature_stats.tres" id="2_s2nv6"]
 
 [resource]
 script = ExtResource("2_bv3h6")
 starting_moves = Array[String](["tackle", "tackle", "tackle"])
 starting_party = Array[String](["ember"])
+current_party = Array[ExtResource("1_grcbt")]([ExtResource("2_s2nv6")])
 metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
