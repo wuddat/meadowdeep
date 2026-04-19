@@ -103,6 +103,7 @@ func _on_enemies_child_order_changed() -> void:
 		if _battle_ended:
 			return
 		_battle_ended = true
+		creature_combat_handler.stop_combat()
 		Events.battle_over_screen_requested.emit("Victorious!", BattleOverPanel.Type.WIN)
 
 

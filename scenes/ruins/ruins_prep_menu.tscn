@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dqqtr57ya4m3r" path="res://scenes/ruins/ruins_prep_menu.gd" id="1_vo3rc"]
 [ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="2_0um1a"]
+[ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="2_3uyyh"]
 
 [node name="RuinsPrepMenu" type="Control" unique_id=861773403]
 layout_mode = 3
@@ -11,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vo3rc")
+player_stats = ExtResource("2_3uyyh")
 
 [node name="TopBar" type="Control" parent="." unique_id=1756296118]
 visible = false
@@ -51,7 +53,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="creature container" type="Panel" parent="." unique_id=858513413]
+[node name="CreatureSelector" type="Panel" parent="." unique_id=858513413]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -62,20 +64,44 @@ offset_right = 211.0
 offset_bottom = 12.0
 grow_vertical = 2
 
-[node name="creatureSprite" type="AnimatedSprite2D" parent="creature container" unique_id=1852800921]
+[node name="creatureSprite" type="AnimatedSprite2D" parent="CreatureSelector" unique_id=1852800921]
+unique_name_in_owner = true
 position = Vector2(98, 87)
 sprite_frames = ExtResource("2_0um1a")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="namePanel" type="Panel" parent="." unique_id=1033498954]
+[node name="LeftButton" type="Button" parent="CreatureSelector" unique_id=656934519]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 24)
+layout_mode = 0
+offset_left = -12.0
+offset_top = 75.0
+offset_right = 38.0
+offset_bottom = 106.0
+size_flags_horizontal = 4
+text = "<"
+
+[node name="RightButton" type="Button" parent="CreatureSelector" unique_id=1631702906]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(50, 24)
+layout_mode = 0
+offset_left = 162.0
+offset_top = 75.0
+offset_right = 212.0
+offset_bottom = 106.0
+size_flags_horizontal = 4
+text = ">"
+
+[node name="NamePanel" type="Panel" parent="." unique_id=1033498954]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 200.0
 offset_right = 82.0
 offset_bottom = 219.0
 
-[node name="nameLabel" type="Label" parent="namePanel" unique_id=1880417217]
+[node name="NameLabel" type="Label" parent="NamePanel" unique_id=1880417217]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,14 +113,15 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="elementPanel" type="Panel" parent="." unique_id=1671534906]
+[node name="ElementPanel" type="Panel" parent="." unique_id=1671534906]
 layout_mode = 0
 offset_left = 136.0
 offset_top = 200.0
 offset_right = 208.0
 offset_bottom = 219.0
 
-[node name="elementLabel" type="Label" parent="elementPanel" unique_id=1411609017]
+[node name="ElementLabel" type="Label" parent="ElementPanel" unique_id=1411609017]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,7 +133,7 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="activeSkillsPanel" type="Panel" parent="." unique_id=1771330578]
+[node name="ActiveSkillsPanel" type="Panel" parent="." unique_id=1771330578]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -120,7 +147,28 @@ offset_bottom = -92.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="skillLibraryPanel" type="Panel" parent="." unique_id=505323232]
+[node name="ActiveSkillsGrid" type="GridContainer" parent="ActiveSkillsPanel" unique_id=478134145]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+
+[node name="ActiveSkillsLabel" type="Label" parent="ActiveSkillsPanel" unique_id=1076237185]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Active Skills"
+horizontal_alignment = 1
+
+[node name="KnownSkillsPanel" type="Panel" parent="." unique_id=505323232]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -133,6 +181,27 @@ offset_right = 309.0
 offset_bottom = 119.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="KnownSkillsLabel" type="Label" parent="KnownSkillsPanel" unique_id=912267987]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Known Skills"
+horizontal_alignment = 1
+
+[node name="KnownSkillsGrid" type="GridContainer" parent="KnownSkillsPanel" unique_id=1707845391]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
 
 [node name="StartButton" type="Button" parent="." unique_id=1447215075]
 unique_name_in_owner = true
