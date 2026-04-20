@@ -2,26 +2,45 @@
 class_name StatBlock
 extends Resource
 
-# SA2-inspired stat grades — determines how efficiently points convert to effective value.
-# TODO: Grade multipliers are placeholders. Tune once combat feel is testable.
 enum Grade { E, D, C, B, A, S }
 enum StatType { PWR, AGI, RES, MYS, FOC }
 
-const GRADE_MULTIPLIERS := {
-	Grade.E: 0.5,
-	Grade.D: 0.75,
-	Grade.C: 1.0,
-	Grade.B: 1.25,
-	Grade.A: 1.5,
-	Grade.S: 2.0,
+# Grade value used in the gain formula: (grade_val * 3) + 13 ± 2
+const GRADE_VALUES := {
+	Grade.E: 0,
+	Grade.D: 1,
+	Grade.C: 2,
+	Grade.B: 3,
+	Grade.A: 4,
+	Grade.S: 5,
 }
+
+const MAX_POINTS := 3069
 
 @export var grade: Grade = Grade.C
 @export var points: int = 0
+@export var lvl: int = 0
+@export var pips: int = 0
+@export var max_pips: int = 8
+
+
+# Called when food is applied. Fills one pip; levels up when full.
+func add_pip() -> void:
+	pips += 1
+	if pips >= max_pips:
+		pips = 0
+		lvl += 1
+		points += calculate_gain()
+
+
+func calculate_gain() -> int:
+	var grade_val: int = GRADE_VALUES[grade]
+	var base: int = (grade_val * 3) + 13
+	return base + RNG.instance.randi_range(-2, 2)
 
 
 func get_effective_value() -> int:
-	return int(points * GRADE_MULTIPLIERS[grade])
+	return points
 
 
 static func create(starting_grade: Grade = Grade.C, starting_points: int = 0) -> StatBlock:

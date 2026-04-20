@@ -1,8 +1,6 @@
 class_name CreatureStatBar
 extends Control
 
-@export var max_pills: int = 8
-
 @onready var stat_name: Label = %StatName
 @onready var lvl: Label = %Lvl
 @onready var pill_box: HBoxContainer = %PillBox
@@ -15,18 +13,15 @@ const PILL_FULL = preload("uid://d3wnng60mj0x0")
 
 func setup(block: StatBlock, label: String) -> void:
 	stat_name.text = label
-	lvl.text = StatBlock.Grade.keys()[block.grade]
+	stat_grade.text = StatBlock.Grade.keys()[block.grade]
+	lvl.text = "LV: %d" % block.lvl
+	score.text = str(block.points)
+
 	for child in pill_box.get_children():
 		child.queue_free()
-	var filled := mini(block.points, max_pills)
-	for i in filled:
+
+	for i in block.max_pips:
 		var p := TextureRect.new()
-		p.texture = PILL_FULL
+		p.texture = PILL_FULL if i < block.pips else PILL_EMPTY
 		p.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		pill_box.add_child(p)
-	for i in max_pills - filled:
-		var p := TextureRect.new()
-		p.texture = PILL_EMPTY
-		p.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		pill_box.add_child(p)
-		

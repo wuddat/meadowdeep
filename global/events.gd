@@ -18,6 +18,7 @@ signal item_aim_started(item)
 signal item_aim_ended(item)
 signal item_used(item)
 signal item_added(item)
+signal item_received(item)
 
 # Player-related Events
 #signal player_hand_drawn       # dead — autobattle
@@ -63,6 +64,9 @@ signal player_creature_switch_requested(uid_out: String, uid_in: String)
 signal player_creature_switch_completed(creature_stats: CreatureStats)
 signal evolution_triggered(creature_stats: CreatureStats)
 signal evolution_completed
+
+signal creature_stat_view_requested(creature_stats: CreatureStats)
+signal creature_stat_view_dismissed(uid: String)
 
 # Reward-related Events
 signal creature_reward_requested(creature_stats: CreatureStats)

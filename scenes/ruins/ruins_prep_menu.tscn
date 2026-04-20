@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dqqtr57ya4m3r" path="res://scenes/ruins/ruins_prep_menu.gd" id="1_vo3rc"]
 [ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="2_0um1a"]
 [ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="2_3uyyh"]
+[ext_resource type="PackedScene" uid="uid://bdppximmf2egb" path="res://scenes/meadow/creature_stat_bar.tscn" id="4_cgf58"]
 
 [node name="RuinsPrepMenu" type="Control" unique_id=861773403]
 layout_mode = 3
@@ -224,3 +225,38 @@ offset_right = 112.0
 offset_bottom = 341.0
 size_flags_horizontal = 4
 text = "Meadow"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1609143325]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -308.0
+offset_top = 42.0
+offset_right = -114.0
+offset_bottom = 129.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="CreatureStatPWR" parent="VBoxContainer" unique_id=1907918716 instance=ExtResource("4_cgf58")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CreatureStatAGI" parent="VBoxContainer" unique_id=1635699973 instance=ExtResource("4_cgf58")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CreatureStatRES" parent="VBoxContainer" unique_id=1075460141 instance=ExtResource("4_cgf58")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CreatureStatMYS" parent="VBoxContainer" unique_id=682732483 instance=ExtResource("4_cgf58")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="CreatureStatFOC" parent="VBoxContainer" unique_id=484717605 instance=ExtResource("4_cgf58")]
+unique_name_in_owner = true
+layout_mode = 2

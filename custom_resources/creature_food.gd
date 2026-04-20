@@ -1,12 +1,12 @@
 class_name CreatureFood
-extends Resource
+extends MeadowWorldItem
 
-enum Rarity { COMMON, UNCOMMON, RARE, EXOTIC }
-
-@export var name: String
+# ── Food Stats ────────────────────────────────────────────────────────────────
+@export_group("Food Stats")
 @export var durability: int
 @export var creature_attribute: StatBlock.StatType
 @export var attribute_increment: int
-@export var rarity: Rarity
-@export var value: int
-@export var art: Texture2D = preload("res://art/game_art/items/berry.png")
+
+
+func _init() -> void:
+	category = ItemCategory.FOOD

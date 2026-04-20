@@ -66,7 +66,8 @@ var _saved_collision_mask := 0
 func _ready() -> void:
 	_home = global_position
 	_ensure_stats()
-	creature_stat_handler.stat_block = creature_stats.stat_block
+	if creature_stat_handler:
+		creature_stat_handler.stat_block = creature_stats.stat_block
 	_on_ready_creature()
 	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
@@ -88,6 +89,8 @@ func _ensure_stats() -> void:
 	if not creature_stats:
 		creature_stats = CreatureStats.new()
 		creature_stats.creature_name = name
+	if creature_stats.uid == "":
+		creature_stats.uid = "creature_%d_%s" % [Time.get_ticks_msec(), creature_stats.species_id]
 	var sb := creature_stats.stat_block
 	if not sb:
 		creature_stats.stat_block = CreatureStatBlock.new()
@@ -311,8 +314,9 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		data["stage_timer"] -= 1.0
 		_eating_food.decrement_stage()
 		var food_data: CreatureFood = _eating_food.get("food_data")
-		if food_data:
+		if food_data and creature_stat_handler:
 			creature_stat_handler.apply_food(food_data)
+			Events.creature_stat_view_requested.emit(creature_stats)
 	emotion_handler.raise("hunger", 20.0 * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)
@@ -329,6 +333,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
 		_action_queue.insert(1, { "id": &"idle", "data": {} })
+		Events.creature_stat_view_dismissed.emit(creature_stats.uid)
 		_action_done()
 
 
@@ -343,6 +348,7 @@ func pickup(holder: Node2D) -> void:
 	_saved_collision_mask = collision_mask
 	collision_layer = 0
 	collision_mask = 0
+	Events.creature_stat_view_requested.emit(creature_stats)
 
 
 func release() -> void:
@@ -351,6 +357,7 @@ func release() -> void:
 	collision_layer = _saved_collision_layer
 	collision_mask = _saved_collision_mask
 	_push_action_front(&"idle", {})
+	Events.creature_stat_view_dismissed.emit(creature_stats.uid)
 
 
 func receive_food(food_item: Node2D, from_player: Node2D) -> void:
@@ -369,6 +376,7 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	_push_action_front(&"eat_food", {
 		"timer": randf_range(action_duration_min, action_duration_max)
 	})
+	Events.creature_stat_view_requested.emit(creature_stats)
 
 
 

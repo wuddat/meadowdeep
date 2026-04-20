@@ -51,6 +51,14 @@ var bonds_with_creatures: Dictionary = {}       # uid (String) → bond score (f
 @export var reincarnation_count: int = 0
 
 
+# ── Item History ──────────────────────────────────────────────────────────────
+@export_group("Item History")
+@export var total_items_received: int = 0
+@export var total_meals_eaten: int = 0
+# item_id (String) → total times received (int)
+var item_affinity: Dictionary = {}
+
+
 func _init() -> void:
 	PWR = StatBlock.new()
 	AGI = StatBlock.new()
