@@ -301,7 +301,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8aly8"]
-size = Vector2(10, 17)
+size = Vector2(10, 8)
 
 [node name="PlayerModel" type="CharacterBody2D" unique_id=1075955909 groups=["player"]]
 script = ExtResource("1_ju0yt")
@@ -319,8 +319,7 @@ sprite_frames = SubResource("SpriteFrames_2k1gd")
 animation = &"carry"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
-visible = false
-position = Vector2(-2, 4.5)
+position = Vector2(-2, 9)
 shape = SubResource("RectangleShape2D_8aly8")
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]

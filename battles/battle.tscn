@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="3_6tbm7"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_btl01"]
 [ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="4_btl01"]
+[ext_resource type="Texture2D" uid="uid://beevlljraimqt" path="res://art/game_art/concepts/bg2.png" id="4_nille"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="5_2iid6"]
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="6_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
@@ -25,13 +26,24 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1.0
-offset_bottom = 1.0
+offset_left = 1.0
+offset_top = -4.0
+offset_right = 1.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_btl01")
 battle_stats = ExtResource("2_whm1g")
 char_stats = ExtResource("3_6tbm7")
+
+[node name="bg" type="TextureRect" parent="." unique_id=1676359564]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_nille")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=100000001 groups=["ui_layer"]]
 layer = 3
@@ -100,7 +112,7 @@ layer = 5
 visible = false
 
 [node name="Node" type="Node2D" parent="." unique_id=1812583134]
-position = Vector2(525, 189)
+position = Vector2(472, 206)
 
 [node name="CreatureCombatHandler" type="Node" parent="." unique_id=1568878833]
 unique_name_in_owner = true

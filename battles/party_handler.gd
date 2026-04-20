@@ -2,8 +2,8 @@
 class_name PartyHandler
 extends Node
 
-@export var POS_0 := Vector2(100, 189)
-@export var POS_1 := Vector2(200, 210)
+@export var POS_0 := Vector2(190, 185)
+@export var POS_1 := Vector2(120, 200)
 @export var POS_2 := Vector2(95, 210)
 
 @export var max_party_size := 6

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
 [ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="2_tjt2p"]
 [ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="3_7ah1y"]
-[ext_resource type="Resource" uid="uid://cxnwo40qjpy0f" path="res://creatures/test_creature_2.tres" id="4_rs4x0"]
+[ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="4_tjt2p"]
 
 [sub_resource type="Resource" id="Resource_e02u7"]
 script = ExtResource("3_7ah1y")
@@ -13,7 +13,7 @@ dominant_stat = "Agility"
 age = 2
 metadata/_custom_type_script = "uid://bcwufleh1p85m"
 
-[sub_resource type="Resource" id="Resource_tjt2p"]
+[sub_resource type="Resource" id="Resource_s2nv6"]
 script = ExtResource("1_grcbt")
 species_id = "ember"
 creature_name = "Cutie"
@@ -23,6 +23,7 @@ frames = ExtResource("2_tjt2p")
 move_ids = Array[String](["ember", "tackle", "firespin", "firefang", "flamethrower"])
 starting_moves = Array[String](["ember", "tackle", "growl", "bite", "flamethrower"])
 known_moves = Array[String](["tackle", "ember", "growl", "bite", "flamethrower"])
+assigned_moves = Array[String](["tackle"])
 level = 2
 current_exp = 100
 stat_block = SubResource("Resource_e02u7")
@@ -31,9 +32,23 @@ health = 500
 block = 10
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
+[sub_resource type="Resource" id="Resource_7ah1y"]
+script = ExtResource("1_grcbt")
+species_id = "tide"
+creature_name = "Droplet"
+element_type = "water"
+frames = ExtResource("4_tjt2p")
+move_ids = Array[String](["watergun", "absorb", "tackle", "bubblebeam", "hydropump", "bubble"])
+starting_moves = Array[String](["tackle", "growl", "bubble", "bubblebeam"])
+known_moves = Array[String](["tackle", "absorb", "growl", "bubble", "water gun"])
+assigned_moves = Array[String](["tackle"])
+max_health = 500
+health = 500
+metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
+
 [resource]
 script = ExtResource("2_bv3h6")
 starting_moves = Array[String](["tackle", "tackle", "tackle"])
-starting_party = Array[String](["ember", "tide"])
-current_party = Array[ExtResource("1_grcbt")]([SubResource("Resource_tjt2p"), ExtResource("4_rs4x0")])
+starting_party = Array[String](["ember"])
+current_party = Array[ExtResource("1_grcbt")]([SubResource("Resource_s2nv6"), SubResource("Resource_7ah1y")])
 metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"

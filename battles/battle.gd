@@ -17,6 +17,7 @@ extends Control
 
 var stat_ui_by_uid: Dictionary = {}
 var _battle_ended := false
+var player_creature_nodes: Array[CreatureBattleUnit]
 
 
 func _ready() -> void:
@@ -27,10 +28,15 @@ func _ready() -> void:
 	Events.evolution_completed.connect(_on_evolution_completed)
 	if char_stats.current_party.is_empty():
 		char_stats = char_stats.create_instance()
+	await initialize_battle()
+	await battle_intro()
 	start_battle()
 
 
-func start_battle() -> void:
+func battle_intro() -> void:
+	await get_tree().create_timer(5.0).timeout
+
+func initialize_battle() -> void:
 	get_tree().paused = false
 
 	for creature in char_stats.current_party:
@@ -48,8 +54,11 @@ func start_battle() -> void:
 	enemy_handler.setup_enemies(battle_stats)
 	enemy_handler.reset_enemy_actions()
 
-	var units := party_handler.get_active_creature_nodes()
-	creature_combat_handler.start_combat(units)
+	player_creature_nodes = party_handler.get_active_creature_nodes()
+
+
+func start_battle() -> void:
+	creature_combat_handler.start_combat(player_creature_nodes)
 	enemy_handler.start_turn()
 
 

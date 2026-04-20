@@ -16,7 +16,6 @@ sprite_frames = ExtResource("2_yfbhk")
 visible = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1949228296]
-scale = Vector2(2, 2)
 sprite_frames = ExtResource("2_yfbhk")
 animation = &"die"
 
@@ -44,25 +43,28 @@ type = 5
 unique_name_in_owner = true
 
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
-offset_top = 7.0
-offset_bottom = 55.0
+offset_top = -8.0
+offset_bottom = 40.0
 
 [node name="ActionName" type="Label" parent="." unique_id=1087500009]
 unique_name_in_owner = true
-offset_left = -75.0
-offset_top = 39.0
-offset_right = -35.0
-offset_bottom = 62.0
+offset_left = -59.0
+offset_top = 27.0
+offset_right = -19.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 8
+text = "Tackle"
+vertical_alignment = 1
 
 [node name="ActionTimer" type="Panel" parent="." unique_id=1844236757]
 unique_name_in_owner = true
 clip_children = 2
-offset_left = -75.0
-offset_top = 39.0
-offset_right = 79.0
-offset_bottom = 66.0
+offset_left = -59.0
+offset_top = 23.0
+offset_right = 63.0
+offset_bottom = 28.0
 
 [node name="Fill" type="ColorRect" parent="ActionTimer" unique_id=1348657927]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 122.0
+offset_bottom = 7.0

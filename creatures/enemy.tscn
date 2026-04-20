@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://r741b0rgs5aa"]
 
 [ext_resource type="Script" uid="uid://de3iwgnmkrukk" path="res://creatures/enemy.gd" id="1_enm01"]
-[ext_resource type="Texture2D" uid="uid://bqbjtd8q7roxa" path="res://art/ratt.png" id="2_adabv"]
 [ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_enm01"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="2_jm0xe"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
@@ -17,14 +16,13 @@ script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1578258546]
+visible = false
 shape = SubResource("RectangleShape2D_enm01")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298247572]
 visible = false
-texture = ExtResource("2_adabv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328390287]
-scale = Vector2(2, 2)
 sprite_frames = ExtResource("3_xdx88")
 animation = &"idle"
 flip_h = true
@@ -38,8 +36,8 @@ unique_name_in_owner = true
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 6.0
-offset_bottom = 54.0
+offset_top = -11.0
+offset_bottom = 37.0
 grow_vertical = 0
 
 [node name="NameContainer" type="Node" parent="." unique_id=159970826]
@@ -54,8 +52,30 @@ script = ExtResource("2_enm01")
 [node name="ModifierHandler" type="Node" parent="." unique_id=1112906390]
 script = ExtResource("3_enm01")
 
+[node name="ActionTimer" type="Panel" parent="." unique_id=1617250168]
+unique_name_in_owner = true
+visible = false
+clip_children = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = 20.0
+offset_right = 61.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fill" type="ColorRect" parent="ActionTimer" unique_id=2134892955]
+layout_mode = 0
+offset_right = 122.0
+offset_bottom = 7.0
+
 [node name="IntentUI" parent="." unique_id=16804742 node_paths=PackedStringArray("parent", "status_handler") instance=ExtResource("6_2bth1")]
 unique_name_in_owner = true
+visible = false
 offset_left = -56.0
 offset_top = -36.0
 offset_right = 56.0
