@@ -68,16 +68,15 @@ func _ready() -> void:
 	_ensure_stats()
 	if creature_stat_handler:
 		creature_stat_handler.stat_block = creature_stats.stat_block
+		creature_stat_handler.creature_uid = creature_stats.uid
+	_establish_connections()
 	_on_ready_creature()
-	_sprite.animation_looped.connect(_on_sprite_animation_looped)
 	_enqueue_action(&"idle", {})
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = HIGHLIGHT_SHADER
 	shader_material.set_shader_parameter("width", 0.0)
 	_sprite.material = shader_material
 	input_pickable = true
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
 
 
 # Override in child scripts for creature-specific setup (visuals, shaders, etc.)
@@ -90,7 +89,7 @@ func _ensure_stats() -> void:
 		creature_stats = CreatureStats.new()
 		creature_stats.creature_name = name
 	if creature_stats.uid == "":
-		creature_stats.uid = "creature_%d_%s" % [Time.get_ticks_msec(), creature_stats.species_id]
+		creature_stats.uid = str(RNG.instance.randi())
 	var sb := creature_stats.stat_block
 	if not sb:
 		creature_stats.stat_block = CreatureStatBlock.new()
@@ -313,10 +312,9 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 	if data["stage_timer"] >= 1.0 and _eating_food:
 		data["stage_timer"] -= 1.0
 		_eating_food.decrement_stage()
-		var food_data: CreatureFood = _eating_food.get("food_data")
+		var food_data: CreatureFood = _eating_food.get("item_data")
 		if food_data and creature_stat_handler:
 			creature_stat_handler.apply_food(food_data)
-			Events.creature_stat_view_requested.emit(creature_stats)
 	emotion_handler.raise("hunger", 20.0 * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)
@@ -413,15 +411,22 @@ func _get_food() -> Area2D:
 
 
 func _on_sprite_animation_looped() -> void:
-	if _sprite.animation == &"run" || &"sleep":
+	if _sprite.animation == &"run" or _sprite.animation == &"sleep":
 		move_sfx.pitch_scale = randf_range(0.9, 1.1)
 		move_sfx.play()
 		
 func _set_shader(intensity: float) -> void:
 	if _sprite.material is ShaderMaterial:
 		(_sprite.material as ShaderMaterial).set_shader_parameter("width", intensity)
-	
-	
+		
+
+func _establish_connections() -> void:
+	if not mouse_entered.is_connected(_on_mouse_entered):
+		mouse_entered.connect(_on_mouse_entered)
+	if not mouse_exited.is_connected(_on_mouse_exited):
+		mouse_exited.connect(_on_mouse_exited)
+	if not _sprite.animation_looped.is_connected(_on_sprite_animation_looped):
+		_sprite.animation_looped.connect(_on_sprite_animation_looped)
 
 func _on_mouse_entered() -> void:
 	_set_shader(1.5)

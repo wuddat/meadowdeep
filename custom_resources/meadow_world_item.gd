@@ -9,11 +9,8 @@ enum ItemCategory { FOOD, TOY, MEDICINE, RELIC }
 @export var id: String
 @export var display_name: String
 @export var description: String
-
-# ── Economy ───────────────────────────────────────────────────────────────────
-@export_group("Economy")
-@export var rarity: Rarity = Rarity.COMMON
 @export var category: ItemCategory = ItemCategory.FOOD
+@export var rarity: Rarity = Rarity.COMMON
 @export var value: int
 
 # ── Visuals ───────────────────────────────────────────────────────────────────

@@ -12,6 +12,9 @@ signal tooltip_hide_requested
 
 #Meadow Creature-related Events
 signal trigger_action(creature, action, duration)
+signal creature_stat_view_requested(creature_stats: CreatureStats)
+signal creature_stat_view_dismissed(uid: String)
+signal creature_stat_updated(uid: String)
 
 # Item-related Events
 signal item_aim_started(item)
@@ -64,9 +67,6 @@ signal player_creature_switch_requested(uid_out: String, uid_in: String)
 signal player_creature_switch_completed(creature_stats: CreatureStats)
 signal evolution_triggered(creature_stats: CreatureStats)
 signal evolution_completed
-
-signal creature_stat_view_requested(creature_stats: CreatureStats)
-signal creature_stat_view_dismissed(uid: String)
 
 # Reward-related Events
 signal creature_reward_requested(creature_stats: CreatureStats)

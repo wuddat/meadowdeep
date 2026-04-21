@@ -11,12 +11,11 @@ const CARRY_OFFSET := Vector2(0, -10)
 var uid: String = ""
 var is_carried: bool = false
 var _carrier: Node2D = null
-var being_eaten: bool = false
 
 
 func _ready() -> void:
 	var type_id := item_data.id if item_data and item_data.id != "" else "item"
-	uid = "%s_%d" % [type_id, RNG.instance.randi()]
+	uid = str(RNG.instance.randi())
 	add_to_group("items")
 	if item_data and item_data.art:
 		sprite.texture = item_data.art
@@ -53,7 +52,4 @@ func _on_body_exited(body: Node2D) -> void:
 
 ## Override in subclasses to add delivery-specific behavior.
 func on_delivered(creature: Node) -> void:
-	var handler = creature.get("creature_stat_handler")
-	if handler and handler.has_method("apply_item"):
-		handler.apply_item(item_data)
-		Events.item_used.emit(item_data)
+	pass

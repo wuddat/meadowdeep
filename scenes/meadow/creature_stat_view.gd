@@ -15,6 +15,7 @@ var _active_uid: String = ""
 func _ready() -> void:
 	Events.creature_stat_view_requested.connect(_on_stat_view_requested)
 	Events.creature_stat_view_dismissed.connect(_on_stat_view_dismissed)
+	Events.creature_stat_updated.connect(_on_stat_updated)
 	hide()
 
 
@@ -30,6 +31,11 @@ func _on_stat_view_dismissed(uid: String) -> void:
 		return
 	_active_uid = ""
 	hide()
+
+
+func _on_stat_updated(uid: String) -> void:
+	if uid == _active_uid:
+		update_display()
 
 
 func populate(creature_stats: CreatureStats) -> void:

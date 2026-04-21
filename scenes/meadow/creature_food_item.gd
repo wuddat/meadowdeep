@@ -1,31 +1,34 @@
 class_name CreatureFoodItem
 extends WorldItemBase
 
-@export var food_data: CreatureFood
-
 @export var stages: int = 5
 
-var _total_stages: int = 0
+var _max_stages: int = 0
+var being_eaten: bool = false
 
 
 func _ready() -> void:
-	item_data = food_data
 	super._ready()
+	_max_stages = stages
 	add_to_group("food")
 
 
 func decrement_stage() -> void:
-	if stages <= 0 or _total_stages <= 0:
+	if stages <= 0:
+		self.queue_free()
 		return
 	stages -= 1
-	scale = Vector2.ONE * (float(stages) / float(_total_stages))
+	scale = Vector2.ONE * (float(stages) / float(_max_stages))
 
 
 func start_eating() -> void:
+	if stages == 0:
+		return
 	being_eaten = true
-	if _total_stages == 0:
-		_total_stages = stages
 
 
 func on_delivered(creature: Node) -> void:
-	super.on_delivered(creature)
+	var handler = creature.get("creature_stat_handler")
+	if handler and handler.has_method("apply_item"):
+		handler.apply_item(item_data)
+		Events.item_used.emit(item_data, creature)

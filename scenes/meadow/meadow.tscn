@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c35itp8qrvibi" path="res://creatures/fire_sprite.tscn" id="10_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Texture2D" uid="uid://bccgg8v60jr3x" path="res://art/game_art/concepts/test_cute.png" id="11_1he0p"]
+[ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="11_8uyeg"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="12_a8g20"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
 [ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
 [ext_resource type="Texture2D" uid="uid://1mh835s3wgqq" path="res://art/game_art/concepts/test_base.png" id="13_bh7u7"]
 [ext_resource type="Texture2D" uid="uid://bkwj7y6a4fffe" path="res://art/game_art/concepts/test_base3.png" id="14_bh7u7"]
@@ -19,20 +21,13 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
 size = Vector2(10, 9)
 
-[sub_resource type="Resource" id="Resource_5ncuc"]
+[sub_resource type="Resource" id="Resource_8uyeg"]
 script = ExtResource("10_c4haw")
+durability = 100
 attribute_increment = 1
-id = "01"
-display_name = "PWR Berry"
-art = ExtResource("9_5ncuc")
-metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
-
-[sub_resource type="Resource" id="Resource_c4haw"]
-script = ExtResource("10_c4haw")
-creature_attribute = 1
-attribute_increment = 1
-id = "03"
-display_name = "AGI Berry"
+id = "11111"
+display_name = "PWR Fruit"
+description = "yum"
 art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
@@ -44,6 +39,15 @@ id = "03"
 display_name = "RES Berry"
 art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
+
+[sub_resource type="Resource" id="Resource_1hwgg"]
+script = ExtResource("12_uaavs")
+species_id = "ember"
+creature_name = "Ember"
+element_type = "fire"
+frames = ExtResource("11_8uyeg")
+uid = "123456"
+metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [node name="Meadow" type="Node2D" unique_id=428296654]
 
@@ -80,17 +84,15 @@ bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
 position = Vector2(451, 193)
-food_data = SubResource("Resource_5ncuc")
 
 [node name="CreatureFood2" parent="." unique_id=1642560484 instance=ExtResource("8_pxhms")]
 modulate = Color(1, 1, 0.36862746, 1)
 position = Vector2(602, 447)
-food_data = SubResource("Resource_c4haw")
+item_data = SubResource("Resource_8uyeg")
 
 [node name="CreatureFood3" parent="." unique_id=552193260 instance=ExtResource("8_pxhms")]
 modulate = Color(2.40685, 1.9309977, 1.4642963, 1)
 position = Vector2(403, 431)
-food_data = SubResource("Resource_j48bh")
 stages = 10
 item_data = SubResource("Resource_j48bh")
 
@@ -105,6 +107,7 @@ species_id = "tide"
 
 [node name="FireSprite" parent="." unique_id=576682274 instance=ExtResource("10_5ncuc")]
 position = Vector2(514, 397)
+creature_stats = SubResource("Resource_1hwgg")
 
 [node name="Node" type="Node" parent="." unique_id=336085529]
 
