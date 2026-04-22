@@ -14,6 +14,20 @@ const LOVE_BUBBLE    = preload("res://art/game_art/emoticons/love.png")
 const RELAXED_BUBBLE = preload("res://art/game_art/emoticons/relaxed.png")
 const JOY_BUBBLE     = preload("res://art/game_art/emoticons/joy.png")
 const HIGHLIGHT_SHADER := preload("res://art/game_art/shaders/highlight.gdshader")
+const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
+
+
+const EYES_CLOSED = preload("res://art/game_art/creatures/base_creature/eyes_cl_soft.png")
+const EYES_CUTE = preload("res://art/game_art/creatures/base_creature/eyes_cute.png")
+const EYES_HEART = preload("res://art/game_art/creatures/base_creature/eyes_heart.png")
+const EYES_SAD = preload("res://art/game_art/creatures/base_creature/eyes_sad.png")
+const EYES_HAPPY = preload("res://art/game_art/creatures/base_creature/eyes_happy.png")
+const MOUTH_FROWN = preload("res://art/game_art/creatures/base_creature/mouth_frown.png")
+const MOUTH_GRIN = preload("res://art/game_art/creatures/base_creature/mouth_grin.png")
+const MOUTH_SMILE = preload("res://art/game_art/creatures/base_creature/mouth_smile.png")
+const MOUTH_SURPRISE = preload("res://art/game_art/creatures/base_creature/mouth_surprise.png")
+const MOUTH_TONGUE = preload("res://art/game_art/creatures/base_creature/mouth_tongue.png")
+
 
 # ── Tuning ────────────────────────────────────────────────────────────────────
 @export_group("Movement")
@@ -35,12 +49,19 @@ var _current_action: StringName:
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var emotion_display: Sprite2D         = $EmotionDisplay
+@onready var emotion_display: Sprite2D         = %EmotionDisplay
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var emotion_handler: Node = %EmotionHandler
 @onready var move_sfx: AudioStreamPlayer = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer = %ActionSFX
 @onready var creature_stat_handler: Node = %CreatureStatHandler
+@onready var left_arm: TextureRect = $AnimatedSprite2D/LeftArm
+@onready var right_arm: TextureRect = $AnimatedSprite2D/RightArm
+@onready var eyes: TextureRect = $AnimatedSprite2D/Eyes
+@onready var mouth: TextureRect = $AnimatedSprite2D/Mouth
+@onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
+
+
 
 @export var creature_stats: CreatureStats
 
@@ -54,7 +75,7 @@ var _eating_food: Node2D = null
 
 var is_held := false
 var _holder: Node2D = null
-const HOLD_OFFSET := Vector2(20, -24)
+const HOLD_OFFSET := Vector2(0, -18)
 var _saved_collision_layer := 0
 var _saved_collision_mask := 0
 
@@ -72,6 +93,7 @@ func _ready() -> void:
 	_establish_connections()
 	_on_ready_creature()
 	_enqueue_action(&"idle", {})
+	creature_animation_handler.base_eyes = eyes.texture
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = HIGHLIGHT_SHADER
 	shader_material.set_shader_parameter("width", 0.0)
@@ -129,7 +151,8 @@ func _random_personality() -> CreatureStatBlock.Personality:
 
 func _physics_process(delta: float) -> void:
 	if is_held:
-		global_position = _holder.global_position + HOLD_OFFSET
+		var carry_node := _holder.get("carry_position") as Node2D
+		global_position = carry_node.global_position if carry_node else _holder.global_position + HOLD_OFFSET
 		velocity = Vector2.ZERO
 		return
 	emotion_handler.tick_emotions(delta, _current_action)
@@ -171,24 +194,38 @@ func _queue_contains(id: StringName) -> bool:
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
+	creature_animation_handler.play("RESET")
 	match id:
 		&"idle":
 			velocity = Vector2.ZERO
 			_sprite.play("idle")
+			creature_animation_handler.play_idle()
+			if eyes:
+				eyes.texture = EYES_CUTE
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
 		&"wander":
 			_sprite.play("run")
+			if eyes:
+				eyes.texture = EYES_CUTE
 			move_sfx.pitch_scale = randf_range(0.9, 1.1)
 			move_sfx.play()
 		&"sleep":
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")
+			if eyes:
+				eyes.texture = EYES_CLOSED
 			emotion_display.texture = SLEEP_BUBBLE
 			animation_player.play("bubble_fade_in")
 			action_sfx.stream = SNORE_SOUND
 			action_sfx.play()
 		&"seek_player":
 			_sprite.play("run")
+			creature_animation_handler.play("frolic")
+			emotion_display.texture = LOVE_BUBBLE
+			animation_player.play("bubble_fade_in")
+			if eyes and mouth:
+				eyes.texture = EYES_HAPPY
+				mouth.texture = MOUTH_GRIN
 			move_sfx.pitch_scale = randf_range(0.9, 1.1)
 			move_sfx.play()
 		&"seek_food":
@@ -197,8 +234,11 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			move_sfx.play()
 		&"eat_food":
 			_sprite.play("eat")
+			if eyes:
+				eyes.texture = EYES_SAD
 			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
+			creature_animation_handler.play("eat")
 			data["timer"] = randf_range(action_duration_min, action_duration_max)
 			action_sfx.stream = NOMNOM_SOUND
 			action_sfx.pitch_scale = randf_range(0.9, 1.1)
@@ -257,7 +297,7 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 		_action_done()
 		return
 	velocity = dir.normalized() * move_speed
-	_sprite.flip_h = velocity.x < 0
+	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 
@@ -283,10 +323,11 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 		emotion_handler.lower("lonely", 60.0)
 		emotion_handler.raise("joy",    30.0)
 		_action_done()
+		animation_player.play("bubble_fade_out")
 		return
 
 	velocity = dir.normalized() * move_speed
-	_sprite.flip_h = velocity.x < 0
+	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 
@@ -302,7 +343,7 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 		_action_done()
 		return
 	velocity = dir.normalized() * move_speed
-	_sprite.flip_h = velocity.x < 0
+	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 

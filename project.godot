@@ -15,6 +15,10 @@ run/main_scene="uid://btl0mdw000001"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://b8wr0hwoqop4v"
+
 [autoload]
 
 Events="*uid://bjprdav8m6dv5"
@@ -24,8 +28,8 @@ RNG="*uid://c1fxnlev86vbu"
 Shaker="*uid://buj7kaqos1l3l"
 CreatureData="*uid://dslgc5ap6fq7"
 Utils="*uid://dfe5m60sn6t2u"
-SFXPlayer="*uid://jv7j2cr5yec0"
 TypeChart="*uid://jmg7srsnsxpn"
+SFXPlayer="*uid://dh8pu62u743l5"
 
 [display]
 

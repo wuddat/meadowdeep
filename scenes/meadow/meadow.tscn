@@ -6,16 +6,13 @@
 [ext_resource type="AudioStream" uid="uid://dlxj66hun1l4t" path="res://art/game_art/sfx/pop.wav" id="7_nrc7r"]
 [ext_resource type="PackedScene" uid="uid://ccwrihbuuotsk" path="res://scenes/meadow/creature_food.tscn" id="8_pxhms"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
-[ext_resource type="PackedScene" uid="uid://c35itp8qrvibi" path="res://creatures/fire_sprite.tscn" id="10_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
-[ext_resource type="Texture2D" uid="uid://bccgg8v60jr3x" path="res://art/game_art/concepts/test_cute.png" id="11_1he0p"]
-[ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="11_8uyeg"]
-[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="12_a8g20"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
 [ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
-[ext_resource type="Texture2D" uid="uid://1mh835s3wgqq" path="res://art/game_art/concepts/test_base.png" id="13_bh7u7"]
 [ext_resource type="Texture2D" uid="uid://bkwj7y6a4fffe" path="res://art/game_art/concepts/test_base3.png" id="14_bh7u7"]
+[ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
+[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
@@ -40,13 +37,14 @@ display_name = "RES Berry"
 art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
-[sub_resource type="Resource" id="Resource_1hwgg"]
+[sub_resource type="Resource" id="Resource_uaavs"]
 script = ExtResource("12_uaavs")
-species_id = "ember"
-creature_name = "Ember"
-element_type = "fire"
-frames = ExtResource("11_8uyeg")
-uid = "123456"
+species_id = "test"
+creature_name = "Base Test"
+element_type = "test"
+frames = ExtResource("16_8uyeg")
+max_health = 500
+health = 500
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [node name="Meadow" type="Node2D" unique_id=428296654]
@@ -98,46 +96,17 @@ item_data = SubResource("Resource_j48bh")
 
 [node name="EmberEgg" parent="." unique_id=847037931 instance=ExtResource("13_a8g20")]
 modulate = Color(1, 0.3372549, 0, 1)
-position = Vector2(430, 306)
+position = Vector2(430, 254)
 
 [node name="WaterEgg" parent="." unique_id=882203231 instance=ExtResource("13_a8g20")]
 modulate = Color(0.29146275, 0.6314283, 0.829214, 1)
 position = Vector2(590, 352)
 species_id = "tide"
 
-[node name="FireSprite" parent="." unique_id=576682274 instance=ExtResource("10_5ncuc")]
-position = Vector2(514, 397)
-creature_stats = SubResource("Resource_1hwgg")
-
 [node name="Node" type="Node" parent="." unique_id=336085529]
 
-[node name="Sprite2D" type="Sprite2D" parent="Node" unique_id=182807558]
-position = Vector2(433, 335)
-texture = ExtResource("11_1he0p")
-
-[node name="Shadow" type="Sprite2D" parent="Node/Sprite2D" unique_id=683396207]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(0, 7)
-scale = Vector2(0.546875, 1)
-texture = ExtResource("12_a8g20")
-
-[node name="Shadow3" type="Sprite2D" parent="Node/Sprite2D" unique_id=1159068262]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(-23, 7)
-scale = Vector2(0.546875, 1)
-texture = ExtResource("12_a8g20")
-
-[node name="Shadow2" type="Sprite2D" parent="Node/Sprite2D" unique_id=118230175]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(24, 7)
-scale = Vector2(0.546875, 1)
-texture = ExtResource("12_a8g20")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Node" unique_id=642887282]
-position = Vector2(457, 344)
-texture = ExtResource("13_bh7u7")
-
 [node name="Sprite2D3" type="Sprite2D" parent="Node" unique_id=914880790]
+visible = false
 position = Vector2(411, 336)
 texture = ExtResource("14_bh7u7")
 
@@ -154,5 +123,9 @@ offset_right = 206.0
 offset_bottom = 173.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
+position = Vector2(442, 335)
+creature_stats = SubResource("Resource_uaavs")
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]

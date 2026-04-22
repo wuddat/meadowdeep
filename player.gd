@@ -7,6 +7,8 @@ const STAT_VIEW_SCENE := preload("res://scenes/meadow/creature_stat_view.tscn")
 @export var roll_duration: float = 0.3
 
 @onready var sprite: AnimatedSprite2D = $Player
+@onready var carry_position: Node2D = %CarryPosition
+@onready var drop_position: Node2D = %DropPosition
 
 var is_rolling := false
 var roll_timer := 0.0
@@ -22,9 +24,12 @@ var _stat_view: Control = null
 
 var nearby_egg: Node2D = null
 
+var _drop_offset_x: float = 0.0
+
 
 func _ready() -> void:
 	add_to_group("player")
+	_drop_offset_x = absf(drop_position.position.x)
 
 
 func _physics_process(delta):
@@ -58,6 +63,7 @@ func _physics_process(delta):
 				sprite.play("run")
 			if input_vector.x != 0:
 				sprite.flip_h = input_vector.x < 0
+				drop_position.position.x = _drop_offset_x * (-1.0 if sprite.flip_h else 1.0)
 		else:
 			var idle_anim := "carry" if held_creature || carried_food else "idle"
 			if sprite.animation != idle_anim:
@@ -89,6 +95,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	# Priority: drop held creature → hatch egg → drop/pick food
 	if held_creature:
+		held_creature.global_position = drop_position.global_position
 		held_creature.release()
 		held_creature = null
 		_hide_stat_view()
@@ -100,6 +107,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		nearby_creature = null
 		_show_stat_view()
 	elif carried_food:
+		carried_food.global_position = drop_position.global_position
 		carried_food.drop()
 		carried_food = null
 	elif nearby_food:

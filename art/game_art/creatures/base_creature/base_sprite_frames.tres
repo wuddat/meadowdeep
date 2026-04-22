@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bbrbcm2j28uwm"]
+
+[ext_resource type="Texture2D" uid="uid://e63jlvjxxsn8" path="res://art/game_art/creatures/base_creature/base_body.png" id="1_2qge5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5crrt"]
+atlas = ExtResource("1_2qge5")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5crrt")
+}],
+"loop": true,
+"name": &"eat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5crrt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5crrt")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5crrt")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 5.0
+}]

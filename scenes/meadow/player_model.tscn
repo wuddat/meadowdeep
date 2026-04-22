@@ -322,4 +322,12 @@ animation = &"carry"
 position = Vector2(-2, 9)
 shape = SubResource("RectangleShape2D_8aly8")
 
+[node name="CarryPosition" type="Node2D" parent="." unique_id=501755239]
+unique_name_in_owner = true
+position = Vector2(0, -15)
+
+[node name="DropPosition" type="Node2D" parent="." unique_id=1981231435]
+unique_name_in_owner = true
+position = Vector2(19, 1)
+
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]

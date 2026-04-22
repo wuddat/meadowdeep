@@ -6,7 +6,7 @@ extends Area2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
-const CARRY_OFFSET := Vector2(0, -10)
+const CARRY_OFFSET := Vector2(0, -18)
 
 var uid: String = ""
 var is_carried: bool = false
@@ -25,7 +25,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if is_carried and _carrier:
-		global_position = _carrier.global_position + CARRY_OFFSET
+		var carry_node := _carrier.get("carry_position") as Node2D
+		global_position = carry_node.global_position if carry_node else _carrier.global_position + CARRY_OFFSET
 
 
 func pickup(carrier: Node2D) -> void:
