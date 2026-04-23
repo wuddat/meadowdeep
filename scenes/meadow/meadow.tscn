@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
 [ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
-[ext_resource type="Texture2D" uid="uid://bkwj7y6a4fffe" path="res://art/game_art/concepts/test_base3.png" id="14_bh7u7"]
+[ext_resource type="Texture2D" path="res://art/game_art/concepts/test_base3.png" id="14_bh7u7"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
@@ -17,6 +17,14 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
 size = Vector2(10, 9)
+
+[sub_resource type="Resource" id="Resource_bh7u7"]
+script = ExtResource("10_c4haw")
+creature_attribute = 1
+attribute_increment = 1
+id = "14555"
+display_name = "AGI Berry"
+metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
 [sub_resource type="Resource" id="Resource_8uyeg"]
 script = ExtResource("10_c4haw")
@@ -82,6 +90,7 @@ bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
 position = Vector2(451, 193)
+item_data = SubResource("Resource_bh7u7")
 
 [node name="CreatureFood2" parent="." unique_id=1642560484 instance=ExtResource("8_pxhms")]
 modulate = Color(1, 1, 0.36862746, 1)

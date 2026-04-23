@@ -16,7 +16,7 @@ const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
 const CURIOUS_1 = preload("res://art/game_art/sfx/curious1.wav")
 const IDLE_WEIGHTS := {
 	"think": 1,
-	"hover": 8,
+	"hover": 4,
 }
 
 func play_idle() -> void:

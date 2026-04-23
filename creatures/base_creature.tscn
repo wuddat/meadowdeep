@@ -6,6 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="4_6nty8"]
 [ext_resource type="Texture2D" uid="uid://dps85qgfl87gm" path="res://art/game_art/creatures/base_creature/base_armL.png" id="5_6ol7j"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="5_k81i3"]
+[ext_resource type="Texture2D" uid="uid://bor4k0wtqeu8h" path="res://art/game_art/creatures/base_creature/pattern_stripes.png" id="5_t2q5c"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="6_6ol7j"]
 [ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="6_tpqfy"]
 [ext_resource type="Texture2D" uid="uid://06kfsn2abhvo" path="res://art/game_art/creatures/base_creature/base_armR.png" id="6_w4qan"]
@@ -364,6 +365,20 @@ texture = ExtResource("2_tam7t")
 material = SubResource("ShaderMaterial_a4vea")
 sprite_frames = ExtResource("4_6nty8")
 animation = &"eat"
+
+[node name="Pattern" type="TextureRect" parent="AnimatedSprite2D" unique_id=159314152]
+visible = false
+modulate = Color(0.50980395, 0.89411765, 1, 0.70980394)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_t2q5c")
 
 [node name="Mouth" type="TextureRect" parent="AnimatedSprite2D" unique_id=1128809073]
 anchors_preset = 8

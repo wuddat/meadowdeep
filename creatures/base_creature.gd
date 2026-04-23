@@ -260,7 +260,6 @@ func _check_emotion_triggers() -> void:
 	if emotion_handler.emotions["hunger"] <= emotion_handler.hunger_seek_food_threshold:
 		if _current_action != &"seek_food" and _current_action != &"eat_food" and not _queue_contains(&"seek_food"):
 			_enqueue_action(&"seek_food", {})
-			_enqueue_action(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 			return
 
 	if emotion_handler.emotions["lonely"] >= emotion_handler.lonely_seek_threshold:
@@ -340,6 +339,7 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 	if dir.length() < 20.0:
 		_eating_food = food
 		food.start_eating()
+		_enqueue_action(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 		_action_done()
 		return
 	velocity = dir.normalized() * move_speed
