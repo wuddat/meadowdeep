@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
 [ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
-[ext_resource type="Texture2D" path="res://art/game_art/concepts/test_base3.png" id="14_bh7u7"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
@@ -111,13 +110,6 @@ position = Vector2(430, 254)
 modulate = Color(0.29146275, 0.6314283, 0.829214, 1)
 position = Vector2(590, 352)
 species_id = "tide"
-
-[node name="Node" type="Node" parent="." unique_id=336085529]
-
-[node name="Sprite2D3" type="Sprite2D" parent="Node" unique_id=914880790]
-visible = false
-position = Vector2(411, 336)
-texture = ExtResource("14_bh7u7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2111480432]
 

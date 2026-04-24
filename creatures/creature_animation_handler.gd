@@ -14,9 +14,12 @@ const HIGHLIGHT_SHADER := preload("res://art/game_art/shaders/highlight.gdshader
 const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
 
 const CURIOUS_1 = preload("res://art/game_art/sfx/curious1.wav")
+const HAH = preload("uid://c7des6ggaas3i")
+
 const IDLE_WEIGHTS := {
 	"think": 1,
-	"hover": 4,
+	"hover": 6,
+	"wave": 1,
 }
 
 func play_idle() -> void:
@@ -31,8 +34,12 @@ func play_idle() -> void:
 		SFXPlayer.pitch_play(CURIOUS_1)
 		emotion_display.texture = QUESTION_BUBBLE
 		emotion_bubble_fade_in_out()
+	if anim == "wave":
+		SFXPlayer.play(HAH)
+		
 	queue(anim)
-	
+
+
 func _select_idle_anim(weights: Dictionary) -> String:
 	var total: int = 0
 	for w in weights.values(): total += w

@@ -55,11 +55,13 @@ var _current_action: StringName:
 @onready var move_sfx: AudioStreamPlayer = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer = %ActionSFX
 @onready var creature_stat_handler: Node = %CreatureStatHandler
-@onready var left_arm: TextureRect = $AnimatedSprite2D/LeftArm
-@onready var right_arm: TextureRect = $AnimatedSprite2D/RightArm
-@onready var eyes: TextureRect = $AnimatedSprite2D/Eyes
-@onready var mouth: TextureRect = $AnimatedSprite2D/Mouth
+@onready var left_arm: Sprite2D = $AnimatedSprite2D/LeftArm
+@onready var right_arm: Sprite2D = $AnimatedSprite2D/RightArm
+@onready var eyes: Sprite2D = $AnimatedSprite2D/Eyes
+@onready var mouth: Sprite2D = $AnimatedSprite2D/Mouth
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
+@onready var creature_skin_handler: CreatureSkinHandler = $CreatureSkinHandler
+@onready var hold_pos: Node2D = $AnimatedSprite2D/HoldPos
 
 
 
@@ -76,6 +78,7 @@ var _eating_food: Node2D = null
 var is_held := false
 var _holder: Node2D = null
 const HOLD_OFFSET := Vector2(0, -18)
+const ITEM_SEEK_RANGE := 200.0
 var _saved_collision_layer := 0
 var _saved_collision_mask := 0
 
@@ -213,7 +216,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")
 			if eyes:
-				eyes.texture = EYES_CLOSED
+				creature_skin_handler.set_eyes("closed")
 			emotion_display.texture = SLEEP_BUBBLE
 			animation_player.play("bubble_fade_in")
 			action_sfx.stream = SNORE_SOUND
@@ -449,6 +452,20 @@ func _get_food() -> Area2D:
 			nearest_dist = dis
 			nearest_food = f
 	return nearest_food
+
+
+func _get_item() -> WorldItemBase:
+	var nearest: WorldItemBase = null
+	var nearest_dist := ITEM_SEEK_RANGE * ITEM_SEEK_RANGE
+	for item in get_tree().get_nodes_in_group("items"):
+		if item.get("is_carried"):  # skip already-held items
+			continue
+		var d := global_position.distance_squared_to(item.global_position)
+		if d < nearest_dist:
+			nearest_dist = d
+			nearest = item
+	return nearest
+
 
 
 func _on_sprite_animation_looped() -> void:
