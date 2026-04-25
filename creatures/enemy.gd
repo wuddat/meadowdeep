@@ -170,7 +170,7 @@ func do_turn() -> void:
 	Events.battle_text_requested.emit("Enemy [color=red]%s[/color] used %s!" % [
 		stats.species_id.capitalize(), action_name
 	])
-	await get_tree().create_timer(enemy_text_delay).timeout
+	await get_tree().create_timer(enemy_text_delay, false).timeout
 
 	if current_action.has_method("perform_action"):
 		current_action.perform_action()

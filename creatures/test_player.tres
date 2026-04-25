@@ -4,9 +4,18 @@
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
 [ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="2_tjt2p"]
 [ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="3_7ah1y"]
+[ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/stat_block.gd" id="3_tjt2p"]
+
+[sub_resource type="Resource" id="Resource_7ah1y"]
+script = ExtResource("3_tjt2p")
+grade = 5
+points = 10
+lvl = 2
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
 
 [sub_resource type="Resource" id="Resource_e02u7"]
 script = ExtResource("3_7ah1y")
+AGI = SubResource("Resource_7ah1y")
 personality = 1
 dominant_stat = "Agility"
 age = 2

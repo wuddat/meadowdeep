@@ -59,12 +59,15 @@ vertical_alignment = 1
 [node name="ActionTimer" type="Panel" parent="." unique_id=1844236757]
 unique_name_in_owner = true
 clip_children = 2
-offset_left = -59.0
-offset_top = 23.0
-offset_right = 63.0
-offset_bottom = 28.0
+offset_left = -13.0
+offset_top = -8.0
+offset_right = 13.0
+offset_bottom = -6.0
 
 [node name="Fill" type="ColorRect" parent="ActionTimer" unique_id=1348657927]
-layout_mode = 0
-offset_right = 122.0
-offset_bottom = 7.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

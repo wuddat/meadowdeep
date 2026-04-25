@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
 [ext_resource type="PackedScene" uid="uid://drx41b0rgs5aa" path="res://scenes/ui/hand.tscn" id="7_hnd01"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="8_2iid6"]
+[ext_resource type="PackedScene" uid="uid://brkbckdo1dk21" path="res://battles/battle_ui.tscn" id="8_aieny"]
 [ext_resource type="PackedScene" uid="uid://ih1u373ufo54" path="res://scenes/ui/card_target_selector/card_target_selector.tscn" id="13_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://ofgutpuj26p0" path="res://scenes/ui/battle_over_panel.tscn" id="14_nille"]
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="16_0msic"]
@@ -22,6 +23,7 @@ script = ExtResource("6_4r7wf")
 size = Vector2(1150, 408)
 
 [node name="Battle" type="Control" unique_id=1830331826]
+process_mode = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,6 +81,8 @@ offset_bottom = -33.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "End Turn"
+
+[node name="BattleUI" parent="UILayer/BattleUI" unique_id=1528964739 instance=ExtResource("8_aieny")]
 
 [node name="CardDropArea" type="Area2D" parent="." unique_id=1758312783]
 visible = false

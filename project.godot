@@ -30,6 +30,7 @@ CreatureData="*uid://dslgc5ap6fq7"
 Utils="*uid://dfe5m60sn6t2u"
 TypeChart="*uid://jmg7srsnsxpn"
 SFXPlayer="*uid://dh8pu62u743l5"
+QTEController="*uid://bbb5qqrujky84"
 
 [display]
 

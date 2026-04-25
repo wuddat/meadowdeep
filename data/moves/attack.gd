@@ -58,7 +58,11 @@ func apply_effects(targets: Array[Node], modifiers: ModifierHandler, battle_unit
 		primary_targets = [targets[0]]
 
 	var target_damage = _calculate_target_damage(primary_targets[0] if primary_targets.size() > 0 else null)
-
+	if qte_data and battle_unit_owner and not battle_unit_owner.is_wild_creature:
+		var qte_outcome: QTEOutcome = await QTEController.run(qte_data)
+		var multiplier = qte_outcome.damage_multiplier
+		target_damage = round(target_damage * multiplier)
+		
 	var total_damage_dealt = EffectExecutor.execute_damage(
 		target_damage,
 		primary_targets,

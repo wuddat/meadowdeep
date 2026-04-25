@@ -92,6 +92,9 @@ const ELEMENT_COLORS := {
 @export var self_block: int = 0
 @export var self_shift: int = 0
 
+@export_group("QTE")
+@export var qte_data: QTEData
+
 var random_targets = []
 @export var current_cost: int
 @export var base_card: Card = null
@@ -181,6 +184,12 @@ func setup_from_data(data: Dictionary) -> void:
 	shift_enabled = data.get("shift_enabled", 0)
 	self_shift = data.get("self_shift", 0)
 	card_draw = data.get("card_draw", 0)
+	qte_data = QTEData.new()
+	qte_data.total_duration = 0.5
+	qte_data.on_perfect = QTEOutcome.new()
+	qte_data.on_perfect.damage_multiplier = 2.0
+	qte_data.on_miss = QTEOutcome.new()
+	qte_data.on_miss.damage_multiplier = 0.0
 
 	match data.get("category", "attack"):
 		"attack":
@@ -337,6 +346,7 @@ func reset_to_base_card() -> void:
 	shift_enabled = base_card.shift_enabled
 	lead_effects = base_card.lead_effects.duplicate()
 	card_draw = base_card.card_draw
+	qte_data = base_card.qte_data
 
 	# Self Effects
 	self_heal = base_card.self_heal

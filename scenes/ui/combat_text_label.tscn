@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dixq55fwxr3b6"]
+[gd_scene format=3 uid="uid://dixq55fwxr3b6"]
 
-[ext_resource type="Script" uid="uid://dtsxxriyutt4n" path="res://scenes/ui/combat_text_label.gd" id="1_cs3vn"]
+[ext_resource type="Script" uid="uid://8weuh8l2t3bn" path="res://scenes/ui/combat_text_label.gd" id="1_cs3vn"]
 
 [sub_resource type="Animation" id="Animation_1o31j"]
 length = 0.001
@@ -65,45 +65,6 @@ tracks/4/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_m7kvm"]
-resource_name = "rise_and_fade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Label:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.225313, 0.217638),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -40)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:theme_override_colors/font_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.533333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(100, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Label:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.521167),
-"transitions": PackedFloat32Array(1.62451, 1),
-"update": 0,
-"values": [Vector2(2, 2), Vector2(0.5, 0.5)]
-}
-
 [sub_resource type="Animation" id="Animation_cs3vn"]
 resource_name = "quick_rise"
 tracks/0/type = "value"
@@ -155,6 +116,45 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_m7kvm"]
+resource_name = "rise_and_fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.225313, 0.217638),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:theme_override_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(100, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.521167),
+"transitions": PackedFloat32Array(1.62451, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(0.5, 0.5)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qn4eb"]
 _data = {
 &"RESET": SubResource("Animation_1o31j"),
@@ -162,8 +162,7 @@ _data = {
 &"rise_and_fade": SubResource("Animation_m7kvm")
 }
 
-[node name="CombatTextLabel" type="Control"]
-process_mode = 3
+[node name="CombatTextLabel" type="Control" unique_id=2070545774]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -29.0
@@ -172,7 +171,7 @@ offset_right = -29.0
 offset_bottom = -5.0
 script = ExtResource("1_cs3vn")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=998210678]
 custom_minimum_size = Vector2(15, 10)
 layout_mode = 1
 anchors_preset = 8
@@ -180,9 +179,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -40.0
 offset_right = 68.0
-offset_bottom = -17.0
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(34, 11)
@@ -192,9 +190,7 @@ text = "%s"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_qn4eb")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=242145696]
+libraries/ = SubResource("AnimationLibrary_qn4eb")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

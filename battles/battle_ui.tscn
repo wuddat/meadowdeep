@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://brkbckdo1dk21"]
+
+[node name="BattleUI" type="Panel" unique_id=826442035]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -319.0
+offset_top = -92.0
+offset_right = 320.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="." unique_id=1066817157]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 226.0
+offset_bottom = 87.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=601305009]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer" unique_id=1585034224]
+layout_mode = 2
+columns = 3
+
+[node name="Button" type="Button" parent="Panel/MarginContainer/GridContainer" unique_id=719268298]
+layout_mode = 2
+size_flags_vertical = 3
+text = "ABILITY"
+
+[node name="Button2" type="Button" parent="Panel/MarginContainer/GridContainer" unique_id=1827859579]
+layout_mode = 2
+text = "ABILITY"
+
+[node name="Button3" type="Button" parent="Panel/MarginContainer/GridContainer" unique_id=785581031]
+layout_mode = 2
+text = "ABILITY"

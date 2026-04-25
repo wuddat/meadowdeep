@@ -92,7 +92,7 @@ func _on_action_timer_timeout() -> void:
 	Events.creature_action_started.emit(self, card)
 	var preselected := _pick_targets(card)
 	var resolved := card._get_targets(preselected, self)
-	card.apply_effects(resolved, modifier_handler, self)
+	await card.apply_effects(resolved, modifier_handler, self)
 	Events.creature_action_completed.emit(self)
 	action_name.text = battle_moves[_move_index].name
 
@@ -286,7 +286,7 @@ func _play_dodge_tween() -> void:
 
 
 func show_combat_text(text: String, color: Color = Color.WHITE, animation: String = "rise_and_fade") -> void:
-	var scene = load("res://scenes/ui/combat_text_label.tscn")
+	var scene = load("uid://dixq55fwxr3b6")
 	if not scene:
 		return
 	var label = scene.instantiate()

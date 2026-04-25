@@ -25,8 +25,8 @@ func execute(targets: Array[Node]) -> void:
 				SFXPlayer.play(SHATTER)
 				target.status_handler.remove_status("froze")
 			else:
-				if amount <= 0:
-					amount = 1
+				#if amount <= 0:
+					#amount = 1
 				target.take_damage(amount, receiver_mod_type)
 				SFXPlayer.pitch_play(sound)
 				print("dealt %s damage to %s." % [amount, target.stats.species_id])

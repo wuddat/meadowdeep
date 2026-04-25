@@ -135,10 +135,10 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 
 func _start_next_enemy_turn() -> void:
 	if acting_enemies.is_empty():
-		await get_tree().create_timer(enemy_text_delay * 3.0).timeout
+		await get_tree().create_timer(enemy_text_delay * 3.0, false).timeout
 		start_turn()
 		return
-	await get_tree().process_frame
+	await get_tree().create_timer(0.0, false).timeout
 	acting_enemies[0].status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
 
 
