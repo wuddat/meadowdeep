@@ -5,13 +5,11 @@ class_name EnemyHandler
 extends Node2D
 
 @export var char_stats: PlayerStats : set = set_character
+@export var enemy_scene: PackedScene
+@export var stats_ui_scene: PackedScene
 
 @onready var right_panel: VBoxContainer = $"../StatUI/RightPanel"
 @onready var party_handler: PartyHandler = $"../PartyHandler"
-
-# Set in the Godot editor once scenes are created.
-@export var enemy_scene: PackedScene
-@export var stats_ui_scene: PackedScene  # HealthBarUI.tscn — optional, for stat display
 
 var acting_enemies: Array[Enemy] = []
 var battle_stats: BattleStats = null
@@ -70,32 +68,6 @@ func start_turn() -> void:
 	_start_next_enemy_turn()
 
 
-func shift_enemies() -> void:
-	await get_tree().create_timer(0.3).timeout
-	var enemies: Array[Enemy] = []
-	var positions: Array[Vector2] = []
-
-	for child in get_children():
-		if child is Enemy:
-			enemies.append(child)
-			positions.append(child.spawn_coords)
-
-	if positions.size() < 2:
-		return
-
-	enemies.sort_custom(func(a, b): return a.spawn_coords.x < b.spawn_coords.x)
-	positions.sort_custom(func(a, b): return a.x < b.x)
-
-	var new_order := enemies.duplicate()
-	new_order.push_front(new_order.pop_back())
-
-	for i in range(new_order.size()):
-		var enemy: Enemy = new_order[i]
-		enemy.spawn_coords = positions[i]
-		var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(enemy, "global_position", positions[i], 0.4)
-
-
 func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 	if not is_instance_valid(enemy_node):
 		return
@@ -120,14 +92,6 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 
 	enemy.stats = stats
 	add_child(enemy)
-
-	if stats_ui_scene and right_panel:
-		var ui := stats_ui_scene.instantiate()
-		right_panel.add_child(ui)
-		if ui.has_method("update_stats"):
-			ui.update_stats(stats)
-		if not enemy.stats.stats_changed.is_connected(func(): ui.update_stats(enemy.stats)):
-			enemy.stats.stats_changed.connect(func(): ui.update_stats(enemy.stats))
 
 	if enemy.status_handler:
 		enemy.status_handler.statuses_applied.connect(_on_enemy_statuses_applied.bind(enemy))

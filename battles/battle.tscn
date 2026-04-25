@@ -101,12 +101,6 @@ script = ExtResource("4_btl01")
 character_stats = ExtResource("3_6tbm7")
 creature_battle_unit_scene = ExtResource("8_2iid6")
 
-[node name="StatUI" type="Node" parent="." unique_id=1543670243]
-
-[node name="LeftPanel" type="VBoxContainer" parent="StatUI" unique_id=1326972430]
-
-[node name="RightPanel" type="VBoxContainer" parent="StatUI" unique_id=53310414]
-
 [node name="CardTargetSelector" parent="." unique_id=346684082 instance=ExtResource("13_4r7wf")]
 
 [node name="BattleOverLayer" type="CanvasLayer" parent="." unique_id=992586351]

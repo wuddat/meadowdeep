@@ -8,18 +8,11 @@ extends Node
 
 @export var max_party_size := 6
 @export var character_stats: PlayerStats
-
-# Assign in the Godot editor — point to CreatureBattleUnit.tscn once created.
 @export var creature_battle_unit_scene: PackedScene
 
 var stat_ui_by_uid: Dictionary = {}
 var active_battle_party: Array[CreatureStats] = []
 var active_indexes := [0, 1, 2]
-
-
-func _ready() -> void:
-	if not Events.player_creature_switch_requested.is_connected(_on_party_creature_switch_requested):
-		Events.player_creature_switch_requested.connect(_on_party_creature_switch_requested)
 
 
 func initialize_party_for_battle() -> void:
@@ -90,35 +83,6 @@ func get_creature_by_uid(uid: String) -> CreatureBattleUnit:
 	return null
 
 
-func shift_active_party() -> void:
-	var units := get_active_creature_nodes()
-	if units.size() < 2:
-		return
-
-	var current_units: Array[CreatureBattleUnit] = []
-	for unit in units:
-		current_units.append(unit as CreatureBattleUnit)
-
-	current_units.sort_custom(func(a, b): return a.spawn_position < b.spawn_position)
-
-	var new_order := current_units.duplicate()
-	new_order.push_front(new_order.pop_back())
-
-	for i in range(new_order.size()):
-		var unit: CreatureBattleUnit = new_order[i]
-		unit.spawn_position = "POS_%d" % i
-
-		var new_position: Vector2
-		match i:
-			0: new_position = POS_0
-			1: new_position = POS_1
-			2: new_position = POS_2
-			_: new_position = Vector2.ZERO
-
-		var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		tween.tween_property(unit, "position", new_position, 0.25)
-
-
 func sync_battle_health_to_party_data() -> void:
 	if character_stats == null:
 		return
@@ -133,40 +97,3 @@ func finalize_battle_party(creature_list: Array[CreatureStats]) -> void:
 	for creature in creature_list:
 		if not add_to_battle_party(creature):
 			push_warning("Party is full. Could not add: %s" % creature.species_id)
-
-
-func _on_party_creature_switch_requested(uid_out: String, uid_in: String) -> void:
-	for child in get_children():
-		if not (child is CreatureBattleUnit and child.stats.uid == uid_out):
-			continue
-
-		for creature in active_battle_party:
-			if creature.uid == uid_out:
-				active_battle_party.erase(creature)
-				break
-
-		var old_unit := child as CreatureBattleUnit
-		var slot := old_unit.spawn_position
-		sync_battle_health_to_party_data()
-		old_unit.queue_free()
-
-		for creature in character_stats.current_party:
-			if creature.uid == uid_in:
-				if not creature_battle_unit_scene:
-					return
-				var new_unit := creature_battle_unit_scene.instantiate() as CreatureBattleUnit
-				new_unit.stats = creature
-				new_unit.spawn_position = slot
-
-				if not new_unit.stats.stats_changed.is_connected(sync_battle_health_to_party_data):
-					new_unit.stats.stats_changed.connect(sync_battle_health_to_party_data)
-
-				match slot:
-					"POS_0": new_unit.position = POS_0
-					"POS_1": new_unit.position = POS_1
-					"POS_2": new_unit.position = POS_2
-					_: new_unit.position = Vector2(0, 0)
-				add_child(new_unit)
-				active_battle_party.append(new_unit.stats)
-				Events.player_creature_switch_completed.emit(creature)
-				return

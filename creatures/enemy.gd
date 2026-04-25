@@ -321,15 +321,3 @@ func _play_dodge_tween() -> void:
 			label.show_text("DODGE!")
 	tween.tween_property(self, "global_position", start_pos - dodge_offset, 0.5)
 	tween.tween_property(self, "global_position", start_pos, 0.1)
-
-
-func _on_mouse_entered() -> void:
-	pass
-	#if name_container:
-		#name_container.show()
-
-
-func _on_mouse_exited() -> void:
-	pass
-	#if name_container:
-		#name_container.hide()

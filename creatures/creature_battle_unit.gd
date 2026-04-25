@@ -20,12 +20,7 @@ extends Node2D
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
 
-var skip_turn: bool = false
-var has_slept: bool = false
-var is_asleep: bool = false
-var is_confused: bool = false
-var is_froze: bool = false
-var is_wild_creature: bool = false  # True for enemy-side creatures (was is_trainer_pkmn)
+var is_wild_creature: bool = false
 var last_damage_taken: int = 0
 
 var battle_moves: Array[Card] = []
@@ -42,9 +37,6 @@ func _ready() -> void:
 	if not Events.enemy_seeded.is_connected(_on_enemy_seeded_turn_start):
 		Events.enemy_seeded.connect(_on_enemy_seeded_turn_start)
 
-	if not Events.evolution_completed.is_connected(_on_evolution_completed):
-		Events.evolution_completed.connect(_on_evolution_completed)
-
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
 
@@ -60,7 +52,6 @@ func start_combat() -> void:
 	if battle_moves.is_empty():
 		push_warning("%s has no assigned moves — skipping combat timer" % stats.creature_name)
 		return
-
 
 	_action_timer = Timer.new()
 	_action_timer.wait_time = stats.get_action_interval()
@@ -113,18 +104,6 @@ func _pick_targets(card: Card) -> Array[Node]:
 		_:
 			return []
 
-
-func start_of_turn() -> void:
-	stats.block = 0
-	status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
-	if unit_status_indicator and unit_status_indicator.has_method("update_status_display"):
-		unit_status_indicator.update_status_display(self)
-
-
-func _on_evolution_completed() -> void:
-	Utils.print_resource(self.stats)
-
-
 func set_creature_stats(value: CreatureStats) -> void:
 	stats = value
 	if not stats.stats_changed.is_connected(update_stats):
@@ -140,11 +119,13 @@ func update_creature() -> void:
 		animated_sprite_2d.sprite_frames = frames_to_use
 		animated_sprite_2d.play("idle")
 	update_stats()
+	
 
 func play_animation(anim_name: StringName) -> void:
 	if animated_sprite_2d and animated_sprite_2d.sprite_frames:
 		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
 			animated_sprite_2d.play(anim_name)
+
 
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):
@@ -180,7 +161,7 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 			rage_effect.execute([self])
 
 	var tween := create_tween()
-	# Shaker.shake(self, 25, 0.15)  # TODO: Register Shaker autoload
+	Shaker.shake(self, 25, 0.15)
 	tween.tween_callback(stats.take_damage.bind(modified_damage))
 	tween.tween_interval(0.17)
 
@@ -293,23 +274,3 @@ func show_combat_text(text: String, color: Color = Color.WHITE, animation: Strin
 	add_child(label)
 	if label.has_method("show_text"):
 		label.show_text(text, color, animation)
-
-
-func get_tooltip_data() -> Dictionary:
-	return {
-		"header": "",
-		"description": "Health: %s/%s\nExp: %s/%s" % [
-			stats.health, stats.max_health,
-			stats.current_exp, stats.get_xp_for_next_level(stats.level)
-		]
-	}
-
-
-func _on_mouse_entered() -> void:
-	if has_node("%NameContainer"):
-		get_node("%NameContainer").show()
-
-
-func _on_mouse_exited() -> void:
-	if has_node("%NameContainer"):
-		get_node("%NameContainer").hide()

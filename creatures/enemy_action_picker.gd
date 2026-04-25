@@ -192,9 +192,5 @@ func _set_target(value: Node2D) -> void:
 
 
 func _initialize_connections() -> void:
-	if not Events.player_creature_switch_completed.is_connected(_on_creature_switch):
-		Events.player_creature_switch_completed.connect(_on_creature_switch)
 	if not Events.party_creature_fainted.is_connected(_on_creature_fainted):
 		Events.party_creature_fainted.connect(_on_creature_fainted)
-	if not Events.party_shifted.is_connected(_on_party_shifted):
-		Events.party_shifted.connect(_on_party_shifted)
