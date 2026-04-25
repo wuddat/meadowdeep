@@ -44,9 +44,13 @@ var mouth_states: Dictionary = {
 	"tongue": MOUTH_TONGUE, "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE
 }
 
+var base_textures: Dictionary = {"eyes": null, "mouth": null}
 
 func _ready() -> void:
-	apply_skin()
+	if not eyes.texture or not mouth.texture:
+		apply_skin()
+	base_textures["eyes"] = eyes.texture
+	base_textures["mouth"] = mouth.texture
 
 func apply_skin() -> void:
 	set_eyes("base")
@@ -63,3 +67,7 @@ func set_mouth(state: String) -> void:
 func set_both(eye_state:String, mouth_state:String) -> void:
 	set_eyes(eye_state)
 	set_mouth(mouth_state)
+
+func reset_base() -> void:
+	eyes.texture = base_textures["eyes"]
+	mouth.texture = base_textures["mouth"]

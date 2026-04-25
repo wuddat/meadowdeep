@@ -28,7 +28,7 @@ signal player_hit
 signal player_died
 
 # Autobattle Events
-signal creature_action_started(unit: CreatureBattleUnit, card: Card)
+signal creature_action_started(unit: CreatureBattleUnit)
 signal creature_action_completed(unit: CreatureBattleUnit)
 signal combat_started
 signal combat_ended

@@ -1,8 +1,7 @@
 #creature_battle_unit.gd
 # The in-battle representation of a creature. One node per active creature on screen.
-# Art/sound preloads are deferred until the art folder is populated.
 class_name CreatureBattleUnit
-extends Node2D
+extends BattleActor
 
 @export var stats: CreatureStats : set = set_creature_stats
 @export var spawn_position: String
@@ -13,7 +12,7 @@ extends Node2D
 @onready var stats_ui: HBoxContainer = $StatsUI
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
-@onready var unit_status_indicator: Node = %UnitStatusIndicator  # Will become UnitStatusIndicator once ported
+@onready var unit_status_indicator: Node = %UnitStatusIndicator
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
 
@@ -23,86 +22,79 @@ var _queued_health_bar_ui: Node = null
 var is_wild_creature: bool = false
 var last_damage_taken: int = 0
 
-var battle_moves: Array[Card] = []
-var _move_index: int = 0
-var _action_timer: Timer = null
 var _action_fill: ColorRect = null
+var _enemy: Enemy
 
 
 func _ready() -> void:
+	super()
 	add_to_group("active_creatures")
 	status_handler.status_owner = self
 	status_handler.statuses_applied.connect(_on_statuses_applied)
-
-	if not Events.enemy_seeded.is_connected(_on_enemy_seeded_turn_start):
-		Events.enemy_seeded.connect(_on_enemy_seeded_turn_start)
 
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
 
 
 func start_combat() -> void:
-	battle_moves.clear()
-	_move_index = 0
-	for move_id in stats.assigned_moves:
-		var card := Utils.create_card(move_id)
-		if card:
-			battle_moves.append(card)
-
-	if battle_moves.is_empty():
-		push_warning("%s has no assigned moves — skipping combat timer" % stats.creature_name)
-		return
-
-	_action_timer = Timer.new()
-	_action_timer.wait_time = stats.get_action_interval()
-	_action_timer.autostart = true
-	_action_timer.timeout.connect(_on_action_timer_timeout)
-	add_child(_action_timer)
 	_action_fill = action_timer.get_node("Fill")
-	action_name.text = battle_moves[_move_index].name
+	action_name.text = "Attack"
+	super()
 
 
-func _process(_delta: float) -> void:
-	if _action_timer and _action_fill and not _action_timer.is_stopped():
-		var fill := 1.0 - (_action_timer.time_left / _action_timer.wait_time)
-		_action_fill.size.x = action_timer.size.x * fill
+# ── BattleActor virtual hooks ─────────────────────────────────────────────────
+
+func _get_target() -> Node2D:
+	if not is_instance_valid(_enemy):
+		var enemies := get_tree().get_nodes_in_group("enemies")
+		if enemies.is_empty():
+			return null
+		_enemy = enemies[0] as Enemy
+	return _enemy
 
 
-func stop_combat() -> void:
-	if _action_timer:
-		_action_timer.stop()
-		_action_timer.queue_free()
-		_action_timer = null
-
-
-func _on_action_timer_timeout() -> void:
-	if stats.health <= 0 or battle_moves.is_empty():
+func _begin_attack(data: Dictionary) -> void:
+	if stats.health <= 0:
+		action_queue.done()
 		return
-	var card: Card = battle_moves[_move_index]
-	_move_index = (_move_index + 1) % battle_moves.size()
-	Events.creature_action_started.emit(self, card)
-	var preselected := _pick_targets(card)
-	var resolved := card._get_targets(preselected, self)
-	await card.apply_effects(resolved, modifier_handler, self)
+	var target: Node2D = data.get("target")
+	if not is_instance_valid(target):
+		action_queue.done()
+		return
+	Events.creature_action_started.emit(self)
+	await get_tree().create_timer(0.15, false).timeout
+	if is_instance_valid(target) and target.has_method("take_damage"):
+		target.take_damage(_get_attack_damage(), Modifier.Type.DMG_DEALT)
 	Events.creature_action_completed.emit(self)
-	action_name.text = battle_moves[_move_index].name
+	action_queue.done()
 
 
-func _pick_targets(card: Card) -> Array[Node]:
-	match card.target:
-		Card.Target.SINGLE_ENEMY, Card.Target.SPLASH:
-			var enemies := get_tree().get_nodes_in_group("enemies")
-			if enemies.is_empty():
-				return []
-			return [enemies[RNG.instance.randi() % enemies.size()]]
-		Card.Target.SINGLE_ALLY:
-			var allies: Array[Node] = get_tree().get_nodes_in_group("active_creatures")
-			allies = allies.filter(func(a): return a != self and a.stats.health > 0)
-			if allies.is_empty():
-				return [self]
-			return [allies[RNG.instance.randi() % allies.size()]]
-		_:
-			return []
+func _get_action_interval() -> float:
+	return stats.get_action_interval() if stats else 1.5
+
+
+func _get_attack_range() -> float:
+	return 24.0
+
+
+func _get_attack_damage() -> int:
+	return max(3, stats.stat_block.PWR.points) if stats else 3
+
+
+func _play_animation(anim_name: StringName) -> void:
+	play_animation(anim_name)
+
+
+func _face_direction(vel: Vector2) -> void:
+	animated_sprite_2d.scale.x = -1.0 if vel.x < 0 else 1.0
+
+
+func _update_action_timer_ui(remaining: float) -> void:
+	if _action_fill:
+		_action_fill.size.x = action_timer.size.x * (1.0 - remaining / _get_action_interval())
+
+
+# ── Public API ────────────────────────────────────────────────────────────────
 
 func set_creature_stats(value: CreatureStats) -> void:
 	stats = value
@@ -119,7 +111,7 @@ func update_creature() -> void:
 		animated_sprite_2d.sprite_frames = frames_to_use
 		animated_sprite_2d.play("idle")
 	update_stats()
-	
+
 
 func play_animation(anim_name: StringName) -> void:
 	if animated_sprite_2d and animated_sprite_2d.sprite_frames:
@@ -149,31 +141,20 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 	last_damage_taken = 0
 
 	var modified_damage := modifier_handler.get_modified_value(damage, mod_type)
-
-	if modified_damage > 0 and status_handler.has_status("rage"):
-		var atkup_res = load("res://statuses/attack_up.tres")
-		if atkup_res:
-			var atkup = atkup_res.duplicate()
-			atkup.stacks = 2
-			var rage_effect = StatusEffect.new()
-			rage_effect.source = self
-			rage_effect.status = atkup
-			rage_effect.execute([self])
-
-	var tween := create_tween()
-	Shaker.shake(self, 25, 0.15)
-	tween.tween_callback(stats.take_damage.bind(modified_damage))
-	tween.tween_interval(0.17)
-
+	
 	if modified_damage > 0:
 		show_combat_text("%s" % modified_damage)
 		last_damage_taken = modified_damage
-
-	tween.finished.connect(func():
-		if stats.health <= 0:
-			Events.party_creature_fainted.emit(self)
-			hide()
-	)
+		_apply_knockback(_enemy.global_position)
+		var tween := create_tween()
+		Shaker.shake(self, 25, 0.15)
+		tween.tween_callback(stats.take_damage.bind(modified_damage))
+		tween.tween_interval(0.17)
+		tween.finished.connect(func():
+			if stats.health <= 0:
+				Events.party_creature_fainted.emit(self)
+				hide()
+		)
 
 
 func heal(amount: int) -> void:
@@ -213,57 +194,13 @@ func _on_enemy_seeded_turn_start(seeded: Status) -> void:
 func on_enemy_defeated(enemy: Enemy) -> void:
 	if stats.health <= 0:
 		return
-	var xp := enemy.stats.max_health
-	stats.current_exp += xp
-	print("Enemy defeated: %s | Gained EXP: %s" % [enemy.stats.species_id, xp])
-	show_combat_text("EXP: %s" % xp, Color.WHITE, "quick_rise")
-
-	await get_tree().create_timer(0.4).timeout
-
-	var level_up_exp := stats.get_xp_for_next_level(stats.level)
-	if stats.current_exp >= level_up_exp:
-		if not stats.leveled_up_in_battle:
-			stats.leveled_up_in_battle = true
-			Events.add_leveled_creature_to_rewards.emit(stats)
-		stats.level += 1
-		stats.max_health += stats.level
-		stats.health += stats.level
-		show_combat_text("LEVEL UP!", Color.WHITE, "quick_rise")
-		# SFXPlayer.pitch_play(LVL_UP)  # TODO: Register SFXPlayer autoload
-		if stats.level >= stats.evolution_level:
-			Events.evolution_triggered.emit(stats)
-
+	print("Enemy defeated: %s" % [enemy.stats.species_id])
 	await get_tree().process_frame
 	if get_parent().has_node("EnemyHandler"):
 		var enemy_handler = get_parent().get_node("EnemyHandler")
 		if enemy_handler.get_child_count() == 0:
 			await get_tree().process_frame
 			await get_tree().create_timer(0.2).timeout
-
-
-func dodge_check() -> bool:
-	if status_handler.has_status("dodge"):
-		var dodge_stacks = status_handler.get_status_stacks("dodge")
-		var dodge_chance = dodge_stacks * 0.1
-		var dodge_outcome = RNG.instance.randf()
-		var dodge = status_handler.get_status("dodge")
-		dodge.stacks -= 1
-		if dodge_outcome < dodge_chance:
-			Events.battle_text_requested.emit("%s was able to DODGE the attack!" % stats.species_id.capitalize())
-			_play_dodge_tween()
-			return true
-	return false
-
-
-func _play_dodge_tween() -> void:
-	var start_pos := global_position
-	var dodge_offset := Vector2.RIGHT * 24
-	var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(self, "global_position", start_pos - dodge_offset, 0.1)
-	show_combat_text("DODGE!", Color.WHITE, "quick_rise")
-	# SFXPlayer.pitch_play(DODGE)  # TODO: Register SFXPlayer autoload
-	tween.tween_property(self, "global_position", start_pos - dodge_offset, 0.5)
-	tween.tween_property(self, "global_position", start_pos, 0.1)
 
 
 func show_combat_text(text: String, color: Color = Color.WHITE, animation: String = "rise_and_fade") -> void:

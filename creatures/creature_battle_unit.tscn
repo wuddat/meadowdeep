@@ -8,7 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
 [ext_resource type="PackedScene" uid="uid://bnnr7b1674s3f" path="res://scenes/ui/unit_status_indicator.tscn" id="6_usi"]
 
-[node name="CreatureBattleUnit" type="Node2D" unique_id=68470423 groups=["active_creatures"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
+size = Vector2(19, 16)
+
+[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 groups=["active_creatures"]]
+collision_mask = 0
+motion_mode = 1
 script = ExtResource("1_cbu01")
 sprite_frames = ExtResource("2_yfbhk")
 
@@ -71,3 +76,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1282297662]
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_p5puj")

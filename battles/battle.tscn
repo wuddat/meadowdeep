@@ -19,9 +19,6 @@
 [sub_resource type="Resource" id="Resource_nille"]
 script = ExtResource("6_4r7wf")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iid6"]
-size = Vector2(1150, 408)
-
 [node name="Battle" type="Control" unique_id=1830331826]
 process_mode = 1
 layout_mode = 3
@@ -46,6 +43,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_nille")
+
+[node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859 groups=["enemy_handler"]]
+script = ExtResource("3_btl01")
+enemy_scene = ExtResource("6_vay6r")
+
+[node name="PartyHandler" type="Node" parent="." unique_id=1615292015 groups=["party_handler"]]
+script = ExtResource("4_btl01")
+character_stats = ExtResource("3_6tbm7")
+creature_battle_unit_scene = ExtResource("8_2iid6")
+
+[node name="CardTargetSelector" parent="." unique_id=346684082 instance=ExtResource("13_4r7wf")]
+
+[node name="PosLocator" type="Node2D" parent="." unique_id=1812583134]
+position = Vector2(472, 206)
+
+[node name="CreatureCombatHandler" type="Node" parent="." unique_id=1568878833]
+unique_name_in_owner = true
+script = ExtResource("16_0msic")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=100000001 groups=["ui_layer"]]
 layer = 3
@@ -84,34 +99,8 @@ text = "End Turn"
 
 [node name="BattleUI" parent="UILayer/BattleUI" unique_id=1528964739 instance=ExtResource("8_aieny")]
 
-[node name="CardDropArea" type="Area2D" parent="." unique_id=1758312783]
-visible = false
-collision_layer = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CardDropArea" unique_id=1796175242]
-position = Vector2(574, 205)
-shape = SubResource("RectangleShape2D_2iid6")
-
-[node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859 groups=["enemy_handler"]]
-script = ExtResource("3_btl01")
-enemy_scene = ExtResource("6_vay6r")
-
-[node name="PartyHandler" type="Node" parent="." unique_id=1615292015 groups=["party_handler"]]
-script = ExtResource("4_btl01")
-character_stats = ExtResource("3_6tbm7")
-creature_battle_unit_scene = ExtResource("8_2iid6")
-
-[node name="CardTargetSelector" parent="." unique_id=346684082 instance=ExtResource("13_4r7wf")]
-
 [node name="BattleOverLayer" type="CanvasLayer" parent="." unique_id=992586351]
 layer = 5
 
 [node name="BattleOverPanel" parent="BattleOverLayer" unique_id=1853279945 instance=ExtResource("14_nille")]
 visible = false
-
-[node name="Node" type="Node2D" parent="." unique_id=1812583134]
-position = Vector2(472, 206)
-
-[node name="CreatureCombatHandler" type="Node" parent="." unique_id=1568878833]
-unique_name_in_owner = true
-script = ExtResource("16_0msic")

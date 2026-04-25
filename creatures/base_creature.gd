@@ -9,24 +9,24 @@ extends CharacterBody2D
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
-const SLEEP_BUBBLE   = preload("res://art/game_art/emoticons/sleep.png")
-const LOVE_BUBBLE    = preload("res://art/game_art/emoticons/love.png")
-const RELAXED_BUBBLE = preload("res://art/game_art/emoticons/relaxed.png")
-const JOY_BUBBLE     = preload("res://art/game_art/emoticons/joy.png")
-const HIGHLIGHT_SHADER := preload("res://art/game_art/shaders/highlight.gdshader")
-const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
+const SLEEP_BUBBLE   = preload("uid://egy4dv4ia6wo")
+const LOVE_BUBBLE    = preload("uid://bqlkju2dhllnv")
+const RELAXED_BUBBLE = preload("uid://belrasl0o441s")
+const JOY_BUBBLE     = preload("uid://b2g1rvgiv1pxs")
+const HIGHLIGHT_SHADER := preload("uid://jjkitdbqimry")
+const QUESTION_BUBBLE = preload("uid://bpd78uay7a3i6")
 
 
-const EYES_CLOSED = preload("res://art/game_art/creatures/base_creature/eyes_cl_soft.png")
-const EYES_CUTE = preload("res://art/game_art/creatures/base_creature/eyes_cute.png")
-const EYES_HEART = preload("res://art/game_art/creatures/base_creature/eyes_heart.png")
-const EYES_SAD = preload("res://art/game_art/creatures/base_creature/eyes_sad.png")
-const EYES_HAPPY = preload("res://art/game_art/creatures/base_creature/eyes_happy.png")
-const MOUTH_FROWN = preload("res://art/game_art/creatures/base_creature/mouth_frown.png")
-const MOUTH_GRIN = preload("res://art/game_art/creatures/base_creature/mouth_grin.png")
-const MOUTH_SMILE = preload("res://art/game_art/creatures/base_creature/mouth_smile.png")
-const MOUTH_SURPRISE = preload("res://art/game_art/creatures/base_creature/mouth_surprise.png")
-const MOUTH_TONGUE = preload("res://art/game_art/creatures/base_creature/mouth_tongue.png")
+const EYES_CLOSED = preload("uid://skq2nptaavw4")
+const EYES_CUTE = preload("uid://capxhpxiavcru")
+const EYES_HAPPY = preload("uid://bpik3cnbaygqr")
+const EYES_HEART = preload("uid://ca3ebsrm3drr")
+const EYES_SAD = preload("uid://dnx21qcy3ajs2")
+const MOUTH_FROWN = preload("uid://bxx62nul0ymkg")
+const MOUTH_GRIN = preload("uid://vbg5tgivr72c")
+const MOUTH_SMILE = preload("uid://bdc3kfksvk4uu")
+const MOUTH_SURPRISE = preload("uid://cf2hju6xyyjsb")
+const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
 
 
 # ── Tuning ────────────────────────────────────────────────────────────────────
@@ -42,10 +42,7 @@ const MOUTH_TONGUE = preload("res://art/game_art/creatures/base_creature/mouth_t
 
 
 # ── Action queue ──────────────────────────────────────────────────────────────
-var _action_queue: Array[Dictionary] = []
-
-var _current_action: StringName:
-	get: return _action_queue[0]["id"] if _action_queue.size() > 0 else &""
+var action_queue := ActionQueue.new()
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -94,8 +91,10 @@ func _ready() -> void:
 		creature_stat_handler.stat_block = creature_stats.stat_block
 		creature_stat_handler.creature_uid = creature_stats.uid
 	_establish_connections()
+	action_queue.action_started.connect(_on_action_start)
+	action_queue.queue_emptied.connect(_on_queue_emptied)
 	_on_ready_creature()
-	_enqueue_action(&"idle", {})
+	action_queue.enqueue(&"idle", {})
 	creature_animation_handler.base_eyes = eyes.texture
 	var shader_material := ShaderMaterial.new()
 	shader_material.shader = HIGHLIGHT_SHADER
@@ -158,7 +157,7 @@ func _physics_process(delta: float) -> void:
 		global_position = carry_node.global_position if carry_node else _holder.global_position + HOLD_OFFSET
 		velocity = Vector2.ZERO
 		return
-	emotion_handler.tick_emotions(delta, _current_action)
+	emotion_handler.tick_emotions(delta, action_queue.current_action)
 	_check_emotion_triggers()
 	_tick_current_action(delta)
 
@@ -168,32 +167,8 @@ func _physics_process(delta: float) -> void:
 # Action Queue
 # ═══════════════════════════════════════════════════════════════════════════════
 
-func _enqueue_action(id: StringName, data: Dictionary) -> void:
-	_action_queue.append({ "id": id, "data": data })
-	if _action_queue.size() == 1:
-		_on_action_start(id, data)
-
-
-func _push_action_front(id: StringName, data: Dictionary) -> void:
-	_action_queue.push_front({ "id": id, "data": data })
-	_on_action_start(id, data)
-
-
-func _action_done() -> void:
-	if _action_queue.is_empty():
-		return
-	_action_queue.pop_front()
-	if _action_queue.is_empty():
-		_enqueue_action(&"idle", {})
-	else:
-		_on_action_start(_action_queue[0]["id"], _action_queue[0]["data"])
-
-
-func _queue_contains(id: StringName) -> bool:
-	for entry in _action_queue:
-		if entry["id"] == id:
-			return true
-	return false
+func _on_queue_emptied() -> void:
+	action_queue.enqueue(&"idle", {})
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
@@ -254,49 +229,50 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 
 func _check_emotion_triggers() -> void:
 	if emotion_handler.emotions["sleepiness"] >= emotion_handler.sleepiness_sleep_threshold:
-		if _current_action != &"sleep":
-			_push_action_front(&"sleep", {
+		if action_queue.current_action != &"sleep":
+			action_queue.push_front(&"sleep", {
 				"timer": randf_range(action_duration_min, action_duration_max)
 			})
 		return
 
 	if emotion_handler.emotions["hunger"] <= emotion_handler.hunger_seek_food_threshold:
-		if _current_action != &"seek_food" and _current_action != &"eat_food" and not _queue_contains(&"seek_food"):
-			_enqueue_action(&"seek_food", {})
+		if action_queue.current_action != &"seek_food" and action_queue.current_action != &"eat_food" and not action_queue.contains(&"seek_food"):
+			action_queue.enqueue(&"seek_food", {})
 			return
 
 	if emotion_handler.emotions["lonely"] >= emotion_handler.lonely_seek_threshold:
-		if _current_action != &"seek_player" and not _queue_contains(&"seek_player"):
-			_enqueue_action(&"seek_player", {})
+		if action_queue.current_action != &"seek_player" and not action_queue.contains(&"seek_player"):
+			action_queue.enqueue(&"seek_player", {})
 
 	if emotion_handler.emotions["boredom"] >= emotion_handler.boredom_wander_threshold:
-		if _current_action != &"wander" and not _queue_contains(&"wander"):
-			_enqueue_action(&"wander", { "target": _pick_wander_target() })
+		if action_queue.current_action != &"wander" and not action_queue.contains(&"wander"):
+			action_queue.enqueue(&"wander", { "target": _pick_wander_target() })
+
 
 func _tick_current_action(delta: float) -> void:
-	if _action_queue.is_empty():
+	var current := action_queue.peek()
+	if current.is_empty():
 		return
-	var action: Dictionary = _action_queue[0]
-	match action["id"]:
-		&"idle":        _tick_idle(action["data"], delta)
-		&"wander":      _tick_wander(action["data"], delta)
-		&"sleep":       _tick_sleep(action["data"], delta)
-		&"seek_player": _tick_seek_player(action["data"], delta)
-		&"seek_food":   _tick_seek_food(action["data"], delta)
-		&"eat_food":    _tick_eat_food(action["data"], delta)
+	match current["id"]:
+		&"idle":        _tick_idle(current["data"], delta)
+		&"wander":      _tick_wander(current["data"], delta)
+		&"sleep":       _tick_sleep(current["data"], delta)
+		&"seek_player": _tick_seek_player(current["data"], delta)
+		&"seek_food":   _tick_seek_food(current["data"], delta)
+		&"eat_food":    _tick_eat_food(current["data"], delta)
 
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
 	if data["timer"] <= 0.0:
-		_action_done()
+		action_queue.done()
 
 
 func _tick_wander(data: Dictionary, _delta: float) -> void:
 	var dir: Vector2 = data["target"] - global_position
 	if dir.length() < 4.0:
 		emotion_handler.lower("boredom", 40.0)
-		_action_done()
+		action_queue.done()
 		return
 	velocity = dir.normalized() * move_speed
 	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
@@ -311,20 +287,20 @@ func _tick_sleep(data: Dictionary, delta: float) -> void:
 		action_sfx.play()
 	if data["timer"] <= 0.0 or emotion_handler.emotions["sleepiness"] <= 0.0:
 		action_sfx.stop()
-		_action_done()
+		action_queue.done()
 		animation_player.play("bubble_fade_out")
 
 
 func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 	var player := _get_player()
 	if not player:
-		_action_done()
+		action_queue.done()
 		return
 	var dir: Vector2 = player.global_position - global_position
 	if dir.length() < 24.0:
 		emotion_handler.lower("lonely", 60.0)
 		emotion_handler.raise("joy",    30.0)
-		_action_done()
+		action_queue.done()
 		animation_player.play("bubble_fade_out")
 		return
 
@@ -336,14 +312,14 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 	var food := _get_food()
 	if not food:
-		_action_done()
+		action_queue.done()
 		return
 	var dir: Vector2 = food.global_position - global_position
 	if dir.length() < 20.0:
 		_eating_food = food
 		food.start_eating()
-		_enqueue_action(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
-		_action_done()
+		action_queue.enqueue(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
+		action_queue.done()
 		return
 	velocity = dir.normalized() * move_speed
 	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
@@ -374,9 +350,8 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 					_eating_food.drop()
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
-		_action_queue.insert(1, { "id": &"idle", "data": {} })
 		Events.creature_stat_view_dismissed.emit(creature_stats.uid)
-		_action_done()
+		action_queue.done()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -398,7 +373,7 @@ func release() -> void:
 	_holder = null
 	collision_layer = _saved_collision_layer
 	collision_mask = _saved_collision_mask
-	_push_action_front(&"idle", {})
+	action_queue.push_front(&"idle", {})
 	Events.creature_stat_view_dismissed.emit(creature_stats.uid)
 
 
@@ -412,10 +387,9 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	food_item.global_position = global_position + Vector2(5, 5)
 	_eating_food = food_item
 	_food = null
-	_action_queue = _action_queue.filter(
-		func(e): return e["id"] != &"seek_food" and e["id"] != &"eat_food"
-	)
-	_push_action_front(&"eat_food", {
+	action_queue.remove(&"seek_food")
+	action_queue.remove(&"eat_food")
+	action_queue.push_front(&"eat_food", {
 		"timer": randf_range(action_duration_min, action_duration_max)
 	})
 	Events.creature_stat_view_requested.emit(creature_stats)

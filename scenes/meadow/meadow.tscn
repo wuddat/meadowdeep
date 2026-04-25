@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
-[ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="13_a8g20"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
@@ -89,27 +88,20 @@ bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
 position = Vector2(451, 193)
+stages = 4
 item_data = SubResource("Resource_bh7u7")
 
 [node name="CreatureFood2" parent="." unique_id=1642560484 instance=ExtResource("8_pxhms")]
 modulate = Color(1, 1, 0.36862746, 1)
 position = Vector2(602, 447)
+stages = 4
 item_data = SubResource("Resource_8uyeg")
 
 [node name="CreatureFood3" parent="." unique_id=552193260 instance=ExtResource("8_pxhms")]
 modulate = Color(2.40685, 1.9309977, 1.4642963, 1)
 position = Vector2(403, 431)
-stages = 10
+stages = 4
 item_data = SubResource("Resource_j48bh")
-
-[node name="EmberEgg" parent="." unique_id=847037931 instance=ExtResource("13_a8g20")]
-modulate = Color(1, 0.3372549, 0, 1)
-position = Vector2(430, 254)
-
-[node name="WaterEgg" parent="." unique_id=882203231 instance=ExtResource("13_a8g20")]
-modulate = Color(0.29146275, 0.6314283, 0.829214, 1)
-position = Vector2(590, 352)
-species_id = "tide"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2111480432]
 

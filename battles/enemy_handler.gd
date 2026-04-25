@@ -11,14 +11,11 @@ extends Node2D
 @onready var right_panel: VBoxContainer = $"../StatUI/RightPanel"
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 
-var acting_enemies: Array[Enemy] = []
 var battle_stats: BattleStats = null
-var enemy_text_delay: float = 0.4
 
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
-	Events.enemy_action_completed.connect(_on_enemy_action_completed)
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 
 
@@ -60,12 +57,8 @@ func reset_enemy_actions() -> void:
 
 
 func start_turn() -> void:
-	if get_child_count() == 0:
-		return
-	acting_enemies.clear()
 	for enemy: Enemy in get_children():
-		acting_enemies.append(enemy)
-	_start_next_enemy_turn()
+		enemy.start_combat()
 
 
 func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
@@ -93,60 +86,26 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 	enemy.stats = stats
 	add_child(enemy)
 
-	if enemy.status_handler:
-		enemy.status_handler.statuses_applied.connect(_on_enemy_statuses_applied.bind(enemy))
-
-
-func _start_next_enemy_turn() -> void:
-	if acting_enemies.is_empty():
-		await get_tree().create_timer(enemy_text_delay * 3.0, false).timeout
-		start_turn()
-		return
-	await get_tree().create_timer(0.0, false).timeout
-	acting_enemies[0].status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
-
-
-func _on_enemy_statuses_applied(type: Status.Type, enemy: Enemy) -> void:
-	match type:
-		Status.Type.START_OF_TURN:
-			enemy.do_turn()
-		Status.Type.END_OF_TURN:
-			acting_enemies.erase(enemy)
-			_start_next_enemy_turn()
-
 
 func _on_enemy_fainted(enemy: Enemy) -> void:
 	if not is_instance_valid(enemy):
 		return
-
 	Events.battle_text_requested.emit(
 		"Enemy [color=red]%s[/color] FAINTED!" % enemy.stats.species_id.capitalize()
 	)
-
 	for battler in party_handler.get_active_creature_nodes():
 		if battler.has_method("on_enemy_defeated"):
 			battler.on_enemy_defeated(enemy)
-
-	var is_enemy_turn := acting_enemies.size() > 0
-	acting_enemies.erase(enemy)
 	if is_instance_valid(enemy):
 		enemy.queue_free()
 	child_order_changed.emit()
 
-	if is_enemy_turn:
-		_start_next_enemy_turn()
-
-
-func _on_enemy_action_completed(enemy: Enemy) -> void:
-	enemy.status_handler.apply_statuses_by_type(Status.Type.END_OF_TURN)
-
 
 func _on_party_creature_fainted(unit: CreatureBattleUnit) -> void:
-	for enemy in acting_enemies:
-		if enemy.current_action and "target" in enemy.current_action:
-			if enemy.current_action.get("target") == unit:
-				if enemy.enemy_action_picker and enemy.enemy_action_picker.has_method("select_valid_target"):
-					enemy.enemy_action_picker.select_valid_target()
+	for enemy in get_children():
+		if enemy is Enemy and enemy.enemy_action_picker:
+			if enemy.enemy_action_picker.has_method("select_valid_target"):
+				enemy.enemy_action_picker.select_valid_target()
 
 
 func get_enemies() -> Array[Node]:

@@ -3,7 +3,6 @@ extends Node
 
 var _party_units: Array[CreatureBattleUnit] = []
 
-
 func start_combat(units: Array[CreatureBattleUnit]) -> void:
 	_party_units = units
 	Events.combat_started.emit()

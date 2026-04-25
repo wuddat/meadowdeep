@@ -202,6 +202,20 @@ tracks/8/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("CreatureSkinHandler")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_base"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_45v1c"]
 resource_name = "carrying"
@@ -681,7 +695,7 @@ texture = ExtResource("2_tam7t")
 material = SubResource("ShaderMaterial_a4vea")
 sprite_frames = ExtResource("4_6nty8")
 animation = &"eat"
-frame_progress = 0.37830085
+frame_progress = 0.41043046
 
 [node name="Pattern" type="Sprite2D" parent="AnimatedSprite2D" unique_id=1998209972]
 visible = false

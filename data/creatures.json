@@ -86,7 +86,7 @@
 	  "stat_block": {
 		"personality": "stoic",
 		"PWR_grade": 4,
-		"AGI_grade": 1,
+		"AGI_grade": 5,
 		"RES_grade": 5,
 		"MYS_grade": 1,
 		"FOC_grade": 2

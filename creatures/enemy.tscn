@@ -5,27 +5,28 @@
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="2_jm0xe"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
-[ext_resource type="PackedScene" uid="uid://djn4clek6m1mn" path="res://scenes/ui/intent_ui.tscn" id="6_2bth1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
-size = Vector2(48, 64)
+size = Vector2(19, 17)
 
-[node name="Enemy" type="Area2D" unique_id=1743903814 groups=["enemies"]]
+[node name="Enemy" type="CharacterBody2D" unique_id=1956526154 groups=["enemies"]]
 collision_layer = 4
+collision_mask = 0
+motion_mode = 1
 script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1578258546]
-visible = false
+position = Vector2(-0.5, 1.5)
 shape = SubResource("RectangleShape2D_enm01")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298247572]
 visible = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328390287]
+scale = Vector2(-1, 1)
 sprite_frames = ExtResource("3_xdx88")
 animation = &"idle"
-flip_h = true
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=1164419915]
 
@@ -72,18 +73,3 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 122.0
 offset_bottom = 7.0
-
-[node name="IntentUI" parent="." unique_id=16804742 node_paths=PackedStringArray("parent", "status_handler") instance=ExtResource("6_2bth1")]
-unique_name_in_owner = true
-visible = false
-offset_left = -56.0
-offset_top = -36.0
-offset_right = 56.0
-offset_bottom = -16.0
-parent = NodePath("..")
-status_handler = NodePath("../StatusHandler")
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="area_exited" from="." to="." method="_on_area_exited"]
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
