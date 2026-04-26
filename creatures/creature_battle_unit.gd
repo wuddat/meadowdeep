@@ -52,32 +52,8 @@ func _get_target() -> Node2D:
 	return _enemy
 
 
-func _begin_attack(data: Dictionary) -> void:
-	if stats.health <= 0:
-		action_queue.done()
-		return
-	var target: Node2D = data.get("target")
-	if not is_instance_valid(target):
-		action_queue.done()
-		return
-	Events.creature_action_started.emit(self)
-	await get_tree().create_timer(0.15, false).timeout
-	if is_instance_valid(target) and target.has_method("take_damage"):
-		target.take_damage(_get_attack_damage(), Modifier.Type.DMG_DEALT)
-	Events.creature_action_completed.emit(self)
-	action_queue.done()
-
-
 func _get_action_interval() -> float:
 	return stats.get_action_interval() if stats else 1.5
-
-
-func _get_attack_range() -> float:
-	return 24.0
-
-
-func _get_attack_damage() -> int:
-	return max(3, stats.stat_block.PWR.points) if stats else 3
 
 
 func _play_animation(anim_name: StringName) -> void:

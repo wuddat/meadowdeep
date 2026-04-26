@@ -23,9 +23,6 @@ var current_action: Node = null : set = set_current_action
 var spawn_coords: Vector2
 
 var last_damage_taken: int = 0
-var enemy_text_delay: float = 0.15
-
-var _target: Node2D
 
 func _ready() -> void:
 	add_to_group("enemies")
@@ -89,23 +86,8 @@ func _get_target() -> Node2D:
 	return creatures[0] as Node2D
 
 
-func _begin_attack(data: Dictionary) -> void:
-	_target = data.get("target")
-	if not is_instance_valid(_target):
-		action_queue.done()
-		return
-	await get_tree().create_timer(enemy_text_delay, false).timeout
-	if is_instance_valid(_target) and _target.has_method("take_damage"):
-		_target.take_damage(_get_attack_damage(), Modifier.Type.DMG_DEALT)
-	action_queue.done()
-
-
 func _get_action_interval() -> float:
 	return stats.get_action_interval() if stats else 1.5
-
-
-func _get_attack_damage() -> int:
-	return max(3, stats.stat_block.PWR.points) if stats else 3
 
 
 func _play_animation(anim_name: StringName) -> void:
@@ -119,6 +101,8 @@ func _face_direction(vel: Vector2) -> void:
 # ── Combat ────────────────────────────────────────────────────────────────────
 
 func take_damage(damage: int, mod_type: Modifier.Type) -> void:
+	if stats.health <= 0:
+		return
 	last_damage_taken = 0
 
 	var modified_damage := modifier_handler.get_modified_value(damage, mod_type)

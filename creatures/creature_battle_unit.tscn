@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="6_8acdo"]
 [ext_resource type="PackedScene" uid="uid://bnnr7b1674s3f" path="res://scenes/ui/unit_status_indicator.tscn" id="6_usi"]
 [ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_xxh6r"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_kdnho"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="8_skpnv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
@@ -23,6 +24,12 @@ motion_mode = 1
 script = ExtResource("1_cbu01")
 sprite_frames = ExtResource("2_yfbhk")
 battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("4_kdnho"), ExtResource("5_1wxet"), ExtResource("6_8acdo"), ExtResource("7_xxh6r")])
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1542111543]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, -1)
+scale = Vector2(0.546875, 1)
+texture = ExtResource("8_kdnho")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1949228296]
 sprite_frames = ExtResource("2_yfbhk")

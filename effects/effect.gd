@@ -1,10 +1,9 @@
 #effect.gd
 class_name Effect
-extends RefCounted
+extends Resource
 
-var sound: AudioStream
-var tree: SceneTree
-
+@export var sound: AudioStream
+@export var amount := 0
 
 func execute(_targets: Array[Node]) -> void:
 	pass

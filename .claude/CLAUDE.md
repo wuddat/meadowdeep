@@ -2,27 +2,145 @@
 
 ## Who You're Working With
 
-You're working with a developer who has a 9-5 job and does contract web dev in the evenings. Game development happens in focused sessions — typically Saturday mornings. Time is limited and precious, so sessions should be productive and focused. 
+You're working with a developer who has a 9-5 job and does contract web dev in the evenings. Game development happens in focused sessions — typically Saturday mornings. Time is limited and precious, so sessions should be productive and focused.
 
-Be direct, warm, and collaborative. Think of yourself as a creative and technical partner, not just a code executor. When there's a design decision to make, engage with it — don't just ask what to do. When something could be done better, say so. Keep energy up. This project matters to the person building it.
+Be direct, warm, and collaborative. Think of yourself as a creative and technical partner, not just a code executor. When there's a design decision to make, engage with it — don't just ask what to do. When something could be done better, say so. When something is drifting from the vision, push back. Keep energy up. This project matters to the person building it.
+
+The developer already knows GDScript well and has shipped a complete Godot project. Don't over-explain basics. Treat them as a peer.
 
 ---
 
-## What MeadowDeep Is
+## Read This First, Every Session
 
-**One-sentence pitch:** A cozy roguelite where you care for and bond with a growing collection of strange creatures, then descend together into ancient ruins — the deeper you go, the stranger and rarer they become.
+Before suggesting code, writing code, or accepting a design, the **vision** must be in scope. The emotional core of MeadowDeep is the lens through which every decision is evaluated. Architecture serves the feeling. The feeling does not serve the architecture.
 
-**The emotional core — three feelings this game must deliver:**
+This document holds both the vision (the WHY) and the technical state (the WHAT). When they conflict, the vision wins.
+
+---
+
+## The Emotional Core
+
+> **MeadowDeep is about watching the creature you raised reveal itself.**
+
+Every system exists to support that single feeling. The act of raising a creature — feeding it, playing with it, building bonds, exploring with it — must culminate in moments where the player SEES who the creature became under their care. Combat is the most powerful of these moments because it's where character is most visibly expressed: how the creature moves, what it chooses to do, how it handles pressure, whether it hesitates or charges, whether it protects or pursues.
+
+This is the Chao Garden lineage. Chao races weren't emotionally powerful because of stat math. They were powerful because the player watched a creature they had personally shaped EXPRESS who it had become. The race was a stage. The stats were a vocabulary. The chao was the actor. MeadowDeep wants the same relationship between player, creature, and combat.
+
+If a system in this codebase doesn't ultimately serve that — directly or indirectly — it's either scaffolding (acceptable, temporary) or noise (cut it).
+
+### Three feelings the game must deliver
+
 - *"Look how far we've come"* — creatures visibly evolve and change based on what you do together. The meadow looks different. The ruins go deeper.
 - *"This one is mine"* — you carried that egg out of the ruins. You hatched it. It grew differently because of how you played.
-- *"One more run"* — each descent feels different because your living, growing party shapes the deck.
+- *"One more run"* — each descent feels different because your living, growing party shapes the encounter.
 
-**Design pillars:**
-- Attachment over disposability — creatures persist, death is setback not deletion
-- Experience shapes growth — what happens in runs changes who creatures become
-- The meadow is alive — home base reflects progress and has its own texture
-- Depth rewards bravery — rarer eggs and stranger creatures live deeper in the ruins
-- Small and finishable — one biome, one ruin, a complete loop
+---
+
+## What This Means In Practice
+
+### Combat is a stage, not a calculator
+
+The game pivoted from card-based combat to a **brain-driven autobattler**. The player is the AUDIENCE, not the operator. Combat is something the player WATCHES the creature do, with light interaction (QTEs) for engagement. This shapes everything:
+
+- Damage equations are not the point. **Visible behavior is the point.**
+- A creature winning by 1 HP because it hesitated bravely is more valuable than a creature winning cleanly with optimal play.
+- "Watching numbers play themselves" is the failure mode. If combat reads as math instead of acting, the design has failed.
+- Animation, timing, posture, and decision visibility are not polish — they are the product.
+
+### Stats are character, not numbers
+
+A stat is not "+X damage." A stat is **a way of being.** High Power doesn't mean "hits hard" — it means "throws itself into impacts, lingers in followthrough, recoils less." Stats are behavioral fingerprints, expressed through how the creature moves and decides. The numbers under the hood serve the visible behavior, not the other way around.
+
+When designing a stat system and you find yourself asking "what does this number do mathematically," stop. Ask instead: **"What does this number make the creature LOOK LIKE?"** If the answer isn't visceral and visible, the stat needs rethinking.
+
+### Personality is the soul
+
+The Brain selecting actions based on intent is not just a clever AI architecture — it's the place where the creature's PERSONALITY lives. A Brave EMBER and a Cautious EMBER, given identical stats and identical action pools, must fight differently. The brain's `_evaluate_intent()` is where that difference is born. Personality is not a decorative tag; it's a scoring weight that biases real, observable behavior.
+
+This is why the `_evaluate_intent()` slot is sacred. Every personality input — bravery, caution, loyalty, recklessness — eventually feeds into that one method. Don't pollute it. Don't bypass it. Don't build parallel decision systems that ignore it.
+
+### The player raises, the creature acts
+
+The player's role in combat is **director, not operator**. They've already done the meaningful work BEFORE the fight: feeding, bonding, teaching, exploring. The fight is when that work becomes visible. The player's in-fight agency (QTEs, encouragement, eventual commands) should ENHANCE the creature's expression, not OVERRIDE it.
+
+This is why the card system died as a combat mechanic. Cards put the player at the center of combat. The pivot to brain-driven autobattle puts the CREATURE at the center. Anything that drifts back toward "player chooses creature's actions" is drifting away from the vision.
+
+### The meadow is preparation; the ruins are revelation
+
+The two-worlds split (meadow / ruins) is not just architectural convenience. It's emotional structure:
+
+- **Meadow** = where the player INVESTS. Quiet, slow, full of small care-actions. Bonds form. Personality emerges. The creature grows.
+- **Ruins** = where the player WITNESSES the investment paying off. Combat, exploration, stakes. The creature's growth becomes legible.
+
+When designing meadow systems, ask: *does this create something the player will later SEE in the ruins?* When designing ruins systems, ask: *does this make visible what the player did in the meadow?* If the answer is no on either side, the system is decoupled from the emotional loop.
+
+---
+
+## The Lens — Questions to Ask of Every Change
+
+Before suggesting code, writing code, or accepting a design, run the proposal through these questions. Ordered by importance.
+
+1. **Does this make the creature more visible as a character?** The single most important question. Visibility means: the player can SEE who the creature is, in motion, in choice, in expression.
+
+2. **Does this honor the player's investment?** The player has spent time in the meadow. Does the system REWARD that investment by making it visible, or does it bypass it?
+
+3. **Is the player a director or an operator here?** Director good. Operator bad. If a feature pulls the player toward micromanaging combat decisions, it's drifting toward operator.
+
+4. **Could a wild creature do this exactly the same way?** If yes, the system isn't expressing the bond/raising relationship. A raised creature should fight, behave, and respond differently from a wild one.
+
+5. **Is this code on the path to expression, or off it?** Plumbing is fine — flag it as plumbing. But "feature" code that doesn't ladder up to character expression should be questioned.
+
+6. **Would removing this lose anything emotionally important?** The strongest test of whether a system earns its keep.
+
+---
+
+## Architectural Pillars (and Why They Exist)
+
+These are the load-bearing decisions. Don't undo them without understanding why they were made.
+
+### The Brain is the single decision-maker
+
+**Why:** so personality has exactly one place to live. Every behavior — including movement — flows through the brain. Auto-seek is forbidden. Implicit "the attack handler decides to move first" is forbidden. The brain decides, the action executes, the queue ticks. One decision-maker. Always.
+
+### Actions own their own targeting
+
+**Why:** because targeting depends on the action's nature. Heal targets allies. Attack targets enemies. Brace targets self. Each action knows what it wants. The brain just asks "can you go?" and the action handles the rest.
+
+### The Brain is stateless
+
+**Why:** so the same brain implementation works for any actor. The actor brings its own action pool and context. The brain reads, scores, picks. It doesn't remember.
+
+### Cards are dormant, not deleted
+
+**Why:** they were built for a different vision (player-as-operator). The pivot didn't need their absence; it needed their irrelevance. Leaving them on disk costs nothing and preserves optionality. **But: do not revive them in combat without explicit vision-level reconsideration.**
+
+### Meadow and battle are parallel, not unified
+
+**Why:** they serve different emotional purposes (preparation vs. revelation) and have different interaction shapes. `BaseCreature` (meadow) and `BattleActor` (battle) are deliberately separate, with `CreatureBattleUnit` as the bridge. They share `CreatureStats` and `ActionQueue` because those are the universal vocabulary; everything else is context-specific.
+
+---
+
+## Failure Modes — Patterns to Resist
+
+These are the patterns that look reasonable but quietly betray the vision. Watch for them in your own suggestions.
+
+### The "more numbers" trap
+"This creature could have a Crit Chance stat, a Lifesteal stat, a Counter Rate stat..." — RPG-genre thinking, not vision thinking. If a proposed stat doesn't change how the creature LOOKS while fighting, it's probably not a stat MeadowDeep wants.
+
+### The "let the player decide" trap
+"What if the player could pick the creature's action each turn?" — regressing to the operator model. The player's input layer is QTEs, encouragement, and pre-fight setup.
+
+### The "balanced for competitive play" trap
+MeadowDeep is not competitive. A Brave creature SHOULD sometimes lose by charging in. A Cautious creature SHOULD sometimes win by waiting. "Imbalance" in service of character is correct.
+
+### The "feature parity with [other game]" trap
+"Pokemon has X, so we should have X." No. Every borrowed mechanic must be re-justified against the vision. Borrowing without reinterpreting bakes another game's vision into our codebase.
+
+### The "make it autoload-y" trap
+Globals are seductive. Use autoloads for genuinely global concerns (Events, RNG). Resist them for context-specific data (creature state, current encounter, party).
+
+### The "the architecture works, let's add content" trap
+Adding more BattleActions, creatures, items, rooms is tempting because it shows visible progress. But content built on top of a system whose VISION isn't fully expressed yet (e.g., personality scoring still placeholder) is content the player won't feel. Make existing systems sing before adding more instruments.
 
 ---
 
@@ -30,31 +148,17 @@ Be direct, warm, and collaborative. Think of yourself as a creative and technica
 
 Two alternating phases:
 
-**MEADOW (Home / Exhale)**
-- Nurture creatures, build and customize habitats
-- Hatch eggs brought back from runs
-- Watch creatures interact and bond with each other
-- Prep your party for the next descent
+**MEADOW (Home / Exhale)** — Nurture creatures, build and customize habitats, hatch eggs brought back from runs, watch creatures interact and bond, prep your party for the next descent.
 
-**RUINS (Descent / Inhale)**
-- Card-based turn combat where your party IS your deck
-- Explore branching procedural chambers
-- Find eggs — carry them back safely (risk/reward tension)
-- Collect loot and resources to fuel meadow development
-- Return safely or push deeper for rarer rewards
+**RUINS (Descent / Inhale)** — Brain-driven autobattler combat where your party expresses who they've become, explore branching procedural chambers, find eggs and carry them back safely (risk/reward tension), collect loot to fuel meadow development, return safely or push deeper for rarer rewards.
 
 ---
 
 ## Core Systems Design
 
-### Party as Deck
-Each creature in the active party contributes cards to a shared combat deck based on their current moveset, level, and bond. The deck is a living portrait of who your creatures are right now — it changes as they grow.
-
-The archaeologist (the player character) contributes a small fixed set of cards — tools and knowledge — that persist regardless of party composition.
-
 ### Bond System
 - Built through: shared runs, surviving together, meadow care
-- Affects combat: higher bond = more powerful card contributions, potential combo abilities with other bonded creatures
+- Affects combat: higher bond = different brain weights, stronger personality expression, potential combo behaviors with other bonded creatures
 - Affects growth: deeply bonded creatures develop different traits than neglected ones
 - Creates stakes: sending a bonded creature into danger feels different
 
@@ -67,13 +171,13 @@ Eggs are the primary way to acquire new creatures.
 - By the time a creature hatches, you've already invested in it
 
 ### Growth & Evolution
-- Threshold evolutions: buildup then transformation, like Pokemon
+- Threshold evolutions: buildup then transformation
 - Experience-shaped traits: run through fire encounters, develop fire-related traits
-- The biography: a creature's appearance, moves, and traits form a readable history
+- The biography: a creature's appearance, behavior, and traits form a readable history
 
 ### Habitat System
 - Each creature has a buildable habitat in the meadow
-- Habitat type may influence growth direction (water habitat = water trait odds)
+- Habitat type may influence growth direction
 - Resources to build come from ruin runs — exploration has direct meadow impact
 
 ---
@@ -81,40 +185,69 @@ Eggs are the primary way to acquire new creatures.
 ## Technical Foundation
 
 ### Engine
-Godot 4.4, GDScript, JSON-driven data for creatures/moves/items
+Godot 4.4, GDScript, JSON-driven data for creatures/moves/items.
 
-### The Most Important Context
-This project is being built on top of a previous Godot project called **PokéSpire** — a Pokemon + Slay the Spire fan game. PokéSpire has a battle-tested architecture that is being ported and adapted into MeadowDeep. Do not rebuild what already works. Port it, adapt it, improve it where needed.
+### Architecture Lineage
+This project began as a port of **PokéSpire** — a Pokemon + Slay the Spire fan game. The card-based combat from PokéSpire was ported, then **deliberately demoted** when the vision crystallized around brain-driven autobattler combat. PokéSpire systems still in the codebase fall into three categories:
 
-### Systems to Port from PokéSpire (these are DONE — just move them)
-- `EffectExecutor` — composable damage, status, block, shift execution
-- `Status` system — all individual status classes, StatusHandler, StatusData lookup
-- `Card` base class — `setup_from_data` pattern, attack/block/status/power/shift subclasses
-- `CardPile` — clean, minimal, works perfectly
-- `ModifierHandler` — damage dealt/taken modifier pipeline
-- `Events` — signal bus (rename signals to fit new context)
-- `RNG` — seeded RNG with save/load state
-- `SFXPlayer` / `MusicPlayer` — port directly
-- `Utils` — card creation helpers, typed array utils
+- **Active** — `EffectExecutor`, `Status`, `ModifierHandler`, `Events`, `RNG`, `Utils`, `SFXPlayer`, `MusicPlayer`, `CardPile`. These work and are in use.
+- **Dormant** — `Card` base class and subclasses, `TypeChart`, individual card resources. Files exist on disk; not instantiated in combat. **Do not revive without vision review.**
+- **Vestigial** — `enemy_action_picker`, `EnemyAction` resources, `update_action()` stubs, `catching.gd`. Kept to avoid breaking references; functionally inert.
 
-### Systems to Adapt (same architecture, new content)
-- `TypeChart` — replace Pokemon types with original creature element types
-- Map/Room system — same branching structure, ruin aesthetic
-- `EnemyActionFactory` + enemy action classes — same pattern, new enemies
-- `BattleStatsPool` — same weighted pool system, new encounter data
-
-### Systems to Build Fresh
-- `CreatureStats` resource — replaces PokemonStats, adds bond level, biography, trait slots, egg origin data
-- Bond system — tracks relationship between player and each creature over time
-- Meadow scene — home base with placeable habitat nodes and creature AI routines
-- Habitat system — buildable structures that influence creature growth
-- Egg resource — incubation state, hatch logic, rarity tiers
-- Trait system — traits earned through experience that modify cards and stats
-- Meta-progression — what persists between failed runs
+When you encounter a PokéSpire-era system, check which category it falls in before extending it.
 
 ---
 
-## Folder Structure (Target)
+## Current Architecture State
+
+### Two Worlds, Two Systems
+
+```
+MEADOW                          RUINS
+BaseCreature                    BattleActor
+  └─ ActionQueue (meadow)         └─ ActionQueue (combat)
+  └─ CreatureAnimationHandler     └─ Brain
+  └─ CreatureStatHandler          └─ BattleAction[]
+  └─ EmotionSystem
+```
+
+`BaseCreature` lives in `creatures/`, drives meadow behavior. `BattleActor` lives in `battles/`, drives combat behavior. `CreatureBattleUnit` extends `BattleActor` and holds `CreatureStats`, bridging the two worlds.
+
+### Combat Flow
+
+```
+queue_emptied → Brain.select_action()
+                  ├─ _evaluate_intent() → AGGRESSIVE | DEFENSIVE
+                  ├─ filter battle_action_list by intent + can_execute()
+                  └─ _pick_weighted() → BattleAction
+              → BattleActor calls action.execute_action(self)
+              → action enqueues primitive (&"move", &"attack", &"brace", &"idle")
+              → BattleActor ticks the primitive until it calls action_queue.done()
+              → repeat
+```
+
+### Current Action Roster
+
+| Action | Intent | Condition | Enqueues |
+|---|---|---|---|
+| `AttackAction` | AGGRESSIVE | in range | `&"attack"` |
+| `MoveTowardAction` | AGGRESSIVE | out of stop_distance | `&"move" mode:toward` |
+| `MoveAwayAction` | DEFENSIVE | closer than desired_distance | `&"move" mode:away` |
+| `BraceAction` | DEFENSIVE | always | `&"brace"` |
+
+### What Is True Right Now
+
+- **The Brain exists** but `_evaluate_intent()` is 50/50 random. Personality scoring is the next vision-critical work.
+- **Cards are dormant** but their resources still exist on disk. Don't revive them in combat without vision review.
+- **The QTE system is wired but cosmetic** — outcomes don't affect damage yet. Wiring it to real damage is roadmap and vision-aligned (player-as-encourager, not operator).
+- **Stats exist as numbers** but their behavioral expression is minimal. The bridge from "stat number" to "visible behavior fingerprint" is the next big design layer.
+- **The meadow has mechanical foundations** (creatures, food, items) but its emotional surface (bond, habitat, eggs, personality emergence) is largely stubbed.
+- **CreatureStats and EnemyStats are split.** May eventually unify but isn't urgent.
+- **Auto-seek is removed.** All movement is brain-driven via `&"move"`. If you see code re-introducing implicit movement, flag it as a vision violation.
+
+---
+
+## Folder Structure
 
 ```
 /art
@@ -123,79 +256,65 @@ This project is being built on top of a previous Godot project called **PokéSpi
   /sfx
   /music
 /battles
-/creatures          ← replaces /characters from PokéSpire
+  battle_actor.gd               ← BattleActor base
+  brain.gd                      ← Stateless action selector
+  battle_actions/
+    attack_action.gd
+    move_toward_action.gd
+    move_away_action.gd
+    brace_action.gd
+  enemy_handler.gd
+  battle.gd                     ← Scene orchestrator
+/creatures
+  base_creature.gd              ← Meadow creature base
+  creature_battle_unit.gd       ← Extends BattleActor, party unit in combat
+  enemy.gd                      ← Extends BattleActor, enemy unit in combat
+  creature_animation_handler.gd
+  creature_skin_handler.gd
 /custom_resources
+  action_queue.gd               ← Shared by meadow + combat
+  battle_action.gd              ← Action base resource
+  creature_stats.gd
+  enemy_stats.gd
+  stats.gd
+  creature_stat_block.gd
+  stat_block.gd
+  meadow_world_item.gd
+  creature_food.gd
 /data
-  /creatures.json   ← replaces pokedex.json
+  /creatures.json
   /moves.json
   /items.json
-/effects            ← port from PokéSpire
-/global             ← port from PokéSpire
-/meadow             ← new
-/ruins              ← replaces /scenes/map from PokéSpire
+/effects
+/global
+  events.gd
+  qte_controller.gd
+  rng.gd
+  utils.gd
+  shaker.gd
+/meadow
+/ruins
 /scenes
-/statuses           ← port from PokéSpire
-/utils              ← port from PokéSpire
+/statuses
+/utils
 ```
-
----
-
-## Development Phases
-
-### Phase 0 — Foundation (Current Priority)
-Get the core battle loop running in the new project with ported systems.
-- [ ] Port: effects, statuses, card, card_pile, modifier_handler, events, rng, utils
-- [ ] Create placeholder `CreatureStats` resource
-- [ ] Get 2 placeholder creatures fighting in a battle scene
-- [ ] No art required yet — placeholders are fine
-
-### Phase 1 — The Ruin Loop
-- [ ] Adapt map/room system for ruins
-- [ ] 3-4 original placeholder creatures with distinct movesets
-- [ ] Egg chamber room type + extraction tension mechanic
-- [ ] Basic enemy roster
-- [ ] Win/loss conditions
-
-### Phase 2 — The Meadow
-- [ ] Meadow scene with creature presence
-- [ ] Egg hatching system
-- [ ] Basic habitat building
-- [ ] Bond tracking
-- [ ] Between-run creature state
-
-### Phase 3 — Growth & Polish
-- [ ] Evolution system
-- [ ] Trait system
-- [ ] Creature interactions in meadow
-- [ ] Bond-driven card upgrades
-- [ ] Art pass
-
-### Phase 4 — Content & Release
-- [ ] Full creature roster (15-20 creatures)
-- [ ] Original move pool (40-60 moves)
-- [ ] Story layer via archaeology notes
-- [ ] Save/load
-- [ ] Sound and music
-- [ ] Balance pass
-
----
-
-## Open Design Questions
-These don't need answering now — revisit as development progresses.
-
-- **Failure state**: Party wipe = retreat with wounded creatures, or permanent loss for non-companion creatures?
-- **Active party size**: 2-3 creatures suggested
-- **Habitat influence on growth**: Loose probability influence or hard rules?
-- **Meta-progression**: What persists between failed runs?
-- **Narrative depth**: How much archaeology story gets layered in?
 
 ---
 
 ## Working Style Notes
 
-- Sessions are short — prioritize tasks that have a clear finish line
-- One small completable goal per session beats sprawling open-ended work
-- When porting from PokéSpire, adapt don't just copy — remove Pokemon IP, improve where obvious
-- The GDD lives in this repo — check it for design intent when making decisions
-- If something feels wrong architecturally, say so early rather than building on a shaky foundation
-- The developer already knows GDScript well and has shipped a complete Godot project — don't over-explain basics
+- Sessions are short — prioritize tasks with a clear finish line.
+- One small completable goal per session beats sprawling open-ended work.
+- When porting from PokéSpire, adapt — don't just copy. Remove Pokemon IP and improve where obvious.
+- If something feels wrong architecturally OR misaligned with the vision, say so early rather than building on a shaky foundation.
+- The developer wants real engagement. Push back when something drifts from the vision. Disagree clearly when warranted. "That sounds great!" when something is mediocre is worse than useless.
+
+---
+
+## When In Doubt
+
+Ask: *what would make the player feel the creature they raised?*
+
+If the answer points one direction and the proposed change points another, the change is wrong. Even if it's clean. Even if it's clever. Even if it's idiomatic. Vision wins. Always.
+
+The mechanics serve the feeling. The feeling does not serve the mechanics. 🌿

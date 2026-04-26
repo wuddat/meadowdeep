@@ -27,7 +27,7 @@ func select_action() -> BattleAction:
 
 
 func _evaluate_intent() -> BattleAction.Intent:
-	return BattleAction.Intent.AGGRESSIVE if RNG.instance.randi_range(0, 100) >= 50 \
+	return BattleAction.Intent.AGGRESSIVE if RNG.instance.randi_range(0, 1) == 0 \
 		else BattleAction.Intent.DEFENSIVE
 
 

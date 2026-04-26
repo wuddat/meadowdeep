@@ -9,6 +9,7 @@ extends CharacterBody2D
 
 var action_queue := ActionQueue.new()
 var _in_combat: bool = false
+var _current_action: BattleAction
 
 var knockback_strength: float = 1000.0
 var knockback_exp: float = 8.0
@@ -54,15 +55,20 @@ func _on_queue_emptied() -> void:
 	if chosen == null:
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 		return
+	_current_action = chosen
 	chosen.execute_action(self)
+	if action_queue.peek().is_empty():
+		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
 	match id:
 		&"idle":   _play_animation(&"idle")
 		&"move":   _play_animation(&"run")
-		&"attack": _begin_attack(data)
 		&"brace":  _play_animation(&"idle")
+		&"attack":
+			if _current_action != null:
+				_current_action.run_effects_async(self, data)
 
 
 func _check_battle_triggers() -> void:
@@ -132,14 +138,8 @@ func _tick_brace(data: Dictionary, delta: float) -> void:
 
 # ── Virtual hooks ─────────────────────────────────────────────────────────────
 
-func _begin_attack(_data: Dictionary) -> void:
-	pass
-
 func _get_action_interval() -> float:
 	return 1.5
-
-func _get_attack_damage() -> int:
-	return 3
 
 func _apply_knockback(source_pos: Vector2) -> void:
 	var direction := (global_position - source_pos).normalized()

@@ -16,9 +16,9 @@ func execute_action(user: BattleActor) -> void:
 	var threat := find_nearest_opponent(user)
 	if threat == null:
 		return
-	user.action_queue.enqueue(&"move", {
-		"target": threat,
-		"stop_distance": desired_distance,
-		"mode": "away",
-		"duration": max_duration,
-	})
+	var movement := MovementEffect.new()
+	movement.target = threat
+	movement.mode = "away"
+	movement.stop_distance = desired_distance
+	movement.max_duration = max_duration
+	EffectExecutor.run([movement], [user])

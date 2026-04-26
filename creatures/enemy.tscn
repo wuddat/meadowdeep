@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="6_2bth1"]
 [ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="6_4wx45"]
 [ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_4nyy4"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_jsys2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
 size = Vector2(19, 17)
@@ -22,6 +23,12 @@ motion_mode = 1
 script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
 battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_jsys2"), ExtResource("5_8hsss"), ExtResource("6_4wx45"), ExtResource("7_4nyy4")])
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=458258168]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, -3)
+scale = Vector2(0.546875, 1)
+texture = ExtResource("8_jsys2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1578258546]
 position = Vector2(-0.5, 1.5)

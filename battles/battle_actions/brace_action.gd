@@ -1,10 +1,14 @@
 class_name BraceAction
 extends BattleAction
 
+@export var duration: float = 1.0
+
 
 func can_execute(_user: BattleActor) -> bool:
 	return true
 
 
 func execute_action(user: BattleActor) -> void:
-	user.action_queue.enqueue(&"brace", {"duration": 1.0})
+	var brace := BraceEffect.new()
+	brace.duration = duration
+	EffectExecutor.run([brace], [user])
