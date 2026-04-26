@@ -29,7 +29,10 @@ func run_effects_async(user: BattleActor, data: Dictionary) -> void:
 		return
 
 	var target: Node = data.get("target")
-	if is_instance_valid(target) and target.has_method("take_damage"):
+	if not is_instance_valid(target):
+		user.action_queue.done()
+		return
+	if target.has_method("take_damage") and not target.is_dodging:
 		var dmg_effect := DamageEffect.new()
 		dmg_effect.amount = _calculate_damage(user)
 		dmg_effect.execute([target])

@@ -37,7 +37,7 @@ func _ready() -> void:
 
 func start_combat() -> void:
 	_action_fill = action_timer.get_node("Fill")
-	action_name.text = "Attack"
+	action_name.text = ""
 	super()
 
 
@@ -57,6 +57,7 @@ func _get_action_interval() -> float:
 
 
 func _play_animation(anim_name: StringName) -> void:
+	action_name.text = _current_action.display_name if _current_action and anim_name != &"idle" else ""
 	play_animation(anim_name)
 
 

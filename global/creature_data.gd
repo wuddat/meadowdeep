@@ -13,15 +13,9 @@ const GRADE_MAP := {
 }
 
 const PERSONALITY_MAP := {
-	"neutral":  CreatureStatBlock.Personality.NEUTRAL,
-	"brave":    CreatureStatBlock.Personality.BRAVE,
-	"timid":    CreatureStatBlock.Personality.TIMID,
-	"gentle":   CreatureStatBlock.Personality.GENTLE,
-	"fierce":   CreatureStatBlock.Personality.FIERCE,
-	"curious":  CreatureStatBlock.Personality.CURIOUS,
-	"stoic":    CreatureStatBlock.Personality.STOIC,
-	"playful":  CreatureStatBlock.Personality.PLAYFUL,
-	"aloof":    CreatureStatBlock.Personality.ALOOF,
+	"neutral":  Personality.Type.NEUTRAL,
+	"brave":    Personality.Type.BRAVE,
+	"timid":    Personality.Type.TIMID,
 }
 
 const STAT_NAMES := {
@@ -83,7 +77,7 @@ func create_creature_instance(species_id: String) -> CreatureStats:
 	if data.has("stat_block"):
 		var sb_data: Dictionary = data["stat_block"]
 		var sb := creature.stat_block
-		sb.personality = PERSONALITY_MAP.get(sb_data.get("personality", "neutral"), CreatureStatBlock.Personality.NEUTRAL)
+		sb.personality.type = PERSONALITY_MAP.get(sb_data.get("personality", "neutral"), Personality.Type.NEUTRAL)
 		sb.PWR.grade       = GRADE_MAP.get(sb_data.get("PWR_grade", 3),      StatBlock.Grade.C)
 		sb.AGI.grade     = GRADE_MAP.get(sb_data.get("AGI_grade", 3),    StatBlock.Grade.C)
 		sb.RES.grade  = GRADE_MAP.get(sb_data.get("RES_grade", 3), StatBlock.Grade.C)

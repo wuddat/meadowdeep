@@ -2,12 +2,14 @@ class_name Brain
 extends Node
 
 var _actor: BattleActor
+var _personality: Personality
 
 
 func _ready() -> void:
 	_actor = get_parent() as BattleActor
 	if _actor == null:
 		push_error("Brain must be a child of a BattleActor")
+	_personality = _actor.get("stats").stat_block.personality if _actor.get("stats") else null
 
 
 func select_action() -> BattleAction:
@@ -23,12 +25,45 @@ func select_action() -> BattleAction:
 			func(a: BattleAction) -> bool: return a.can_execute(_actor)
 		)
 
-	return _pick_weighted(pool)
+	var chosen := _pick_weighted(pool)
+	if chosen:
+		print("[Brain] action → %s" % chosen.display_name)
+	return chosen
 
 
 func _evaluate_intent() -> BattleAction.Intent:
-	return BattleAction.Intent.AGGRESSIVE if RNG.instance.randi_range(0, 1) == 0 \
+	if not _personality:
+		print("[Brain] no personality — random intent")
+		return BattleAction.Intent.AGGRESSIVE if RNG.instance.randi_range(0, 1) == 0 \
+			else BattleAction.Intent.DEFENSIVE
+	var aggression_score := _calc_aggression_score()
+	var intent := BattleAction.Intent.AGGRESSIVE if RNG.instance.randf() < aggression_score \
 		else BattleAction.Intent.DEFENSIVE
+	print("[Brain] courage=%d type=%s score=%.2f → %s" % [
+		_personality.courage,
+		Personality.Type.keys()[_personality.type],
+		aggression_score,
+		"AGGRESSIVE" if intent == BattleAction.Intent.AGGRESSIVE else "DEFENSIVE"
+	])
+	return intent
+	
+
+func _calc_aggression_score() -> float:
+	var base := _normalize_trait(_personality.courage)
+	var score := base  + _get_personality_bias()
+	return clamp(score, 0.0, 1.0)
+
+func _normalize_trait(creature_trait: int) -> float:
+	return (creature_trait + 100.0)/200.0
+
+func _get_personality_bias() -> float:
+	match _personality.type:
+		Personality.Type.BRAVE:
+			return 0.15
+		Personality.Type.TIMID:
+			return -0.15
+		_:
+			return 0
 
 
 func _pick_weighted(pool: Array) -> BattleAction:

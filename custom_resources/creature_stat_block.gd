@@ -5,18 +5,6 @@
 class_name CreatureStatBlock
 extends Resource
 
-enum Personality {
-	NEUTRAL,
-	BRAVE,
-	TIMID,
-	GENTLE,
-	FIERCE,
-	CURIOUS,
-	STOIC,
-	PLAYFUL,
-	ALOOF,
-}
-
 # ── Growth Stats ──────────────────────────────────────────────────────────────
 @export_group("Growth Stats")
 @export var PWR: StatBlock
@@ -27,7 +15,8 @@ enum Personality {
 
 # ── Identity ──────────────────────────────────────────────────────────────────
 @export_group("Identity")
-@export var personality: Personality = Personality.NEUTRAL
+@export_range(-100,100,1) var courage: int = 0
+@export var personality: Personality
 @export var dominant_stat: String = ""   # "PWR" | "AGI" | "RES" | "MYS" | "FOC"
 @export var evolution_stage: int = 0
 
@@ -65,3 +54,5 @@ func _init() -> void:
 	RES = StatBlock.new()
 	MYS = StatBlock.new()
 	FOC = StatBlock.new()
+	personality = Personality.new()
+	personality.create_personality()

@@ -3,20 +3,15 @@
 [ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="1_ndwkx"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_qva8r"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="2_f0ho6"]
-[ext_resource type="Script" uid="uid://clx8tgedyglg8" path="res://effects/movement_effect.gd" id="3_f0ho6"]
 
-[sub_resource type="Resource" id="Resource_c2blm"]
+[sub_resource type="Resource" id="Resource_qva8r"]
 script = ExtResource("2_f0ho6")
-amount = 10
 metadata/_custom_type_script = "uid://dweghcmycchb4"
-
-[sub_resource type="Resource" id="Resource_i4cdc"]
-script = ExtResource("3_f0ho6")
-max_duration = 1.0
-metadata/_custom_type_script = "uid://clx8tgedyglg8"
 
 [resource]
 script = ExtResource("1_ndwkx")
-effects = Array[ExtResource("1_qva8r")]([SubResource("Resource_c2blm"), SubResource("Resource_i4cdc")])
+effects = Array[ExtResource("1_qva8r")]([SubResource("Resource_qva8r")])
+intent = 1
+display_name = "Attack"
 chance_weight = 10.0
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"

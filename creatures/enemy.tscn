@@ -11,18 +11,38 @@
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="6_2bth1"]
 [ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="6_4wx45"]
 [ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_4nyy4"]
+[ext_resource type="Resource" uid="uid://cku2qm5tq7dye" path="res://battles/battle_actions/dodge_action.tres" id="8_aauxl"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_jsys2"]
+[ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="9_p0fjc"]
+[ext_resource type="Script" uid="uid://co82tgbcg4uq0" path="res://effects/dodge_effect.gd" id="10_ljyq2"]
+[ext_resource type="Script" uid="uid://d3uy6rcual57a" path="res://battles/battle_actions/dodge_action.gd" id="11_38r2f"]
+[ext_resource type="Resource" uid="uid://db2f1vljlel51" path="res://battles/battle_actions/hit_and_run.tres" id="12_p0fjc"]
+
+[sub_resource type="Resource" id="Resource_qrpmh"]
+script = ExtResource("9_p0fjc")
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_lrgqf"]
+script = ExtResource("10_ljyq2")
+metadata/_custom_type_script = "uid://co82tgbcg4uq0"
+
+[sub_resource type="Resource" id="Resource_5dw82"]
+script = ExtResource("11_38r2f")
+dash_effect = SubResource("Resource_qrpmh")
+dodge_effect = SubResource("Resource_lrgqf")
+intent = 1
+display_name = "Dodge"
+metadata/_custom_type_script = "uid://d3uy6rcual57a"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
 size = Vector2(19, 17)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1956526154 groups=["enemies"]]
-collision_layer = 4
-collision_mask = 0
+collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
-battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_jsys2"), ExtResource("5_8hsss"), ExtResource("6_4wx45"), ExtResource("7_4nyy4")])
+battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_jsys2"), ExtResource("5_8hsss"), ExtResource("6_4wx45"), ExtResource("7_4nyy4"), ExtResource("8_aauxl"), SubResource("Resource_5dw82"), ExtResource("12_p0fjc")])
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=458258168]
 modulate = Color(0, 0, 0, 1)

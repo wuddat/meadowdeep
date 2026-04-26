@@ -5,5 +5,4 @@
 [resource]
 script = ExtResource("1_4r4gc")
 display_name = "MoveToward"
-chance_weight = 10.0
 metadata/_custom_type_script = "uid://dgftoxf418knu"

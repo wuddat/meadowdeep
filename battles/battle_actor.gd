@@ -9,7 +9,9 @@ extends CharacterBody2D
 
 var action_queue := ActionQueue.new()
 var _in_combat: bool = false
+var is_dodging: bool = false
 var _current_action: BattleAction
+
 
 var knockback_strength: float = 1000.0
 var knockback_exp: float = 8.0
@@ -66,6 +68,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"idle":   _play_animation(&"idle")
 		&"move":   _play_animation(&"run")
 		&"brace":  _play_animation(&"idle")
+		&"dodge":  _play_animation(&"dodge")
 		&"attack":
 			if _current_action != null:
 				_current_action.run_effects_async(self, data)
@@ -84,7 +87,7 @@ func _tick_current_action(delta: float) -> void:
 		&"move":   _tick_move(current["data"], delta)
 		&"brace":  _tick_brace(current["data"], delta)
 		&"attack": pass
-
+		&"dodge":  _tick_dodge(current["data"], delta)
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
@@ -133,6 +136,15 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 func _tick_brace(data: Dictionary, delta: float) -> void:
 	data["duration"] -= delta
 	if data["duration"] <= 0.0:
+		action_queue.done()
+
+
+func _tick_dodge(data: Dictionary, delta: float) -> void:
+	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 120.0)
+	data["duration"] -= delta
+	if data["duration"] <= 0.0:
+		base_velocity = Vector2.ZERO
+		is_dodging = false
 		action_queue.done()
 
 

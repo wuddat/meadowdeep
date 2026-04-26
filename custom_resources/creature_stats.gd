@@ -8,7 +8,7 @@ extends Stats
 @export_group("Identity")
 @export var species_id: String
 @export var creature_name: String
-@export var element_type: String        # e.g. "verdant", "ember" — matches Card.damage_type
+@export var element_type: String        # e.g. "verdant", "ember"
 
 # ── Egg Origin ────────────────────────────────────────────────────────────────
 @export_group("Egg Origin")
@@ -33,9 +33,9 @@ extends Stats
 
 # ── Progression ───────────────────────────────────────────────────────────────
 @export_group("Progression")
-@export var level: int = 1
-@export var current_exp: int = 0
-@export var evolves_to: String = ""
+@export var level: int = 1            # TODO based off of stat blocks 
+@export var current_exp: int = 0      # deprecated
+@export var evolves_to: String = ""   # TODO evo system
 @export var evolution_level: int = 101
 
 # ── Identity Record ───────────────────────────────────────────────────────────
@@ -47,27 +47,11 @@ func _init() -> void:
 	stat_block = CreatureStatBlock.new()
 
 
-# ── Progression ───────────────────────────────────────────────────────────────
-
-func get_xp_for_next_level(lvl: int) -> int:
-	return 10 + max_health * 1.2 * lvl
+#TODO ── Progression ───────────────────────────────────────────────────────────────
 
 
-func try_gain_exp_from(enemy: Enemy) -> bool:
-	var gained_exp := enemy.stats.max_health * 2
-	current_exp += gained_exp
-	var did_level := false
 
-	if current_exp >= get_xp_for_next_level(level):
-		if level < 100:
-			level += 1
-			max_health += level
-			health += level
-			did_level = true
-	return did_level
-
-
-# ── Evolution ─────────────────────────────────────────────────────────────────
+#TODO ── Evolution ─────────────────────────────────────────────────────────────────
 
 func get_evolved_species_id() -> String:
 	return evolves_to
@@ -101,12 +85,6 @@ func evolve_to(new_species_id: String) -> void:
 func get_action_interval() -> float:
 	var agi_points: float = stat_block.AGI.points if stat_block else 5.0
 	return lerp(3.0, 1.0, agi_points / 10.0)
-
-
-# ── Card Helpers ──────────────────────────────────────────────────────────────
-
-func get_draft_cards_from_element() -> Array[String]:
-	return MoveData.element_to_moves.get(element_type, [])
 
 
 # ── Factory ───────────────────────────────────────────────────────────────────

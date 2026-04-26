@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_2ovo0")
+intent = 1
 display_name = "Brace"
+chance_weight = 0.193
 metadata/_custom_type_script = "uid://c65o17dpigevx"

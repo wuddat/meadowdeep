@@ -132,7 +132,6 @@ func _ensure_stats() -> void:
 		sb.RES.grade = _random_grade()
 		sb.MYS.grade     = _random_grade()
 		sb.FOC.grade      = _random_grade()
-		sb.personality      = _random_personality()
 
 
 func _random_grade() -> StatBlock.Grade:
@@ -144,11 +143,6 @@ func _random_grade() -> StatBlock.Grade:
 	elif roll < 65: return StatBlock.Grade.C
 	elif roll < 85: return StatBlock.Grade.D
 	else:           return StatBlock.Grade.E
-
-
-func _random_personality() -> CreatureStatBlock.Personality:
-	var values := CreatureStatBlock.Personality.values()
-	return values[randi() % values.size()]
 
 
 func _physics_process(delta: float) -> void:

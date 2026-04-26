@@ -16,12 +16,6 @@ func execute_action(_user: BattleActor) -> void:
 	pass
 
 
-# Override in actions that use the &"attack" primitive (async, called from _on_action_start).
-# Base impl just closes the queue entry immediately.
-func run_effects_async(user: BattleActor, _data: Dictionary) -> void:
-	user.action_queue.done()
-
-
 static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	if not is_instance_valid(user) or not is_instance_valid(target):
 		return false

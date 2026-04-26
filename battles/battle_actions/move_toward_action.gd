@@ -15,7 +15,7 @@ func execute_action(user: BattleActor) -> void:
 	var target := find_nearest_opponent(user)
 	if target == null:
 		return
-	var movement := MovementEffect.new()
+	var movement := MoveToEffect.new()
 	movement.target = target
 	movement.mode = "toward"
 	movement.stop_distance = stop_distance

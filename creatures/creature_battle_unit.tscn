@@ -9,21 +9,78 @@
 [ext_resource type="PackedScene" uid="uid://btwh8nsmqma2k" path="res://scenes/modifier_handler/modifier.tscn" id="4_mod"]
 [ext_resource type="Resource" uid="uid://tmb3rsqg26l" path="res://battles/battle_actions/brace_action.tres" id="5_1wxet"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
-[ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="6_8acdo"]
 [ext_resource type="PackedScene" uid="uid://bnnr7b1674s3f" path="res://scenes/ui/unit_status_indicator.tscn" id="6_usi"]
-[ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_xxh6r"]
+[ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="6_xxh6r"]
+[ext_resource type="Script" uid="uid://co82tgbcg4uq0" path="res://effects/dodge_effect.gd" id="7_83sfk"]
+[ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_kdnho"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_kdnho"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="8_skpnv"]
+[ext_resource type="Script" uid="uid://d3uy6rcual57a" path="res://battles/battle_actions/dodge_action.gd" id="8_wo3yl"]
+[ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="10_abx5i"]
+[ext_resource type="Resource" uid="uid://db2f1vljlel51" path="res://battles/battle_actions/hit_and_run.tres" id="11_83sfk"]
+
+[sub_resource type="Resource" id="Resource_ng24t"]
+script = ExtResource("6_xxh6r")
+dash_direction = 1
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_2vkep"]
+script = ExtResource("7_83sfk")
+metadata/_custom_type_script = "uid://co82tgbcg4uq0"
+
+[sub_resource type="Resource" id="Resource_dnym6"]
+script = ExtResource("8_wo3yl")
+dash_effect = SubResource("Resource_ng24t")
+dodge_effect = SubResource("Resource_2vkep")
+display_name = "Dodge"
+metadata/_custom_type_script = "uid://d3uy6rcual57a"
+
+[sub_resource type="Resource" id="Resource_ok274"]
+script = ExtResource("6_xxh6r")
+dash_direction = 2
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_kwc3e"]
+script = ExtResource("8_wo3yl")
+dash_effect = SubResource("Resource_ok274")
+dodge_effect = SubResource("Resource_2vkep")
+display_name = "Dodge"
+metadata/_custom_type_script = "uid://d3uy6rcual57a"
+
+[sub_resource type="Resource" id="Resource_vyn8i"]
+script = ExtResource("6_xxh6r")
+dash_direction = 3
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_btb5y"]
+script = ExtResource("8_wo3yl")
+dash_effect = SubResource("Resource_vyn8i")
+dodge_effect = SubResource("Resource_2vkep")
+intent = 1
+display_name = "Dodge"
+metadata/_custom_type_script = "uid://d3uy6rcual57a"
+
+[sub_resource type="Resource" id="Resource_ji0g7"]
+script = ExtResource("6_xxh6r")
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_rlrki"]
+script = ExtResource("8_wo3yl")
+dash_effect = SubResource("Resource_ji0g7")
+dodge_effect = SubResource("Resource_2vkep")
+intent = 1
+display_name = "Dodge"
+metadata/_custom_type_script = "uid://d3uy6rcual57a"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
 size = Vector2(19, 16)
 
 [node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 groups=["active_creatures"]]
-collision_mask = 0
+collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
 sprite_frames = ExtResource("2_yfbhk")
-battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("4_kdnho"), ExtResource("5_1wxet"), ExtResource("6_8acdo"), ExtResource("7_xxh6r")])
+battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("4_kdnho"), ExtResource("5_1wxet"), SubResource("Resource_dnym6"), ExtResource("7_kdnho"), ExtResource("10_abx5i"), SubResource("Resource_kwc3e"), SubResource("Resource_btb5y"), SubResource("Resource_rlrki"), ExtResource("11_83sfk")])
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1542111543]
 modulate = Color(0, 0, 0, 1)
@@ -64,12 +121,11 @@ offset_bottom = 40.0
 
 [node name="ActionName" type="Label" parent="." unique_id=1087500009]
 unique_name_in_owner = true
-offset_left = -59.0
-offset_top = 27.0
-offset_right = -19.0
-offset_bottom = 39.0
+offset_left = -20.0
+offset_top = -19.0
+offset_right = 20.0
+offset_bottom = -7.0
 theme_override_font_sizes/font_size = 8
-text = "Tackle"
 vertical_alignment = 1
 
 [node name="ActionTimer" type="Panel" parent="." unique_id=1844236757]

@@ -6,18 +6,14 @@
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_btl01"]
 [ext_resource type="Script" uid="uid://d3h1d26b5kq5s" path="res://battles/party_handler.gd" id="4_btl01"]
 [ext_resource type="Texture2D" uid="uid://beevlljraimqt" path="res://art/game_art/concepts/bg2.png" id="4_nille"]
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="5_2iid6"]
-[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="6_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_vay6r"]
-[ext_resource type="PackedScene" uid="uid://drx41b0rgs5aa" path="res://scenes/ui/hand.tscn" id="7_hnd01"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="8_2iid6"]
 [ext_resource type="PackedScene" uid="uid://brkbckdo1dk21" path="res://battles/battle_ui.tscn" id="8_aieny"]
-[ext_resource type="PackedScene" uid="uid://ih1u373ufo54" path="res://scenes/ui/card_target_selector/card_target_selector.tscn" id="13_4r7wf"]
 [ext_resource type="PackedScene" uid="uid://ofgutpuj26p0" path="res://scenes/ui/battle_over_panel.tscn" id="14_nille"]
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="16_0msic"]
 
-[sub_resource type="Resource" id="Resource_nille"]
-script = ExtResource("6_4r7wf")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vay6r"]
+size = Vector2(682, 26)
 
 [node name="Battle" type="Control" unique_id=1830331826]
 process_mode = 1
@@ -44,6 +40,28 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_nille")
 
+[node name="boundaries" type="StaticBody2D" parent="." unique_id=419279449]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundaries" unique_id=73328172]
+position = Vector2(320, 3)
+shape = SubResource("RectangleShape2D_vay6r")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="boundaries" unique_id=212306554]
+position = Vector2(317, 265)
+shape = SubResource("RectangleShape2D_vay6r")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="boundaries" unique_id=1801842007]
+position = Vector2(-9.999999, 153)
+rotation = -1.5707964
+shape = SubResource("RectangleShape2D_vay6r")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="boundaries" unique_id=595128801]
+position = Vector2(648, 209)
+rotation = -1.5707964
+shape = SubResource("RectangleShape2D_vay6r")
+
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=1112382859 groups=["enemy_handler"]]
 script = ExtResource("3_btl01")
 enemy_scene = ExtResource("6_vay6r")
@@ -52,8 +70,6 @@ enemy_scene = ExtResource("6_vay6r")
 script = ExtResource("4_btl01")
 character_stats = ExtResource("3_6tbm7")
 creature_battle_unit_scene = ExtResource("8_2iid6")
-
-[node name="CardTargetSelector" parent="." unique_id=346684082 instance=ExtResource("13_4r7wf")]
 
 [node name="PosLocator" type="Node2D" parent="." unique_id=1812583134]
 position = Vector2(472, 206)
@@ -67,19 +83,6 @@ layer = 3
 follow_viewport_enabled = true
 
 [node name="BattleUI" type="Node" parent="UILayer" unique_id=707740850]
-
-[node name="Hand" parent="UILayer/BattleUI" unique_id=509732134 node_paths=PackedStringArray("party_handler") instance=ExtResource("7_hnd01")]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_top = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 0
-char_stats = SubResource("Resource_nille")
-party_handler = NodePath("../../../PartyHandler")
 
 [node name="EndTurnButton" type="Button" parent="UILayer/BattleUI" unique_id=2028955860]
 unique_name_in_owner = true

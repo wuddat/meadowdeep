@@ -73,7 +73,7 @@
 	  "species_id": "stone",
 	  "creature_name": "Stone",
 	  "element_type": "stone",
-	  "max_health": 12,
+	  "max_health": 100,
 	  "is_companion": false,
 	  "egg_rarity": "common",
 	  "egg_depth_found": 2,

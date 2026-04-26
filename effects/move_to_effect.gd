@@ -1,5 +1,5 @@
-#movement_effect.gd
-class_name MovementEffect
+#move_to_effect.gd
+class_name MoveToEffect
 extends Effect
 
 # Set by the action before calling execute — who to move toward/away from.

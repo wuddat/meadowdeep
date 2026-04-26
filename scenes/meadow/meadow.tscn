@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
+[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="13_a8g20"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
@@ -43,12 +44,17 @@ display_name = "RES Berry"
 art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://dqnvwkhoyjwxj"
 
+[sub_resource type="Resource" id="Resource_70id3"]
+script = ExtResource("13_a8g20")
+metadata/_custom_type_script = "uid://bcwufleh1p85m"
+
 [sub_resource type="Resource" id="Resource_uaavs"]
 script = ExtResource("12_uaavs")
 species_id = "test"
 creature_name = "Base Test"
 element_type = "test"
 frames = ExtResource("16_8uyeg")
+stat_block = SubResource("Resource_70id3")
 max_health = 500
 health = 500
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"

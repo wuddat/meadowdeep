@@ -2,6 +2,7 @@
 class_name DamageEffect
 extends Effect
 
+@export var amount := 0
 
 func execute(targets: Array[Node]) -> void:
 	for target in targets:

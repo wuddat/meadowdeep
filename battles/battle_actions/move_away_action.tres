@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_5rk71")
 intent = 1
-chance_weight = 10.0
+display_name = "MoveAway"
 metadata/_custom_type_script = "uid://b6xq8wmxhxbfw"
