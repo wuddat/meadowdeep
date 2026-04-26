@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://drx41b0rgs5aa"]
-
-[ext_resource type="Script" uid="uid://b2b5g4yh5a0x2" path="res://scenes/ui/hand.gd" id="1_hnd01"]
-
-[node name="Hand" type="HBoxContainer" unique_id=66650846]
-theme_override_constants/separation = 4
-script = ExtResource("1_hnd01")
