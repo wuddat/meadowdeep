@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AttackAction" format=3 uid="uid://j40fs6b12kga"]
+
+[ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="1_ndwkx"]
+
+[resource]
+script = ExtResource("1_ndwkx")
+chance_weight = 10.0
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"

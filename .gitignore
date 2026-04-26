@@ -2,6 +2,7 @@
 
 # Godot
 .godot/
+.claude/
 *.tmp
 *.import
 export.cfg

@@ -7,7 +7,6 @@ extends BattleActor
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stats_ui: HBoxContainer = $StatsUI
 @onready var status_handler: StatusHandler = $StatusHandler
@@ -145,7 +144,9 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 	if modified_damage > 0:
 		show_combat_text("%s" % modified_damage)
 		last_damage_taken = modified_damage
-		_apply_knockback(_enemy.global_position)
+		var source := _get_target()
+		if is_instance_valid(source):
+			_apply_knockback(source.global_position)
 		var tween := create_tween()
 		Shaker.shake(self, 25, 0.15)
 		tween.tween_callback(stats.take_damage.bind(modified_damage))
@@ -155,7 +156,6 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 				Events.party_creature_fainted.emit(self)
 				hide()
 		)
-
 
 func heal(amount: int) -> void:
 	if stats:

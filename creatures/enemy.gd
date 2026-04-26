@@ -130,7 +130,9 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 			add_child(dmg_text)
 			if dmg_text.has_method("show_text"):
 				dmg_text.show_text("%s" % modified_damage)
-			_apply_knockback(_target.global_position)
+			var source := _get_target()
+			if is_instance_valid(source):
+				_apply_knockback(source.global_position)
 		last_damage_taken = modified_damage
 		
 	var tween := create_tween()
