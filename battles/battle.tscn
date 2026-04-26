@@ -45,11 +45,11 @@ collision_layer = 8
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="boundaries" unique_id=73328172]
-position = Vector2(320, 3)
+position = Vector2(318, 41)
 shape = SubResource("RectangleShape2D_vay6r")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="boundaries" unique_id=212306554]
-position = Vector2(317, 265)
+position = Vector2(321, 284)
 shape = SubResource("RectangleShape2D_vay6r")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="boundaries" unique_id=1801842007]
@@ -82,23 +82,37 @@ script = ExtResource("16_0msic")
 layer = 3
 follow_viewport_enabled = true
 
-[node name="BattleUI" type="Node" parent="UILayer" unique_id=707740850]
+[node name="TopBar" type="Panel" parent="UILayer" unique_id=780909029]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_right = 320.0
+offset_bottom = 40.0
+grow_horizontal = 2
 
-[node name="EndTurnButton" type="Button" parent="UILayer/BattleUI" unique_id=2028955860]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+[node name="HBoxContainer" type="HBoxContainer" parent="UILayer/TopBar" unique_id=1711234271]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -115.0
-offset_top = -64.0
-offset_right = -37.0
-offset_bottom = -33.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "End Turn"
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DepthLabel" type="Label" parent="UILayer/TopBar/HBoxContainer" unique_id=1171680867]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Depth: %s"
+vertical_alignment = 1
+
+[node name="CurrencyLabel" type="Label" parent="UILayer/TopBar/HBoxContainer" unique_id=1315826079]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Moneys: %s"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BattleUI" type="Node" parent="UILayer" unique_id=707740850]
 
 [node name="BattleUI" parent="UILayer/BattleUI" unique_id=1528964739 instance=ExtResource("8_aieny")]
 

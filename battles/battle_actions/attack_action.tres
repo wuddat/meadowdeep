@@ -11,7 +11,6 @@ metadata/_custom_type_script = "uid://dweghcmycchb4"
 [resource]
 script = ExtResource("1_ndwkx")
 effects = Array[ExtResource("1_qva8r")]([SubResource("Resource_qva8r")])
-intent = 1
 display_name = "Attack"
 chance_weight = 10.0
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"
