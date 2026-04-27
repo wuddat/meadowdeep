@@ -1,12 +1,12 @@
 class_name CreatureSkinHandler
 extends Node
 
-@onready var animated_sprite_2d: AnimatedSprite2D = $"../AnimatedSprite2D"
-@onready var pattern: Sprite2D = $"../AnimatedSprite2D/Pattern"
-@onready var mouth: Sprite2D = $"../AnimatedSprite2D/Eyes/Mouth"
-@onready var eyes: Sprite2D = $"../AnimatedSprite2D/Eyes"
-@onready var left_arm: Sprite2D = $"../AnimatedSprite2D/LeftArm"
-@onready var right_arm: Sprite2D = $"../AnimatedSprite2D/RightArm"
+@onready var animated_sprite_2d: AnimatedSprite2D = $"../CreatureTextures"
+@onready var pattern: Sprite2D = $"../CreatureTextures/Pattern"
+@onready var mouth: Sprite2D = $"../CreatureTextures/Eyes/Mouth"
+@onready var eyes: Sprite2D = $"../CreatureTextures/Eyes"
+@onready var left_arm: Sprite2D = $"../CreatureTextures/LeftArm"
+@onready var right_arm: Sprite2D = $"../CreatureTextures/RightArm"
 
 
 const EYES_CAT = preload("res://art/game_art/creatures/base_creature/eyes_cat.png")

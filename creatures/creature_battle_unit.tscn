@@ -17,6 +17,9 @@
 [ext_resource type="Script" uid="uid://d3uy6rcual57a" path="res://battles/battle_actions/dodge_action.gd" id="8_wo3yl"]
 [ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="10_abx5i"]
 [ext_resource type="Resource" uid="uid://db2f1vljlel51" path="res://battles/battle_actions/hit_and_run.tres" id="11_83sfk"]
+[ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="12_83sfk"]
+[ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="19_abx5i"]
+[ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="20_ng24t"]
 
 [sub_resource type="Resource" id="Resource_ng24t"]
 script = ExtResource("6_xxh6r")
@@ -74,6 +77,139 @@ metadata/_custom_type_script = "uid://d3uy6rcual57a"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
 size = Vector2(19, 16)
 
+[sub_resource type="Animation" id="Animation_i8k6i"]
+length = 0.001
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_base"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_45v1c"]
+resource_name = "carrying"
+length = 1.4666667
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_tpqfy"]
+resource_name = "eat"
+length = 0.4
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_5crrt"]
+resource_name = "frolic"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["cl_tight"],
+"method": &"set_eyes"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ode48"]
+resource_name = "hover"
+length = 1.2666667
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_p73fv"]
+resource_name = "pickup"
+length = 4.0
+
+[sub_resource type="Animation" id="Animation_hx68g"]
+resource_name = "punch"
+length = 3.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["determined"],
+"method": &"set_eyes"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_4cryv"]
+resource_name = "sad"
+length = 4.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["sad", "frown"],
+"method": &"set_both"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_t2q5c"]
+resource_name = "think"
+length = 2.45
+
+[sub_resource type="Animation" id="Animation_v1wfr"]
+resource_name = "wave"
+length = 1.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13256374, 1.1000464),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["base"],
+"method": &"set_eyes"
+}, {
+"args": ["cl_tight", "surprise"],
+"method": &"set_both"
+}, {
+"args": ["base", "smile"],
+"method": &"set_both"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dnym6"]
+_data = {
+&"RESET": SubResource("Animation_i8k6i"),
+&"carrying": SubResource("Animation_45v1c"),
+&"eat": SubResource("Animation_tpqfy"),
+&"frolic": SubResource("Animation_5crrt"),
+&"hover": SubResource("Animation_ode48"),
+&"pickup": SubResource("Animation_p73fv"),
+&"punch": SubResource("Animation_hx68g"),
+&"sad": SubResource("Animation_4cryv"),
+&"think": SubResource("Animation_t2q5c"),
+&"wave": SubResource("Animation_v1wfr")
+}
+
 [node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 groups=["active_creatures"]]
 collision_mask = 8
 motion_mode = 1
@@ -87,9 +223,7 @@ position = Vector2(0, -1)
 scale = Vector2(0.546875, 1)
 texture = ExtResource("8_kdnho")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1949228296]
-sprite_frames = ExtResource("2_yfbhk")
-animation = &"die"
+[node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("12_83sfk")]
 
 [node name="StatusHandler" type="GridContainer" parent="." unique_id=2051289691]
 script = ExtResource("2_cbu01")
@@ -149,3 +283,14 @@ shape = SubResource("RectangleShape2D_p5puj")
 
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
+
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1038007195 node_paths=PackedStringArray("emotion_display", "emotion_player")]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_dnym6")
+autoplay = &"hover"
+script = ExtResource("19_abx5i")
+emotion_display = NodePath("")
+emotion_player = NodePath("")
+
+[node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
+script = ExtResource("20_ng24t")

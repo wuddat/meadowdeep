@@ -7,7 +7,7 @@ extends BattleActor
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var creature_textures: CreatureTextures = $CreatureTextures
 @onready var stats_ui: HBoxContainer = $StatsUI
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
@@ -62,7 +62,7 @@ func _play_animation(anim_name: StringName) -> void:
 
 
 func _face_direction(vel: Vector2) -> void:
-	animated_sprite_2d.scale.x = -1.0 if vel.x < 0 else 1.0
+	creature_textures.scale.x = -1.0 if vel.x < 0 else 1.0
 
 
 func _update_action_timer_ui(remaining: float) -> void:
@@ -84,15 +84,15 @@ func update_creature() -> void:
 	if not is_inside_tree(): await ready
 	var frames_to_use: SpriteFrames = stats.frames if stats.frames else sprite_frames
 	if frames_to_use:
-		animated_sprite_2d.sprite_frames = frames_to_use
-		animated_sprite_2d.play("idle")
+		creature_textures.sprite_frames = frames_to_use
+		creature_textures.play("idle")
 	update_stats()
 
 
 func play_animation(anim_name: StringName) -> void:
-	if animated_sprite_2d and animated_sprite_2d.sprite_frames:
-		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
-			animated_sprite_2d.play(anim_name)
+	if creature_textures and creature_textures.sprite_frames:
+		if creature_textures.sprite_frames.has_animation(anim_name):
+			creature_textures.play(anim_name)
 
 
 func update_stats() -> void:

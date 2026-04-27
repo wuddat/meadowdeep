@@ -9,5 +9,5 @@ gold_reward_min = 25
 gold_reward_max = 5
 enemies = ExtResource("1_0ib1s")
 enemy_amt = 1
-enemy_creature_party = Array[String](["stone"])
+enemy_creature_party = Array[String](["stone", "stone"])
 metadata/_custom_type_script = "uid://cl6frcau8od6p"

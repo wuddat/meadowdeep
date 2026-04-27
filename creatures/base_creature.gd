@@ -45,20 +45,20 @@ const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
 var action_queue := ActionQueue.new()
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
-@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _sprite: CreatureTextures = $CreatureTextures
 @onready var emotion_display: Sprite2D         = %EmotionDisplay
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var emotion_handler: Node = %EmotionHandler
 @onready var move_sfx: AudioStreamPlayer = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer = %ActionSFX
 @onready var creature_stat_handler: Node = %CreatureStatHandler
-@onready var left_arm: Sprite2D = $AnimatedSprite2D/LeftArm
-@onready var right_arm: Sprite2D = $AnimatedSprite2D/RightArm
-@onready var eyes: Sprite2D = $AnimatedSprite2D/Eyes
-@onready var mouth: Sprite2D = $AnimatedSprite2D/Mouth
+@onready var left_arm: Sprite2D = $CreatureTextures/LeftArm
+@onready var right_arm: Sprite2D = $CreatureTextures/RightArm
+@onready var eyes: Sprite2D = $CreatureTextures/Eyes
+@onready var mouth: Sprite2D = $CreatureTextures/Eyes/Mouth
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
 @onready var creature_skin_handler: CreatureSkinHandler = $CreatureSkinHandler
-@onready var hold_pos: Node2D = $AnimatedSprite2D/HoldPos
+@onready var hold_pos: Node2D = $CreatureTextures/HoldPos
 
 
 

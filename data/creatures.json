@@ -31,7 +31,7 @@
 	  "is_companion": false,
 	  "egg_rarity": "common",
 	  "egg_depth_found": 1,
-	  "sprite_path": "res://creatures/fire_sprite_frames.tres",
+	  "sprite_path": "res://art/game_art/creatures/base_creature/base_sprite_frames.tres",
 	  "icon_path": "res://art/placeholder.png",
 	  "starting_moves": ["tackle", "tackle", "tackle"],
 	  "move_ids": ["ember", "flamecharge", "flareblitz", "doubleedge", "firefang", "smokescreen"],
