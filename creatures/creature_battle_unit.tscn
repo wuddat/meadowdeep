@@ -1,78 +1,82 @@
 [gd_scene format=3 uid="uid://cbu0mdw000001"]
 
 [ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="2_8acdo"]
 [ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_cbu01"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="2_yfbhk"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/battle_action.gd" id="3_r6ech"]
-[ext_resource type="Resource" uid="uid://j40fs6b12kga" path="res://battles/battle_actions/attack_action.tres" id="4_kdnho"]
 [ext_resource type="PackedScene" uid="uid://btwh8nsmqma2k" path="res://scenes/modifier_handler/modifier.tscn" id="4_mod"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
 [ext_resource type="PackedScene" uid="uid://bnnr7b1674s3f" path="res://scenes/ui/unit_status_indicator.tscn" id="6_usi"]
 [ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="6_xxh6r"]
 [ext_resource type="Script" uid="uid://co82tgbcg4uq0" path="res://effects/dodge_effect.gd" id="7_83sfk"]
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="7_abx5i"]
 [ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_kdnho"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_kdnho"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="8_skpnv"]
-[ext_resource type="Script" uid="uid://d3uy6rcual57a" path="res://battles/battle_actions/dodge_action.gd" id="8_wo3yl"]
 [ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="10_abx5i"]
-[ext_resource type="Resource" uid="uid://db2f1vljlel51" path="res://battles/battle_actions/hit_and_run.tres" id="11_83sfk"]
+[ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="10_ng24t"]
+[ext_resource type="Resource" uid="uid://briyvasvga5ji" path="res://battles/battle_actions/aggressive/strike.tres" id="11_ok274"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="12_83sfk"]
+[ext_resource type="Resource" uid="uid://cmfulg7gntudu" path="res://battles/battle_actions/aggressive/strike_through.tres" id="12_kwc3e"]
+[ext_resource type="Resource" uid="uid://bodrs5jbbwoon" path="res://battles/battle_actions/aggressive/mega_strike.tres" id="13_vyn8i"]
+[ext_resource type="Resource" uid="uid://cepd3i5jn24vu" path="res://battles/battle_actions/aggressive/poke.tres" id="14_kwc3e"]
 [ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="19_abx5i"]
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="20_ng24t"]
 
-[sub_resource type="Resource" id="Resource_ng24t"]
-script = ExtResource("6_xxh6r")
-dash_direction = 1
-metadata/_custom_type_script = "uid://i2o70yng31r3"
-
-[sub_resource type="Resource" id="Resource_2vkep"]
-script = ExtResource("7_83sfk")
-metadata/_custom_type_script = "uid://co82tgbcg4uq0"
+[sub_resource type="Resource" id="Resource_xxh6r"]
+script = ExtResource("2_8acdo")
+uid = "22"
+metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [sub_resource type="Resource" id="Resource_dnym6"]
-script = ExtResource("8_wo3yl")
-dash_effect = SubResource("Resource_ng24t")
-dodge_effect = SubResource("Resource_2vkep")
-display_name = "Dodge"
-metadata/_custom_type_script = "uid://d3uy6rcual57a"
+script = ExtResource("7_83sfk")
+target_type = 0
+metadata/_custom_type_script = "uid://co82tgbcg4uq0"
 
 [sub_resource type="Resource" id="Resource_ok274"]
 script = ExtResource("6_xxh6r")
-dash_direction = 2
+dash_direction = 3
+target_type = 0
 metadata/_custom_type_script = "uid://i2o70yng31r3"
 
 [sub_resource type="Resource" id="Resource_kwc3e"]
-script = ExtResource("8_wo3yl")
-dash_effect = SubResource("Resource_ok274")
-dodge_effect = SubResource("Resource_2vkep")
-display_name = "Dodge"
-metadata/_custom_type_script = "uid://d3uy6rcual57a"
+script = ExtResource("7_83sfk")
+target_type = 0
+metadata/_custom_type_script = "uid://co82tgbcg4uq0"
 
 [sub_resource type="Resource" id="Resource_vyn8i"]
-script = ExtResource("6_xxh6r")
-dash_direction = 3
-metadata/_custom_type_script = "uid://i2o70yng31r3"
+script = ExtResource("10_ng24t")
+effects = Array[ExtResource("7_abx5i")]([SubResource("Resource_dnym6"), SubResource("Resource_ok274"), SubResource("Resource_kwc3e")])
+intent = 1
+display_name = "Dodge"
+chance_weight = 0.2
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
 [sub_resource type="Resource" id="Resource_btb5y"]
-script = ExtResource("8_wo3yl")
-dash_effect = SubResource("Resource_vyn8i")
-dodge_effect = SubResource("Resource_2vkep")
+script = ExtResource("10_ng24t")
+effects = Array[ExtResource("7_abx5i")]([SubResource("Resource_dnym6"), SubResource("Resource_ok274"), SubResource("Resource_kwc3e")])
 intent = 1
 display_name = "Dodge"
-metadata/_custom_type_script = "uid://d3uy6rcual57a"
+chance_weight = 0.2
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
 [sub_resource type="Resource" id="Resource_ji0g7"]
-script = ExtResource("6_xxh6r")
-metadata/_custom_type_script = "uid://i2o70yng31r3"
-
-[sub_resource type="Resource" id="Resource_rlrki"]
-script = ExtResource("8_wo3yl")
-dash_effect = SubResource("Resource_ji0g7")
-dodge_effect = SubResource("Resource_2vkep")
+script = ExtResource("10_ng24t")
+effects = Array[ExtResource("7_abx5i")]([SubResource("Resource_dnym6"), SubResource("Resource_ok274"), SubResource("Resource_kwc3e")])
 intent = 1
 display_name = "Dodge"
-metadata/_custom_type_script = "uid://d3uy6rcual57a"
+chance_weight = 0.2
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"
+
+[sub_resource type="Resource" id="Resource_rlrki"]
+script = ExtResource("10_ng24t")
+effects = Array[ExtResource("7_abx5i")]([SubResource("Resource_dnym6"), SubResource("Resource_ok274"), SubResource("Resource_kwc3e")])
+intent = 1
+display_name = "Dodge"
+chance_weight = 0.2
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
 size = Vector2(19, 16)
@@ -214,8 +218,10 @@ _data = {
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
+stats = SubResource("Resource_xxh6r")
 sprite_frames = ExtResource("2_yfbhk")
-battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("4_kdnho"), SubResource("Resource_dnym6"), ExtResource("7_kdnho"), ExtResource("10_abx5i"), SubResource("Resource_kwc3e"), SubResource("Resource_btb5y"), SubResource("Resource_rlrki"), ExtResource("11_83sfk")])
+move_speed = 80.0
+battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("14_kwc3e"), ExtResource("7_kdnho"), ExtResource("10_abx5i"), SubResource("Resource_vyn8i"), SubResource("Resource_btb5y"), SubResource("Resource_ji0g7"), SubResource("Resource_rlrki"), ExtResource("11_ok274"), ExtResource("12_kwc3e"), ExtResource("13_vyn8i")])
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1542111543]
 modulate = Color(0, 0, 0, 1)
@@ -284,13 +290,11 @@ shape = SubResource("RectangleShape2D_p5puj")
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
 
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1038007195 node_paths=PackedStringArray("emotion_display", "emotion_player")]
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1038007195]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_dnym6")
 autoplay = &"hover"
 script = ExtResource("19_abx5i")
-emotion_display = NodePath("")
-emotion_player = NodePath("")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 script = ExtResource("20_ng24t")

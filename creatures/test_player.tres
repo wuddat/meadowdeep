@@ -37,6 +37,7 @@ stat_block = SubResource("Resource_e02u7")
 max_health = 500
 health = 500
 block = 10
+uid = "256"
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [resource]

@@ -15,6 +15,8 @@ func can_execute(_user: BattleActor) -> bool:
 func execute_action(_user: BattleActor) -> void:
 	pass
 
+func run_effects(_user: BattleActor, _data: Dictionary) -> void:
+	pass
 
 static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	if not is_instance_valid(user) or not is_instance_valid(target):

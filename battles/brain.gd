@@ -26,25 +26,16 @@ func select_action() -> BattleAction:
 		)
 
 	var chosen := _pick_weighted(pool)
-	if chosen:
-		print("[Brain] action → %s" % chosen.display_name)
 	return chosen
 
 
 func _evaluate_intent() -> BattleAction.Intent:
 	if not _personality:
-		print("[Brain] no personality — random intent")
 		return BattleAction.Intent.AGGRESSIVE if RNG.instance.randi_range(0, 1) == 0 \
 			else BattleAction.Intent.DEFENSIVE
 	var aggression_score := _calc_aggression_score()
 	var intent := BattleAction.Intent.AGGRESSIVE if RNG.instance.randf() < aggression_score \
 		else BattleAction.Intent.DEFENSIVE
-	print("[Brain] courage=%d type=%s score=%.2f → %s" % [
-		_personality.courage,
-		Personality.Type.keys()[_personality.type],
-		aggression_score,
-		"AGGRESSIVE" if intent == BattleAction.Intent.AGGRESSIVE else "DEFENSIVE"
-	])
 	return intent
 	
 

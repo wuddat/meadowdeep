@@ -1,20 +1,15 @@
 [gd_resource type="Resource" script_class="FeebleStatus" format=3 uid="uid://cp8eyxyi22q41"]
 
 [ext_resource type="Texture2D" uid="uid://4epas2j17fj4" path="res://art/status_effects/status_1.png" id="1_6f63l"]
-[ext_resource type="Script" uid="uid://b3qj2wikmfcsn" path="res://statuses/feeble.gd" id="2_lw75y"]
+[ext_resource type="Script" path="res://statuses/feeble.gd" id="2_lw75y"]
 
 [resource]
 script = ExtResource("2_lw75y")
 id = "feeble"
 display_string = " had its [color=blue]BLOCK[/color] abilities weakened!"
 type = 1
-chance = 1.0
 stack_type = 1
-can_expire = false
-duration = 0
 stacks = 1
-max_stacks = 999
-max_duration = 999
 icon = ExtResource("1_6f63l")
 tooltip = "[color=dimgray]FEEBLE:[/color]
 Reduce [color=blue][b]BLOCK[/b][/color] gained by %s."

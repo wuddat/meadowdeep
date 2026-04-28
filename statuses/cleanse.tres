@@ -1,20 +1,15 @@
 [gd_resource type="Resource" script_class="Cleanse" format=3 uid="uid://diwhdhhq1rccs"]
 
 [ext_resource type="Texture2D" uid="uid://br8xoomakdgpw" path="res://art/statuseffects/pixie.png" id="1_fcnd0"]
-[ext_resource type="Script" uid="uid://dyusw3a54davi" path="res://statuses/cleanse.gd" id="2_fcnd0"]
+[ext_resource type="Script" path="res://statuses/cleanse.gd" id="2_fcnd0"]
 
 [resource]
 script = ExtResource("2_fcnd0")
 id = "cleanse"
 display_string = " was cleansed of ALL status effects!"
 type = 2
-chance = 1.0
 stack_type = 1
-can_expire = false
-duration = 0
 stacks = 1
-max_stacks = 999
-max_duration = 999
 icon = ExtResource("1_fcnd0")
 tooltip = "[color=peru]CLEANSE:[/color]
 "

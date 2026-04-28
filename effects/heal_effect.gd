@@ -2,6 +2,7 @@
 class_name HealEffect
 extends Effect
 
+@export var amount: int = 0
 
 func execute(targets: Array[Node]) -> void:
 	for target in targets:

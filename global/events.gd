@@ -1,13 +1,6 @@
 #events.gd
 extends Node
 
-# Card-related Events
-signal card_drag_started(card_ui)
-signal card_drag_ended(card_ui)
-signal card_aim_started(card_ui)
-signal card_aim_ended(card_ui)
-signal card_played(card: Card)
-signal card_tooltip_requested(card: Card)
 signal tooltip_hide_requested
 
 #Meadow Creature-related Events
@@ -28,8 +21,8 @@ signal player_hit
 signal player_died
 
 # Autobattle Events
-signal creature_action_started(unit: CreatureBattleUnit)
-signal creature_action_completed(unit: CreatureBattleUnit)
+signal battle_action_step(actor: Node)
+signal battle_action_complete(actor_uid: String)
 signal combat_started
 signal combat_ended
 
@@ -37,7 +30,6 @@ signal combat_ended
 signal enemy_action_completed(enemy: Enemy)
 signal enemy_turn_ended
 signal enemy_fainted(enemy: Enemy)
-signal enemy_seeded(seeded: Status)
 
 # Battle-related Events
 signal battle_over_screen_requested(text: String, type: BattleOverPanel.Type)
@@ -52,11 +44,7 @@ signal camera_shake_requested(damage: int, intensity: float)
 
 # Creature-related Events
 signal party_creature_fainted(creature: CreatureBattleUnit)
-signal player_creature_start_status_applied(creature: CreatureBattleUnit)
-signal player_creature_end_status_applied(creature: CreatureBattleUnit)
-signal added_creature_to_party(creature: CreatureBattleUnit)
-signal evolution_triggered(creature_stats: CreatureStats)
-signal evolution_completed
+
 
 # Reward-related Events
 signal creature_reward_requested(creature_stats: CreatureStats)

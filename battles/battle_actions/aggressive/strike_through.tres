@@ -13,11 +13,11 @@ metadata/_custom_type_script = "uid://dweghcmycchb4"
 [sub_resource type="Resource" id="Resource_gwh08"]
 script = ExtResource("3_deefx")
 dash_direction = 1
+target_type = 0
 metadata/_custom_type_script = "uid://i2o70yng31r3"
 
 [resource]
 script = ExtResource("3_gwh08")
-hit_delay = 0.3
 effects = Array[ExtResource("1_dfmqy")]([SubResource("Resource_8kscf"), SubResource("Resource_gwh08")])
 display_name = "Strike Through"
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"

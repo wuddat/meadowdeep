@@ -6,10 +6,11 @@
 
 [sub_resource type="Resource" id="Resource_8kscf"]
 script = ExtResource("2_cq7x5")
-amount = 10
+amount = 5
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [resource]
 script = ExtResource("3_gwgry")
 effects = Array[ExtResource("1_mnmcg")]([SubResource("Resource_8kscf")])
+display_name = "Strike"
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"

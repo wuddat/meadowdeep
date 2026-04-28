@@ -2,10 +2,11 @@
 extends Node
 
 
-func run(effects: Array[Effect], targets: Array[Node]) -> void:
+func run(effects: Array[Effect], targets: Array[Node], user: Node) -> void:
 	for effect in effects:
-		if effect:
-			effect.execute(targets)
+		var t_resolved: Array[Node] = [user] as Array[Node] if effect.target_type == Effect.TargetType.USER else targets
+		await effect.execute(t_resolved)
+	Events.battle_action_complete.emit(user.stats.uid)
 
 
 func execute_status_effects(

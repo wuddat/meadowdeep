@@ -11,4 +11,4 @@ func can_execute(_user: BattleActor) -> bool:
 func execute_action(user: BattleActor) -> void:
 	var brace := BraceEffect.new()
 	brace.duration = duration
-	EffectExecutor.run([brace], [user])
+	EffectExecutor.run([brace], [user], user)

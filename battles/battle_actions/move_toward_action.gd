@@ -19,4 +19,4 @@ func execute_action(user: BattleActor) -> void:
 	movement.target = target
 	movement.mode = "toward"
 	movement.stop_distance = stop_distance
-	EffectExecutor.run([movement], [user])
+	EffectExecutor.run([movement], [user], user)

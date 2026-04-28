@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DespairStatus" format=3 uid="uid://dy3ut5jhgy5t5"]
 
-[ext_resource type="Script" uid="uid://cqhe811rd7g6d" path="res://statuses/despair.gd" id="1_5p1ex"]
+[ext_resource type="Script" path="res://statuses/despair.gd" id="1_5p1ex"]
 [ext_resource type="Texture2D" uid="uid://couaqduv1c3u0" path="res://art/statuseffects/dread.png" id="1_ivq05"]
 
 [resource]
@@ -8,13 +8,6 @@ script = ExtResource("1_5p1ex")
 id = "despair"
 display_string = " feels [color=gray]DESPAIR[/color] and lets its guard down!"
 type = 2
-chance = 1.0
-stack_type = 0
-can_expire = false
-duration = 0
-stacks = 0
-max_stacks = 999
-max_duration = 999
 icon = ExtResource("1_ivq05")
 tooltip = "[color=gray]DESPAIR:[/color]
 The next time the user would gain [color=blue]BLOCK[/color], it does nothing."

@@ -71,7 +71,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"dodge":  _play_animation(&"dodge")
 		&"attack":
 			if _current_action != null:
-				_current_action.run_effects_async(self, data)
+				_current_action.run_effects(self, data)
+				action_queue.done.call_deferred()
 
 
 func _check_battle_triggers() -> void:
@@ -145,6 +146,7 @@ func _tick_dodge(data: Dictionary, delta: float) -> void:
 	if data["duration"] <= 0.0:
 		base_velocity = Vector2.ZERO
 		is_dodging = false
+		Events.battle_action_step.emit(self)
 		action_queue.done()
 
 

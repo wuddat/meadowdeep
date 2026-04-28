@@ -1,20 +1,15 @@
 [gd_resource type="Resource" script_class="Flinched" format=3 uid="uid://ciyu4dxca7ifr"]
 
 [ext_resource type="Texture2D" uid="uid://dal8rt7uusmor" path="res://art/status_effects/ParalysisIC_Masters.png" id="1_dvj8p"]
-[ext_resource type="Script" uid="uid://cxkbu6wrd5ji" path="res://statuses/flinched.gd" id="2_83vvv"]
+[ext_resource type="Script" path="res://statuses/flinched.gd" id="2_83vvv"]
 
 [resource]
 script = ExtResource("2_83vvv")
 id = "flinched"
 display_string = " may flinch!"
 type = 2
-chance = 1.0
-stack_type = 0
-can_expire = false
-duration = 0
 stacks = 1
 max_stacks = 1
-max_duration = 999
 icon = ExtResource("1_dvj8p")
 tooltip = "FLINCHED: 
 Prevents an enemy from acting for 1 turn"

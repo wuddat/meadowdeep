@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Burned" format=3 uid="uid://cgl5qmgapsrnm"]
 
-[ext_resource type="Script" uid="uid://th5wflomgs70" path="res://statuses/burned.gd" id="1_a7vnf"]
+[ext_resource type="Script" path="res://statuses/burned.gd" id="1_a7vnf"]
 [ext_resource type="Texture2D" uid="uid://83d17iteqdm" path="res://art/status_effects/BurnedIC_Masters.png" id="1_qyxwe"]
 
 [resource]
@@ -8,13 +8,8 @@ script = ExtResource("1_a7vnf")
 id = "burned"
 display_string = " was BURNED!"
 type = 2
-chance = 1.0
 stack_type = 1
-can_expire = false
-duration = 0
 stacks = 1
-max_stacks = 999
-max_duration = 999
 icon = ExtResource("1_qyxwe")
 tooltip = "[color=orangered]BURNED: [/color]
 Receives %s DMG from stacks."

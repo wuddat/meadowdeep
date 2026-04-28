@@ -21,4 +21,4 @@ func execute_action(user: BattleActor) -> void:
 	movement.mode = "away"
 	movement.stop_distance = desired_distance
 	movement.max_duration = max_duration
-	EffectExecutor.run([movement], [user])
+	EffectExecutor.run([movement], [user], user)

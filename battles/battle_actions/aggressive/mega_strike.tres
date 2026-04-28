@@ -5,20 +5,22 @@
 [ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="3_2e6lg"]
 [ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="4_agojc"]
 
-[sub_resource type="Resource" id="Resource_8kscf"]
-script = ExtResource("2_x82tc")
-amount = 5
-metadata/_custom_type_script = "uid://dweghcmycchb4"
-
 [sub_resource type="Resource" id="Resource_gwh08"]
 script = ExtResource("3_2e6lg")
 dash_direction = 1
+duration = 0.5
+target_type = 0
 metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_8kscf"]
+script = ExtResource("2_x82tc")
+amount = 20
+metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [resource]
 script = ExtResource("4_agojc")
-max_range = 10.0
-hit_delay = 0.1
-effects = Array[ExtResource("1_7fwk0")]([SubResource("Resource_8kscf"), SubResource("Resource_gwh08")])
-display_name = "Onslaught"
+max_range = 100.0
+effects = Array[ExtResource("1_7fwk0")]([SubResource("Resource_gwh08"), SubResource("Resource_8kscf")])
+display_name = "MegaStrike"
+chance_weight = 0.16
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"

@@ -1,19 +1,12 @@
 [gd_resource type="Resource" script_class="OHKO" format=3 uid="uid://bc54hmoxx4f42"]
 
-[ext_resource type="Script" uid="uid://camno05jyac60" path="res://statuses/ohko.gd" id="1_pbqbr"]
+[ext_resource type="Script" path="res://statuses/ohko.gd" id="1_pbqbr"]
 
 [resource]
 script = ExtResource("1_pbqbr")
 id = "ohko"
 display_string = "was KNOCKED OUT in a single hit!"
 type = 2
-chance = 1.0
-stack_type = 0
-can_expire = false
-duration = 0
-stacks = 0
-max_stacks = 999
-max_duration = 999
 tooltip = "[color=goldenrod]OHKO:[/color]
 Might just die. Who knows?"
 metadata/_custom_type_script = "uid://breq3elxr1644"
