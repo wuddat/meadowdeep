@@ -5,8 +5,7 @@ extends Node
 func run(effects: Array[Effect], targets: Array[Node], user: Node) -> void:
 	for effect in effects:
 		var t_resolved: Array[Node] = [user] as Array[Node] if effect.target_type == Effect.TargetType.USER else targets
-		await effect.execute(t_resolved)
-	Events.battle_action_complete.emit(user.stats.uid)
+		effect.execute(t_resolved)
 
 
 func execute_status_effects(

@@ -22,9 +22,6 @@ func execute(targets: Array[Node]) -> void:
 		})
 		if sound:
 			SFXPlayer.pitch_play(sound)
-		var step_actor = await Events.battle_action_step
-		while step_actor != actor:
-			step_actor = await Events.battle_action_step
 
 
 func _resolve_direction(actor: BattleActor) -> Vector2:

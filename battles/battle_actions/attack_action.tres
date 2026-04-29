@@ -9,9 +9,20 @@ script = ExtResource("2_f0ho6")
 amount = 5
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
+[sub_resource type="Resource" id="Resource_f0ho6"]
+script = ExtResource("2_f0ho6")
+amount = 5
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[sub_resource type="Resource" id="Resource_c2blm"]
+script = ExtResource("2_f0ho6")
+amount = 10
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
 [resource]
 script = ExtResource("1_ndwkx")
-effects = Array[ExtResource("1_qva8r")]([SubResource("Resource_qva8r")])
+max_range = 40.0
+effects = Array[ExtResource("1_qva8r")]([SubResource("Resource_qva8r"), SubResource("Resource_f0ho6"), SubResource("Resource_c2blm")])
 display_name = "Attack"
 chance_weight = 10.0
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"

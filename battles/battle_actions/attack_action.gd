@@ -14,7 +14,7 @@ func execute_action(user: BattleActor) -> void:
 	var target := find_nearest_opponent(user)
 	if target == null:
 		return
-	user.action_queue.enqueue(&"attack", {"target": target})
+	run_effects(user, {"target": target})
 
 
 func run_effects(user: BattleActor, data: Dictionary) -> void:
@@ -23,7 +23,6 @@ func run_effects(user: BattleActor, data: Dictionary) -> void:
 
 	var targets: Node = data.get("target")
 	if not is_instance_valid(targets):
-		Events.battle_action_complete.emit(user.stats.uid)
 		return
 
 	await EffectExecutor.run(effects, [targets], user)

@@ -1,6 +1,6 @@
 #battle_actor.gd
 # Shared autonomous-fighter spine for all battle participants.
-# Brain drives all behavior — movement, attack, brace — via the action queue.
+# Brain drives all behavior — movement, attack — via the action queue.
 class_name BattleActor
 extends CharacterBody2D
 
@@ -67,12 +67,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 	match id:
 		&"idle":   _play_animation(&"idle")
 		&"move":   _play_animation(&"run")
-		&"brace":  _play_animation(&"idle")
 		&"dodge":  _play_animation(&"dodge")
-		&"attack":
-			if _current_action != null:
-				_current_action.run_effects(self, data)
-				action_queue.done.call_deferred()
 
 
 func _check_battle_triggers() -> void:
@@ -86,7 +81,6 @@ func _tick_current_action(delta: float) -> void:
 	match current["id"]:
 		&"idle":   _tick_idle(current["data"], delta)
 		&"move":   _tick_move(current["data"], delta)
-		&"brace":  _tick_brace(current["data"], delta)
 		&"attack": pass
 		&"dodge":  _tick_dodge(current["data"], delta)
 
@@ -134,19 +128,12 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 	_face_direction(base_velocity)
 
 
-func _tick_brace(data: Dictionary, delta: float) -> void:
-	data["duration"] -= delta
-	if data["duration"] <= 0.0:
-		action_queue.done()
-
-
 func _tick_dodge(data: Dictionary, delta: float) -> void:
 	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 120.0)
 	data["duration"] -= delta
 	if data["duration"] <= 0.0:
 		base_velocity = Vector2.ZERO
 		is_dodging = false
-		Events.battle_action_step.emit(self)
 		action_queue.done()
 
 

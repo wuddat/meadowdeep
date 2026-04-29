@@ -21,8 +21,6 @@ signal player_hit
 signal player_died
 
 # Autobattle Events
-signal battle_action_step(actor: Node)
-signal battle_action_complete(actor_uid: String)
 signal combat_started
 signal combat_ended
 
