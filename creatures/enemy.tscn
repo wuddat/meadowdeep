@@ -6,11 +6,13 @@
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/battle_action.gd" id="3_slkkl"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
+[ext_resource type="Resource" uid="uid://dsc4swpxj2a68" path="res://battles/battle_actions/aggressive/strike.tres" id="4_8hsss"]
+[ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="5_4wx45"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="6_2bth1"]
-[ext_resource type="Resource" uid="uid://r766ipfaputd" path="res://battles/battle_actions/move_away_action.tres" id="6_4wx45"]
-[ext_resource type="Resource" uid="uid://j40fs6b12kga" path="res://battles/battle_actions/attack_action.tres" id="6_slkkl"]
-[ext_resource type="Resource" uid="uid://bpa41b0eko0ee" path="res://battles/battle_actions/move_toward_action.tres" id="7_4nyy4"]
+[ext_resource type="Resource" uid="uid://clgemi1pvmcx2" path="res://battles/battle_actions/aggressive/dash_in.tres" id="7_8hsss"]
+[ext_resource type="Resource" uid="uid://cvtquesykjxkc" path="res://battles/battle_actions/defensive/dash_out.tres" id="8_4wx45"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_jsys2"]
+[ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="8_p0fjc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
 size = Vector2(19, 17)
@@ -20,7 +22,7 @@ collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
-battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("6_4wx45"), ExtResource("7_4nyy4"), ExtResource("6_slkkl")])
+battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_8hsss"), ExtResource("5_4wx45"), ExtResource("8_p0fjc"), ExtResource("7_8hsss"), ExtResource("8_4wx45")])
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=458258168]
 modulate = Color(0, 0, 0, 1)

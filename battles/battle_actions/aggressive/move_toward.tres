@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MoveToAction" format=3 uid="uid://bo2ovmh0qxw08"]
+
+[ext_resource type="Script" uid="uid://dgftoxf418knu" path="res://battles/battle_actions/move_to_action.gd" id="1_ye18o"]
+
+[resource]
+script = ExtResource("1_ye18o")
+max_duration = 2.0
+stop_distance = 10.0
+display_name = "Move Toward"
+on_gcd = false
+chance_weight = 5.0
+metadata/_custom_type_script = "uid://dgftoxf418knu"

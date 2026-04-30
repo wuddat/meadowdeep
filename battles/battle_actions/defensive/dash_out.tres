@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DashAction" format=3 uid="uid://cvtquesykjxkc"]
+
+[ext_resource type="Script" uid="uid://damc2sy4fbfgu" path="res://battles/battle_actions/dash_action.gd" id="1_203fa"]
+
+[resource]
+script = ExtResource("1_203fa")
+mode = 1
+max_distance = 60.0
+intent = 1
+display_name = "Dash Out"

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DashAction" format=3 uid="uid://clgemi1pvmcx2"]
+
+[ext_resource type="Script" uid="uid://damc2sy4fbfgu" path="res://battles/battle_actions/dash_action.gd" id="1_m5wj6"]
+
+[resource]
+script = ExtResource("1_m5wj6")
+max_distance = 60.0
+display_name = "Dash In"

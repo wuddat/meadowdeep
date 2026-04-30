@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="MoveAwayAction" format=3 uid="uid://r766ipfaputd"]
-
-[ext_resource type="Script" uid="uid://b6xq8wmxhxbfw" path="res://battles/battle_actions/move_away_action.gd" id="1_5rk71"]
-
-[resource]
-script = ExtResource("1_5rk71")
-intent = 1
-display_name = "MoveAway"
-metadata/_custom_type_script = "uid://b6xq8wmxhxbfw"

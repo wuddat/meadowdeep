@@ -1,6 +1,8 @@
 class_name Brain
 extends Node
 
+@export var gcd_delay: float = 0.5
+var _gcd_ready_in: float = 0.0
 var _actor: BattleActor
 var _personality: Personality
 
@@ -13,20 +15,27 @@ func _ready() -> void:
 
 
 func select_action() -> BattleAction:
+	var now := Time.get_ticks_msec() / 1000.0
 	var intent := _evaluate_intent()
 
 	var pool: Array = _actor.battle_action_list.filter(
 		func(a: BattleAction) -> bool:
-			return a.intent == intent and a.can_execute(_actor)
+			return a.intent == intent and a.can_execute(_actor) and _gcd_check(a, now)
 	)
 
 	if pool.is_empty():
 		pool = _actor.battle_action_list.filter(
-			func(a: BattleAction) -> bool: return a.can_execute(_actor)
+			func(a: BattleAction) -> bool: return a.can_execute(_actor) and _gcd_check(a,now)
 		)
 
 	var chosen := _pick_weighted(pool)
+	if chosen and chosen.on_gcd:
+		_gcd_ready_in = now + gcd_delay
 	return chosen
+
+
+func _gcd_check(a: BattleAction, now: float) -> bool:
+	return not a.on_gcd or now >= _gcd_ready_in
 
 
 func _evaluate_intent() -> BattleAction.Intent:

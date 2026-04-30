@@ -5,6 +5,7 @@ enum Intent { AGGRESSIVE, DEFENSIVE }
 
 @export var intent: Intent = Intent.AGGRESSIVE
 @export var display_name: String = ""
+@export var on_gcd: bool = true
 @export_range(0.0, 10.0) var chance_weight: float = 1.0
 
 
@@ -12,11 +13,9 @@ func can_execute(_user: BattleActor) -> bool:
 	return false
 
 
-func execute_action(_user: BattleActor) -> void:
-	pass
+func build_steps(_user: BattleActor) -> Array[Dictionary]:
+	return []
 
-func run_effects(_user: BattleActor, _data: Dictionary) -> void:
-	pass
 
 static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	if not is_instance_valid(user) or not is_instance_valid(target):

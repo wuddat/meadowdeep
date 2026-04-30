@@ -57,8 +57,12 @@ func _on_queue_emptied() -> void:
 	if chosen == null:
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 		return
-	_current_action = chosen
-	chosen.execute_action(self)
+	var steps := chosen.build_steps(self)
+	if steps.is_empty():
+		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
+		return
+	for step in steps:
+		action_queue.enqueue(step["id"], step["data"])
 	if action_queue.peek().is_empty():
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
@@ -67,7 +71,9 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 	match id:
 		&"idle":   _play_animation(&"idle")
 		&"move":   _play_animation(&"run")
-		&"dodge":  _play_animation(&"dodge")
+		&"dash":  _play_animation(&"dash")
+		&"strike": _play_animation(&"strike")
+		&"brace": _play_animation(&"brace")
 
 
 func _check_battle_triggers() -> void:
@@ -81,14 +87,37 @@ func _tick_current_action(delta: float) -> void:
 	match current["id"]:
 		&"idle":   _tick_idle(current["data"], delta)
 		&"move":   _tick_move(current["data"], delta)
-		&"attack": pass
-		&"dodge":  _tick_dodge(current["data"], delta)
+		&"dash":  _tick_dash(current["data"], delta)
+		&"strike": _tick_strike(current["data"], delta)
+		&"brace": _tick_brace(current["data"], delta)
+
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
 	_update_action_timer_ui(data["timer"])
 	if data["timer"] > 0.0:
 		return
+	action_queue.done()
+
+
+func _tick_brace(data:Dictionary, delta: float) -> void:
+	data["duration"] -= delta
+	_update_action_timer_ui(data["duration"])
+	if data["duration"] > 0.0:
+		return
+	action_queue.done()
+
+
+func _tick_strike(data: Dictionary, delta: float) -> void:
+	var t = data.get("target")
+	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
+	if is_instance_valid(t) and not effects.is_empty():
+		EffectExecutor.run(effects, [t], self)
+		data["effects"] = [] as Array[Effect]
+	if data.has("min_duration"):
+		data["min_duration"] -= delta
+		if data["min_duration"] >= 0.0:
+			return
 	action_queue.done()
 
 
@@ -108,27 +137,39 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 			return
 
 	var stop_distance: float = data.get("stop_distance", 32.0)
-	var mode: String = data.get("mode", "toward")
+	var mode: MoveToAction.Mode = data.get("mode", MoveToAction.Mode.TOWARD)
+	
 	var to_target: Vector2 = target.global_position - global_position
 	var dist := to_target.length()
+	
+	
+	match mode:
+		MoveToAction.Mode.TOWARD:
+			if dist <= stop_distance:
+				base_velocity = Vector2.ZERO
+				action_queue.done()
+				return
+			base_velocity = to_target.normalized() * move_speed
 
-	if mode == "toward":
-		if dist <= stop_distance:
-			base_velocity = Vector2.ZERO
-			action_queue.done()
-			return
-		base_velocity = to_target.normalized() * move_speed
-	else:
-		if dist >= stop_distance:
-			base_velocity = Vector2.ZERO
-			action_queue.done()
-			return
-		base_velocity = -to_target.normalized() * move_speed
+		MoveToAction.Mode.AWAY:
+			if dist >= stop_distance: # Assuming stopping at a max distance away, modify if you want continuous flee
+				base_velocity = Vector2.ZERO
+				action_queue.done()
+				return
+			base_velocity = -to_target.normalized() * move_speed
+
+		MoveToAction.Mode.ORBITL:
+			var tangent := to_target.normalized().rotated(-PI / 2)
+			base_velocity = tangent * move_speed
+
+		MoveToAction.Mode.ORBITR:
+			var tangent := to_target.normalized().rotated(PI / 2)
+			base_velocity = tangent * move_speed
 
 	_face_direction(base_velocity)
 
 
-func _tick_dodge(data: Dictionary, delta: float) -> void:
+func _tick_dash(data: Dictionary, delta: float) -> void:
 	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 120.0)
 	data["duration"] -= delta
 	if data["duration"] <= 0.0:

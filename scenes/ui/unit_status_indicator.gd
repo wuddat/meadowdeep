@@ -1,9 +1,6 @@
 class_name UnitStatusIndicator
 extends Control
 
-const CONFUSED_EFFECT = preload("res://art/statuseffects/confused-effect.png")
-const SLEEP = preload("res://art/statuseffects/sleep.png")
-
 @onready var status_icon: TextureRect = $StatusIcon
 
 var drift_tween: Tween
@@ -30,11 +27,9 @@ func _ready() -> void:
 
 func update_status_display(unit: Node) -> void:
 	if unit.status_handler.has_status("confused"):
-		status_icon.texture = CONFUSED_EFFECT
 		show()
 		return
 	if unit.is_asleep == true:
-		status_icon.texture = SLEEP
 		show()
 		return
 	hide()

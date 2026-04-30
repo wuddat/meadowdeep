@@ -22,8 +22,6 @@ buses/default_bus_layout="uid://b8wr0hwoqop4v"
 [autoload]
 
 Events="*uid://bjprdav8m6dv5"
-MoveData="*uid://bes7c5nvqsee1"
-StatusData="*uid://cefd73ku7nw07"
 RNG="*uid://c1fxnlev86vbu"
 Shaker="*uid://buj7kaqos1l3l"
 CreatureData="*uid://dslgc5ap6fq7"

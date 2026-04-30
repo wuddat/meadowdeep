@@ -2,7 +2,7 @@ class_name AttackAction
 extends BattleAction
 
 @export var max_range: float = 32.0
-@export var effects: Array[Effect]
+@export var hit_effects: Array[Effect]
 
 
 func can_execute(user: BattleActor) -> bool:
@@ -10,19 +10,7 @@ func can_execute(user: BattleActor) -> bool:
 	return target != null and range_check(user, target, max_range)
 
 
-func execute_action(user: BattleActor) -> void:
-	var target := find_nearest_opponent(user)
-	if target == null:
-		return
-	run_effects(user, {"target": target})
-
-
-func run_effects(user: BattleActor, data: Dictionary) -> void:
-	if not is_instance_valid(user):
-		return
-
-	var targets: Node = data.get("target")
-	if not is_instance_valid(targets):
-		return
-
-	await EffectExecutor.run(effects, [targets], user)
+func build_steps(user: BattleActor) -> Array[Dictionary]:
+	var t := find_nearest_opponent(user)
+	if t == null: return []
+	return [{"id": &"strike", "data": {"target": t, "effects": hit_effects} }]

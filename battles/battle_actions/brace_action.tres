@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="BraceAction" format=3 uid="uid://tmb3rsqg26l"]
-
-[ext_resource type="Script" uid="uid://c65o17dpigevx" path="res://battles/battle_actions/brace_action.gd" id="1_2ovo0"]
-
-[resource]
-script = ExtResource("1_2ovo0")
-intent = 1
-display_name = "Brace"
-metadata/_custom_type_script = "uid://c65o17dpigevx"

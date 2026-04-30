@@ -15,7 +15,7 @@ func execute(targets: Array[Node]) -> void:
 		if actor == null or not is_instance_valid(actor):
 			continue
 		var direction := _resolve_direction(actor)
-		actor.action_queue.enqueue(&"dodge", {
+		actor.action_queue.enqueue(&"dash", {
 			"direction": direction,
 			"speed": speed,
 			"duration": duration,

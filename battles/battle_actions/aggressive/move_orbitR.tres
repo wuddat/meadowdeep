@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MoveToAction" format=3 uid="uid://1vwvcir77hgy"]
+
+[ext_resource type="Script" uid="uid://dgftoxf418knu" path="res://battles/battle_actions/move_to_action.gd" id="1_w0ber"]
+
+[resource]
+script = ExtResource("1_w0ber")
+mode = 3
+display_name = "Orbit R"
+on_gcd = false
+metadata/_custom_type_script = "uid://dgftoxf418knu"

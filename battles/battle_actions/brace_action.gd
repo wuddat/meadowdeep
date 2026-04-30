@@ -8,7 +8,5 @@ func can_execute(_user: BattleActor) -> bool:
 	return true
 
 
-func execute_action(user: BattleActor) -> void:
-	var brace := BraceEffect.new()
-	brace.duration = duration
-	EffectExecutor.run([brace], [user], user)
+func build_steps(_user: BattleActor) -> Array[Dictionary]:
+	return [{"id": &"brace", "data": {"duration": duration} }]

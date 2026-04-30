@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveToAction" format=3 uid="uid://cq7d62n1m5r41"]
+
+[ext_resource type="Script" uid="uid://dgftoxf418knu" path="res://battles/battle_actions/move_to_action.gd" id="1_tkqvf"]
+
+[resource]
+script = ExtResource("1_tkqvf")
+max_duration = 2.0
+mode = 1
+display_name = "Move Away"
+on_gcd = false
+metadata/_custom_type_script = "uid://dgftoxf418knu"
