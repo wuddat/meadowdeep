@@ -4,5 +4,6 @@
 
 [resource]
 script = ExtResource("1_m5wj6")
+duration = 0.5
 max_distance = 60.0
 display_name = "Dash In"

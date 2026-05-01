@@ -69,11 +69,12 @@ func _on_queue_emptied() -> void:
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
 	match id:
-		&"idle":   _play_animation(&"idle")
-		&"move":   _play_animation(&"run")
-		&"dash":  _play_animation(&"dash")
-		&"strike": _play_animation(&"strike")
-		&"brace": _play_animation(&"brace")
+		&"idle":       _play_animation(&"idle")
+		&"move":       _play_animation(&"run")
+		&"dash":       _play_animation(&"dash")
+		&"strike":     _play_animation(&"strike")
+		&"brace":      _play_animation(&"brace")
+		&"projectile": _play_animation(&"strike")
 
 
 func _check_battle_triggers() -> void:
@@ -85,11 +86,12 @@ func _tick_current_action(delta: float) -> void:
 	if current.is_empty():
 		return
 	match current["id"]:
-		&"idle":   _tick_idle(current["data"], delta)
-		&"move":   _tick_move(current["data"], delta)
-		&"dash":  _tick_dash(current["data"], delta)
-		&"strike": _tick_strike(current["data"], delta)
-		&"brace": _tick_brace(current["data"], delta)
+		&"idle":       _tick_idle(current["data"], delta)
+		&"move":       _tick_move(current["data"], delta)
+		&"dash":       _tick_dash(current["data"], delta)
+		&"strike":     _tick_strike(current["data"], delta)
+		&"brace":      _tick_brace(current["data"], delta)
+		&"projectile": _tick_projectile(current["data"], delta)
 
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
@@ -167,6 +169,26 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 			base_velocity = tangent * move_speed
 
 	_face_direction(base_velocity)
+
+
+func _tick_projectile(data: Dictionary, _delta: float) -> void:
+	var scene: PackedScene = data.get("scene")
+	var target = data.get("target")
+	if scene == null or not is_instance_valid(target):
+		action_queue.done()
+		return
+	var p := scene.instantiate() as ProjectileObject
+	if p == null:
+		action_queue.done()
+		return
+	p.art = data.get("art")
+	p.effects = data.get("effects", [] as Array[Effect])
+	p.duration = data.get("duration", 0.0)
+	p.max_distance = data.get("max_distance", 0.0)
+	p.speed = data.get("speed", 0.0)
+	get_parent().add_child(p)
+	p.setup(self, target)
+	action_queue.done()
 
 
 func _tick_dash(data: Dictionary, delta: float) -> void:

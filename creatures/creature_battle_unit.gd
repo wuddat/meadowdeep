@@ -14,6 +14,7 @@ extends BattleActor
 @onready var unit_status_indicator: Node = %UnitStatusIndicator
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
+@onready var projectile_spawn: Node2D = %ProjectileSpawn
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -57,7 +58,6 @@ func _get_action_interval() -> float:
 
 
 func _play_animation(anim_name: StringName) -> void:
-	action_name.text = _current_action.display_name if _current_action and anim_name != &"idle" else ""
 	play_animation(anim_name)
 
 

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FireProjectileAction" format=3 uid="uid://bjbolueg3mmes"]
+
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_bnjok"]
+[ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="1_esx5v"]
+[ext_resource type="Script" uid="uid://bdhmsij2whdko" path="res://battles/battle_actions/fire_projectile_action.gd" id="1_okg4l"]
+[ext_resource type="PackedScene" uid="uid://bdq2fu4cx0tgw" path="res://scenes/battle/projectile_object.tscn" id="2_exokp"]
+[ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="3_840u2"]
+
+[sub_resource type="Resource" id="Resource_jbpqi"]
+script = ExtResource("3_840u2")
+amount = 10
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[resource]
+script = ExtResource("1_okg4l")
+projectile_scene = ExtResource("2_exokp")
+art = ExtResource("1_esx5v")
+effects = Array[ExtResource("1_bnjok")]([SubResource("Resource_jbpqi")])
+duration = 2.0
+speed = 200.0
+max_distance = 200.0
+intent = 1
+display_name = "Shoot"
+chance_weight = 10.0
+metadata/_custom_type_script = "uid://bdhmsij2whdko"

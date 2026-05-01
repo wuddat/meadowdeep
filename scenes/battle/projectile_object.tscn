@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bdq2fu4cx0tgw"]
+
+[ext_resource type="Script" uid="uid://sxlo4u014605" path="res://scenes/battle/projectile_object.gd" id="1_0hw32"]
+[ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="2_aixdh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uii8k"]
+size = Vector2(8, 8)
+
+[node name="ProjectileObject" type="RigidBody2D" unique_id=1777031161]
+script = ExtResource("1_0hw32")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1466826528]
+texture = ExtResource("2_aixdh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1284849886]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_uii8k")

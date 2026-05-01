@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_203fa")
 mode = 1
+duration = 0.5
 max_distance = 60.0
 intent = 1
 display_name = "Dash Out"

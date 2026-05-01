@@ -17,6 +17,7 @@ const ARROW_OFFSET := 20
 @onready var unit_status_indicator: Node = %UnitStatusIndicator
 @onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
+@onready var projectile_spawn: Node2D = %ProjectileSpawn
 
 var enemy_action_picker: Node = null
 var current_action: Node = null : set = set_current_action
