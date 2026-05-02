@@ -2,14 +2,11 @@
 
 [ext_resource type="Script" uid="uid://ddof78tskdvk2" path="res://scenes/ruins/run.gd" id="1_run"]
 [ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="2_12wjq"]
-[ext_resource type="PackedScene" uid="uid://c52yc40fq8end" path="res://scenes/ruins/map.tscn" id="2_map"]
 
 [node name="Run" type="Node" unique_id=169407667]
 process_mode = 3
 script = ExtResource("1_run")
 player_stats = ExtResource("2_12wjq")
-
-[node name="Map" parent="." unique_id=1493302310 instance=ExtResource("2_map")]
 
 [node name="CurrentView" type="Node" parent="." unique_id=1400579697]
 

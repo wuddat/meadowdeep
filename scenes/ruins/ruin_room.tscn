@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://uxisf2rn7cwt"]
+
+[ext_resource type="Script" uid="uid://donau0qqfd3sc" path="res://scenes/ruins/ruin_room.gd" id="1_qhq8s"]
+[ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="1_s0srl"]
+[ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="2_yq8xq"]
+[ext_resource type="Texture2D" uid="uid://cqabvme4u5an4" path="res://art/game_art/concepts/map_room_bg.png" id="3_yq8xq"]
+[ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="7_4ddbq"]
+[ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="8_qkvym"]
+
+[node name="RuinRoom" type="Node2D" unique_id=1210557673]
+script = ExtResource("1_qhq8s")
+
+[node name="bg" type="TextureRect" parent="." unique_id=998212447]
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("3_yq8xq")
+
+[node name="Doors" type="Node2D" parent="." unique_id=985720702]
+
+[node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("1_s0srl")]
+z_index = 1
+position = Vector2(315, 154)
+collision_layer = 5
+collision_mask = 5
+speed = 200.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=229840155]
+position = Vector2(319.00003, 179.00002)
+scale = Vector2(82.46371, 8.475021)
+zoom = Vector2(1.1, 1.1)
+script = ExtResource("2_yq8xq")
+
+[node name="RoomTypeLabel" type="Label" parent="." unique_id=593852780]
+offset_left = 262.0
+offset_top = 177.0
+offset_right = 364.0
+offset_bottom = 200.0
+text = "RoomTypeLabel"
+
+[node name="MapGenerator" type="Node" parent="." unique_id=719299934]
+script = ExtResource("7_4ddbq")
+battle_stats_pool = ExtResource("8_qkvym")

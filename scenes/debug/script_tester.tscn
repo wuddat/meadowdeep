@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b8u76mem7xplx"]
+
+[ext_resource type="Script" uid="uid://bya1dyq01lk5s" path="res://scenes/debug/script_tester.gd" id="1_8huyv"]
+[ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="2_mapgen"]
+[ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="3_pool"]
+
+[node name="ScriptTester" type="Node2D" unique_id=465448223]
+script = ExtResource("1_8huyv")
+
+[node name="MapGenerator" type="Node" parent="." unique_id=183277637]
+script = ExtResource("2_mapgen")
+battle_stats_pool = ExtResource("3_pool")

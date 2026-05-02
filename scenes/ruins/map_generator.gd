@@ -2,12 +2,17 @@
 class_name MapGenerator
 extends Node
 
-const X_DIST := 64
-const Y_DIST := 96
-const PLACEMENT_RANDOMNESS := 0
-const FLOORS := 15
-const MAP_WIDTH := 7
-const PATHS := 6
+const ROOM_BASE := 7
+const FLOOR_MOD := 2
+const MAX_RADIUS := 8
+
+const DOOR_N := 1
+const DOOR_S := 2
+const DOOR_E := 4
+const DOOR_W := 8
+
+const ROOM_PIXEL_SPACING := Vector2(32, 32)
+const SAFETY_CONST := 500
 
 const COMBAT_WEIGHT := 10.0
 const REST_SITE_WEIGHT := 2.5
@@ -19,114 +24,178 @@ const EGG_CHAMBER_WEIGHT := 2.0
 
 var _random_room_weights: Dictionary = {}
 var _total_weight := 0.0
-var map_data: Array[Array]
+
+var room_map: Dictionary = {}
 
 
-func generate_map() -> Array[Array]:
-	map_data = _generate_initial_grid()
-	var starting_points := _get_random_starting_points()
+func generate_floor(floor_num: int) -> Dictionary:
+	room_map.clear()
+	var target := ROOM_BASE + (floor_num - 1) * FLOOR_MOD
+	_spider(target)
+	_calc_doors()
+	_calc_depths()
+	_assign_room_types(floor_num)
+	return room_map
 
-	for j in starting_points:
-		var current_j := j
-		for i in FLOORS - 1:
-			current_j = _setup_connection(i, current_j)
 
+func _spider(target: int) -> void:
+	var start := Vector2i.ZERO
+	room_map[start] = _make_room(start)
+
+	# Seed start with 1-3 doors. Start itself is NOT added to queue —
+	# this caps its door count at the rolled value.
+	var start_door_count := RNG.instance.randi_range(1, 3)
+	var seed_dirs := [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+	seed_dirs.shuffle()
+	var queue: Array[Vector2i] = []
+	var seeded := 0
+	for dir: Vector2i in seed_dirs:
+		if seeded >= start_door_count or room_map.size() >= target:
+			break
+		var n: Vector2i = start + dir
+		room_map[n] = _make_room(n)
+		queue.append(n)
+		seeded += 1
+
+	var safety := SAFETY_CONST
+	while room_map.size() < target and not queue.is_empty() and safety > 0:
+		safety -= 1
+		var current: Vector2i = queue[RNG.instance.randi_range(0, queue.size() - 1)]
+		var dirs := [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		dirs.shuffle()
+
+		var expanded: bool = false
+		for dir: Vector2i in dirs:
+			var neighbor: Vector2i = current + dir
+			if room_map.has(neighbor):
+				continue
+			if abs(neighbor.x) + abs(neighbor.y) > MAX_RADIUS:
+				continue
+			#count neighbors inc current (<=1 means no OTHER rooms touch)
+			if _count_neighbors(neighbor) > 1:
+				continue
+			room_map[neighbor] = _make_room(neighbor)
+			queue.append(neighbor)
+			expanded = true
+			if room_map.size() >= target:
+				return
+		#no parent options, kill
+		if not expanded:
+			queue.erase(current)
+
+
+func _make_room(grid_pos: Vector2i) -> Room:
+	var room: Room = Room.new()
+	room.grid_pos = grid_pos
+	room.position = Vector2(grid_pos) * ROOM_PIXEL_SPACING
+	room.next_rooms = []
+	return room
+
+
+func _count_neighbors(pos: Vector2i) -> int:
+	var count:int = 0
+	for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+		if room_map.has(pos + dir):
+			count += 1
+	return count
+
+
+func _calc_doors() -> void:
+	for pos: Vector2i in room_map.keys():
+		var room: Room = room_map[pos]
+		var mask:int = 0
+		if room_map.has(pos + Vector2i.UP):
+			mask |= DOOR_N
+			room.next_rooms.append(room_map[pos + Vector2i.UP])
+		if room_map.has(pos + Vector2i.DOWN):
+			mask |= DOOR_S
+			room.next_rooms.append(room_map[pos + Vector2i.DOWN])
+		if room_map.has(pos + Vector2i.RIGHT):
+			mask |= DOOR_E
+			room.next_rooms.append(room_map[pos + Vector2i.RIGHT])
+		if room_map.has(pos + Vector2i.LEFT):
+			mask |= DOOR_W
+			room.next_rooms.append(room_map[pos + Vector2i.LEFT])
+		room.doors = mask
+
+
+func _calc_depths() -> void:
+	var start: Vector2i = Vector2i.ZERO
+	if not room_map.has(start):
+		return
+	var visited := {start: 0}
+	var frontier: Array[Vector2i] = [start]
+	while not frontier.is_empty():
+		var pos: Vector2i = frontier.pop_front()
+		var d: int = visited[pos]
+		room_map[pos].depth = d
+		for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+			var n: Vector2i = pos + dir
+			if room_map.has(n) and not visited.has(n):
+				visited[n] = d+ 1
+				frontier.append(n)
+
+
+func _assign_room_types(floor_num: int) -> void:
 	battle_stats_pool.setup()
-
-	_setup_boss_room()
 	_setup_random_room_weights()
-	_setup_room_types()
 
-	return map_data
+	# start room — left as NOT_ASSIGNED, identified by grid_pos == ZERO
+	# (add Room.Type.START to enum if you want a dedicated tag)
+	var start := Vector2i.ZERO
+	room_map[start].tier = 0
 
+	var terminals := _get_terminals()
+	terminals.sort_custom(func(a: Room, b: Room) -> bool: return a.depth > b.depth)
 
-func _generate_initial_grid() -> Array[Array]:
-	var result: Array[Array] = []
+	# deepest dead-end = boss
+	if terminals.size() > 0:
+		var boss_room: Room = terminals.pop_front()
+		boss_room.type = Room.Type.BOSS
+		boss_room.tier = 1
+		boss_room.battle_stats = battle_stats_pool.get_boss_battle_for_tier(1)
 
-	for i in FLOORS:
-		var adjacent_rooms: Array[Room] = []
+	# next deepest = egg chamber
+	if terminals.size() > 0:
+		terminals.pop_front().type = Room.Type.EGG_CHAMBER
 
-		for j in MAP_WIDTH:
-			var current_room := Room.new()
-			var offset := Vector2(randf(), randf()) * PLACEMENT_RANDOMNESS
-			current_room.position = Vector2(j * X_DIST, i * -Y_DIST) + offset
-			current_room.row = i
-			current_room.column = j
-			current_room.next_rooms = []
+	# mid dead-end = treasure
+	if terminals.size() > 0:
+		var mid := terminals.size() / 2
+		terminals.pop_at(mid).type = Room.Type.TREASURE
 
-			if i == FLOORS - 1:
-				current_room.position.y = (i + 1) * -Y_DIST
+	# shallowest leftover dead-end = rest
+	if terminals.size() > 0:
+		terminals.pop_back().type = Room.Type.REST_SITE
 
-			adjacent_rooms.append(current_room)
+	# fill remaining non-start rooms with weighted random
+	for room: Room in room_map.values():
+		if room.grid_pos == Vector2i.ZERO:
+			continue
+		if room.type != Room.Type.NOT_ASSIGNED:
+			continue
+		var t := _get_random_room_type_by_weight()
+		room.type = t
+		if t == Room.Type.COMBAT:
+			var tier := 1 if room.depth > 4 else 0
+			room.tier = tier
+			room.battle_stats = battle_stats_pool.get_wild_battle_for_tier(tier)
 
-		result.append(adjacent_rooms)
+func _get_terminals() -> Array[Room]:
+	var out: Array[Room] = []
+	for room: Room in room_map.values():
+		if room.grid_pos == Vector2i.ZERO:
+			continue
+		if _door_count(room.doors) == 1:
+			out.append(room)
+	return out
 
-	return result
-
-
-func _get_random_starting_points() -> Array[int]:
-	var y_coordinates: Array[int]
-	var unique_points: int = 0
-
-	while unique_points < 2:
-		unique_points = 0
-		y_coordinates = []
-
-		for i in PATHS:
-			var starting_point := randi_range(0, MAP_WIDTH - 1)
-			if not y_coordinates.has(starting_point):
-				unique_points += 1
-			y_coordinates.append(starting_point)
-
-	return y_coordinates
-
-
-func _setup_connection(i: int, j: int) -> int:
-	var next_room: Room
-	var current_room := map_data[i][j] as Room
-
-	while not next_room or _would_cross_existing_path(i, j, next_room):
-		var random_j := clampi(randi_range(j - 1, j + 1), 0, MAP_WIDTH - 1)
-		next_room = map_data[i + 1][random_j]
-
-	current_room.next_rooms.append(next_room)
-	return next_room.column
-
-
-func _would_cross_existing_path(i: int, j: int, room: Room) -> bool:
-	var left_of_node: Room
-	var right_of_node: Room
-
-	if j > 0:
-		left_of_node = map_data[i][j - 1]
-	if j < MAP_WIDTH - 1:
-		right_of_node = map_data[i][j + 1]
-
-	if right_of_node and room.column > j:
-		for next_room: Room in right_of_node.next_rooms:
-			if next_room.column < room.column:
-				return true
-
-	if left_of_node and room.column < j:
-		for next_room: Room in left_of_node.next_rooms:
-			if next_room.column > room.column:
-				return true
-
-	return false
-
-
-func _setup_boss_room() -> void:
-	var middle := floori(MAP_WIDTH * 0.5)
-	var boss_room := map_data[FLOORS - 1][middle] as Room
-
-	for j in MAP_WIDTH:
-		var current_room := map_data[FLOORS - 2][j] as Room
-		if current_room.next_rooms:
-			current_room.next_rooms = [] as Array[Room]
-			current_room.next_rooms.append(boss_room)
-
-	boss_room.type = Room.Type.BOSS
-	boss_room.battle_stats = battle_stats_pool.get_boss_battle_for_tier(1)
+func _door_count(mask: int) -> int:
+	var c: int = 0
+	for bit in [DOOR_N, DOOR_S, DOOR_E, DOOR_W]:
+		if mask & bit:
+			c += 1
+	return c
 
 
 func _setup_random_room_weights() -> void:
@@ -146,91 +215,21 @@ func _setup_random_room_weights() -> void:
 	_total_weight = cumulative
 
 
-func _setup_room_types() -> void:
-	# Floor 0: always combat
-	for room: Room in map_data[0]:
-		if room.next_rooms.size() > 0:
-			room.type = Room.Type.COMBAT
-			room.tier = 0
-			room.battle_stats = battle_stats_pool.get_wild_battle_for_tier(0)
-
-	# Floor 5: guaranteed egg chamber
-	for room: Room in map_data[5]:
-		if room.next_rooms.size() > 0:
-			room.type = Room.Type.EGG_CHAMBER
-
-	# Middle: treasure
-	for room: Room in map_data[floori(FLOORS / 2)]:
-		if room.next_rooms.size() > 0:
-			room.type = Room.Type.TREASURE
-
-	# Pre-boss: rest site
-	for room: Room in map_data[FLOORS - 2]:
-		if room.next_rooms.size() > 0:
-			room.type = Room.Type.REST_SITE
-
-	# Fill remaining
-	for current_floor in map_data:
-		for room: Room in current_floor:
-			for next_room: Room in room.next_rooms:
-				if next_room.type == Room.Type.NOT_ASSIGNED:
-					_set_room_randomly(next_room)
-
-
-func _set_room_randomly(room_to_set: Room) -> void:
-	var no_consec_rest := true
-	var no_consec_shop := true
-	var no_rest_early := true
-	var type_candidate: Room.Type
-
-	while no_consec_rest or no_consec_shop or no_rest_early:
-		type_candidate = _get_random_room_type_by_weight()
-
-		var is_rest := type_candidate == Room.Type.REST_SITE
-		var is_shop := type_candidate == Room.Type.SHOP
-
-		no_consec_rest = is_rest and _room_has_parent_of_type(room_to_set, Room.Type.REST_SITE)
-		no_consec_shop = is_shop and _room_has_parent_of_type(room_to_set, Room.Type.SHOP)
-		no_rest_early  = is_rest and room_to_set.row < 3
-
-	room_to_set.type = type_candidate
-
-	if type_candidate == Room.Type.COMBAT:
-		var tier := 1 if room_to_set.row > 5 else 0
-		room_to_set.tier = tier
-		room_to_set.battle_stats = battle_stats_pool.get_wild_battle_for_tier(tier)
-
-
-func _room_has_parent_of_type(room: Room, type: Room.Type) -> bool:
-	var parents: Array[Room] = []
-
-	if room.column > 0 and room.row > 0:
-		var p := map_data[room.row - 1][room.column - 1] as Room
-		if p.next_rooms.has(room):
-			parents.append(p)
-
-	if room.row > 0:
-		var p := map_data[room.row - 1][room.column] as Room
-		if p.next_rooms.has(room):
-			parents.append(p)
-
-	if room.column < MAP_WIDTH - 1 and room.row > 0:
-		var p := map_data[room.row - 1][room.column + 1] as Room
-		if p.next_rooms.has(room):
-			parents.append(p)
-
-	for parent: Room in parents:
-		if parent.type == type:
-			return true
-
-	return false
-
-
 func _get_random_room_type_by_weight() -> Room.Type:
-	var roll := randf_range(0.0, _total_weight)
+	var roll := RNG.instance.randf_range(0.0, _total_weight)
 
 	for type: Room.Type in _random_room_weights:
 		if _random_room_weights[type] > roll:
 			return type
 
 	return Room.Type.COMBAT
+
+
+# Useful for adjacency rules (e.g. no two rest sites touching).
+# In BoI grid model "parent" = any connected neighbor.
+func _room_has_parent_of_type(room: Room, type: Room.Type) -> bool:
+	for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+		var n: Vector2i = room.grid_pos + dir
+		if room_map.has(n) and room_map[n].type == type:
+			return true
+	return false

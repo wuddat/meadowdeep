@@ -9,7 +9,6 @@ const BATTLE_SCENE := preload("res://battles/battle.tscn")
 
 @export var player_stats: PlayerStats
 
-@onready var map: Map = $Map
 @onready var current_view: Node = $CurrentView
 @onready var fade: ColorRect = %Fade
 
@@ -22,8 +21,8 @@ func _ready() -> void:
 		return
 	active_stats = player_stats.create_instance()
 	_setup_event_connections()
-	map.generate_new_map()
-	map.unlock_floor(0)
+	#map.generate_new_map()
+	#map.unlock_floor(0)
 
 
 func _setup_event_connections() -> void:
@@ -43,14 +42,14 @@ func _clear_current_view() -> void:
 
 func _show_map() -> void:
 	_clear_current_view()
-	map.show_map()
-	map.unlock_next_rooms()
+	#map.show_map()
+	#map.unlock_next_rooms()
 
 
 func _load_battle(room: Room) -> void:
 	_clear_current_view()
 	get_tree().paused = false
-	map.hide_map()
+	#map.hide_map()
 	# Set properties before add_child so they're ready when _ready() fires
 	var battle_scene := BATTLE_SCENE.instantiate() as Battle
 	battle_scene.char_stats = active_stats
@@ -60,7 +59,7 @@ func _load_battle(room: Room) -> void:
 
 func _show_placeholder(label_text: String, exit_signal: Signal) -> void:
 	_clear_current_view()
-	map.hide_map()
+	#map.hide_map()
 	var panel := PanelContainer.new()
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	var vbox := VBoxContainer.new()

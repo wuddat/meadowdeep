@@ -9,9 +9,13 @@
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/creature_food.gd" id="10_c4haw"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="12_uaavs"]
 [ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="13_a8g20"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="14_uaavs"]
+[ext_resource type="Texture2D" uid="uid://frn4wky8omoa" path="res://art/game_art/concepts/creature_9.png" id="15_8uyeg"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
+[ext_resource type="Texture2D" uid="uid://c26onilbkkrhw" path="res://art/game_art/concepts/creature_8.png" id="16_1hwgg"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
+[ext_resource type="Texture2D" uid="uid://cq85uh453voov" path="res://art/game_art/concepts/creature_5.png" id="18_foo57"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
@@ -126,5 +130,55 @@ grow_vertical = 1
 [node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
 position = Vector2(442, 335)
 creature_stats = SubResource("Resource_uaavs")
+
+[node name="shadow" type="TextureRect" parent="." unique_id=2067260136]
+visible = false
+offset_left = 522.0
+offset_top = 433.0
+offset_right = 562.0
+offset_bottom = 473.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow2" type="TextureRect" parent="." unique_id=1169527965]
+offset_left = 522.0
+offset_top = 427.0
+offset_right = 554.0
+offset_bottom = 470.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow3" type="TextureRect" parent="." unique_id=80502823]
+offset_left = 464.0
+offset_top = 438.0
+offset_right = 521.0
+offset_bottom = 478.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow4" type="TextureRect" parent="." unique_id=1911022745]
+offset_left = 434.0
+offset_top = 418.0
+offset_right = 466.0
+offset_bottom = 457.0
+texture = ExtResource("14_uaavs")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=363729347]
+offset_left = 435.0
+offset_top = 421.0
+offset_right = 467.0
+offset_bottom = 453.0
+texture = ExtResource("15_8uyeg")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1883904486]
+offset_left = 467.0
+offset_top = 401.0
+offset_right = 520.0
+offset_bottom = 475.0
+texture = ExtResource("16_1hwgg")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=1715710047]
+offset_left = 523.0
+offset_top = 430.0
+offset_right = 555.0
+offset_bottom = 466.0
+texture = ExtResource("18_foo57")
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
