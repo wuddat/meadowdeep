@@ -248,6 +248,6 @@ script = ExtResource("19_abx5i")
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 script = ExtResource("20_ng24t")
 
-[node name="ProjectileSpawn" type="Node2D" parent="." unique_id=1780678180]
+[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=449928542]
 unique_name_in_owner = true
 position = Vector2(14, 0)
