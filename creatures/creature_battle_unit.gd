@@ -25,6 +25,9 @@ var last_damage_taken: int = 0
 var _action_fill: ColorRect = null
 var _enemy: Enemy
 
+const FOLLOW_DISTANCE := 48.0
+var _following_player: bool = false
+
 
 func _ready() -> void:
 	super()
@@ -35,12 +38,87 @@ func _ready() -> void:
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
 
+	# Default behavior outside combat: follow the player.
+	start_following_player()
+
 
 func start_combat() -> void:
 	_action_fill = action_timer.get_node("Fill")
 	action_name.text = ""
+	_following_player = false
+	action_queue.clear()
 	super()
 
+
+func stop_combat() -> void:
+	super()
+	start_following_player()
+
+
+# ── Out-of-combat follow ──────────────────────────────────────────────────────
+
+func start_following_player() -> void:
+	if stats and stats.health <= 0:
+		return
+	_following_player = true
+	if not action_queue.contains(&"seek"):
+		action_queue.enqueue(&"seek", {"distance": FOLLOW_DISTANCE})
+
+
+func stop_following_player() -> void:
+	_following_player = false
+	base_velocity = Vector2.ZERO
+	action_queue.remove(&"seek")
+
+
+func _physics_process(delta: float) -> void:
+	if _in_combat:
+		super(delta)
+		return
+	if not _following_player:
+		return
+	_tick_current_action(delta)
+	_decay_knockback(delta)
+	velocity = base_velocity + knockback_velocity
+	move_and_slide()
+
+
+func _tick_current_action(delta: float) -> void:
+	var current := action_queue.peek()
+	if not current.is_empty() and current["id"] == &"seek":
+		_tick_seek_player(current["data"], delta)
+		return
+	super(delta)
+
+
+func _on_action_start(id: StringName, data: Dictionary) -> void:
+	if id == &"seek":
+		_play_animation(&"idle")
+		return
+	super(id, data)
+
+
+func _tick_seek_player(data: Dictionary, _delta: float) -> void:
+	var player := _get_player()
+	var follow_dist: float = data.get("distance", FOLLOW_DISTANCE)
+	if not is_instance_valid(player):
+		base_velocity = Vector2.ZERO
+		_play_animation(&"idle")
+		return
+	var to_player: Vector2 = player.global_position - global_position
+	var dist := to_player.length()
+	if dist <= follow_dist:
+		base_velocity = Vector2.ZERO
+		_play_animation(&"idle")
+		return
+	base_velocity = to_player.normalized() * move_speed
+	_play_animation(&"run")
+	_face_direction(base_velocity)
+
+
+func _get_player() -> Node2D:
+	var players := get_tree().get_nodes_in_group("player")
+	return players[0] as Node2D if not players.is_empty() else null
 
 # ── BattleActor virtual hooks ─────────────────────────────────────────────────
 

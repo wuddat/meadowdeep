@@ -37,6 +37,7 @@ const PLAYER_INSET := 60.0
 @onready var map_generator: MapGenerator = $MapGenerator
 @onready var doors_container: Node2D = $Doors
 @onready var player: Node2D = $PlayerModel
+@onready var creature_battle_unit: CreatureBattleUnit = $CreatureBattleUnit
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
@@ -108,6 +109,7 @@ func _park_player_at(dir: StringName) -> void:
 		&"E": inward = Vector2(-PLAYER_INSET, 0)
 		&"W": inward = Vector2( PLAYER_INSET, 0)
 	player.position = door_pos + inward
+	creature_battle_unit.position = door_pos + inward
 
 
 func _on_door_entered(destination: Room, from_direction: StringName) -> void:
