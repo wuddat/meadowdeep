@@ -65,7 +65,7 @@ func _ready() -> void:
 
 func _setup_data() -> void:
 	_active_stats = player_stats.create_instance()
-	player_creature.stats = _active_stats.current_party[0]
+	#player_creature.stats = _active_stats.current_party[0]
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 

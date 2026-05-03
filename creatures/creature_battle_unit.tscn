@@ -25,6 +25,7 @@
 
 [sub_resource type="Resource" id="Resource_xxh6r"]
 script = ExtResource("2_8acdo")
+max_health = 500
 health = 500
 uid = "22"
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
