@@ -183,7 +183,7 @@ texture = ExtResource("8_kdnho")
 [node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("12_83sfk")]
 sprite_frames = ExtResource("14_dnym6")
 animation = &"run"
-frame_progress = 0.78533167
+frame_progress = 0.5088927
 
 [node name="ProjectileSpawn" type="Marker2D" parent="CreatureTextures" unique_id=449928542]
 unique_name_in_owner = true

@@ -4,11 +4,10 @@
 class_name EnemyHandler
 extends Node2D
 
-@export var char_stats: PlayerStats : set = set_character
+@export var player_stats: PlayerStats : set = set_character
 @export var enemy_scene: PackedScene
 @export var stats_ui_scene: PackedScene
 
-@onready var right_panel: VBoxContainer = $"../StatUI/RightPanel"
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 
 var battle_stats: BattleStats = null
@@ -16,11 +15,10 @@ var battle_stats: BattleStats = null
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
-	Events.party_creature_fainted.connect(_on_party_creature_fainted)
 
 
-func set_character(new_char_stats: PlayerStats) -> void:
-	char_stats = new_char_stats
+func set_character(new_player_stats: PlayerStats) -> void:
+	player_stats = new_player_stats
 
 
 func setup_enemies(bat_stats: BattleStats) -> void:
@@ -93,19 +91,12 @@ func _on_enemy_fainted(enemy: Enemy) -> void:
 	Events.battle_text_requested.emit(
 		"Enemy [color=red]%s[/color] FAINTED!" % enemy.stats.species_id.capitalize()
 	)
-	for battler in party_handler.get_active_creature_nodes():
-		if battler.has_method("on_enemy_defeated"):
-			battler.on_enemy_defeated(enemy)
+	#for battler in party_handler.get_active_creature_nodes():
+		#if battler.has_method("on_enemy_defeated"):
+			#battler.on_enemy_defeated(enemy)
 	if is_instance_valid(enemy):
 		enemy.queue_free()
 	child_order_changed.emit()
-
-
-func _on_party_creature_fainted(unit: CreatureBattleUnit) -> void:
-	for enemy in get_children():
-		if enemy is Enemy and enemy.enemy_action_picker:
-			if enemy.enemy_action_picker.has_method("select_valid_target"):
-				enemy.enemy_action_picker.select_valid_target()
 
 
 func get_enemies() -> Array[Node]:

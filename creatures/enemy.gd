@@ -19,7 +19,6 @@ const ARROW_OFFSET := 20
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var projectile_spawn: Node2D = %ProjectileSpawn
 
-var enemy_action_picker: Node = null
 var current_action: Node = null : set = set_current_action
 var spawn_coords: Vector2
 

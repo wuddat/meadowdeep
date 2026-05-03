@@ -26,6 +26,7 @@ var _action_fill: ColorRect = null
 var _enemy: Enemy
 
 const FOLLOW_DISTANCE := 48.0
+const ACTION_INTERVAL: float = 0.4
 var _following_player: bool = false
 
 
@@ -132,7 +133,7 @@ func _get_target() -> Node2D:
 
 
 func _get_action_interval() -> float:
-	return stats.get_action_interval() if stats else 1.5
+	return stats.get_action_interval() if stats else ACTION_INTERVAL
 
 
 func _play_animation(anim_name: StringName) -> void:

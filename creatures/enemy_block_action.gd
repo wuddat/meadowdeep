@@ -10,12 +10,8 @@ func setup_from_data(data: Dictionary) -> void:
 
 func perform_action() -> void:
 	if not enemy or not is_instance_valid(target):
-		if enemy and enemy.enemy_action_picker:
-			enemy.enemy_action_picker.select_valid_target()
-			target = enemy.enemy_action_picker.target
-		if not is_instance_valid(target):
-			Events.enemy_action_completed.emit(enemy)
-			return
+		Events.enemy_action_completed.emit(enemy)
+		return
 
 	EffectExecutor.execute_block(block_amount, [enemy], enemy, enemy.modifier_handler, sound)
 	EffectExecutor.execute_status_effects(status_effects, [target], enemy, 1.0)

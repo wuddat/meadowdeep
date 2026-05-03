@@ -12,6 +12,7 @@ enum Type {NOT_ASSIGNED, START, COMBAT, TREASURE, REST_SITE, SHOP, BOSS, EVENT, 
 @export var tier: int = 0
 var doors: int
 var depth: int
+var cleared: bool = false
 
 
 func _to_string() -> String:

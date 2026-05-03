@@ -84,7 +84,7 @@ func evolve_to(new_species_id: String) -> void:
 
 func get_action_interval() -> float:
 	var agi_points: float = stat_block.AGI.points if stat_block else 5.0
-	return lerp(3.0, 1.0, agi_points / 10.0)
+	return lerp(1.0, 0.25, agi_points / 10.0)
 
 
 # ── Factory ───────────────────────────────────────────────────────────────────

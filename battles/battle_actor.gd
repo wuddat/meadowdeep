@@ -203,7 +203,7 @@ func _tick_dash(data: Dictionary, delta: float) -> void:
 # ── Virtual hooks ─────────────────────────────────────────────────────────────
 
 func _get_action_interval() -> float:
-	return 1.5
+	return 0.25
 
 func _apply_knockback(source_pos: Vector2) -> void:
 	var direction := (global_position - source_pos).normalized()

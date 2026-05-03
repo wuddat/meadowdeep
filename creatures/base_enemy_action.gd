@@ -74,10 +74,6 @@ func get_valid_targets() -> Array[Node]:
 			if is_instance_valid(t):
 				targets_to_hit.append(t)
 	else:
-		if not is_instance_valid(target):
-			if enemy and enemy.enemy_action_picker:
-				enemy.enemy_action_picker.select_valid_target()
-				target = enemy.enemy_action_picker.target
 		if is_instance_valid(target):
 			targets_to_hit.append(target)
 		else:

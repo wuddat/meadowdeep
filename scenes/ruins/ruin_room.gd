@@ -2,6 +2,8 @@ class_name RuinRoom
 extends Node2D
 
 const DOOR = preload("uid://j0qtggfhqrak")
+const COMBAT_START_DELAY: float = 0.75
+const BATTLE_COLLIDER_LAYER: int = 8
 
 const DOOR_POS := {
 	&"N": Vector2(313, 19),
@@ -33,22 +35,43 @@ const OPPOSITE := {
 
 const PLAYER_INSET := 60.0
 
+@export var player_stats: PlayerStats = preload("uid://dlnmlib5qptfj")
+
+
+
 @onready var room_type_label: Label = $RoomTypeLabel
 @onready var map_generator: MapGenerator = $MapGenerator
 @onready var doors_container: Node2D = $Doors
 @onready var player: Node2D = $PlayerModel
-@onready var creature_battle_unit: CreatureBattleUnit = $CreatureBattleUnit
+@onready var player_creature: CreatureBattleUnit = %PlayerCreature
+@onready var battle_colliders: StaticBody2D = %BattleColliders
+@onready var room_colliders: StaticBody2D = %RoomColliders
+@onready var enemy_handler: EnemyHandler = $EnemyHandler
+@onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
 var doors: Dictionary = {}  # &"N" -> Door
-
+var _active_stats: PlayerStats
+var _active_combat_room: Room
 
 func _ready() -> void:
 	map_generator.generate_floor(1)
 	_spawn_doors()
 	enter_room(Vector2i.ZERO)
+	_setup_data()
+	_establish_connections()
 
+
+func _setup_data() -> void:
+	_active_stats = player_stats.create_instance()
+	player_creature.stats = _active_stats.current_party[0]
+	battle_colliders.collision_layer = 0
+	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
+
+func _establish_connections() -> void:
+	Events.enemy_fainted.connect(_on_combat_progress)
+	Events.player_died.connect(_on_player_died)
 
 # Instantiate the 4 doors once at start. Per-room logic only calls setup() on these.
 func _spawn_doors() -> void:
@@ -66,12 +89,18 @@ func enter_room(pos: Vector2i, from_direction: StringName = &"") -> void:
 	if room == null:
 		push_warning("RuinRoom: no room at %s" % pos)
 		return
+	_update_current_room_info(room, pos)
+	if from_direction != &"":
+		_park_player_at(OPPOSITE[from_direction])
+	if room.type in [Room.Type.COMBAT, Room.Type.BOSS] and not room.cleared:
+		_start_room_combat(room)
+
+
+func _update_current_room_info(room: Room, pos: Vector2i) -> void:
 	current_pos = pos
 	visited[pos] = true
 	_refresh_label(room)
 	refresh_doors(room)
-	if from_direction != &"":
-		_park_player_at(OPPOSITE[from_direction])
 
 
 func _refresh_label(room: Room) -> void:
@@ -109,8 +138,45 @@ func _park_player_at(dir: StringName) -> void:
 		&"E": inward = Vector2(-PLAYER_INSET, 0)
 		&"W": inward = Vector2( PLAYER_INSET, 0)
 	player.position = door_pos + inward
-	creature_battle_unit.position = door_pos + inward
+	player_creature.position = door_pos + inward
 
+
+func _start_room_combat(room: Room) -> void:
+	for door in doors.values():
+		if door.state == Door.State.OPEN:
+			door.close()
+	battle_colliders.collision_layer = BATTLE_COLLIDER_LAYER
+	room_colliders.collision_layer = 0
+	await get_tree().create_timer(COMBAT_START_DELAY).timeout
+	enemy_handler.player_stats = _active_stats
+	enemy_handler.setup_enemies(room.battle_stats)
+	creature_combat_handler.start_combat([player_creature])
+	enemy_handler.start_turn()
+	_active_combat_room = room
+
+func _finish_room_combat(victory: bool) -> void:
+	creature_combat_handler.stop_combat()
+	if victory:
+		battle_colliders.collision_layer = 0
+		room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
+		_active_combat_room.cleared = true
+		refresh_doors(_active_combat_room)
+		_active_combat_room = null
 
 func _on_door_entered(destination: Room, from_direction: StringName) -> void:
 	enter_room(destination.grid_pos, from_direction)
+
+func _on_player_died() -> void:
+	print_rich("[color=red]POC defeat — frozen[/color]")
+	var victory: bool = false
+	_finish_room_combat(victory)
+
+#ref battle.gd > _on_enemies_child_order_changed()
+func _on_combat_progress(_enemy: Enemy) -> void:
+	if not is_instance_valid(get_tree()):
+		return
+	await get_tree().create_timer(1).timeout
+	if enemy_handler.get_child_count() == 0 and _active_combat_room != null:
+		var victory: bool = true
+		_finish_room_combat(victory)
+		
