@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="9_ok274"]
 [ext_resource type="Resource" uid="uid://txvgyem30g44" path="res://battles/battle_actions/aggressive/move_orbitL.tres" id="11_ng24t"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="12_83sfk"]
+[ext_resource type="SpriteFrames" uid="uid://67v75igq6jdn" path="res://scenes/ruins/cutie_frames.tres" id="14_dnym6"]
 [ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="19_abx5i"]
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="20_ng24t"]
 
@@ -28,8 +29,8 @@ health = 500
 uid = "22"
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5puj"]
-size = Vector2(19, 16)
+[sub_resource type="CircleShape2D" id="CircleShape2D_dnym6"]
+radius = 13.0
 
 [sub_resource type="Animation" id="Animation_i8k6i"]
 length = 0.001
@@ -175,11 +176,18 @@ battle_action_list = Array[ExtResource("3_r6ech")]([ExtResource("5_abx5i"), ExtR
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1542111543]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(0, -1)
-scale = Vector2(0.546875, 1)
+position = Vector2(1, 4)
+scale = Vector2(0.96875, 1)
 texture = ExtResource("8_kdnho")
 
 [node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("12_83sfk")]
+sprite_frames = ExtResource("14_dnym6")
+animation = &"run"
+frame_progress = 0.78533167
+
+[node name="ProjectileSpawn" type="Marker2D" parent="CreatureTextures" unique_id=449928542]
+unique_name_in_owner = true
+position = Vector2(14, 0)
 
 [node name="StatusHandler" type="GridContainer" parent="." unique_id=2051289691]
 script = ExtResource("2_cbu01")
@@ -205,15 +213,15 @@ type = 5
 unique_name_in_owner = true
 
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
-offset_top = -8.0
-offset_bottom = 40.0
+offset_top = -2.0
+offset_bottom = 46.0
 
 [node name="ActionName" type="Label" parent="." unique_id=1087500009]
 unique_name_in_owner = true
 offset_left = -20.0
-offset_top = -19.0
+offset_top = -29.0
 offset_right = 20.0
-offset_bottom = -7.0
+offset_bottom = -17.0
 theme_override_font_sizes/font_size = 8
 vertical_alignment = 1
 
@@ -221,9 +229,9 @@ vertical_alignment = 1
 unique_name_in_owner = true
 clip_children = 2
 offset_left = -13.0
-offset_top = -8.0
+offset_top = -18.0
 offset_right = 13.0
-offset_bottom = -6.0
+offset_bottom = -16.0
 
 [node name="Fill" type="ColorRect" parent="ActionTimer" unique_id=1348657927]
 layout_mode = 1
@@ -234,8 +242,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1282297662]
-position = Vector2(-0.5, 2)
-shape = SubResource("RectangleShape2D_p5puj")
+position = Vector2(1, -1)
+shape = SubResource("CircleShape2D_dnym6")
 
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
@@ -248,7 +256,3 @@ script = ExtResource("19_abx5i")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 script = ExtResource("20_ng24t")
-
-[node name="ProjectileSpawn" type="Marker2D" parent="." unique_id=449928542]
-unique_name_in_owner = true
-position = Vector2(14, 0)

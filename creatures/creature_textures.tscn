@@ -18,15 +18,19 @@ visible = false
 texture = ExtResource("2_cda5a")
 
 [node name="Eyes" type="Sprite2D" parent="." unique_id=16866039]
+visible = false
 texture = ExtResource("3_s78fk")
 
 [node name="Mouth" type="Sprite2D" parent="Eyes" unique_id=1644141900]
+visible = false
 texture = ExtResource("4_lf4dd")
 
 [node name="RightArm" type="Sprite2D" parent="." unique_id=110823812]
+visible = false
 texture = ExtResource("5_drgof")
 
 [node name="LeftArm" type="Sprite2D" parent="." unique_id=67353298]
+visible = false
 texture = ExtResource("6_h11n7")
 
 [node name="HoldPos" type="Node2D" parent="." unique_id=317333411]

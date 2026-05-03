@@ -1,0 +1,33 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://67v75igq6jdn"]
+
+[ext_resource type="Texture2D" uid="uid://bfukqc7f8jo7i" path="res://art/game_art/concepts/cutie_spritesheet.png" id="1_iqcc3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eldet"]
+atlas = ExtResource("1_iqcc3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3nse"]
+atlas = ExtResource("1_iqcc3")
+region = Rect2(32, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eldet")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eldet")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3nse")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]

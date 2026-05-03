@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cqabvme4u5an4" path="res://art/game_art/concepts/map_room_bg.png" id="3_yq8xq"]
 [ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="7_4ddbq"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="7_c4qfd"]
-[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="8_4ddbq"]
+[ext_resource type="SpriteFrames" uid="uid://67v75igq6jdn" path="res://scenes/ruins/cutie_frames.tres" id="8_4ddbq"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="8_qkvym"]
 
 [node name="RuinRoom" type="Node2D" unique_id=1210557673]

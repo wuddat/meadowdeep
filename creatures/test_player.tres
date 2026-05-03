@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="1_grcbt"]
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
-[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="2_tjt2p"]
+[ext_resource type="SpriteFrames" uid="uid://67v75igq6jdn" path="res://scenes/ruins/cutie_frames.tres" id="2_tjt2p"]
 [ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="3_7ah1y"]
 [ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/stat_block.gd" id="3_tjt2p"]
 

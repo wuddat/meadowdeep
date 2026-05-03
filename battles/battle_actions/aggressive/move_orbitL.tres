@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_3d7ql")
+max_duration = 2.0
 mode = 2
 display_name = "Orbit L"
 on_gcd = false
