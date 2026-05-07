@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 @export var move_speed: float = 40.0
 @export var battle_action_list: Array[BattleAction]
+@export var creature_animation_handler: CreatureAnimationHandler
 
 var action_queue := ActionQueue.new()
 var _in_combat: bool = false
@@ -208,8 +209,12 @@ func _get_action_interval() -> float:
 func _apply_knockback(source_pos: Vector2) -> void:
 	var direction := (global_position - source_pos).normalized()
 	knockback_velocity = direction * knockback_strength
-	action_queue.clear()
-	action_queue.enqueue(&"idle", {"timer": 0.2})
+	if action_queue.current_action != &"strike":
+		if creature_animation_handler:
+			creature_animation_handler.RESET()
+		action_queue.clear()
+		action_queue.enqueue(&"idle", {"timer": 0.2})
+
 
 func _decay_knockback(delta: float) -> void:
 	if knockback_velocity.length() <= 0.01:

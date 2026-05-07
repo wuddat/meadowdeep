@@ -1,6 +1,8 @@
 class_name CreatureAnimationHandler
 extends AnimationPlayer
 
+signal damage_frame
+
 @export var base_eyes: CompressedTexture2D
 @export var emotion_display: Node2D
 @export var emotion_player: AnimationPlayer
@@ -39,6 +41,9 @@ func play_idle() -> void:
 		
 	queue(anim)
 
+func RESET() -> void:
+	play("RESET")
+
 
 func _select_idle_anim(weights: Dictionary) -> String:
 	var total: int = 0
@@ -58,3 +63,6 @@ func emotion_bubble_fade_in_out() -> void:
 		await emotion_player.animation_finished
 	emotion_player.play("bubble_fade_in")
 	emotion_player.play("bubble_fade_out")
+
+func emit_damage() -> void:
+	damage_frame.emit()

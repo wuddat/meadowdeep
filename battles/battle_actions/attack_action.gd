@@ -3,6 +3,7 @@ extends BattleAction
 
 @export var max_range: float = 32.0
 @export var hit_effects: Array[Effect]
+@export var animation_string: String = ""
 
 
 func can_execute(user: BattleActor) -> bool:
@@ -13,4 +14,8 @@ func can_execute(user: BattleActor) -> bool:
 func build_steps(user: BattleActor) -> Array[Dictionary]:
 	var t := find_nearest_opponent(user)
 	if t == null: return []
-	return [{"id": &"strike", "data": {"target": t, "effects": hit_effects} }]
+	var dur: float = 0.0
+	if user.creature_animation_handler and animation_string != "":
+		var anim := user.creature_animation_handler.get_animation(animation_string)
+		if anim: dur = anim.length
+	return [{"id": &"strike", "data": {"target": t, "effects": hit_effects, "animation_string": animation_string, "min_duration": dur},  }]

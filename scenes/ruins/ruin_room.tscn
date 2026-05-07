@@ -9,8 +9,8 @@
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="4_5b7mo"]
 [ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="7_4ddbq"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="7_c4qfd"]
-[ext_resource type="SpriteFrames" uid="uid://67v75igq6jdn" path="res://scenes/ruins/cutie_frames.tres" id="8_4ddbq"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="8_qkvym"]
+[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="11_23ogo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ksvj"]
 size = Vector2(682, 26)
@@ -27,7 +27,7 @@ unique_name_in_owner = true
 script = ExtResource("4_5b7mo")
 
 [node name="bg" type="TextureRect" parent="." unique_id=998212447]
-z_index = -1
+z_index = -5
 z_as_relative = false
 offset_right = 640.0
 offset_bottom = 360.0
@@ -63,7 +63,7 @@ battle_stats_pool = ExtResource("8_qkvym")
 [node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("7_c4qfd")]
 unique_name_in_owner = true
 position = Vector2(517, 272)
-sprite_frames = ExtResource("8_4ddbq")
+sprite_frames = ExtResource("11_23ogo")
 move_speed = 125.0
 
 [node name="BattleColliders" type="StaticBody2D" parent="." unique_id=1341241905]

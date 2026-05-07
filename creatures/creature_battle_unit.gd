@@ -15,6 +15,7 @@ extends BattleActor
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn
+@onready var hitbox: Area2D = %Hitbox
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -93,11 +94,24 @@ func _tick_current_action(delta: float) -> void:
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
-	if id == &"seek":
-		_play_animation(&"idle")
-		return
-	super(id, data)
+	match id:
+		&"seek":       _play_animation(&"idle")
+		&"strike":     _run_one_shot_action(data)
+		_:             super(id, data)
+	
 
+func _run_one_shot_action(data: Dictionary) -> void:
+	var anim: String = data.get("animation_string", "")
+	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
+	if not creature_animation_handler or anim == "":
+		return
+	creature_animation_handler.play(anim)
+	await creature_animation_handler.damage_frame
+	var hits := hitbox.get_overlapping_bodies()
+	for body in hits:
+		if body != self:
+			if is_instance_valid(body) and not effects.is_empty():
+				EffectExecutor.run(effects, [body], self)
 
 func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 	var player := _get_player()
@@ -115,6 +129,13 @@ func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 	base_velocity = to_player.normalized() * move_speed
 	_play_animation(&"run")
 	_face_direction(base_velocity)
+
+func _tick_strike(data: Dictionary, delta: float) -> void:
+	if data.has("min_duration"):
+		data["min_duration"] -= delta
+		if data["min_duration"] >= 0.0:
+			return
+	action_queue.done()
 
 
 func _get_player() -> Node2D:
