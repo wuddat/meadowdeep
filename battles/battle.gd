@@ -21,7 +21,7 @@ func _ready() -> void:
 	enemy_handler.child_order_changed.connect(_on_enemies_child_order_changed)
 	Events.player_died.connect(_on_player_died)
 	Events.party_creature_fainted.connect(_on_party_creature_fainted)
-	if char_stats.current_party.is_empty():
+	if char_stats.creatures.is_empty():
 		char_stats = char_stats.create_instance()
 	await initialize_battle()
 	await battle_intro()
@@ -36,7 +36,7 @@ func initialize_battle() -> void:
 
 	party_handler.character_stats = char_stats
 	party_handler.stat_ui_by_uid = stat_ui_by_uid
-	party_handler.finalize_battle_party(char_stats.current_party.slice(0, 3))
+	party_handler.finalize_battle_party(char_stats.creatures.slice(0, 3))
 	await party_handler.initialize_party_for_battle()
 
 	enemy_handler.char_stats = char_stats
@@ -77,9 +77,9 @@ func _on_party_creature_fainted(unit: CreatureBattleUnit) -> void:
 		unit.stop_combat()
 
 	var fainted_count := 0
-	for creature in char_stats.current_party:
+	for creature in char_stats.creatures:
 		if creature.health <= 0:
 			fainted_count += 1
 
-	if fainted_count == char_stats.current_party.size():
+	if fainted_count == char_stats.creatures.size():
 		Events.player_died.emit()

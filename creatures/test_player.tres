@@ -43,5 +43,5 @@ metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 [resource]
 script = ExtResource("2_bv3h6")
 starting_party = Array[String](["ember"])
-current_party = Array[ExtResource("1_grcbt")]([SubResource("Resource_s2nv6")])
+creatures = Array[ExtResource("1_grcbt")]([SubResource("Resource_s2nv6")])
 metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"

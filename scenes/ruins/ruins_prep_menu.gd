@@ -3,7 +3,6 @@ extends Control
 
 const MAX_ACTIVE_SKILLS := 4
 
-@export var player_stats: PlayerStats
 
 @onready var creature_sprite: AnimatedSprite2D = %creatureSprite
 @onready var name_label: Label = %NameLabel
@@ -25,8 +24,10 @@ func _ready() -> void:
 	meadow_button.pressed.connect(_on_meadow_pressed)
 	start_button.pressed.connect(_on_start_pressed)
 
-	if player_stats:
-		_creatures = player_stats.get_all_creatures()
+
+func setup(stats:PlayerStats) -> void:
+	if stats:
+		_creatures = stats.get_all_creatures()
 
 	if not _creatures.is_empty():
 		populate_creature(_creatures[0])
@@ -100,8 +101,8 @@ func _on_right_pressed() -> void:
 
 
 func _on_meadow_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/meadow/meadow.tscn")
+	Events.scene_transition_requested.emit("meadow")
 
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/ruins/map.tscn")
+	Events.scene_transition_requested.emit("ruins")

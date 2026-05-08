@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("2_y32ng")
+id = "test_loot_2"
 display_name = "TestLoot2"
 description = "TestLoot2_desc"
 category = 4

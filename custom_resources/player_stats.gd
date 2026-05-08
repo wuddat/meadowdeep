@@ -13,7 +13,7 @@ extends Stats
 
 @export_group("Creature Data")
 @export var starting_party: Array[String] = []
-@export var current_party: Array[CreatureStats] = []
+@export var creatures: Array[CreatureStats] = []
 
 
 func take_damage(damage: int) -> void:
@@ -29,12 +29,12 @@ func create_instance() -> Resource:
 	instance.health = max_health
 	instance.block = 0
 
-	instance.current_party = []
+	instance.creatures = []
 	instance.inventory = inventory.duplicate(true) if inventory else Inventory.new()
 	for species_id in starting_party:
 		var creature = CreatureData.create_creature_instance(species_id)
 		if creature:
-			instance.current_party.append(creature)
+			instance.creatures.append(creature)
 		else:
 			push_warning("Missing creature data for %s" % species_id)
 	return instance
@@ -42,23 +42,23 @@ func create_instance() -> Resource:
 
 
 func get_all_creatures() -> Array[CreatureStats]:
-	return current_party
+	return creatures
 
 
 
 func on_creature_added_to_party(creature: CreatureStats) -> void:
-	current_party.append(creature)
+	creatures.append(creature)
 	print("Creature added to party: %s" % creature.species_id)
 
 
 func check_if_all_party_fainted() -> void:
-	if current_party.any(func(c): return c.health > 0):
+	if creatures.any(func(c): return c.health > 0):
 		return
 	Events.player_died.emit()
 
 
 func get_creature_by_uid(creature_uid: String) -> CreatureStats:
-	for c in current_party:
+	for c in creatures:
 		if c.uid == creature_uid:
 			return c
 	push_warning("No creature in party with UID: " + creature_uid)

@@ -87,9 +87,9 @@ func sync_battle_health_to_party_data() -> void:
 	if character_stats == null:
 		return
 	for creature in active_battle_party:
-		for i in range(character_stats.current_party.size()):
-			if character_stats.current_party[i].uid == creature.uid:
-				character_stats.current_party[i] = creature
+		for i in range(character_stats.creatures.size()):
+			if character_stats.creatures[i].uid == creature.uid:
+				character_stats.creatures[i] = creature
 
 
 func finalize_battle_party(creature_list: Array[CreatureStats]) -> void:

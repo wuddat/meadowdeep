@@ -6,8 +6,7 @@ enum ItemCategory { FOOD, TOY, MEDICINE, RELIC, STAT_FRAGMENT, ESSENCE, INFUSION
 
 # ── Identity ──────────────────────────────────────────────────────────────────
 @export_group("Identity")
-var id: String
-var uid: String
+@export var id: String
 @export var display_name: String
 @export var description: String
 @export var category: ItemCategory = ItemCategory.FOOD
@@ -17,10 +16,6 @@ var uid: String
 # ── Visuals ───────────────────────────────────────────────────────────────────
 @export_group("Visuals")
 @export var art: Texture2D
-
-func _ready() -> void:
-	id = str(RNG.instance.randi())
-	uid = id
 
 func get_category() -> ItemCategory:
 	return category

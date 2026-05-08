@@ -35,10 +35,6 @@ const OPPOSITE := {
 
 const PLAYER_INSET := 60.0
 
-@export var player_stats: PlayerStats = preload("uid://dlnmlib5qptfj")
-
-
-
 @onready var room_type_label: Label = $RoomTypeLabel
 @onready var map_generator: MapGenerator = $MapGenerator
 @onready var doors_container: Node2D = $Doors
@@ -59,18 +55,17 @@ var _active_combat_room: Room
 func _ready() -> void:
 	map_generator.generate_floor(1)
 	_spawn_doors()
-	enter_room(Vector2i.ZERO)
-	_setup_data()
 	_establish_connections()
 
 
-func _setup_data() -> void:
-	_active_stats = player_stats.create_instance()
+func setup(stats: PlayerStats) -> void:
+	_active_stats = stats
 	player.stats = _active_stats
-	#player_creature.stats = _active_stats.current_party[0]
+	#player_creature.stats = _active_stats.creatures[0]
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
-
+	enter_room(Vector2i.ZERO)
+	
 func _establish_connections() -> void:
 	Events.enemy_fainted.connect(_on_combat_progress)
 	Events.player_died.connect(_on_player_died)
@@ -88,6 +83,7 @@ func _spawn_doors() -> void:
 
 func enter_room(pos: Vector2i, from_direction: StringName = &"") -> void:
 	var room: Room = map_generator.room_map.get(pos)
+	print("[RuinRoom] enter_room pos=%s, room=%s, room_map_size=%d" % [pos, room, map_generator.room_map.size()])
 	if room == null:
 		push_warning("RuinRoom: no room at %s" % pos)
 		return
@@ -159,12 +155,14 @@ func _start_room_combat(room: Room) -> void:
 
 func _finish_room_combat(victory: bool) -> void:
 	creature_combat_handler.stop_combat()
-	if victory:
+	if victory and _active_combat_room.type != Room.Type.BOSS:
 		battle_colliders.collision_layer = 0
 		room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 		_active_combat_room.cleared = true
 		refresh_doors(_active_combat_room)
 		_active_combat_room = null
+	else:
+		Events.scene_transition_requested.emit("meadow")
 
 func _on_door_entered(destination: Room, from_direction: StringName) -> void:
 	enter_room(destination.grid_pos, from_direction)
