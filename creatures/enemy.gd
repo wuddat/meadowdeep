@@ -7,6 +7,7 @@ const ARROW_OFFSET := 20
 
 @export var stats: EnemyStats : set = set_enemy_stats
 @export var sprite_frames: SpriteFrames
+@export var loot_table: LootTable
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D

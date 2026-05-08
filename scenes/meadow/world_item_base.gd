@@ -42,13 +42,11 @@ func drop() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		body.nearby_food = self
+	pass
 
 
 func _on_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player") and body.get("nearby_food") == self:
-		body.nearby_food = null
+	pass
 
 
 ## Override in subclasses to add delivery-specific behavior.

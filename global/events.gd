@@ -13,7 +13,7 @@ signal creature_stat_updated(uid: String)
 signal item_aim_started(item)
 signal item_aim_ended(item)
 signal item_used(item)
-signal item_added(item)
+signal item_picked_up(item, qty)
 signal item_received(item)
 
 # Player-related Events

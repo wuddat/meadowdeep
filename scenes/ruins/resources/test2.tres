@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://cxtgdej4hal1f"]
+
+[ext_resource type="Texture2D" uid="uid://06kfsn2abhvo" path="res://art/game_art/creatures/base_creature/base_armR.png" id="1_2g85i"]
+[ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="2_y32ng"]
+
+[resource]
+script = ExtResource("2_y32ng")
+display_name = "TestLoot2"
+description = "TestLoot2_desc"
+category = 4
+rarity = 1
+value = 100
+art = ExtResource("1_2g85i")
+metadata/_custom_type_script = "uid://b5yeq04ytyeec"

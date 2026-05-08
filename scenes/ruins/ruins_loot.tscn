@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bqr0k0qv2mv3m"]
+
+[ext_resource type="Script" uid="uid://de102cqml7thu" path="res://custom_resources/ruins_world_item.gd" id="1_57pb7"]
+[ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="2_8pbuo"]
+[ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="2_kbeyy"]
+
+[sub_resource type="Resource" id="Resource_dwdj8"]
+script = ExtResource("2_kbeyy")
+metadata/_custom_type_script = "uid://b5yeq04ytyeec"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_food"]
+radius = 14.035668
+
+[node name="RuinsLoot" type="Area2D" unique_id=552193260 groups=["food"]]
+script = ExtResource("1_57pb7")
+item_data = SubResource("Resource_dwdj8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=432934203]
+texture = ExtResource("2_8pbuo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=132071644]
+shape = SubResource("CircleShape2D_food")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

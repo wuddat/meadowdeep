@@ -2,11 +2,12 @@ class_name MeadowWorldItem
 extends Resource
 
 enum Rarity { COMMON, UNCOMMON, RARE, EXOTIC }
-enum ItemCategory { FOOD, TOY, MEDICINE, RELIC }
+enum ItemCategory { FOOD, TOY, MEDICINE, RELIC, STAT_FRAGMENT, ESSENCE, INFUSION }
 
 # ── Identity ──────────────────────────────────────────────────────────────────
 @export_group("Identity")
-@export var id: String
+var id: String
+var uid: String
 @export var display_name: String
 @export var description: String
 @export var category: ItemCategory = ItemCategory.FOOD
@@ -17,6 +18,9 @@ enum ItemCategory { FOOD, TOY, MEDICINE, RELIC }
 @export_group("Visuals")
 @export var art: Texture2D
 
+func _ready() -> void:
+	id = str(RNG.instance.randi())
+	uid = id
 
 func get_category() -> ItemCategory:
 	return category

@@ -48,6 +48,7 @@ const PLAYER_INSET := 60.0
 @onready var room_colliders: StaticBody2D = %RoomColliders
 @onready var enemy_handler: EnemyHandler = $EnemyHandler
 @onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
+@onready var loot_handler: LootHandler = %LootHandler
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
@@ -65,6 +66,7 @@ func _ready() -> void:
 
 func _setup_data() -> void:
 	_active_stats = player_stats.create_instance()
+	player.stats = _active_stats
 	#player_creature.stats = _active_stats.current_party[0]
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
@@ -150,6 +152,7 @@ func _start_room_combat(room: Room) -> void:
 	await get_tree().create_timer(COMBAT_START_DELAY).timeout
 	enemy_handler.player_stats = _active_stats
 	enemy_handler.setup_enemies(room.battle_stats)
+	loot_handler.generate_battle_loot()
 	creature_combat_handler.start_combat([player_creature])
 	enemy_handler.start_turn()
 	_active_combat_room = room

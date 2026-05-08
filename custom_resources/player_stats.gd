@@ -9,6 +9,7 @@ extends Stats
 @export var frames: SpriteFrames
 
 @export_group("Gameplay Data")
+@export var inventory: Inventory
 
 @export_group("Creature Data")
 @export var starting_party: Array[String] = []
@@ -29,6 +30,7 @@ func create_instance() -> Resource:
 	instance.block = 0
 
 	instance.current_party = []
+	instance.inventory = inventory.duplicate(true) if inventory else Inventory.new()
 	for species_id in starting_party:
 		var creature = CreatureData.create_creature_instance(species_id)
 		if creature:
