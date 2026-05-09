@@ -25,7 +25,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if is_carried and _carrier:
-		var carry_node := _carrier.get("carry_position") as Node2D
+		var carry_node := _carrier.get("carry_position") if _carrier.get("carry_position") else _carrier.get("hold_pos") as Node2D
 		global_position = carry_node.global_position if carry_node else _carrier.global_position + CARRY_OFFSET
 
 

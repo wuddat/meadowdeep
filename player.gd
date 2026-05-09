@@ -17,21 +17,21 @@ var roll_direction := Vector2.ZERO
 var is_attacking := false
 
 var nearby_food: Node2D = null
-var carried_food: Node2D = null
-
 var nearby_creature: Node2D = null
-var held_creature: Node2D = null
-var _stat_view: Control = null
-
+var nearby_item: Node2D = null
 var nearby_egg: Node2D = null
 
+var held_creature: Node2D = null
+var carried_food: Node2D = null
+var carried_item: Node2D = null
+
+var _stat_view: Control = null
 var _drop_offset_x: float = 0.0
 
 
 func _ready() -> void:
 	add_to_group("player")
 	_drop_offset_x = absf(drop_position.position.x)
-
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
@@ -66,7 +66,7 @@ func _physics_process(delta):
 				sprite.flip_h = input_vector.x < 0
 				drop_position.position.x = _drop_offset_x * (-1.0 if sprite.flip_h else 1.0)
 		else:
-			var idle_anim := "carry" if held_creature || carried_food else "idle"
+			var idle_anim := "carry" if held_creature || carried_food || carried_item else "idle"
 			if sprite.animation != idle_anim:
 				sprite.play(idle_anim)
 
@@ -79,6 +79,14 @@ func _physics_process(delta):
 			if collider.has_method("receive_food") and collider.emotion_handler.emotions.get("hunger", 100.0) < 80.0:
 				collider.receive_food(carried_food, self)
 				break
+	
+	if carried_item:
+		for i in get_slide_collision_count():
+			var collider = get_slide_collision(i).get_collider()
+			if collider.has_method("receive_item"):
+				collider.receive_item(carried_item, self)
+				break
+		
 
 	# Track nearby creature via slide collision
 	if not held_creature:
@@ -94,14 +102,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo):
 		return
 
-	# Priority: drop held creature → hatch egg → drop/pick food
+#listed by prio
 	if held_creature:
 		held_creature.global_position = drop_position.global_position
 		held_creature.release()
 		held_creature = null
 		_hide_stat_view()
-	elif nearby_egg:
-		nearby_egg.begin_hatch()
 	elif nearby_creature:
 		nearby_creature.pickup(self)
 		held_creature = nearby_creature
@@ -111,10 +117,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		carried_food.global_position = drop_position.global_position
 		carried_food.drop()
 		carried_food = null
+	elif carried_item:
+		carried_item.global_position = drop_position.global_position
+		carried_item.drop()
+		carried_item = null
 	elif nearby_food:
 		nearby_food.pickup(self)
 		carried_food = nearby_food
 		nearby_food = null
+	elif nearby_item:
+		nearby_item.pickup(self)
+		carried_item = nearby_item
+		nearby_item = null
+	elif nearby_egg:
+		nearby_egg.begin_hatch()
 
 
 func _show_stat_view() -> void:

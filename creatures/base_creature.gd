@@ -71,6 +71,7 @@ var _home: Vector2
 var _player: CharacterBody2D
 var _food: Area2D
 var _eating_food: Node2D = null
+var _held_item: Node2D = null
 
 var is_held := false
 var _holder: Node2D = null
@@ -215,6 +216,10 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			action_sfx.stream = NOMNOM_SOUND
 			action_sfx.pitch_scale = randf_range(0.9, 1.1)
 			action_sfx.play()
+		&"absorb_item":
+			_sprite.play("idle")
+			creature_animation_handler.play("absorb_item")
+			creature_animation_handler.animation_finished.connect(_on_absorb_finished, CONNECT_ONE_SHOT)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -222,6 +227,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 func _check_emotion_triggers() -> void:
+	if action_queue.current_action == &"absorb_item":
+		return
 	if emotion_handler.emotions["sleepiness"] >= emotion_handler.sleepiness_sleep_threshold:
 		if action_queue.current_action != &"sleep":
 			action_queue.push_front(&"sleep", {
@@ -254,6 +261,7 @@ func _tick_current_action(delta: float) -> void:
 		&"seek_player": _tick_seek_player(current["data"], delta)
 		&"seek_food":   _tick_seek_food(current["data"], delta)
 		&"eat_food":    _tick_eat_food(current["data"], delta)
+		&"absorb_item": pass
 
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
@@ -388,6 +396,16 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	})
 	Events.creature_stat_view_requested.emit(creature_stats)
 
+func receive_item(world_item: Node2D, from_player: Node2D) -> void:
+	from_player.set("carried_item", null)
+	from_player.set("nearby_item", null)
+	if world_item.has_method("drop"):
+		world_item.drop()
+	if world_item.has_method("pickup"):
+		world_item.pickup(self)
+	_held_item = world_item
+	action_queue.push_front(&"absorb_item", {})
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -440,6 +458,15 @@ func _on_sprite_animation_looped() -> void:
 	if _sprite.animation == &"run" or _sprite.animation == &"sleep":
 		move_sfx.pitch_scale = randf_range(0.9, 1.1)
 		move_sfx.play()
+
+func _on_absorb_finished(anim_name: String) -> void:
+	if anim_name != "absorb_item":
+		return
+	creature_stat_handler.apply_item(_held_item.item_data)
+	_held_item.queue_free()
+	_held_item = null
+	action_queue.done()
+
 		
 func _set_shader(intensity: float) -> void:
 	if _sprite.material is ShaderMaterial:

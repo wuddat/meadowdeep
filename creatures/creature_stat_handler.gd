@@ -20,6 +20,8 @@ func apply_item(item: MeadowWorldItem) -> void:
 			pass  # stub — MedicineItem not yet implemented
 		MeadowWorldItem.ItemCategory.RELIC:
 			pass  # stub — RelicItem not yet implemented
+		MeadowWorldItem.ItemCategory.STAT_FRAGMENT:
+			absorb_item(item as StatFragment)
 	item_received.emit(item)
 
 
@@ -35,3 +37,17 @@ func apply_food(food_data: CreatureFood) -> void:
 			stat.add_pip()
 		stat_changed.emit(creature_uid)
 		Events.creature_stat_updated.emit(creature_uid)
+
+func absorb_item(frag: StatFragment) -> void:
+	if not stat_block or not frag:
+		return
+	var stat_name: String = CreatureData.STAT_NAMES.get(frag.creature_attribute, "")
+	if not stat_name:
+		return
+	var stat: StatBlock = stat_block.get(stat_name)
+	if stat:
+		for _i in frag.pips:
+			stat.add_pip()
+		stat_changed.emit(creature_uid)
+		Events.creature_stat_updated.emit(creature_uid)
+	

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatFragment" format=3 uid="uid://b12taqajdca5u"]
+
+[ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="1_clkvw"]
+[ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/stat_fragment.gd" id="1_y80ni"]
+
+[resource]
+script = ExtResource("1_y80ni")
+creature_attribute = 1
+pips = 5
+id = "test_fragment"
+display_name = "Test Fragment"
+description = "used to test animations"
+category = 4
+rarity = 2
+value = 100
+art = ExtResource("1_clkvw")
+metadata/_custom_type_script = "uid://ce0btr4rfpgp"
