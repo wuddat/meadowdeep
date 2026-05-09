@@ -138,7 +138,7 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
-position = Vector2(442, 335)
+position = Vector2(569, 411)
 creature_stats = SubResource("Resource_uaavs")
 
 [node name="lilguy" type="TextureRect" parent="." unique_id=1169527965]
@@ -184,6 +184,7 @@ offset_bottom = 39.0
 texture = ExtResource("17_1hwgg")
 
 [node name="crem" type="TextureRect" parent="." unique_id=685051548]
+visible = false
 offset_left = 542.0
 offset_top = 394.0
 offset_right = 574.0

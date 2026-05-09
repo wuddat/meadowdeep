@@ -29,9 +29,10 @@ texture = ExtResource("5_lf4dd")
 [node name="RightArm" type="Sprite2D" parent="." unique_id=110823812]
 unique_name_in_owner = true
 modulate = Color(1.3333534, 1.6197081, 0.49296463, 1)
+z_index = -1
 scale = Vector2(1.1, 1.1)
 texture = ExtResource("5_drgof")
-offset = Vector2(5, 0)
+offset = Vector2(3, 0)
 
 [node name="LeftArm" type="Sprite2D" parent="." unique_id=67353298]
 unique_name_in_owner = true

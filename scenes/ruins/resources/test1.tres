@@ -1,7 +1,9 @@
 [gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://bmfmewl6e8gem"]
 
 [ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="1_e0yqp"]
-[ext_resource type="Texture2D" uid="uid://d056agsiro50a" path="res://art/gold.png" id="1_r64dh"]
+
+[sub_resource type="Resource" id="Resource_e0yqp"]
+metadata/__load_path__ = "res://art/game_art/creatures/greenie/greenie_armR.png"
 
 [resource]
 script = ExtResource("1_e0yqp")
@@ -10,5 +12,5 @@ display_name = "TestLoot1"
 description = "TestLoot1_desc"
 category = 4
 value = 100
-art = ExtResource("1_r64dh")
+art = SubResource("Resource_e0yqp")
 metadata/_custom_type_script = "uid://b5yeq04ytyeec"

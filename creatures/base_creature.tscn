@@ -679,8 +679,8 @@ script = ExtResource("1_b2jx7")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=554806506]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(0, 7)
-scale = Vector2(0.546875, 1)
+position = Vector2(0.49999857, 7)
+scale = Vector2(1.0312499, 1)
 texture = ExtResource("2_tam7t")
 
 [node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("3_tam7t")]
@@ -723,7 +723,6 @@ bus = &"SFX"
 [node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=275598625 node_paths=PackedStringArray("emotion_display", "emotion_player")]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_vrhir")
-autoplay = &"hover"
 script = ExtResource("13_5crrt")
 emotion_display = NodePath("../EmotionDisplay")
 emotion_player = NodePath("../EmotionDisplay/AnimationPlayer")
