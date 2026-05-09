@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://bmfmewl6e8gem"]
 
 [ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="1_e0yqp"]
-[ext_resource type="Texture2D" uid="uid://t26xa3u60l3e" path="res://art/game_art/creatures/greenie/greenie_armR.png" id="1_r64dh"]
+[ext_resource type="Texture2D" uid="uid://d056agsiro50a" path="res://art/gold.png" id="1_r64dh"]
 
 [resource]
 script = ExtResource("1_e0yqp")

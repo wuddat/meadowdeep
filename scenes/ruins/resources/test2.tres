@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://cxtgdej4hal1f"]
 
-[ext_resource type="Texture2D" uid="uid://06kfsn2abhvo" path="res://art/game_art/creatures/base_creature/base_armR.png" id="1_2g85i"]
+[ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="1_2g85i"]
 [ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="2_y32ng"]
 
 [resource]
