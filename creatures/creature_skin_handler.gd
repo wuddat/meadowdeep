@@ -9,28 +9,22 @@ extends Node
 @onready var right_arm: Sprite2D = $"../CreatureTextures/RightArm"
 
 
-const EYES_CAT = preload("res://art/game_art/creatures/base_creature/eyes_cat.png")
-const EYES_CLOSED = preload("res://art/game_art/creatures/base_creature/eyes_closed.png")
-const EYES_CL_SOFT = preload("res://art/game_art/creatures/base_creature/eyes_cl_soft.png")
-const EYES_CL_TIGHT = preload("res://art/game_art/creatures/base_creature/eyes_cl_tight.png")
-const EYES_CUTE = preload("res://art/game_art/creatures/base_creature/eyes_cute.png")
-const EYES_EVIL = preload("res://art/game_art/creatures/base_creature/eyes_evil.png")
-const EYES_HAPPY = preload("res://art/game_art/creatures/base_creature/eyes_happy.png")
+const EYES_CLOSED = preload("res://art/game_art/creatures/greenie/eyes_cl.png")
+const EYES_CL_SOFT = preload("res://art/game_art/creatures/greenie/eyes_cl.png")
+const EYES_CL_TIGHT = preload("res://art/game_art/creatures/greenie/eyes_X.png")
+const EYES_CUTE = preload("res://art/game_art/creatures/greenie/eyes_op.png")
+const EYES_EVIL = preload("res://art/game_art/creatures/greenie/eyes_ang.png")
+const EYES_HAPPY = preload("res://art/game_art/creatures/greenie/eyes_happy.png")
 const EYES_HEART = preload("res://art/game_art/creatures/base_creature/eyes_heart.png")
-const EYES_HOLLOW = preload("res://art/game_art/creatures/base_creature/eyes_hollow.png")
-const EYES_ISAAC = preload("res://art/game_art/creatures/base_creature/eyes_isaac.png")
-const EYES_RETRO = preload("res://art/game_art/creatures/base_creature/eyes_retro.png")
-const EYES_RETRO_INVERTED = preload("res://art/game_art/creatures/base_creature/eyes_retro_inverted.png")
 const EYES_SAD = preload("res://art/game_art/creatures/base_creature/eyes_sad.png")
-const EYES_YAWN = preload("res://art/game_art/creatures/base_creature/eyes_yawn.png")
-const EYES_CUTE_DETERMINED = preload("res://art/game_art/creatures/base_creature/eyes_cute_determined.png")
+const EYES_YAWN = preload("res://art/game_art/creatures/greenie/eyes_slant.png")
+const EYES_CUTE_DETERMINED = preload("res://art/game_art/creatures/greenie/eyes_ang.png")
 
-const MOUTH_FROWN = preload("res://art/game_art/creatures/base_creature/mouth_frown.png")
-const MOUTH_GRIN = preload("res://art/game_art/creatures/base_creature/mouth_grin.png")
-const MOUTH_SMILE = preload("res://art/game_art/creatures/base_creature/mouth_smile.png")
-const MOUTH_SURPRISE = preload("res://art/game_art/creatures/base_creature/mouth_surprise.png")
-const MOUTH_TONGUE = preload("res://art/game_art/creatures/base_creature/mouth_tongue.png")
-const MOUTH_UWU = preload("res://art/game_art/creatures/base_creature/mouth_uwu.png")
+const MOUTH_FROWN = preload("res://art/game_art/creatures/greenie/mouth_frown.png")
+const MOUTH_GRIN = preload("res://art/game_art/creatures/greenie/mouth_grin.png")
+const MOUTH_SMILE = preload("res://art/game_art/creatures/greenie/mouth_uwu.png")
+const MOUTH_SURPRISE = preload("res://art/game_art/creatures/greenie/mouth_surprise.png")
+const MOUTH_UWU = preload("res://art/game_art/creatures/greenie/mouth_uwu.png")
 
 
 var eyes_states: Dictionary = {
@@ -41,7 +35,7 @@ var eyes_states: Dictionary = {
 
 var mouth_states: Dictionary = {
 	"smile": MOUTH_SMILE, "grin": MOUTH_GRIN, "frown": MOUTH_FROWN,
-	"tongue": MOUTH_TONGUE, "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE
+	 "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE
 }
 
 var base_textures: Dictionary = {"eyes": null, "mouth": null}

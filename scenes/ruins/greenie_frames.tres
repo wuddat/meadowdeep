@@ -1,43 +1,16 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://c3ay6pay3dmmh"]
 
-[ext_resource type="Texture2D" uid="uid://i3rp5mskvvmf" path="res://art/game_art/concepts/greenie_base_sheet.png" id="1_426yo"]
+[ext_resource type="Texture2D" uid="uid://cm0tyy6ya34w7" path="res://art/game_art/concepts/greenie_basee.png" id="1_854d2"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ok274"]
-atlas = ExtResource("1_426yo")
+[sub_resource type="AtlasTexture" id="AtlasTexture_73icc"]
+atlas = ExtResource("1_854d2")
 region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kwc3e"]
-atlas = ExtResource("1_426yo")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vyn8i"]
-atlas = ExtResource("1_426yo")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_btb5y"]
-atlas = ExtResource("1_426yo")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ji0g7"]
-atlas = ExtResource("1_426yo")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rlrki"]
-atlas = ExtResource("1_426yo")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ws817"]
-atlas = ExtResource("1_426yo")
-region = Rect2(128, 0, 32, 32)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ok274")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kwc3e")
+"texture": SubResource("AtlasTexture_73icc")
 }],
 "loop": true,
 "name": &"idle",
@@ -45,19 +18,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vyn8i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_btb5y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ji0g7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rlrki")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ws817")
+"texture": SubResource("AtlasTexture_73icc")
 }],
 "loop": true,
 "name": &"run",

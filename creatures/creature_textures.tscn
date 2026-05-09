@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://s3krywagqpnj"]
 
-[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="1_oyr2t"]
+[ext_resource type="SpriteFrames" uid="uid://c3ay6pay3dmmh" path="res://scenes/ruins/greenie_frames.tres" id="1_cda5a"]
 [ext_resource type="Texture2D" uid="uid://bor4k0wtqeu8h" path="res://art/game_art/creatures/base_creature/pattern_stripes.png" id="2_cda5a"]
 [ext_resource type="Script" uid="uid://baly63s31eglv" path="res://creatures/creature_textures.gd" id="2_s78fk"]
-[ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="3_s78fk"]
-[ext_resource type="Texture2D" uid="uid://bdc3kfksvk4uu" path="res://art/game_art/creatures/base_creature/mouth_smile.png" id="4_lf4dd"]
+[ext_resource type="Texture2D" uid="uid://bkuvm53sastld" path="res://art/game_art/creatures/greenie/eyes_op.png" id="4_s78fk"]
 [ext_resource type="Texture2D" uid="uid://06kfsn2abhvo" path="res://art/game_art/creatures/base_creature/base_armR.png" id="5_drgof"]
+[ext_resource type="Texture2D" uid="uid://bwqvsfk3ko4ga" path="res://art/game_art/creatures/greenie/mouth_uwu.png" id="5_lf4dd"]
 [ext_resource type="Texture2D" uid="uid://dps85qgfl87gm" path="res://art/game_art/creatures/base_creature/base_armL.png" id="6_h11n7"]
 
 [node name="CreatureTextures" type="AnimatedSprite2D" unique_id=969795458]
-sprite_frames = ExtResource("1_oyr2t")
-animation = &"eat"
+sprite_frames = ExtResource("1_cda5a")
+animation = &"run"
 script = ExtResource("2_s78fk")
 
 [node name="Pattern" type="Sprite2D" parent="." unique_id=327181768]
@@ -20,19 +20,25 @@ texture = ExtResource("2_cda5a")
 
 [node name="Eyes" type="Sprite2D" parent="." unique_id=16866039]
 unique_name_in_owner = true
-texture = ExtResource("3_s78fk")
+texture = ExtResource("4_s78fk")
 
 [node name="Mouth" type="Sprite2D" parent="Eyes" unique_id=1644141900]
 unique_name_in_owner = true
-texture = ExtResource("4_lf4dd")
+texture = ExtResource("5_lf4dd")
 
 [node name="RightArm" type="Sprite2D" parent="." unique_id=110823812]
 unique_name_in_owner = true
+modulate = Color(1.3333534, 1.6197081, 0.49296463, 1)
+scale = Vector2(1.1, 1.1)
 texture = ExtResource("5_drgof")
+offset = Vector2(5, 0)
 
 [node name="LeftArm" type="Sprite2D" parent="." unique_id=67353298]
 unique_name_in_owner = true
+modulate = Color(1.3333534, 1.6197081, 0.49296463, 1)
+scale = Vector2(1.1, 1.1)
 texture = ExtResource("6_h11n7")
+offset = Vector2(-3, 0)
 
 [node name="HoldPos" type="Node2D" parent="." unique_id=317333411]
 unique_name_in_owner = true

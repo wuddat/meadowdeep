@@ -728,19 +728,7 @@ texture = ExtResource("8_kdnho")
 [node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("12_83sfk")]
 animation = &"idle"
 
-[node name="Eyes" parent="CreatureTextures" index="1" unique_id=16866039]
-visible = true
-
-[node name="Mouth" parent="CreatureTextures/Eyes" index="0" unique_id=1644141900]
-visible = true
-
-[node name="RightArm" parent="CreatureTextures" index="2" unique_id=110823812]
-visible = true
-
-[node name="LeftArm" parent="CreatureTextures" index="3" unique_id=67353298]
-visible = true
-
-[node name="Hitbox" type="Area2D" parent="CreatureTextures/LeftArm" index="0" unique_id=1949318630]
+[node name="Hitbox" type="Area2D" parent="CreatureTextures/LeftArm" parent_id_path=PackedInt32Array(969795458, 67353298) index="0" unique_id=1949318630]
 unique_name_in_owner = true
 position = Vector2(-7, 9)
 
