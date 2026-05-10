@@ -31,7 +31,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	if stats and stats.species_id != "" and stats.uid == "":
-		var creature_data := CreatureData.get_creature_data(stats.species_id)
+		var creature_data = CreatureData.get_creature_data(stats.species_id)
 		if not creature_data.is_empty():
 			stats.load_from_data(creature_data)
 			if sprite_frames:

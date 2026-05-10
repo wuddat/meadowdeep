@@ -185,7 +185,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"sleep":
 			velocity = Vector2.ZERO
 			_sprite.play("sleep")
-			if eyes:
+			if creature_skin_handler:
 				creature_skin_handler.set_eyes("closed")
 			emotion_display.texture = SLEEP_BUBBLE
 			animation_player.play("bubble_fade_in")
@@ -397,14 +397,15 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	Events.creature_stat_view_requested.emit(creature_stats)
 
 func receive_item(world_item: Node2D, from_player: Node2D) -> void:
+	if creature_animation_handler.is_playing() and creature_animation_handler.current_animation == "absorb_item":
+		return
 	from_player.set("carried_item", null)
 	from_player.set("nearby_item", null)
-	if world_item.has_method("drop"):
-		world_item.drop()
 	if world_item.has_method("pickup"):
 		world_item.pickup(self)
 	_held_item = world_item
 	action_queue.push_front(&"absorb_item", {})
+	Events.creature_stat_view_requested.emit(creature_stats)
 
 
 
@@ -459,8 +460,8 @@ func _on_sprite_animation_looped() -> void:
 		move_sfx.pitch_scale = randf_range(0.9, 1.1)
 		move_sfx.play()
 
-func _on_absorb_finished(anim_name: String) -> void:
-	if anim_name != "absorb_item":
+func _on_absorb_finished(anim_name: StringName) -> void:
+	if anim_name != &"absorb_item":
 		return
 	creature_stat_handler.apply_item(_held_item.item_data)
 	_held_item.queue_free()

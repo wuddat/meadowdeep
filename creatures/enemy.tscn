@@ -9,7 +9,7 @@
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
 [ext_resource type="Resource" uid="uid://bjbolueg3mmes" path="res://battles/battle_actions/aggressive/shoot.tres" id="4_4wx45"]
 [ext_resource type="Resource" uid="uid://dsc4swpxj2a68" path="res://battles/battle_actions/aggressive/strike.tres" id="4_8hsss"]
-[ext_resource type="Resource" uid="uid://bmfmewl6e8gem" path="res://scenes/ruins/resources/test1.tres" id="4_38r2f"]
+[ext_resource type="Resource" uid="uid://b12taqajdca5u" path="res://data/items/test_fragment.tres" id="4_ljyq2"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="5_4wx45"]
 [ext_resource type="Resource" uid="uid://cxtgdej4hal1f" path="res://scenes/ruins/resources/test2.tres" id="5_qrpmh"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="6_2bth1"]
@@ -21,7 +21,7 @@
 
 [sub_resource type="Resource" id="Resource_5dw82"]
 script = ExtResource("3_ljyq2")
-item = ExtResource("4_38r2f")
+item = ExtResource("4_ljyq2")
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [sub_resource type="Resource" id="Resource_vubwh"]

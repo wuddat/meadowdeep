@@ -27,13 +27,6 @@ func start_eating() -> void:
 	being_eaten = true
 
 
-func on_delivered(creature: Node) -> void:
-	var handler = creature.get("creature_stat_handler")
-	if handler and handler.has_method("apply_item"):
-		handler.apply_item(item_data)
-		Events.item_used.emit(item_data, creature)
-
-
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		body.nearby_food = self

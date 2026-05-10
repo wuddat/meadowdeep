@@ -23,7 +23,7 @@
 
 [sub_resource type="Resource" id="Resource_dlmko"]
 script = ExtResource("14_03dcb")
-amount = 20
+amount = 100
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_ocehn"]
@@ -36,7 +36,7 @@ metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
 [sub_resource type="Resource" id="Resource_rbvr3"]
 script = ExtResource("14_03dcb")
-amount = 20
+amount = 100
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_lddhi"]

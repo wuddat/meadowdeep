@@ -11,7 +11,7 @@ func roll_drops() -> Array[InventoryEntry]:
 			continue
 		if RNG.instance.randf() > drop.drop_chance:
 			continue
-		var qty := RNG.instance.randi_range(drop.min_qty, drop.max_qty)
+		var qty = RNG.instance.randi_range(drop.min_qty, drop.max_qty)
 		if qty <= 0:
 			continue
 		var entry: InventoryEntry = InventoryEntry.new()
