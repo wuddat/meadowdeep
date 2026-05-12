@@ -5,7 +5,7 @@ signal inventory_changed
 
 @export var entries: Array[InventoryEntry] = []
 
-func add_item(item: MeadowWorldItem, qty: int) -> void:
+func add_item(item: ItemDef, qty: int) -> void:
 	if item == null or qty <= 0:
 		return
 	var existing := _find_entry(item)
@@ -19,7 +19,7 @@ func add_item(item: MeadowWorldItem, qty: int) -> void:
 	inventory_changed.emit()
 
 
-func remove_item(item: MeadowWorldItem, qty: int) -> bool:
+func remove_item(item: ItemDef, qty: int) -> bool:
 	if item == null or qty <= 0:
 		return false
 	var existing := _find_entry(item)
@@ -32,7 +32,7 @@ func remove_item(item: MeadowWorldItem, qty: int) -> bool:
 	return true
 
 
-func _find_entry(item: MeadowWorldItem) -> InventoryEntry:
+func _find_entry(item: ItemDef) -> InventoryEntry:
 	for entry in entries:
 		if entry.item and item and entry.item.id == item.id:
 			return entry

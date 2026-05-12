@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="StatFragment" format=3 uid="uid://b12taqajdca5u"]
 
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="1_clkvw"]
-[ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/stat_fragment.gd" id="1_y80ni"]
+[ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="1_y80ni"]
 
 [resource]
 script = ExtResource("1_y80ni")

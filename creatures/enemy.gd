@@ -5,7 +5,7 @@ extends BattleActor
 
 const ARROW_OFFSET := 20
 
-@export var stats: EnemyStats : set = set_enemy_stats
+@export var stats: CreatureDef : set = set_enemy_stats
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
 
@@ -26,29 +26,16 @@ func _ready() -> void:
 	add_to_group("enemies")
 	super()
 	await get_tree().process_frame
-
-	if stats and stats.species_id != "" and stats.uid == "":
-		var creature_data = CreatureData.get_creature_data(stats.species_id)
-		if not creature_data.is_empty():
-			stats.load_from_data(creature_data)
-			if sprite_frames:
-				animated_sprite_2d.sprite_frames = sprite_frames
-				animated_sprite_2d.play("idle")
-		else:
-			push_warning("No creature data found for: " + stats.species_id)
-	else:
-		if stats:
-			if sprite_frames:
-				animated_sprite_2d.sprite_frames = sprite_frames
-				animated_sprite_2d.play("idle")
-
+	if stats and sprite_frames:
+		animated_sprite_2d.sprite_frames = sprite_frames
+		animated_sprite_2d.play("idle")
 	spawn_coords = global_position
 
 
 
 
-func set_enemy_stats(value: EnemyStats) -> void:
-	stats = value.create_instance() as EnemyStats
+func set_enemy_stats(value: CreatureDef) -> void:
+	stats = value.create_instance() as CreatureDef
 	if not stats.stats_changed.is_connected(update_stats):
 		stats.stats_changed.connect(update_stats)
 	update_enemy()

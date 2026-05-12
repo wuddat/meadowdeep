@@ -1,4 +1,4 @@
-class_name MeadowWorldItem
+class_name ItemDef
 extends Resource
 
 enum Rarity { COMMON, UNCOMMON, RARE, EXOTIC }

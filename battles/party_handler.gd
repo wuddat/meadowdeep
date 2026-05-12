@@ -7,11 +7,11 @@ extends Node
 @export var POS_2 := Vector2(95, 210)
 
 @export var max_party_size := 6
-@export var character_stats: PlayerStats
+@export var character_stats: PlayerData
 @export var creature_battle_unit_scene: PackedScene
 
 var stat_ui_by_uid: Dictionary = {}
-var active_battle_party: Array[CreatureStats] = []
+var active_battle_party: Array[CreatureDef] = []
 var active_indexes := [0, 1, 2]
 
 
@@ -23,15 +23,15 @@ func initialize_party_for_battle() -> void:
 	spawn_active_creatures()
 
 
-func add_to_battle_party(creature: CreatureStats) -> bool:
+func add_to_battle_party(creature: CreatureDef) -> bool:
 	if active_battle_party.size() >= max_party_size:
 		return false
 	active_battle_party.append(creature)
 	return true
 
 
-func get_active_creatures() -> Array[CreatureStats]:
-	var actives: Array[CreatureStats] = []
+func get_active_creatures() -> Array[CreatureDef]:
+	var actives: Array[CreatureDef] = []
 	for creature in active_battle_party:
 		if creature.health > 0:
 			actives.append(creature)
@@ -92,7 +92,7 @@ func sync_battle_health_to_party_data() -> void:
 				character_stats.creatures[i] = creature
 
 
-func finalize_battle_party(creature_list: Array[CreatureStats]) -> void:
+func finalize_battle_party(creature_list: Array[CreatureDef]) -> void:
 	active_battle_party.clear()
 	for creature in creature_list:
 		if not add_to_battle_party(creature):

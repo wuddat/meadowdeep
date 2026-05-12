@@ -1,31 +1,28 @@
-[gd_resource type="Resource" script_class="CreatureStats" format=3 uid="uid://df5yfjw8qqk8j"]
+[gd_resource type="Resource" script_class="CreatureDef" format=3 uid="uid://df5yfjw8qqk8j"]
 
 [ext_resource type="SpriteFrames" uid="uid://gk0xw4djd70p" path="res://creatures/fire_sprite_frames.tres" id="1_eddqe"]
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="1_id4mx"]
-[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="4_5jxd5"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="1_id4mx"]
+[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/mutable/creature_identity.gd" id="4_5jxd5"]
 
 [sub_resource type="Resource" id="Resource_e02u7"]
 script = ExtResource("4_5jxd5")
-personality = 1
 dominant_stat = "Agility"
 age = 2
 metadata/_custom_type_script = "uid://bcwufleh1p85m"
 
 [resource]
 script = ExtResource("1_id4mx")
-species_id = "ember"
-creature_name = "Cutie"
-element_type = "fire"
 egg_rarity = "1"
-frames = ExtResource("1_eddqe")
-move_ids = Array[String](["tackle", "tackle", "tackle", "tackle", "tackle"])
-starting_moves = Array[String](["tackle", "tackle", "tackle", "tackle", "tackle"])
 known_moves = Array[String](["tackle", "absorb"])
 assigned_moves = Array[String](["tackle", "tackle", "tackle", "tackle", "tackle"])
-level = 2
-current_exp = 100
 stat_block = SubResource("Resource_e02u7")
 max_health = 500
 health = 500
 block = 10
+species_id = "ember"
+creature_name = "Cutie"
+element_type = "fire"
+frames = ExtResource("1_eddqe")
+move_ids = Array[String](["tackle", "tackle", "tackle", "tackle", "tackle"])
+starting_moves = Array[String](["tackle", "tackle", "tackle", "tackle", "tackle"])
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"

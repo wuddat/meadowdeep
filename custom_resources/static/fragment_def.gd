@@ -1,9 +1,9 @@
-class_name StatFragment
-extends MeadowWorldItem
+class_name FragmentDef
+extends ItemDef
 
 # ── Fragment Stats ────────────────────────────────────────────────────────────────
 @export_group("Fragment Stats")
-@export var creature_attribute: StatBlock.StatType
+@export var creature_attribute: GrowthStat.StatType
 @export var pips: int = 1
 
 

@@ -49,7 +49,7 @@ const PLAYER_INSET := 60.0
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
 var doors: Dictionary = {}  # &"N" -> Door
-var _active_stats: PlayerStats
+var _active_stats: PlayerData
 var _active_combat_room: Room
 
 func _ready() -> void:
@@ -58,7 +58,7 @@ func _ready() -> void:
 	_establish_connections()
 
 
-func setup(stats: PlayerStats) -> void:
+func setup(stats: PlayerData) -> void:
 	_active_stats = stats
 	player.stats = _active_stats
 	#player_creature.stats = _active_stats.creatures[0]

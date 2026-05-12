@@ -3,13 +3,13 @@
 class_name PlayerCharacter
 extends Node2D
 
-@export var stats: PlayerStats : set = set_player_stats
+@export var stats: PlayerData : set = set_player_stats
 
 @onready var stats_ui: Node = $StatsUI              # Will become typed StatsUI once ported
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 
 
-func set_player_stats(value: PlayerStats) -> void:
+func set_player_stats(value: PlayerData) -> void:
 	stats = value
 	if not stats.stats_changed.is_connected(update_stats):
 		stats.stats_changed.connect(update_stats)
@@ -17,7 +17,7 @@ func set_player_stats(value: PlayerStats) -> void:
 
 
 func update_player() -> void:
-	if not stats is PlayerStats:
+	if not stats is PlayerData:
 		return
 	if not is_inside_tree():
 		await ready

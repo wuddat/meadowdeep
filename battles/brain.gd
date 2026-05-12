@@ -11,7 +11,7 @@ func _ready() -> void:
 	_actor = get_parent() as BattleActor
 	if _actor == null:
 		push_error("Brain must be a child of a BattleActor")
-	_personality = _actor.get("stats").stat_block.personality if _actor.get("stats") else null
+	_personality = _actor.stats.stat_block.personality if _actor.get("stats") else null
 
 
 func select_action() -> BattleAction:

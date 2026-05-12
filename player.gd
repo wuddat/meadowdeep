@@ -5,7 +5,7 @@ const STAT_VIEW_SCENE := preload("res://scenes/meadow/creature_stat_view.tscn")
 @export var speed: float = 200.0
 @export var roll_speed: float = 400.0
 @export var roll_duration: float = 0.3
-@export var stats:PlayerStats
+@export var stats:PlayerData
 
 @onready var sprite: AnimatedSprite2D = $Player
 @onready var carry_position: Node2D = %CarryPosition

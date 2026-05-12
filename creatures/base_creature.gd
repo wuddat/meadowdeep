@@ -62,7 +62,7 @@ var action_queue := ActionQueue.new()
 
 
 
-@export var creature_stats: CreatureStats
+@export var creature_stats: CreatureDef
 
 const SNORE_SOUND  = preload("res://art/game_art/sfx/snore1.wav")
 const NOMNOM_SOUND = preload("res://art/game_art/sfx/nomnom.wav")
@@ -111,21 +111,21 @@ func _on_ready_creature() -> void:
 
 func _ensure_stats() -> void:
 	if not creature_stats:
-		creature_stats = CreatureStats.new()
+		creature_stats = CreatureDef.new()
 		creature_stats.creature_name = name
 	if creature_stats.uid == "":
 		creature_stats.uid = str(RNG.instance.randi())
 	var sb := creature_stats.stat_block
 	if not sb:
-		creature_stats.stat_block = CreatureStatBlock.new()
+		creature_stats.stat_block = CreatureIdentity.new()
 		sb = creature_stats.stat_block
 	# Auto-generate grades if all at default (all C = grade index 2)
 	var all_default := (
-		sb.PWR.grade == StatBlock.Grade.C and
-		sb.AGI.grade == StatBlock.Grade.C and
-		sb.RES.grade == StatBlock.Grade.C and
-		sb.MYS.grade == StatBlock.Grade.C and
-		sb.FOC.grade == StatBlock.Grade.C
+		sb.PWR.grade == GrowthStat.Grade.C and
+		sb.AGI.grade == GrowthStat.Grade.C and
+		sb.RES.grade == GrowthStat.Grade.C and
+		sb.MYS.grade == GrowthStat.Grade.C and
+		sb.FOC.grade == GrowthStat.Grade.C
 	)
 	if all_default:
 		sb.PWR.grade      = _random_grade()
@@ -135,15 +135,15 @@ func _ensure_stats() -> void:
 		sb.FOC.grade      = _random_grade()
 
 
-func _random_grade() -> StatBlock.Grade:
+func _random_grade() -> GrowthStat.Grade:
 	# Weighted: C most common, S/E rare
 	var roll := randi() % 100
-	if roll < 5:   return StatBlock.Grade.S
-	elif roll < 15: return StatBlock.Grade.A
-	elif roll < 35: return StatBlock.Grade.B
-	elif roll < 65: return StatBlock.Grade.C
-	elif roll < 85: return StatBlock.Grade.D
-	else:           return StatBlock.Grade.E
+	if roll < 5:   return GrowthStat.Grade.S
+	elif roll < 15: return GrowthStat.Grade.A
+	elif roll < 35: return GrowthStat.Grade.B
+	elif roll < 65: return GrowthStat.Grade.C
+	elif roll < 85: return GrowthStat.Grade.D
+	else:           return GrowthStat.Grade.E
 
 
 func _physics_process(delta: float) -> void:
@@ -334,7 +334,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 	if data["stage_timer"] >= 1.0 and _eating_food:
 		data["stage_timer"] -= 1.0
 		_eating_food.decrement_stage()
-		var food_data: CreatureFood = _eating_food.get("item_data")
+		var food_data: FoodDef = _eating_food.get("item_data")
 		if food_data and creature_stat_handler:
 			creature_stat_handler.apply_food(food_data)
 	emotion_handler.raise("hunger", 20.0 * delta)

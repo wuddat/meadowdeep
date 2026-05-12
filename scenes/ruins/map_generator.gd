@@ -20,7 +20,7 @@ const SHOP_WEIGHT := 2.5
 const EVENT_WEIGHT := 4.0
 const EGG_CHAMBER_WEIGHT := 2.0
 
-@export var battle_stats_pool: BattleStatsPool
+@export var battle_stats_pool: EncounterPool
 
 var _random_room_weights: Dictionary = {}
 var _total_weight := 0.0

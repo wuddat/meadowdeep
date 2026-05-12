@@ -1,17 +1,17 @@
-#creature_stat_block.gd
+#creature_identity.gd
 # The portable identity record for a creature — everything about who it is,
 # independent of combat. Safe to inspect in the meadow, habitat, biography,
-# or during creature interactions without touching CreatureStats.
-class_name CreatureStatBlock
+# or during creature interactions without touching CreatureDef.
+class_name CreatureIdentity
 extends Resource
 
 # ── Growth Stats ──────────────────────────────────────────────────────────────
 @export_group("Growth Stats")
-@export var PWR: StatBlock
-@export var AGI: StatBlock
-@export var RES: StatBlock
-@export var MYS: StatBlock
-@export var FOC: StatBlock
+@export var PWR: GrowthStat
+@export var AGI: GrowthStat
+@export var RES: GrowthStat
+@export var MYS: GrowthStat
+@export var FOC: GrowthStat
 
 # ── Identity ──────────────────────────────────────────────────────────────────
 @export_group("Identity")
@@ -20,13 +20,14 @@ extends Resource
 @export var dominant_stat: String = ""   # "PWR" | "AGI" | "RES" | "MYS" | "FOC"
 @export var evolution_stage: int = 0
 
-# ── Alignment ─────────────────────────────────────────────────────────────────
-# TODO: Placeholder axes — ranges and meaning to be designed.
-# wild_bonded: -1.0 (fully wild) to 1.0 (fully bonded)
-# feral_MYS: -1.0 (fully feral) to 1.0 (fully MYS)
+# ── Element Alignment ─────────────────────────────────────────────────────────────────
+
 @export_group("Alignment")
-@export var wild_bonded_alignment: float = 0.0
-@export var feral_MYS_alignment: float = 0.0
+@export var fire_alignment: float = 0.0
+@export var water_alignment: float = 0.0
+@export var earth_alignment: float = 0.0
+@export var air_alignment: float = 0.0
+@export var corruption_alignment: float = 0.0
 
 # ── Bonds ─────────────────────────────────────────────────────────────────────
 @export_group("Bonds")
@@ -49,10 +50,10 @@ var item_affinity: Dictionary = {}
 
 
 func _init() -> void:
-	PWR = StatBlock.new()
-	AGI = StatBlock.new()
-	RES = StatBlock.new()
-	MYS = StatBlock.new()
-	FOC = StatBlock.new()
+	PWR = GrowthStat.new()
+	AGI = GrowthStat.new()
+	RES = GrowthStat.new()
+	MYS = GrowthStat.new()
+	FOC = GrowthStat.new()
 	personality = Personality.new()
 	personality.create_personality()

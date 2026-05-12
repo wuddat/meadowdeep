@@ -1,5 +1,5 @@
-#battle_stats.gd
-class_name BattleStats
+#encounter_def.gd
+class_name EncounterDef
 extends Resource
 
 @export_enum("Wild", "Boss") var encounter_type := "Wild"

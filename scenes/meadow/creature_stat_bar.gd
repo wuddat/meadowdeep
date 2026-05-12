@@ -11,9 +11,9 @@ const PILL_EMPTY = preload("uid://cg4v0q208cksl")
 const PILL_FULL = preload("uid://d3wnng60mj0x0")
 
 
-func setup(block: StatBlock, label: String) -> void:
+func setup(block: GrowthStat, label: String) -> void:
 	stat_name.text = label
-	stat_grade.text = StatBlock.Grade.keys()[block.grade]
+	stat_grade.text = GrowthStat.Grade.keys()[block.grade]
 	lvl.text = "LV: %d" % block.lvl
 	score.text = str(block.points)
 

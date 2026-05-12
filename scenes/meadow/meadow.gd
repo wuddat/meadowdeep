@@ -14,10 +14,10 @@ const START_LOOT_SPAWN_DELAY := 3.0
 @onready var pop_sfx: AudioStreamPlayer = $Pop
 @export var base_creature: BaseCreature
 
-var player_stats: PlayerStats
+var player_stats: PlayerData
 
 
-func setup(stats: PlayerStats) -> void:
+func setup(stats: PlayerData) -> void:
 	player_stats = stats
 	player_model.stats = stats
 	_print_inventory()
@@ -35,7 +35,7 @@ func _print_inventory() -> void:
 		print("  - %s x%d" % [n, e.qty])
 
 
-func save_meadow_stats() -> PlayerStats:
+func save_meadow_stats() -> PlayerData:
 	if base_creature:
 		player_stats.creatures.append(base_creature.creature_stats)
 	return player_stats
@@ -59,7 +59,7 @@ func _spawn_loot_party() -> void:
 	player_stats.inventory.inventory_changed.emit()
 
 
-func _toss_item(item_data: MeadowWorldItem, delay: float) -> void:
+func _toss_item(item_data: ItemDef, delay: float) -> void:
 	var node: WorldItemBase = MEADOW_WORLD_ITEM.instantiate()
 	node.item_data = item_data
 	add_child(node)

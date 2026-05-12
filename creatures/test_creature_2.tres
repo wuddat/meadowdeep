@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CreatureStats" format=3 uid="uid://cxnwo40qjpy0f"]
 
 [ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="1_8g7uy"]
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="2_p8rav"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="2_p8rav"]
 
 [resource]
 script = ExtResource("2_p8rav")

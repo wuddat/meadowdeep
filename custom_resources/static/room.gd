@@ -8,7 +8,7 @@ enum Type {NOT_ASSIGNED, START, COMBAT, TREASURE, REST_SITE, SHOP, BOSS, EVENT, 
 @export var position: Vector2
 @export var next_rooms: Array[Room]
 @export var selected := false
-@export var battle_stats: BattleStats
+@export var battle_stats: EncounterDef
 @export var tier: int = 0
 var doors: int
 var depth: int

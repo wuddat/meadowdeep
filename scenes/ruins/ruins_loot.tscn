@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bqr0k0qv2mv3m"]
 
-[ext_resource type="Script" uid="uid://de102cqml7thu" path="res://custom_resources/ruins_world_item.gd" id="1_57pb7"]
+[ext_resource type="Script" uid="uid://de102cqml7thu" path="res://custom_resources/runtime/ruins_world_item.gd" id="1_57pb7"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="2_8pbuo"]
-[ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/meadow_world_item.gd" id="2_kbeyy"]
+[ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/static/item_def.gd" id="2_kbeyy"]
 
 [sub_resource type="Resource" id="Resource_dwdj8"]
 script = ExtResource("2_kbeyy")

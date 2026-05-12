@@ -1,5 +1,5 @@
-#stat_block.gd
-class_name StatBlock
+#creature_growth_stat.gd
+class_name GrowthStat
 extends Resource
 
 enum Grade { E, D, C, B, A, S }
@@ -43,8 +43,8 @@ func get_effective_value() -> int:
 	return points
 
 
-static func create(starting_grade: Grade = Grade.C, starting_points: int = 0) -> StatBlock:
-	var block := StatBlock.new()
+static func create(starting_grade: Grade = Grade.C, starting_points: int = 0) -> GrowthStat:
+	var block := GrowthStat.new()
 	block.grade = starting_grade
 	block.points = starting_points
 	return block

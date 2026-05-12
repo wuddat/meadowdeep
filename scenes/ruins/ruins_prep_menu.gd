@@ -14,7 +14,7 @@ const MAX_ACTIVE_SKILLS := 4
 @onready var left_button: Button = %LeftButton
 @onready var right_button: Button = %RightButton
 
-var _creatures: Array[CreatureStats] = []
+var _creatures: Array[CreatureDef] = []
 var _creature_index: int = 0
 
 
@@ -25,7 +25,7 @@ func _ready() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 
 
-func setup(stats:PlayerStats) -> void:
+func setup(stats:PlayerData) -> void:
 	if stats:
 		_creatures = stats.get_all_creatures()
 
@@ -33,7 +33,7 @@ func setup(stats:PlayerStats) -> void:
 		populate_creature(_creatures[0])
 
 
-func populate_creature(creature: CreatureStats) -> void:
+func populate_creature(creature: CreatureDef) -> void:
 	if creature.known_moves.is_empty() and not creature.starting_moves.is_empty():
 		creature.known_moves = creature.starting_moves.duplicate()
 
@@ -48,7 +48,7 @@ func populate_creature(creature: CreatureStats) -> void:
 	_rebuild_active_skills(creature)
 
 
-func _rebuild_known_skills(creature: CreatureStats) -> void:
+func _rebuild_known_skills(creature: CreatureDef) -> void:
 	for child in known_skills_grid.get_children():
 		child.queue_free()
 
@@ -60,7 +60,7 @@ func _rebuild_known_skills(creature: CreatureStats) -> void:
 		btn.custom_minimum_size = Vector2(80,0)
 
 
-func _rebuild_active_skills(creature: CreatureStats) -> void:
+func _rebuild_active_skills(creature: CreatureDef) -> void:
 	for child in active_skills_grid.get_children():
 		child.queue_free()
 
@@ -72,7 +72,7 @@ func _rebuild_active_skills(creature: CreatureStats) -> void:
 		btn.custom_minimum_size = Vector2(80,0)
 
 
-func _on_known_skill_pressed(move_id: String, creature: CreatureStats) -> void:
+func _on_known_skill_pressed(move_id: String, creature: CreatureDef) -> void:
 	if creature.assigned_moves.size() >= MAX_ACTIVE_SKILLS:
 		return
 	if creature.assigned_moves.has(move_id):
@@ -81,7 +81,7 @@ func _on_known_skill_pressed(move_id: String, creature: CreatureStats) -> void:
 	_rebuild_active_skills(creature)
 
 
-func _on_active_skill_pressed(move_id: String, creature: CreatureStats) -> void:
+func _on_active_skill_pressed(move_id: String, creature: CreatureDef) -> void:
 	creature.assigned_moves.erase(move_id)
 	_rebuild_active_skills(creature)
 

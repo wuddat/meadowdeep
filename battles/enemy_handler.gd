@@ -4,24 +4,24 @@
 class_name EnemyHandler
 extends Node2D
 
-@export var player_stats: PlayerStats : set = set_character
+@export var player_stats: PlayerData : set = set_character
 @export var enemy_scene: PackedScene
 @export var stats_ui_scene: PackedScene
 
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 
-var battle_stats: BattleStats = null
+var battle_stats: EncounterDef = null
 
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
 
 
-func set_character(new_player_stats: PlayerStats) -> void:
+func set_character(new_player_stats: PlayerData) -> void:
 	player_stats = new_player_stats
 
 
-func setup_enemies(bat_stats: BattleStats) -> void:
+func setup_enemies(bat_stats: EncounterDef) -> void:
 	if not bat_stats:
 		return
 	battle_stats = bat_stats.duplicate()
@@ -35,7 +35,7 @@ func setup_enemies(bat_stats: BattleStats) -> void:
 	var species_ids: Array[String] = battle_stats.enemy_creature_party.duplicate()
 
 	if not battle_stats.enemies:
-		push_error("EnemyHandler: BattleStats.enemies PackedScene is not set")
+		push_error("EnemyHandler: EncounterDef.enemies PackedScene is not set")
 		return
 
 	var all_new_enemies := battle_stats.enemies.instantiate()
@@ -64,17 +64,12 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 	if enemy_node:
 		enemy.global_position = enemy_node.global_position
 
-	var creature_data := CreatureData.get_creature_data(species_id)
-	var stats := EnemyStats.new()
-	stats.species_id = species_id
+	var stats: CreatureDef = CreatureData.create_creature_instance(species_id)
+	if not stats:
+		push_warning("[ENEMYHANDLER]: No creature data for '%s'" % species_id)
+		enemy.queue_free()
+		return
 	stats.uid = "enemy_%s_%d" % [species_id, Time.get_ticks_msec()]
-	if not creature_data.is_empty():
-		stats.load_from_data(creature_data)
-	else:
-		push_warning("EnemyHandler: No creature data for '%s' — using defaults" % species_id)
-		stats.max_health = 10
-		stats.health = 10
-
 	enemy.stats = stats
 	add_child(enemy)
 

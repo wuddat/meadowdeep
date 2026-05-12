@@ -9,11 +9,11 @@ const SCENES: Dictionary = {
 
 
 
-@export var player_stats: PlayerStats
+@export var player_stats: PlayerData
 @onready var current_view: Node = $CurrentView
 @onready var fade: ColorRect = %Fade
 
-var active_stats: PlayerStats
+var active_stats: PlayerData
 
 
 func _ready() -> void:

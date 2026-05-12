@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="PlayerStats" format=3 uid="uid://dlnmlib5qptfj"]
+[gd_resource type="Resource" format=3 uid="uid://dlnmlib5qptfj"]
 
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="1_grcbt"]
-[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/player_stats.gd" id="2_bv3h6"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="1_grcbt"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="2_bv3h6"]
 [ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="2_tjt2p"]
-[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/creature_stat_block.gd" id="3_7ah1y"]
-[ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/stat_block.gd" id="3_tjt2p"]
+[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/mutable/creature_identity.gd" id="3_7ah1y"]
+[ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/mutable/creature_growth_stat.gd" id="3_tjt2p"]
 
 [sub_resource type="Resource" id="Resource_7ah1y"]
 script = ExtResource("3_tjt2p")
@@ -22,22 +22,20 @@ metadata/_custom_type_script = "uid://bcwufleh1p85m"
 
 [sub_resource type="Resource" id="Resource_s2nv6"]
 script = ExtResource("1_grcbt")
-species_id = "ember"
-creature_name = "Cutie"
-element_type = "fire"
 egg_rarity = "1"
-frames = ExtResource("2_tjt2p")
-move_ids = Array[String](["ember", "tackle", "firespin", "firefang", "flamethrower"])
-starting_moves = Array[String](["ember", "tackle", "growl", "bite", "flamethrower"])
 known_moves = Array[String](["tackle", "ember", "growl", "bite", "flamethrower"])
 assigned_moves = Array[String](["tackle"])
-level = 2
-current_exp = 100
 stat_block = SubResource("Resource_e02u7")
 max_health = 500
 health = 500
 block = 10
 uid = "256"
+species_id = "ember"
+creature_name = "Cutie"
+element_type = "fire"
+frames = ExtResource("2_tjt2p")
+move_ids = Array[String](["ember", "tackle", "firespin", "firefang", "flamethrower"])
+starting_moves = Array[String](["ember", "tackle", "growl", "bite", "flamethrower"])
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [resource]

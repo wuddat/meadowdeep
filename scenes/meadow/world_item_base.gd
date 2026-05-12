@@ -1,7 +1,7 @@
 class_name WorldItemBase
 extends Area2D
 
-@export var item_data: MeadowWorldItem
+@export var item_data: ItemDef
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D

@@ -3,7 +3,7 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
-@export var stats: CreatureStats : set = set_creature_stats
+@export var stats: CreatureDef : set = set_creature_stats
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 
@@ -168,7 +168,7 @@ func _update_action_timer_ui(remaining: float) -> void:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-func set_creature_stats(value: CreatureStats) -> void:
+func set_creature_stats(value: CreatureDef) -> void:
 	stats = value
 	if not stats.stats_changed.is_connected(update_stats):
 		stats.stats_changed.connect(update_stats)
@@ -176,7 +176,7 @@ func set_creature_stats(value: CreatureStats) -> void:
 
 
 func update_creature() -> void:
-	if not stats is CreatureStats: return
+	if not stats is CreatureDef: return
 	if not is_inside_tree(): await ready
 	var frames_to_use: SpriteFrames = stats.frames if stats.frames else sprite_frames
 	if frames_to_use:
