@@ -2,14 +2,12 @@
 
 [ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/creature_stats.gd" id="2_8acdo"]
-[ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_cbu01"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="2_yfbhk"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/battle_action.gd" id="3_r6ech"]
 [ext_resource type="PackedScene" uid="uid://btwh8nsmqma2k" path="res://scenes/modifier_handler/modifier.tscn" id="4_mod"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="6_ji0g7"]
-[ext_resource type="PackedScene" uid="uid://bnnr7b1674s3f" path="res://scenes/ui/unit_status_indicator.tscn" id="6_usi"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="7_rlrki"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="8_dnym6"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_kdnho"]
@@ -740,9 +738,6 @@ shape = SubResource("CircleShape2D_ji0g7")
 unique_name_in_owner = true
 position = Vector2(14, 0)
 
-[node name="StatusHandler" type="GridContainer" parent="." unique_id=2051289691]
-script = ExtResource("2_cbu01")
-
 [node name="ModifierHandler" type="Node" parent="." unique_id=689255252]
 script = ExtResource("3_cbu01")
 
@@ -759,9 +754,6 @@ type = 4
 
 [node name="HealModifier" parent="ModifierHandler" unique_id=2017218852 instance=ExtResource("4_mod")]
 type = 5
-
-[node name="UnitStatusIndicator" parent="." unique_id=1761858998 instance=ExtResource("6_usi")]
-unique_name_in_owner = true
 
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
 offset_top = -2.0

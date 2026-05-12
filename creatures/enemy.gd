@@ -15,12 +15,9 @@ const ARROW_OFFSET := 20
 @onready var stats_ui: Node = %StatsUI
 @onready var animation_handler: Node = $AnimationHandler
 @onready var name_container: Node = %NameContainer
-@onready var unit_status_indicator: Node = %UnitStatusIndicator
-@onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var projectile_spawn: Node2D = %ProjectileSpawn
 
-var current_action: Node = null : set = set_current_action
 var spawn_coords: Vector2
 
 var last_damage_taken: int = 0
@@ -48,8 +45,6 @@ func _ready() -> void:
 	spawn_coords = global_position
 
 
-func set_current_action(value: Node) -> void:
-	current_action = value
 
 
 func set_enemy_stats(value: EnemyStats) -> void:
@@ -62,10 +57,6 @@ func set_enemy_stats(value: EnemyStats) -> void:
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):
 		stats_ui.update_stats(stats)
-
-
-func update_action() -> void:
-	pass
 
 
 func update_enemy() -> void:

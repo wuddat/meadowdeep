@@ -12,4 +12,3 @@ func execute(targets: Array[Node]) -> void:
 			target.take_damage(amount, Modifier.Type.DMG_DEALT)
 			if sound:
 				SFXPlayer.pitch_play(sound)
-			Events.camera_shake_requested.emit(amount)

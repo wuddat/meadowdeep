@@ -9,9 +9,7 @@ extends BattleActor
 
 @onready var creature_textures: CreatureTextures = $CreatureTextures
 @onready var stats_ui: HBoxContainer = $StatsUI
-@onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
-@onready var unit_status_indicator: Node = %UnitStatusIndicator
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn
@@ -34,8 +32,6 @@ var _following_player: bool = false
 func _ready() -> void:
 	super()
 	add_to_group("active_creatures")
-	status_handler.status_owner = self
-	status_handler.statuses_applied.connect(_on_statuses_applied)
 
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
@@ -245,27 +241,10 @@ func heal(amount: int) -> void:
 
 
 func set_health_bar_ui(ui: Node) -> void:
-	if is_inside_tree() and is_instance_valid(status_handler):
+	if is_inside_tree():
 		health_bar_ui = ui
-		if "status_container" in ui:
-			status_handler.set_status_ui_container(ui.get("status_container"))
 	else:
 		_queued_health_bar_ui = ui
-
-
-func _on_statuses_applied(type: Status.Type) -> void:
-	if type == Status.Type.START_OF_TURN:
-		Events.player_creature_start_status_applied.emit(self)
-		if unit_status_indicator and unit_status_indicator.has_method("update_status_display"):
-			unit_status_indicator.update_status_display(self)
-	elif type == Status.Type.END_OF_TURN:
-		Events.player_creature_end_status_applied.emit(self)
-		if unit_status_indicator and unit_status_indicator.has_method("update_status_display"):
-			unit_status_indicator.update_status_display(self)
-
-
-func _on_enemy_seeded_turn_start(seeded: Status) -> void:
-	heal(seeded.heal_strength)
 
 
 func on_enemy_defeated(enemy: Enemy) -> void:

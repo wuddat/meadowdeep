@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Scaling" format=3 uid="uid://bbi23q0wbw578"]
-
-[ext_resource type="Script" path="res://statuses/scaling_per_turn.gd" id="1_doryd"]
-
-[resource]
-script = ExtResource("1_doryd")
-id = "scaling"
-metadata/_custom_type_script = "uid://breq3elxr1644"

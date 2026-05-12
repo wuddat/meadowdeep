@@ -41,7 +41,6 @@ func initialize_battle() -> void:
 
 	enemy_handler.char_stats = char_stats
 	enemy_handler.setup_enemies(battle_stats)
-	enemy_handler.reset_enemy_actions()
 
 	player_creature_nodes = party_handler.get_active_creature_nodes()
 
@@ -73,7 +72,6 @@ func _on_player_died() -> void:
 
 func _on_party_creature_fainted(unit: CreatureBattleUnit) -> void:
 	if unit and unit.is_inside_tree():
-		unit.status_handler.clear_all_statuses()
 		unit.stop_combat()
 
 	var fainted_count := 0

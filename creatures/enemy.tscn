@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://r741b0rgs5aa"]
 
 [ext_resource type="Script" uid="uid://de3iwgnmkrukk" path="res://creatures/enemy.gd" id="1_enm01"]
-[ext_resource type="Script" uid="uid://b760sqh2o0u73" path="res://scenes/status_handler/status_handler.gd" id="2_enm01"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="2_jm0xe"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
 [ext_resource type="Script" uid="uid://hfrflgf1ontv" path="res://custom_resources/loot_table_drop.gd" id="3_ljyq2"]
@@ -84,12 +83,6 @@ grow_vertical = 0
 
 [node name="NameContainer" type="Node" parent="." unique_id=159970826]
 unique_name_in_owner = true
-
-[node name="UnitStatusIndicator" type="Node" parent="." unique_id=955920803]
-unique_name_in_owner = true
-
-[node name="StatusHandler" type="GridContainer" parent="." unique_id=1297316485]
-script = ExtResource("2_enm01")
 
 [node name="ModifierHandler" type="Node" parent="." unique_id=1112906390]
 script = ExtResource("3_enm01")

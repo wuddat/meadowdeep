@@ -47,12 +47,6 @@ func setup_enemies(bat_stats: BattleStats) -> void:
 	all_new_enemies.queue_free()
 
 
-func reset_enemy_actions() -> void:
-	for child in get_children():
-		if child is Enemy:
-			child.current_action = null
-			child.update_action()
-
 
 func start_turn() -> void:
 	for enemy: Enemy in get_children():
@@ -88,12 +82,6 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 func _on_enemy_fainted(enemy: Enemy) -> void:
 	if not is_instance_valid(enemy):
 		return
-	Events.battle_text_requested.emit(
-		"Enemy [color=red]%s[/color] FAINTED!" % enemy.stats.species_id.capitalize()
-	)
-	#for battler in party_handler.get_active_creature_nodes():
-		#if battler.has_method("on_enemy_defeated"):
-			#battler.on_enemy_defeated(enemy)
 	if is_instance_valid(enemy):
 		enemy.queue_free()
 	child_order_changed.emit()

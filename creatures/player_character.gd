@@ -1,12 +1,11 @@
 #player_character.gd
-# The player character node for battle. Holds stat reference and status/modifier handlers.
+# The player character node for battle. Holds stat reference and modifier handler.
 class_name PlayerCharacter
 extends Node2D
 
 @export var stats: PlayerStats : set = set_player_stats
 
 @onready var stats_ui: Node = $StatsUI              # Will become typed StatsUI once ported
-@onready var status_handler: StatusHandler = $StatusHandler
 @onready var modifier_handler: ModifierHandler = $ModifierHandler
 
 

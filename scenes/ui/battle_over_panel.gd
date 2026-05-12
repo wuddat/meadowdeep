@@ -25,7 +25,6 @@ func show_screen(text: String, type: Type) -> void:
 
 func _on_continue_pressed() -> void:
 	get_tree().paused = false
-	Events.battle_won.emit()
 
 
 func _on_restart_pressed() -> void:
