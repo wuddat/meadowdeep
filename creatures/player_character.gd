@@ -1,29 +1,14 @@
 #player_character.gd
-# The player character node for battle. Holds stat reference and modifier handler.
+# The player character node for battle. Holds player_data reference.
+# The player is not a combatant in autobattle — no health/block wiring.
 class_name PlayerCharacter
 extends Node2D
 
-@export var stats: PlayerData : set = set_player_stats
+@export var player_data: PlayerData
 
-@onready var stats_ui: Node = $StatsUI              # Will become typed StatsUI once ported
-@onready var modifier_handler: ModifierHandler = $ModifierHandler
-
-
-func set_player_stats(value: PlayerData) -> void:
-	stats = value
-	if not stats.stats_changed.is_connected(update_stats):
-		stats.stats_changed.connect(update_stats)
-	update_player()
-
-
-func update_player() -> void:
-	if not stats is PlayerData:
-		return
-	if not is_inside_tree():
-		await ready
-	update_stats()
+@onready var stats_ui: Node = $StatsUI
 
 
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):
-		stats_ui.update_stats(stats)
+		stats_ui.update_stats(player_data)

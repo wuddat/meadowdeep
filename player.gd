@@ -76,7 +76,7 @@ func _physics_process(delta):
 	if carried_food:
 		for i in get_slide_collision_count():
 			var collider = get_slide_collision(i).get_collider()
-			if collider.has_method("receive_food") and collider.emotion_handler.emotions.get("hunger", 100.0) < 80.0:
+			if collider.has_method("receive_food") and collider.instance.get_emotion(&"hunger") < 80.0:
 				collider.receive_food(carried_food, self)
 				break
 	
@@ -134,8 +134,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _show_stat_view() -> void:
-	if not held_creature or not held_creature.get("creature_stats"):
-		print("[StatView] no creature_stats on held creature — panel skipped")
+	if not held_creature or not held_creature.get("instance"):
+		print("[StatView] no instance on held creature — panel skipped")
 		return
 	if _stat_view:
 		_stat_view.queue_free()
@@ -143,9 +143,9 @@ func _show_stat_view() -> void:
 	get_tree().current_scene.add_child(canvas)
 	_stat_view = STAT_VIEW_SCENE.instantiate()
 	canvas.add_child(_stat_view)
-	_stat_view.populate(held_creature.creature_stats)
+	_stat_view.populate(held_creature.instance)
 	_stat_view.update_display()
-	print("[StatView] shown for: ", held_creature.creature_stats.creature_name)
+	print("[StatView] shown for: ", held_creature.instance.definition.creature_name)
 
 
 func _hide_stat_view() -> void:

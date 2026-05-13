@@ -1,5 +1,28 @@
 {
   "creatures": {
+	"test": {
+	  "species_id": "test",
+	  "creature_name": "Testarino",
+	  "element_type": "Test_Element",
+	  "max_health": 500,
+	  "is_companion": false,
+	  "egg_rarity": "test_egg_rarity",
+	  "egg_depth_found": 0,
+	  "sprite_path": "res://scenes/ruins/greenie_frames.tres",
+	  "icon_path": "res://art/placeholder.png",
+	  "starting_moves": [],
+	  "move_ids": [],
+	  "evolves_to": "",
+	  "evolution_level": 101,
+	  "identity": {
+		"personality": "brave",
+		"PWR_grade": 5,
+		"AGI_grade": 5,
+		"RES_grade": 4,
+		"MYS_grade": 1,
+		"FOC_grade": 2
+	  }
+	},
 	"verdant": {
 	  "species_id": "verdant",
 	  "creature_name": "Verdant",
@@ -10,11 +33,11 @@
 	  "egg_depth_found": 0,
 	  "sprite_path": "res://art/placeholder.png",
 	  "icon_path": "res://art/placeholder.png",
-	  "starting_moves": ["tackle", "defensecurl", "vinewhip"],
-	  "move_ids": ["tackle", "defensecurl", "growth", "vinewhip", "bodyslam", "coil"],
+	  "starting_moves": [],
+	  "move_ids": [],
 	  "evolves_to": "",
 	  "evolution_level": 101,
-	  "stat_block": {
+	  "identity": {
 		"personality": "brave",
 		"PWR_grade": 3,
 		"AGI_grade": 2,
@@ -33,12 +56,12 @@
 	  "egg_depth_found": 1,
 	  "sprite_path": "res://art/game_art/creatures/base_creature/base_sprite_frames.tres",
 	  "icon_path": "res://art/placeholder.png",
-	  "starting_moves": ["tackle", "tackle", "tackle"],
-	  "move_ids": ["ember", "flamecharge", "flareblitz", "doubleedge", "firefang", "smokescreen"],
+	  "starting_moves": [],
+	  "move_ids": [],
 	  "evolves_to": "",
 	  "evolution_level": 101,
-	  "stat_block": {
-		"personality": "fierce",
+	  "identity": {
+		"personality": "brave",
 		"PWR_grade": 5,
 		"AGI_grade": 5,
 		"RES_grade": 1,
@@ -56,12 +79,12 @@
 	  "egg_depth_found": 1,
 	  "sprite_path": "res://creatures/water_sprite_frames.tres",
 	  "icon_path": "res://art/placeholder.png",
-	  "starting_moves": ["bubble", "defensecurl", "watergun"],
-	  "move_ids": ["bubble", "defensecurl", "haze", "synthesis", "watergun", "safeguard"],
+	  "starting_moves": [],
+	  "move_ids": [],
 	  "evolves_to": "",
 	  "evolution_level": 101,
-	  "stat_block": {
-		"personality": "gentle",
+	  "identity": {
+		"personality": "timid",
 		"PWR_grade": 1,
 		"AGI_grade": 2,
 		"RES_grade": 3,
@@ -79,12 +102,12 @@
 	  "egg_depth_found": 2,
 	  "sprite_path": "res://art/placeholder.png",
 	  "icon_path": "res://art/placeholder.png",
-	  "starting_moves": ["rockthrow", "harden", "defensecurl"],
-	  "move_ids": ["rockthrow", "harden", "rocktomb", "defensecurl", "irondefense"],
+	  "starting_moves": [],
+	  "move_ids": [],
 	  "evolves_to": "",
 	  "evolution_level": 101,
-	  "stat_block": {
-		"personality": "stoic",
+	  "identity": {
+		"personality": "neutral",
 		"PWR_grade": 4,
 		"AGI_grade": 5,
 		"RES_grade": 5,
@@ -102,12 +125,12 @@
 	  "egg_depth_found": 3,
 	  "sprite_path": "res://art/placeholder.png",
 	  "icon_path": "res://art/placeholder.png",
-	  "starting_moves": ["confuseray", "willowisp", "lick"],
-	  "move_ids": ["confuseray", "hypnosis", "willowisp", "nightshade", "dreameater", "lick"],
+	  "starting_moves": [],
+	  "move_ids": [],
 	  "evolves_to": "",
 	  "evolution_level": 101,
-	  "stat_block": {
-		"personality": "aloof",
+	  "identity": {
+		"personality": "timid",
 		"PWR_grade": 1,
 		"AGI_grade": 4,
 		"RES_grade": 1,

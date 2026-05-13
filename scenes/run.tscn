@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://csm4ugfkog5e3"]
 
 [ext_resource type="Script" uid="uid://ddof78tskdvk2" path="res://scenes/run.gd" id="1_run"]
-[ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="2_12wjq"]
+[ext_resource type="Resource" uid="uid://dmj4y8go643i6" path="res://data/test_player_data.tres" id="2_6elw1"]
 
 [node name="Run" type="Node" unique_id=169407667]
 process_mode = 3
 script = ExtResource("1_run")
-player_stats = ExtResource("2_12wjq")
+player_data = ExtResource("2_6elw1")
 
 [node name="CurrentView" type="Node" parent="." unique_id=1400579697]
 

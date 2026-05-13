@@ -3,7 +3,7 @@ extends Node
 signal stat_changed(uid: String)
 signal item_received(item: ItemDef)
 
-var stat_block: CreatureIdentity
+var identity: CreatureIdentity
 
 @export var creature_uid: String
 
@@ -26,12 +26,12 @@ func apply_item(item: ItemDef) -> void:
 
 
 func apply_food(food_data: FoodDef) -> void:
-	if not stat_block or not food_data:
+	if not identity or not food_data:
 		return
 	var stat_name: String = CreatureData.STAT_NAMES.get(food_data.creature_attribute, "")
 	if not stat_name:
 		return
-	var stat: GrowthStat = stat_block.get(stat_name)
+	var stat: GrowthStat = identity.get(stat_name)
 	if stat:
 		for _i in food_data.attribute_increment:
 			stat.add_pip()
@@ -39,12 +39,12 @@ func apply_food(food_data: FoodDef) -> void:
 		Events.creature_stat_updated.emit(creature_uid)
 
 func absorb_item(frag: FragmentDef) -> void:
-	if not stat_block or not frag:
+	if not identity or not frag:
 		return
 	var stat_name: String = CreatureData.STAT_NAMES.get(frag.creature_attribute, "")
 	if not stat_name:
 		return
-	var stat: GrowthStat = stat_block.get(stat_name)
+	var stat: GrowthStat = identity.get(stat_name)
 	if stat:
 		for _i in frag.pips:
 			stat.add_pip()

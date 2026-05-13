@@ -4,41 +4,41 @@
 class_name EnemyHandler
 extends Node2D
 
-@export var player_stats: PlayerData : set = set_character
+@export var player_data: PlayerData : set = set_character
 @export var enemy_scene: PackedScene
 @export var stats_ui_scene: PackedScene
 
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 
-var battle_stats: EncounterDef = null
+var encounter: EncounterDef = null
 
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
 
 
-func set_character(new_player_stats: PlayerData) -> void:
-	player_stats = new_player_stats
+func set_character(new_player_data: PlayerData) -> void:
+	player_data = new_player_data
 
 
 func setup_enemies(bat_stats: EncounterDef) -> void:
 	if not bat_stats:
 		return
-	battle_stats = bat_stats.duplicate()
+	encounter = bat_stats.duplicate()
 
 	for enemy: Enemy in get_children():
 		enemy.queue_free()
 
-	if battle_stats.enemy_creature_party.is_empty():
-		battle_stats.assign_creature_party()
+	if encounter.enemy_creature_party.is_empty():
+		encounter.assign_creature_party()
 
-	var species_ids: Array[String] = battle_stats.enemy_creature_party.duplicate()
+	var species_ids: Array[String] = encounter.enemy_creature_party.duplicate()
 
-	if not battle_stats.enemies:
+	if not encounter.enemies:
 		push_error("EnemyHandler: EncounterDef.enemies PackedScene is not set")
 		return
 
-	var all_new_enemies := battle_stats.enemies.instantiate()
+	var all_new_enemies := encounter.enemies.instantiate()
 	var enemy_nodes := all_new_enemies.get_children()
 
 	for i in range(min(species_ids.size(), enemy_nodes.size())):
@@ -64,13 +64,13 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
 	if enemy_node:
 		enemy.global_position = enemy_node.global_position
 
-	var stats: CreatureDef = CreatureData.create_creature_instance(species_id)
-	if not stats:
+	var instance: CreatureInstance = CreatureData.create_creature_instance(species_id)
+	if not instance:
 		push_warning("[ENEMYHANDLER]: No creature data for '%s'" % species_id)
 		enemy.queue_free()
 		return
-	stats.uid = "enemy_%s_%d" % [species_id, Time.get_ticks_msec()]
-	enemy.stats = stats
+	instance.uid = "enemy_%s_%d" % [species_id, Time.get_ticks_msec()]
+	enemy.instance = instance
 	add_child(enemy)
 
 

@@ -62,7 +62,7 @@ var action_queue := ActionQueue.new()
 
 
 
-@export var creature_stats: CreatureDef
+@export var instance: CreatureInstance : set = set_instance
 
 const SNORE_SOUND  = preload("res://art/game_art/sfx/snore1.wav")
 const NOMNOM_SOUND = preload("res://art/game_art/sfx/nomnom.wav")
@@ -87,10 +87,9 @@ var _saved_collision_mask := 0
 
 func _ready() -> void:
 	_home = global_position
-	_ensure_stats()
-	if creature_stat_handler:
-		creature_stat_handler.stat_block = creature_stats.stat_block
-		creature_stat_handler.creature_uid = creature_stats.uid
+	if not instance:
+		_ensure_stats()
+	_wire_instance()
 	_establish_connections()
 	action_queue.action_started.connect(_on_action_start)
 	action_queue.queue_emptied.connect(_on_queue_emptied)
@@ -104,21 +103,39 @@ func _ready() -> void:
 	input_pickable = true
 
 
+func set_instance(data: CreatureInstance) -> void:
+	instance = data
+	if not is_node_ready():
+		return
+	_wire_instance()
+
+
+func _wire_instance() -> void:
+	if not instance:
+		return
+	if creature_stat_handler:
+		creature_stat_handler.identity = instance.identity
+		creature_stat_handler.creature_uid = instance.uid
+	if emotion_handler:
+		emotion_handler.instance = instance
+
 # Override in child scripts for creature-specific setup (visuals, shaders, etc.)
 func _on_ready_creature() -> void:
 	pass
 
 
 func _ensure_stats() -> void:
-	if not creature_stats:
-		creature_stats = CreatureDef.new()
-		creature_stats.creature_name = name
-	if creature_stats.uid == "":
-		creature_stats.uid = str(RNG.instance.randi())
-	var sb := creature_stats.stat_block
-	if not sb:
-		creature_stats.stat_block = CreatureIdentity.new()
-		sb = creature_stats.stat_block
+	if not instance:
+		instance = CreatureInstance.new()
+		instance.definition = CreatureDef.new()
+		instance.definition.creature_name = name
+		instance.identity = CreatureIdentity.new()
+		instance.health = instance.definition.max_health
+	if instance.uid == "":
+		instance.uid = str(RNG.instance.randi())
+	if not instance.identity:
+		instance.identity = CreatureIdentity.new()
+	var sb := instance.identity
 	# Auto-generate grades if all at default (all C = grade index 2)
 	var all_default := (
 		sb.PWR.grade == GrowthStat.Grade.C and
@@ -128,11 +145,11 @@ func _ensure_stats() -> void:
 		sb.FOC.grade == GrowthStat.Grade.C
 	)
 	if all_default:
-		sb.PWR.grade      = _random_grade()
-		sb.AGI.grade    = _random_grade()
+		sb.PWR.grade = _random_grade()
+		sb.AGI.grade = _random_grade()
 		sb.RES.grade = _random_grade()
-		sb.MYS.grade     = _random_grade()
-		sb.FOC.grade      = _random_grade()
+		sb.MYS.grade = _random_grade()
+		sb.FOC.grade = _random_grade()
 
 
 func _random_grade() -> GrowthStat.Grade:
@@ -229,23 +246,23 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 func _check_emotion_triggers() -> void:
 	if action_queue.current_action == &"absorb_item":
 		return
-	if emotion_handler.emotions["sleepiness"] >= emotion_handler.sleepiness_sleep_threshold:
+	if instance.get_emotion(&"sleepiness") >= emotion_handler.sleepiness_sleep_threshold:
 		if action_queue.current_action != &"sleep":
 			action_queue.push_front(&"sleep", {
 				"timer": randf_range(action_duration_min, action_duration_max)
 			})
 		return
 
-	if emotion_handler.emotions["hunger"] <= emotion_handler.hunger_seek_food_threshold:
+	if instance.get_emotion(&"hunger") <= emotion_handler.hunger_seek_food_threshold:
 		if action_queue.current_action != &"seek_food" and action_queue.current_action != &"eat_food" and not action_queue.contains(&"seek_food"):
 			action_queue.enqueue(&"seek_food", {})
 			return
 
-	if emotion_handler.emotions["lonely"] >= emotion_handler.lonely_seek_threshold:
+	if instance.get_emotion(&"lonely") >= emotion_handler.lonely_seek_threshold:
 		if action_queue.current_action != &"seek_player" and not action_queue.contains(&"seek_player"):
 			action_queue.enqueue(&"seek_player", {})
 
-	if emotion_handler.emotions["boredom"] >= emotion_handler.boredom_wander_threshold:
+	if instance.get_emotion(&"boredom") >= emotion_handler.boredom_wander_threshold:
 		if action_queue.current_action != &"wander" and not action_queue.contains(&"wander"):
 			action_queue.enqueue(&"wander", { "target": _pick_wander_target() })
 
@@ -273,7 +290,7 @@ func _tick_idle(data: Dictionary, delta: float) -> void:
 func _tick_wander(data: Dictionary, _delta: float) -> void:
 	var dir: Vector2 = data["target"] - global_position
 	if dir.length() < 4.0:
-		emotion_handler.lower("boredom", 40.0)
+		instance.lower_emotion(&"boredom", 40.0)
 		action_queue.done()
 		return
 	velocity = dir.normalized() * move_speed
@@ -283,11 +300,11 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 
 func _tick_sleep(data: Dictionary, delta: float) -> void:
 	data["timer"] -= delta
-	emotion_handler.lower("sleepiness", 20.0 * delta)
+	instance.lower_emotion(&"sleepiness", 20.0 * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)
 		action_sfx.play()
-	if data["timer"] <= 0.0 or emotion_handler.emotions["sleepiness"] <= 0.0:
+	if data["timer"] <= 0.0 or instance.get_emotion(&"sleepiness") <= 0.0:
 		action_sfx.stop()
 		action_queue.done()
 		animation_player.play("bubble_fade_out")
@@ -300,8 +317,8 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 		return
 	var dir: Vector2 = player.global_position - global_position
 	if dir.length() < 24.0:
-		emotion_handler.lower("lonely", 60.0)
-		emotion_handler.raise("joy",    30.0)
+		instance.lower_emotion(&"lonely", 60.0)
+		instance.raise_emotion(&"joy", 30.0)
 		action_queue.done()
 		animation_player.play("bubble_fade_out")
 		return
@@ -337,11 +354,11 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		var food_data: FoodDef = _eating_food.get("item_data")
 		if food_data and creature_stat_handler:
 			creature_stat_handler.apply_food(food_data)
-	emotion_handler.raise("hunger", 20.0 * delta)
+	instance.raise_emotion(&"hunger", 20.0 * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)
 		action_sfx.play()
-	if data["timer"] <= 0.0 or emotion_handler.emotions["hunger"] >= 100.0:
+	if data["timer"] <= 0.0 or instance.get_emotion(&"hunger") >= 100.0:
 		action_sfx.stop()
 		animation_player.play("bubble_fade_out")
 		if _eating_food:
@@ -352,7 +369,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 					_eating_food.drop()
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
-		Events.creature_stat_view_dismissed.emit(creature_stats.uid)
+		Events.creature_stat_view_dismissed.emit(instance.uid)
 		action_queue.done()
 
 
@@ -367,7 +384,7 @@ func pickup(holder: Node2D) -> void:
 	_saved_collision_mask = collision_mask
 	collision_layer = 0
 	collision_mask = 0
-	Events.creature_stat_view_requested.emit(creature_stats)
+	Events.creature_stat_view_requested.emit(instance)
 
 
 func release() -> void:
@@ -376,7 +393,7 @@ func release() -> void:
 	collision_layer = _saved_collision_layer
 	collision_mask = _saved_collision_mask
 	action_queue.push_front(&"idle", {})
-	Events.creature_stat_view_dismissed.emit(creature_stats.uid)
+	Events.creature_stat_view_dismissed.emit(instance.uid)
 
 
 func receive_food(food_item: Node2D, from_player: Node2D) -> void:
@@ -394,7 +411,7 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	action_queue.push_front(&"eat_food", {
 		"timer": randf_range(action_duration_min, action_duration_max)
 	})
-	Events.creature_stat_view_requested.emit(creature_stats)
+	Events.creature_stat_view_requested.emit(instance)
 
 func receive_item(world_item: Node2D, from_player: Node2D) -> void:
 	if creature_animation_handler.is_playing() and creature_animation_handler.current_animation == "absorb_item":
@@ -405,7 +422,7 @@ func receive_item(world_item: Node2D, from_player: Node2D) -> void:
 		world_item.pickup(self)
 	_held_item = world_item
 	action_queue.push_front(&"absorb_item", {})
-	Events.creature_stat_view_requested.emit(creature_stats)
+	Events.creature_stat_view_requested.emit(instance)
 
 
 

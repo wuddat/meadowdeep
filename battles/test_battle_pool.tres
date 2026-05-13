@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="BattleStatsPool" format=3 uid="uid://bqd6df5iy5ol8"]
+[gd_resource type="Resource" script_class="EncounterPool" format=3 uid="uid://bqd6df5iy5ol8"]
 
 [ext_resource type="Script" uid="uid://cl6frcau8od6p" path="res://custom_resources/static/encounter_def.gd" id="1_7vmao"]
 [ext_resource type="Script" uid="uid://dgm6doux8c6bc" path="res://custom_resources/static/encounter_pool.gd" id="2_4417o"]

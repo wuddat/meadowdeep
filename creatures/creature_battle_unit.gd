@@ -3,7 +3,7 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
-@export var stats: CreatureDef : set = set_creature_stats
+@export var instance: CreatureInstance : set = set_instance
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 
@@ -56,7 +56,7 @@ func stop_combat() -> void:
 # ── Out-of-combat follow ──────────────────────────────────────────────────────
 
 func start_following_player() -> void:
-	if stats and stats.health <= 0:
+	if instance and instance.health <= 0:
 		return
 	_following_player = true
 	if not action_queue.contains(&"seek"):
@@ -94,7 +94,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"seek":       _play_animation(&"idle")
 		&"strike":     _run_one_shot_action(data)
 		_:             super(id, data)
-	
+
 
 func _run_one_shot_action(data: Dictionary) -> void:
 	var anim: String = data.get("animation_string", "")
@@ -150,7 +150,9 @@ func _get_target() -> Node2D:
 
 
 func _get_action_interval() -> float:
-	return stats.get_action_interval() if stats else ACTION_INTERVAL
+	if not instance or not instance.definition:
+		return ACTION_INTERVAL
+	return instance.definition.get_action_interval(instance.identity)
 
 
 func _play_animation(anim_name: StringName) -> void:
@@ -168,17 +170,21 @@ func _update_action_timer_ui(remaining: float) -> void:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-func set_creature_stats(value: CreatureDef) -> void:
-	stats = value
-	if not stats.stats_changed.is_connected(update_stats):
-		stats.stats_changed.connect(update_stats)
+func set_instance(value: CreatureInstance) -> void:
+	instance = value
+	if not instance:
+		return
+	if not instance.stats_changed.is_connected(update_stats):
+		instance.stats_changed.connect(update_stats)
 	update_creature()
 
 
 func update_creature() -> void:
-	if not stats is CreatureDef: return
-	if not is_inside_tree(): await ready
-	var frames_to_use: SpriteFrames = stats.frames if stats.frames else sprite_frames
+	if not instance or not instance.definition:
+		return
+	if not is_inside_tree():
+		await ready
+	var frames_to_use: SpriteFrames = instance.definition.frames if instance.definition.frames else sprite_frames
 	if frames_to_use:
 		creature_textures.sprite_frames = frames_to_use
 		creature_textures.play("idle")
@@ -193,27 +199,27 @@ func play_animation(anim_name: StringName) -> void:
 
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):
-		stats_ui.update_stats(stats)
+		stats_ui.update_stats(instance)
 
 
 func gain_block(block: int, _mod_type: Modifier.Type) -> void:
-	if stats.health <= 0:
+	if instance.health <= 0:
 		return
 	var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	var start := self.global_position
 	var up_position := start + Vector2(0, -10)
 	tween.tween_property(self, "position", up_position, 0.1)
 	tween.tween_property(self, "position", start, 0.1)
-	tween.tween_callback(stats.gain_block.bind(block))
+	tween.tween_callback(instance.gain_block.bind(block))
 	tween.tween_interval(0.17)
 
 
 func take_damage(damage: int, mod_type: Modifier.Type) -> void:
-	if stats.health <= 0: return
+	if instance.health <= 0: return
 	last_damage_taken = 0
 
 	var modified_damage := modifier_handler.get_modified_value(damage, mod_type)
-	
+
 	if modified_damage > 0:
 		show_combat_text("%s" % modified_damage)
 		last_damage_taken = modified_damage
@@ -222,22 +228,22 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 			_apply_knockback(source.global_position)
 		var tween := create_tween()
 		Shaker.shake(self, 25, 0.15)
-		tween.tween_callback(stats.take_damage.bind(modified_damage))
+		tween.tween_callback(instance.take_damage.bind(modified_damage))
 		tween.tween_interval(0.17)
 		tween.finished.connect(func():
-			if stats.health <= 0:
+			if instance.health <= 0:
 				Events.party_creature_fainted.emit(self)
 				hide()
 		)
 
 func heal(amount: int) -> void:
-	if stats:
-		var health_before := stats.health
-		stats.heal(amount)
-		var actual_heal := stats.health - health_before
+	if instance:
+		var health_before := instance.health
+		instance.heal(amount)
+		var actual_heal := instance.health - health_before
 		if actual_heal > 0:
 			show_combat_text("+ %s HP" % amount, Color.GREEN)
-	print("%s healed for %d!" % [stats.species_id, amount])
+	print("%s healed for %d!" % [instance.definition.species_id, amount])
 
 
 func set_health_bar_ui(ui: Node) -> void:
@@ -248,9 +254,9 @@ func set_health_bar_ui(ui: Node) -> void:
 
 
 func on_enemy_defeated(enemy: Enemy) -> void:
-	if stats.health <= 0:
+	if instance.health <= 0:
 		return
-	print("Enemy defeated: %s" % [enemy.stats.species_id])
+	print("Enemy defeated: %s" % [enemy.instance.definition.species_id])
 	await get_tree().process_frame
 	if get_parent().has_node("EnemyHandler"):
 		var enemy_handler = get_parent().get_node("EnemyHandler")

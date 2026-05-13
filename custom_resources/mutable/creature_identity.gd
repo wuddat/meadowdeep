@@ -20,6 +20,11 @@ extends Resource
 @export var dominant_stat: String = ""   # "PWR" | "AGI" | "RES" | "MYS" | "FOC"
 @export var evolution_stage: int = 0
 
+# ── Moves ─────────────────────────────────────────────────────────────────────
+@export_group("Moves")
+@export var known_moves: Array[String] = []     # moves learned so far
+@export var assigned_moves: Array[String] = []  # chosen for next run
+
 # ── Element Alignment ─────────────────────────────────────────────────────────────────
 
 @export_group("Alignment")

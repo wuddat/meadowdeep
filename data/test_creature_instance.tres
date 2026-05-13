@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="CreatureInstance" format=3 uid="uid://b15ej7nmh0ka"]
+
+[ext_resource type="SpriteFrames" uid="uid://c3ay6pay3dmmh" path="res://scenes/ruins/greenie_frames.tres" id="1_6tcn4"]
+[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="2_s7m1w"]
+[ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/mutable/creature_growth_stat.gd" id="3_0yj10"]
+[ext_resource type="Script" uid="uid://bl13efbtyvkg4" path="res://custom_resources/mutable/personality.gd" id="4_1ktdr"]
+[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/mutable/creature_identity.gd" id="5_lhdjc"]
+[ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="6_j5psd"]
+
+[sub_resource type="Resource" id="Resource_rpn7k"]
+script = ExtResource("2_s7m1w")
+species_id = "test_icle"
+creature_name = "Testarino"
+element_type = "Test_Element"
+max_health = 500
+frames = ExtResource("1_6tcn4")
+egg_rarity = "test_egg_rarity"
+metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
+
+[sub_resource type="Resource" id="Resource_mo0ij"]
+script = ExtResource("3_0yj10")
+grade = 5
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
+
+[sub_resource type="Resource" id="Resource_ph36t"]
+script = ExtResource("3_0yj10")
+grade = 1
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
+
+[sub_resource type="Resource" id="Resource_hfthu"]
+script = ExtResource("3_0yj10")
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
+
+[sub_resource type="Resource" id="Resource_vrxkq"]
+script = ExtResource("3_0yj10")
+grade = 4
+lvl = 1
+pips = 2
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
+
+[sub_resource type="Resource" id="Resource_y7n80"]
+script = ExtResource("3_0yj10")
+grade = 3
+metadata/_custom_type_script = "uid://bwa2s0g7unhav"
+
+[sub_resource type="Resource" id="Resource_4xtvp"]
+script = ExtResource("4_1ktdr")
+type = 1
+metadata/_custom_type_script = "uid://bl13efbtyvkg4"
+
+[sub_resource type="Resource" id="Resource_r5r7v"]
+script = ExtResource("5_lhdjc")
+PWR = SubResource("Resource_vrxkq")
+AGI = SubResource("Resource_mo0ij")
+RES = SubResource("Resource_y7n80")
+MYS = SubResource("Resource_hfthu")
+FOC = SubResource("Resource_ph36t")
+personality = SubResource("Resource_4xtvp")
+metadata/_custom_type_script = "uid://bcwufleh1p85m"
+
+[resource]
+script = ExtResource("6_j5psd")
+definition = SubResource("Resource_rpn7k")
+identity = SubResource("Resource_r5r7v")
+uid = "88888888888888"
+health = 500
+metadata/_custom_type_script = "uid://b4saeaban3m3y"

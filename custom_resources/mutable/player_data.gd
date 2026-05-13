@@ -12,21 +12,15 @@ extends Resource
 
 @export_group("Creature Data")
 @export var starting_party: Array[String] = []
-@export var creatures: Array[CreatureDef] = []
-
-
-#func take_damage(damage: int) -> void:
-	#super.take_damage(damage)
-
+@export var creatures: Array[CreatureInstance] = []
 
 
 func create_instance() -> Resource:
 	var instance: PlayerData = self.duplicate()
-
 	instance.creatures = []
 	instance.inventory = inventory.duplicate(true) if inventory else Inventory.new()
 	for species_id in starting_party:
-		var creature = CreatureData.create_creature_instance(species_id)
+		var creature := CreatureData.create_creature_instance(species_id)
 		if creature:
 			instance.creatures.append(creature)
 		else:
@@ -34,15 +28,13 @@ func create_instance() -> Resource:
 	return instance
 
 
-
-func get_all_creatures() -> Array[CreatureDef]:
+func get_all_creatures() -> Array[CreatureInstance]:
 	return creatures
 
 
-
-func on_creature_added_to_party(creature: CreatureDef) -> void:
+func on_creature_added_to_party(creature: CreatureInstance) -> void:
 	creatures.append(creature)
-	print("Creature added to party: %s" % creature.species_id)
+	print("Creature added to party: %s" % creature.definition.species_id)
 
 
 func check_if_all_party_fainted() -> void:
@@ -51,7 +43,7 @@ func check_if_all_party_fainted() -> void:
 	Events.player_died.emit()
 
 
-func get_creature_by_uid(creature_uid: String) -> CreatureDef:
+func get_creature_by_uid(creature_uid: String) -> CreatureInstance:
 	for c in creatures:
 		if c.uid == creature_uid:
 			return c

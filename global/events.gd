@@ -5,7 +5,7 @@ extends Node
 signal scene_transition_requested(scene_id: String)
 
 # Meadow Creature stat view
-signal creature_stat_view_requested(creature_stats: CreatureDef)
+signal creature_stat_view_requested(instance: CreatureInstance)
 signal creature_stat_view_dismissed(uid: String)
 signal creature_stat_updated(uid: String)
 

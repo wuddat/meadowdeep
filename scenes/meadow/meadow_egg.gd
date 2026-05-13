@@ -80,9 +80,9 @@ func _spawn_creature() -> void:
 		return
 	var creature := scene.instantiate()
 	creature.global_position = global_position
-	var stats := CreatureData.create_creature_instance(species_id)
-	if stats:
-		creature.set("creature_stats", stats)
+	var instance := CreatureData.create_creature_instance(species_id)
+	if instance:
+		creature.set("instance", instance)
 	else:
 		push_warning("MeadowEgg: no creature data for '%s'" % species_id)
 	get_parent().add_child(creature)

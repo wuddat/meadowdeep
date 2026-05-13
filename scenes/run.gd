@@ -9,7 +9,7 @@ const SCENES: Dictionary = {
 
 
 
-@export var player_stats: PlayerData
+@export var player_data: PlayerData
 @onready var current_view: Node = $CurrentView
 @onready var fade: ColorRect = %Fade
 
@@ -17,10 +17,10 @@ var active_stats: PlayerData
 
 
 func _ready() -> void:
-	if not player_stats:
-		push_warning("[RUN]: No player_stats assigned")
+	if not player_data:
+		push_warning("[RUN]: No player_data assigned")
 		return
-	active_stats = player_stats.create_instance()
+	active_stats = player_data.create_instance()
 	_setup_event_connections()
 	_swap_scene("meadow")
 

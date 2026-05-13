@@ -15,12 +15,12 @@ const ROOM_PIXEL_SPACING := Vector2(32, 32)
 const SAFETY_CONST := 500
 
 const COMBAT_WEIGHT := 10.0
-const REST_SITE_WEIGHT := 2.5
-const SHOP_WEIGHT := 2.5
-const EVENT_WEIGHT := 4.0
-const EGG_CHAMBER_WEIGHT := 2.0
+const REST_SITE_WEIGHT := 0.0
+const SHOP_WEIGHT := 0.0
+const EVENT_WEIGHT := 0.0
+const EGG_CHAMBER_WEIGHT := 0.0
 
-@export var battle_stats_pool: EncounterPool
+@export var encounter_pool: EncounterPool
 
 var _random_room_weights: Dictionary = {}
 var _total_weight := 0.0
@@ -137,7 +137,7 @@ func _calc_depths() -> void:
 
 
 func _assign_room_types(floor_num: int) -> void:
-	battle_stats_pool.setup()
+	encounter_pool.setup()
 	_setup_random_room_weights()
 
 	# start room — left as NOT_ASSIGNED, identified by grid_pos == ZERO
@@ -153,7 +153,7 @@ func _assign_room_types(floor_num: int) -> void:
 		var boss_room: Room = terminals.pop_front()
 		boss_room.type = Room.Type.BOSS
 		boss_room.tier = 1
-		boss_room.battle_stats = battle_stats_pool.get_boss_battle_for_tier(1)
+		boss_room.encounter = encounter_pool.get_boss_battle_for_tier(1)
 
 	# next deepest = egg chamber
 	if terminals.size() > 0:
@@ -179,7 +179,7 @@ func _assign_room_types(floor_num: int) -> void:
 		if t == Room.Type.COMBAT:
 			var tier := 1 if room.depth > 4 else 0
 			room.tier = tier
-			room.battle_stats = battle_stats_pool.get_wild_battle_for_tier(tier)
+			room.encounter = encounter_pool.get_wild_battle_for_tier(tier)
 
 func _get_terminals() -> Array[Room]:
 	var out: Array[Room] = []

@@ -257,7 +257,6 @@ shape = SubResource("CircleShape2D_u018s")
 
 [node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
 position = Vector2(568, 410)
-creature_stats = SubResource("Resource_uaavs")
 
 [node name="MeadowWorldItem" parent="." unique_id=486343511 instance=ExtResource("23_u018s")]
 position = Vector2(500, 374)

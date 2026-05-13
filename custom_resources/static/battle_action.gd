@@ -31,7 +31,7 @@ static func find_nearest_opponent(user: BattleActor) -> Node:
 	for c in candidates:
 		if not is_instance_valid(c):
 			continue
-		if "stats" in c and c.stats and c.stats.health <= 0:
+		if "instance" in c and c.instance and c.instance.health <= 0:
 			continue
 		var d: float = user.global_position.distance_to(c.global_position)
 		if d < nearest_dist:

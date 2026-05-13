@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerData" format=3 uid="uid://dmj4y8go643i6"]
+
+[ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="1_qq20y"]
+[ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="2_j8lpy"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="3_jy8xd"]
+
+[resource]
+script = ExtResource("3_jy8xd")
+starting_party = Array[String](["test"])
+creatures = Array[ExtResource("1_qq20y")]([ExtResource("2_j8lpy")])
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"

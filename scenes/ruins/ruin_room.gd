@@ -146,8 +146,8 @@ func _start_room_combat(room: Room) -> void:
 	battle_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 	room_colliders.collision_layer = 0
 	await get_tree().create_timer(COMBAT_START_DELAY).timeout
-	enemy_handler.player_stats = _active_stats
-	enemy_handler.setup_enemies(room.battle_stats)
+	enemy_handler.player_data = _active_stats
+	enemy_handler.setup_enemies(room.encounter)
 	loot_handler.generate_battle_loot()
 	creature_combat_handler.start_combat([player_creature])
 	enemy_handler.start_turn()

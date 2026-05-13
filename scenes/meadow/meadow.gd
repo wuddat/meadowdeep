@@ -14,22 +14,24 @@ const START_LOOT_SPAWN_DELAY := 3.0
 @onready var pop_sfx: AudioStreamPlayer = $Pop
 @export var base_creature: BaseCreature
 
-var player_stats: PlayerData
+var player_data: PlayerData
 
 
-func setup(stats: PlayerData) -> void:
-	player_stats = stats
-	player_model.stats = stats
+func setup(run_data: PlayerData) -> void:
+	player_data = run_data
+	player_model.stats = run_data
+	if player_data.creatures.size():
+		base_creature.instance = player_data.creatures[0]
 	_print_inventory()
 	_spawn_loot_party()
 
 
 func _print_inventory() -> void:
-	if not player_stats or not player_stats.inventory:
+	if not player_data or not player_data.inventory:
 		print("[Meadow] no inventory")
 		return
-	var entries := player_stats.inventory.entries
-	print("[Meadow] inventory entries: %d (rid=%d)" % [entries.size(), player_stats.inventory.get_instance_id()])
+	var entries := player_data.inventory.entries
+	print("[Meadow] inventory entries: %d (rid=%d)" % [entries.size(), player_data.inventory.get_instance_id()])
 	for e in entries:
 		var n: String = e.item.id if e.item else "<null>"
 		print("  - %s x%d" % [n, e.qty])
@@ -37,14 +39,14 @@ func _print_inventory() -> void:
 
 func save_meadow_stats() -> PlayerData:
 	if base_creature:
-		player_stats.creatures.append(base_creature.creature_stats)
-	return player_stats
+		player_data.creatures.append(base_creature.instance)
+	return player_data
 
 
 func _spawn_loot_party() -> void:
-	if not player_stats or not player_stats.inventory:
+	if not player_data or not player_data.inventory:
 		return
-	var entries := player_stats.inventory.entries.duplicate()
+	var entries := player_data.inventory.entries.duplicate()
 	if entries.is_empty():
 		return
 	await get_tree().create_timer(START_LOOT_SPAWN_DELAY).timeout
@@ -55,8 +57,8 @@ func _spawn_loot_party() -> void:
 		for _q in entry.qty:
 			_toss_item(entry.item, i * TOSS_STAGGER)
 			i += 1
-	player_stats.inventory.entries.clear()
-	player_stats.inventory.inventory_changed.emit()
+	player_data.inventory.entries.clear()
+	player_data.inventory.inventory_changed.emit()
 
 
 func _toss_item(item_data: ItemDef, delay: float) -> void:

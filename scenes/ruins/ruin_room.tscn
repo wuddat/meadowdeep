@@ -4,9 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="1_s0srl"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="2_23ogo"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="2_yq8xq"]
+[ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="3_vc38w"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="3_yka08"]
 [ext_resource type="Texture2D" uid="uid://cqabvme4u5an4" path="res://art/game_art/concepts/map_room_bg.png" id="3_yq8xq"]
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="4_5b7mo"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="4_vkuii"]
 [ext_resource type="Script" uid="uid://c8hfqggmjj1qk" path="res://scenes/ruins/loot_handler.gd" id="5_k8vac"]
 [ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="7_4ddbq"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="7_c4qfd"]
@@ -15,11 +17,20 @@
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="12_vve1t"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="13_k8vac"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="14_03dcb"]
+[ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="14_vkuii"]
 [ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="15_vc38w"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="16_vkuii"]
 [ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="17_1lbdh"]
 [ext_resource type="Resource" uid="uid://clgemi1pvmcx2" path="res://battles/battle_actions/aggressive/dash_in.tres" id="18_frkgh"]
 [ext_resource type="Resource" uid="uid://cvtquesykjxkc" path="res://battles/battle_actions/defensive/dash_out.tres" id="19_wugeb"]
+
+[sub_resource type="Resource" id="Resource_1lbdh"]
+script = ExtResource("4_vkuii")
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
+
+[sub_resource type="Resource" id="Resource_vkuii"]
+script = ExtResource("4_vkuii")
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
 
 [sub_resource type="Resource" id="Resource_dlmko"]
 script = ExtResource("14_03dcb")
@@ -56,6 +67,7 @@ script = ExtResource("1_qhq8s")
 
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=637328052 groups=["enemy_handler"]]
 script = ExtResource("2_23ogo")
+player_data = SubResource("Resource_1lbdh")
 enemy_scene = ExtResource("3_yka08")
 
 [node name="CreatureCombatHandler" type="Node" parent="." unique_id=1983730526]
@@ -83,6 +95,7 @@ collision_layer = 5
 collision_mask = 13
 motion_mode = 1
 speed = 150.0
+stats = SubResource("Resource_vkuii")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=229840155]
 position = Vector2(319.00003, 179.00002)
@@ -99,11 +112,12 @@ text = "RoomTypeLabel"
 
 [node name="MapGenerator" type="Node" parent="." unique_id=719299934]
 script = ExtResource("7_4ddbq")
-battle_stats_pool = ExtResource("8_qkvym")
+encounter_pool = ExtResource("8_qkvym")
 
 [node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("7_c4qfd")]
 unique_name_in_owner = true
 position = Vector2(517, 272)
+instance = ExtResource("14_vkuii")
 sprite_frames = ExtResource("12_k8vac")
 move_speed = 125.0
 battle_action_list = Array[ExtResource("12_vve1t")]([SubResource("Resource_ocehn"), ExtResource("16_vkuii"), ExtResource("17_1lbdh"), ExtResource("18_frkgh"), ExtResource("19_wugeb"), SubResource("Resource_lddhi")])

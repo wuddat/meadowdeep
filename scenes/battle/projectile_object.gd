@@ -56,6 +56,6 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node) -> void:
 	if body == _source:
 		return
-	if "stats" in body and body.stats and not effects.is_empty():
+	if "instance" in body and body.instance and not effects.is_empty():
 		EffectExecutor.run(effects, [body], _source)
 	queue_free()

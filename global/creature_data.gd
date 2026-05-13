@@ -2,8 +2,11 @@
 extends Node
 
 var creatures: Dictionary = {}
+var _definitions: Dictionary = {}  # species_id → CreatureDef (cached)
+var _uid_seq: int = 0
 
-# Grade int (1-5 from JSON) → GrowthStat.Grade enum index (0-4)
+# Grade int (1-5 from JSON) → GrowthStat.Grade enum index (0-4).
+# JSON.parse_string returns numeric literals as floats — callers MUST int()-cast before lookup.
 const GRADE_MAP := {
 	1: GrowthStat.Grade.E,
 	2: GrowthStat.Grade.D,
@@ -38,50 +41,75 @@ func _ready() -> void:
 		creatures = parsed["creatures"]
 	else:
 		push_error("Missing 'creatures' key in creatures.json")
+		return
+
+	_build_definitions()
+
+
+func _build_definitions() -> void:
+	for species_id in creatures.keys():
+		var data: Dictionary = creatures[species_id]
+		var def := CreatureDef.new()
+		def.species_id = species_id
+		def.creature_name = data.get("creature_name", species_id)
+		def.element_type = data.get("element_type", "normal")
+		def.max_health = data.get("max_health", 10)
+		def.is_companion = data.get("is_companion", false)
+		def.egg_rarity = data.get("egg_rarity", "common")
+		def.egg_depth_found = data.get("egg_depth_found", 0)
+		var sprite_res = load(data.get("sprite_path", "res://art/placeholder.png"))
+		if sprite_res is SpriteFrames:
+			def.frames = sprite_res
+		else:
+			def.art = sprite_res
+		def.icon = load(data.get("icon_path", "res://art/placeholder.png"))
+		def.move_ids = Utils.to_typed_string_array(data.get("move_ids", []))
+		def.starting_moves = Utils.to_typed_string_array(data.get("starting_moves", []))
+		def.evolves_to = data.get("evolves_to", "")
+		def.evolution_level = data.get("evolution_level", 101)
+		_definitions[species_id] = def
 
 
 func get_creature_data(species_id: String) -> Dictionary:
 	return creatures.get(species_id, {})
 
 
-func create_creature_instance(species_id: String) -> CreatureDef:
-	var data := get_creature_data(species_id)
-	if data.is_empty():
-		push_warning("No data for species: " + species_id)
+func get_definition(species_id: String) -> CreatureDef:
+	return _definitions.get(species_id)
+
+
+func create_creature_instance(species_id: String) -> CreatureInstance:
+	var def := get_definition(species_id)
+	if def == null:
+		push_warning("No definition for species: " + species_id)
 		return null
 
-	var creature := CreatureDef.new()
-	creature.species_id = species_id
-	creature.creature_name = data.get("creature_name", species_id)
-	creature.element_type = data.get("element_type", "normal")
-	creature.max_health = data.get("max_health", 10)
-	creature.health = creature.max_health
-	creature.is_companion = data.get("is_companion", false)
-	creature.egg_rarity = data.get("egg_rarity", "common")
-	creature.egg_depth_found = data.get("egg_depth_found", 0)
-	var sprite_res = load(data.get("sprite_path", "res://art/placeholder.png"))
-	if sprite_res is SpriteFrames:
-		creature.frames = sprite_res
-	else:
-		creature.art = sprite_res
-	creature.icon = load(data.get("icon_path", "res://art/placeholder.png"))
-	creature.uid = "creature_" + str(Time.get_unix_time_from_system()) + "_" + species_id
-	creature.move_ids = Utils.to_typed_string_array(data.get("move_ids", []))
-	creature.starting_moves = Utils.to_typed_string_array(data.get("starting_moves", []))
-	creature.known_moves = creature.starting_moves.duplicate()
-	creature.assigned_moves = creature.known_moves.duplicate()
+	var identity := CreatureIdentity.new()
+	identity.known_moves = def.starting_moves.duplicate()
+	identity.assigned_moves = identity.known_moves.duplicate()
 
-	# Build stat block from JSON
-	if data.has("stat_block"):
-		var sb_data: Dictionary = data["stat_block"]
-		var sb := creature.stat_block
-		sb.personality.type = PERSONALITY_MAP.get(sb_data.get("personality", "neutral"), Personality.Type.NEUTRAL)
-		sb.PWR.grade       = GRADE_MAP.get(sb_data.get("PWR_grade", 3),      GrowthStat.Grade.C)
-		sb.AGI.grade     = GRADE_MAP.get(sb_data.get("AGI_grade", 3),    GrowthStat.Grade.C)
-		sb.RES.grade  = GRADE_MAP.get(sb_data.get("RES_grade", 3), GrowthStat.Grade.C)
-		sb.MYS.grade      = GRADE_MAP.get(sb_data.get("MYS_grade", 3),     GrowthStat.Grade.C)
-		sb.FOC.grade       = GRADE_MAP.get(sb_data.get("FOC_grade", 3),      GrowthStat.Grade.C)
-	return creature
+	var data: Dictionary = creatures.get(species_id, {})
+	if data.has("identity"):
+		var sb_data: Dictionary = data["identity"]
+		identity.personality.type = PERSONALITY_MAP.get(sb_data.get("personality", "neutral"), Personality.Type.NEUTRAL)
+		identity.PWR.grade = GRADE_MAP.get(int(sb_data.get("PWR_grade", 3)), GrowthStat.Grade.C)
+		identity.AGI.grade = GRADE_MAP.get(int(sb_data.get("AGI_grade", 3)), GrowthStat.Grade.C)
+		identity.RES.grade = GRADE_MAP.get(int(sb_data.get("RES_grade", 3)), GrowthStat.Grade.C)
+		identity.MYS.grade = GRADE_MAP.get(int(sb_data.get("MYS_grade", 3)), GrowthStat.Grade.C)
+		identity.FOC.grade = GRADE_MAP.get(int(sb_data.get("FOC_grade", 3)), GrowthStat.Grade.C)
+
+	var instance := CreatureInstance.new()
+	instance.definition = def
+	instance.identity = identity
+	instance.health = def.max_health
+	instance.block = 0
+	instance.uid = _next_uid(species_id)
+	return instance
+
+
+func _next_uid(species_id: String) -> String:
+	_uid_seq += 1
+	return "%s_%d_%d" % [species_id, Time.get_unix_time_from_system(), _uid_seq]
 
 
 # Returns all species IDs whose egg_depth_found is <= the given depth.

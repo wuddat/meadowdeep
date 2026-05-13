@@ -30,8 +30,8 @@ func _aggregate_loot() -> void:
 		if not enemy is Enemy:
 			continue
 		var e := enemy as Enemy
-		if e.stats and e.loot_table:
-			_pending_drops[e.stats.uid] = e.loot_table
+		if e.instance and e.loot_table:
+			_pending_drops[e.instance.uid] = e.loot_table
 
 
 func _roll_loot() -> void:
@@ -41,9 +41,9 @@ func _roll_loot() -> void:
 
 
 func _on_enemy_fainted(enemy: Enemy) -> void:
-	if not is_instance_valid(enemy) or not enemy.stats:
+	if not is_instance_valid(enemy) or not enemy.instance:
 		return
-	var uid := enemy.stats.uid
+	var uid := enemy.instance.uid
 	if not _pending_drops.has(uid):
 		return
 	_spawn_loot(_pending_drops[uid], enemy.global_position)

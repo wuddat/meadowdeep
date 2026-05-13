@@ -11,7 +11,7 @@ extends Node
 @export var creature_battle_unit_scene: PackedScene
 
 var stat_ui_by_uid: Dictionary = {}
-var active_battle_party: Array[CreatureDef] = []
+var active_battle_party: Array[CreatureInstance] = []
 var active_indexes := [0, 1, 2]
 
 
@@ -23,15 +23,15 @@ func initialize_party_for_battle() -> void:
 	spawn_active_creatures()
 
 
-func add_to_battle_party(creature: CreatureDef) -> bool:
+func add_to_battle_party(creature: CreatureInstance) -> bool:
 	if active_battle_party.size() >= max_party_size:
 		return false
 	active_battle_party.append(creature)
 	return true
 
 
-func get_active_creatures() -> Array[CreatureDef]:
-	var actives: Array[CreatureDef] = []
+func get_active_creatures() -> Array[CreatureInstance]:
+	var actives: Array[CreatureInstance] = []
 	for creature in active_battle_party:
 		if creature.health > 0:
 			actives.append(creature)
@@ -53,11 +53,11 @@ func spawn_active_creatures() -> void:
 		if stat_ui_by_uid.has(creature.uid):
 			unit.set_health_bar_ui(stat_ui_by_uid[creature.uid])
 
-		unit.stats = creature
+		unit.instance = creature
 		unit.spawn_position = "POS_%s" % i
 
-		if not unit.stats.stats_changed.is_connected(sync_battle_health_to_party_data):
-			unit.stats.stats_changed.connect(sync_battle_health_to_party_data)
+		if not unit.instance.stats_changed.is_connected(sync_battle_health_to_party_data):
+			unit.instance.stats_changed.connect(sync_battle_health_to_party_data)
 
 		match i:
 			0: unit.position = POS_0
@@ -77,7 +77,7 @@ func get_active_creature_nodes() -> Array[CreatureBattleUnit]:
 
 func get_creature_by_uid(uid: String) -> CreatureBattleUnit:
 	for unit in get_children():
-		if unit is CreatureBattleUnit and unit.stats.uid == uid:
+		if unit is CreatureBattleUnit and unit.instance.uid == uid:
 			return unit as CreatureBattleUnit
 	push_warning("No creature in battle with UID %s" % uid)
 	return null
@@ -92,8 +92,8 @@ func sync_battle_health_to_party_data() -> void:
 				character_stats.creatures[i] = creature
 
 
-func finalize_battle_party(creature_list: Array[CreatureDef]) -> void:
+func finalize_battle_party(creature_list: Array[CreatureInstance]) -> void:
 	active_battle_party.clear()
 	for creature in creature_list:
 		if not add_to_battle_party(creature):
-			push_warning("Party is full. Could not add: %s" % creature.species_id)
+			push_warning("Party is full. Could not add: %s" % creature.definition.species_id)

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dqqtr57ya4m3r" path="res://scenes/ruins/ruins_prep_menu.gd" id="1_vo3rc"]
 [ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="2_0um1a"]
-[ext_resource type="Resource" uid="uid://dlnmlib5qptfj" path="res://creatures/test_player.tres" id="2_3uyyh"]
 [ext_resource type="PackedScene" uid="uid://bdppximmf2egb" path="res://scenes/meadow/creature_stat_bar.tscn" id="4_cgf58"]
 
 [node name="RuinsPrepMenu" type="Control" unique_id=861773403]
@@ -13,7 +12,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vo3rc")
-player_stats = ExtResource("2_3uyyh")
 
 [node name="TopBar" type="Control" parent="." unique_id=1756296118]
 visible = false

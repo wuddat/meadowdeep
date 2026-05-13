@@ -5,7 +5,7 @@ extends BattleActor
 
 const ARROW_OFFSET := 20
 
-@export var stats: CreatureDef : set = set_enemy_stats
+@export var instance: CreatureInstance : set = set_instance
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
 
@@ -19,39 +19,39 @@ const ARROW_OFFSET := 20
 @onready var projectile_spawn: Node2D = %ProjectileSpawn
 
 var spawn_coords: Vector2
-
 var last_damage_taken: int = 0
+
 
 func _ready() -> void:
 	add_to_group("enemies")
 	super()
 	await get_tree().process_frame
-	if stats and sprite_frames:
+	if instance and sprite_frames:
 		animated_sprite_2d.sprite_frames = sprite_frames
 		animated_sprite_2d.play("idle")
 	spawn_coords = global_position
 
 
-
-
-func set_enemy_stats(value: CreatureDef) -> void:
-	stats = value.create_instance() as CreatureDef
-	if not stats.stats_changed.is_connected(update_stats):
-		stats.stats_changed.connect(update_stats)
+func set_instance(value: CreatureInstance) -> void:
+	instance = value
+	if not instance:
+		return
+	if not instance.stats_changed.is_connected(update_stats):
+		instance.stats_changed.connect(update_stats)
 	update_enemy()
 
 
 func update_stats() -> void:
 	if stats_ui and stats_ui.has_method("update_stats"):
-		stats_ui.update_stats(stats)
+		stats_ui.update_stats(instance)
 
 
 func update_enemy() -> void:
-	if not stats is Stats:
+	if not instance or not instance.definition:
 		return
 	if not is_inside_tree():
 		await ready
-	sprite_2d.texture = stats.art
+	sprite_2d.texture = instance.definition.art
 	arrow.position = Vector2.UP * (sprite_2d.get_rect().size.y / 2 + ARROW_OFFSET)
 	update_stats()
 
@@ -66,7 +66,9 @@ func _get_target() -> Node2D:
 
 
 func _get_action_interval() -> float:
-	return stats.get_action_interval() if stats else 1.5
+	if not instance or not instance.definition:
+		return 1.5
+	return instance.definition.get_action_interval(instance.identity)
 
 
 func _play_animation(anim_name: StringName) -> void:
@@ -80,7 +82,7 @@ func _face_direction(vel: Vector2) -> void:
 # ── Combat ────────────────────────────────────────────────────────────────────
 
 func take_damage(damage: int, mod_type: Modifier.Type) -> void:
-	if stats.health <= 0:
+	if instance.health <= 0:
 		return
 	last_damage_taken = 0
 
@@ -97,22 +99,22 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 			if is_instance_valid(source):
 				_apply_knockback(source.global_position)
 		last_damage_taken = modified_damage
-		
+
 	var tween := create_tween()
 	Shaker.shake(self, 25, 0.15)
-	tween.tween_callback(stats.take_damage.bind(modified_damage))
+	tween.tween_callback(instance.take_damage.bind(modified_damage))
 	tween.tween_interval(0.17)
 	tween.finished.connect(func():
-		if stats.health <= 0:
+		if instance.health <= 0:
 			Events.enemy_fainted.emit(self)
 	)
 
 
 func heal(amount: int) -> void:
-	if stats:
-		var health_before := stats.health
-		stats.heal(amount)
-		var actual_heal := stats.health - health_before
+	if instance:
+		var health_before := instance.health
+		instance.heal(amount)
+		var actual_heal := instance.health - health_before
 		if actual_heal > 0:
 			var combat_scene = load("res://scenes/ui/combat_text_label.tscn")
 			if combat_scene:
@@ -120,16 +122,16 @@ func heal(amount: int) -> void:
 				add_child(label)
 				if label.has_method("show_text"):
 					label.show_text("+ %s HP" % amount, Color.GREEN)
-	print("%s healed for %d!" % [stats.species_id, amount])
+	print("%s healed for %d!" % [instance.definition.species_id, amount])
 
 
 func gain_block(block: int, mod_type: Modifier.Type) -> void:
-	if stats.health <= 0:
+	if instance.health <= 0:
 		return
 	var modified_block := modifier_handler.get_modified_value(block, mod_type)
 	var tween := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	var start := self.global_position
 	tween.tween_property(self, "position", start + Vector2(0, -10), 0.1)
 	tween.tween_property(self, "position", start, 0.1)
-	tween.tween_callback(stats.gain_block.bind(modified_block))
+	tween.tween_callback(instance.gain_block.bind(modified_block))
 	tween.tween_interval(0.17)
