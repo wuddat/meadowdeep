@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dlsj72llu1lpa" path="res://art/game_art/creatures/greenie/mouth_surprise.png" id="6_w4qan"]
 [ext_resource type="PackedScene" uid="uid://i4rscngixp3r" path="res://creatures/creature_stat_handler.tscn" id="7_tpqfy"]
 [ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="13_5crrt"]
+[ext_resource type="PackedScene" uid="uid://d03ef5edxdj2c" path="res://effects/particles.tscn" id="14_w4qan"]
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="16_t2q5c"]
 [ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="19_eycut"]
 [ext_resource type="Texture2D" uid="uid://c1mldp0ubbicq" path="res://art/game_art/creatures/base_creature/eyes_cl_tight.png" id="20_eyclt"]
@@ -211,7 +212,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id="Animation_w4qan"]
 resource_name = "absorb_item"
-length = 4.0
+length = 3.6
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -294,6 +295,23 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(16, 6), Vector2(15, 11), Vector2(17, 6), Vector2(19, 6), Vector2(15, 6), Vector2(17, 6), Vector2(15, 6), Vector2(16, 3), Vector2(14, -5), Vector2(8, -12), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(-1, -17), Vector2(1, -17), Vector2(-2, -17), Vector2(2, -17)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CreatureAnimationHandler")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_growth_item_received_SFX"
+}, {
+"args": [],
+"method": &"release_particles"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_45v1c"]
@@ -808,31 +826,27 @@ unique_name_in_owner = true
 volume_db = -14.144
 bus = &"SFX"
 
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=275598625 node_paths=PackedStringArray("emotion_display", "emotion_player")]
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=275598625 node_paths=PackedStringArray("emotion_display", "emotion_player", "particles")]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_vrhir")
 script = ExtResource("13_5crrt")
 emotion_display = NodePath("../EmotionDisplay")
 emotion_player = NodePath("../EmotionDisplay/AnimationPlayer")
+particles = NodePath("../Particles")
 
 [node name="EmotionHandler" type="Node" parent="." unique_id=295570438]
 unique_name_in_owner = true
 script = ExtResource("6_6ol7j")
 boredom_wander_threshold = 40.0
-emotions = {
-"boredom": 0.0,
-"fear": 0.0,
-"hunger": 5.0,
-"joy": 0.0,
-"lonely": 0.0,
-"sleepiness": 50.0
-}
 
 [node name="CreatureStatHandler" parent="." unique_id=1409835000 instance=ExtResource("7_tpqfy")]
 unique_name_in_owner = true
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1829904754]
 script = ExtResource("16_t2q5c")
+
+[node name="Particles" parent="." unique_id=2079994363 instance=ExtResource("14_w4qan")]
+position = Vector2(2, -17)
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

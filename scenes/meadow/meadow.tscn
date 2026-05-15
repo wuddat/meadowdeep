@@ -8,15 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://ccwrihbuuotsk" path="res://scenes/meadow/creature_food.tscn" id="8_pxhms"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/static/food_def.gd" id="10_c4haw"]
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="12_uaavs"]
-[ext_resource type="Script" uid="uid://bcwufleh1p85m" path="res://custom_resources/mutable/creature_identity.gd" id="13_a8g20"]
+[ext_resource type="Texture2D" uid="uid://c46k7sae8es1q" path="res://art/game_art/creatures/arch/test_arch2.png" id="14_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="14_uaavs"]
 [ext_resource type="Texture2D" uid="uid://crukrtql876ou" path="res://art/game_art/concepts/cutie_4.png" id="15_8uyeg"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
-[ext_resource type="SpriteFrames" uid="uid://bbrbcm2j28uwm" path="res://art/game_art/creatures/base_creature/base_sprite_frames.tres" id="16_8uyeg"]
 [ext_resource type="Texture2D" uid="uid://dioegirmgqwvw" path="res://art/game_art/concepts/pinkie.png" id="16_uaavs"]
-[ext_resource type="Texture2D" uid="uid://ilu8yxn5ubjb" path="res://art/game_art/concepts/greenie.png" id="17_1hwgg"]
 [ext_resource type="Texture2D" uid="uid://cf3gm0hhffdt3" path="res://art/game_art/concepts/crem.png" id="18_1hwgg"]
 [ext_resource type="Texture2D" uid="uid://m4cn10yrutlb" path="res://art/game_art/concepts/crem2.png" id="19_8g1w3"]
 [ext_resource type="Script" uid="uid://ddyhhw5ulpr8m" path="res://scenes/meadow/ruins_entrance.gd" id="20_pl7hq"]
@@ -58,21 +55,6 @@ region = Rect2(592, 304, 32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u018s"]
 radius = 32.140316
-
-[sub_resource type="Resource" id="Resource_70id3"]
-script = ExtResource("13_a8g20")
-metadata/_custom_type_script = "uid://bcwufleh1p85m"
-
-[sub_resource type="Resource" id="Resource_uaavs"]
-script = ExtResource("12_uaavs")
-species_id = "test"
-creature_name = "Base Test"
-element_type = "test"
-frames = ExtResource("16_8uyeg")
-stat_block = SubResource("Resource_70id3")
-max_health = 500
-health = 500
-metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fyjhr"]
 load_path = "res://.godot/imported/berry.png-2c6bbad10a991c76facd7dd43755a431.ctex"
@@ -199,19 +181,20 @@ offset_right = 32.0
 offset_bottom = 39.0
 texture = ExtResource("16_uaavs")
 
-[node name="greenie" type="TextureRect" parent="." unique_id=274798912]
-offset_left = 557.0
-offset_top = 425.0
-offset_right = 589.0
-offset_bottom = 468.0
+[node name="arch" type="TextureRect" parent="." unique_id=274798912]
+offset_left = 648.0
+offset_top = 387.0
+offset_right = 680.0
+offset_bottom = 430.0
 texture = ExtResource("14_uaavs")
 
-[node name="lilguy" type="TextureRect" parent="greenie" unique_id=403356388]
+[node name="lilguy" type="TextureRect" parent="arch" unique_id=403356388]
 layout_mode = 0
-offset_top = 7.0
-offset_right = 32.0
-offset_bottom = 39.0
-texture = ExtResource("17_1hwgg")
+offset_left = 1.0
+offset_top = -25.0
+offset_right = 33.0
+offset_bottom = 38.0
+texture = ExtResource("14_pl7hq")
 
 [node name="crem" type="TextureRect" parent="." unique_id=685051548]
 visible = false

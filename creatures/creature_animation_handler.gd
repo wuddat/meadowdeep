@@ -6,6 +6,7 @@ signal damage_frame
 @export var base_eyes: CompressedTexture2D
 @export var emotion_display: Node2D
 @export var emotion_player: AnimationPlayer
+@export var particles: Particles
 
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
 const SLEEP_BUBBLE   = preload("res://art/game_art/emoticons/sleep.png")
@@ -17,6 +18,10 @@ const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
 
 const CURIOUS_1 = preload("res://art/game_art/sfx/curious1.wav")
 const HAH = preload("uid://c7des6ggaas3i")
+
+const ABSORB_ITEM = preload("uid://bhgt7fphiyuus")
+const GIVE_ITEM = preload("uid://bavc86swxvjti")
+
 
 const IDLE_WEIGHTS := {
 	"think": 1,
@@ -66,3 +71,12 @@ func emotion_bubble_fade_in_out() -> void:
 
 func emit_damage() -> void:
 	damage_frame.emit()
+
+
+func release_particles() -> void:
+	if particles:
+		particles.emit_particles()
+		SFXPlayer.play(ABSORB_ITEM)
+
+func play_growth_item_received_SFX() -> void:
+	SFXPlayer.play(GIVE_ITEM)

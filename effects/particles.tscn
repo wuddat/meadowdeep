@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://d03ef5edxdj2c"]
+
+[ext_resource type="Texture2D" uid="uid://uddpi0vfxtsl" path="res://art/rarity.png" id="1_de6kh"]
+[ext_resource type="Script" uid="uid://ck2ja5ay5ndf2" path="res://effects/particles.gd" id="1_qaunl"]
+
+[sub_resource type="Curve" id="Curve_qaunl"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4779582, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0fosr"]
+curve = SubResource("Curve_qaunl")
+
+[sub_resource type="Curve" id="Curve_rg4uv"]
+_limits = [-200.0, 200.0, 0.0, 1.0]
+_data = [Vector2(0.06032483, 85.15903), 0.0, 0.0, 0, 0, Vector2(0.12993039, 20.848068), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4x7wu"]
+curve = SubResource("Curve_rg4uv")
+
+[sub_resource type="Curve" id="Curve_jxdox"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.64501154, 0.19611311), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2f0qf"]
+width = 100
+curve = SubResource("Curve_jxdox")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ssrdw"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(1, 0, 0)
+emission_shape = 1
+emission_sphere_radius = 5.0
+angle_min = -44.99999
+angle_max = 45.00001
+angular_velocity_min = 99.999985
+angular_velocity_max = 99.999985
+gravity = Vector3(0, 5, 0)
+linear_accel_min = -5.000002
+linear_accel_max = 4.9999976
+radial_accel_min = 2.4499977
+radial_accel_max = 4.9999976
+radial_accel_curve = SubResource("CurveTexture_4x7wu")
+tangential_accel_min = -33.050003
+tangential_accel_max = 30.049997
+damping_max = 5.0
+scale_min = 0.099999994
+scale_max = 0.59999996
+scale_curve = SubResource("CurveTexture_2f0qf")
+alpha_curve = SubResource("CurveTexture_0fosr")
+
+[node name="Particles" type="Node2D" unique_id=2079994363]
+script = ExtResource("1_qaunl")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1679800620]
+emitting = false
+amount = 50
+texture = ExtResource("1_de6kh")
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_ssrdw")
