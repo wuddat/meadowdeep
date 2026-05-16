@@ -212,7 +212,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id="Animation_w4qan"]
 resource_name = "absorb_item"
-length = 3.6
+length = 3.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -220,7 +220,7 @@ tracks/0/path = NodePath("CreatureSkinHandler")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.09330145, 0.12663475, 0.6666667, 0.7, 1.6840912, 1.7174245, 3.3580327, 3.391366),
+"times": PackedFloat32Array(0.09330145, 0.12663475, 0.6666667, 0.7, 1.6840912, 1.7174245, 2.8666666, 2.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": ["closed"],
@@ -294,7 +294,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.116626814, 0.19593306, 0.36387566, 0.49449772, 0.6344499, 0.7883973, 1.1429428, 1.4275123, 1.7633975, 2.0059812, 2.1692588, 2.3278713, 2.4724884, 2.6777518, 2.9389958, 3.022967, 3.074283, 3.1535892, 3.2282302),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(16, 6), Vector2(15, 11), Vector2(17, 6), Vector2(19, 6), Vector2(15, 6), Vector2(17, 6), Vector2(15, 6), Vector2(16, 3), Vector2(14, -5), Vector2(8, -12), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(-1, -17), Vector2(1, -17), Vector2(-2, -17), Vector2(2, -17)]
+"values": [Vector2(16, 6), Vector2(15, 11), Vector2(17, 6), Vector2(19, 6), Vector2(15, 6), Vector2(17, 6), Vector2(15, 6), Vector2(16, 3), Vector2(14, -5), Vector2(8, -12), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17), Vector2(0, -20), Vector2(0, -17)]
 }
 tracks/5/type = "method"
 tracks/5/imported = false

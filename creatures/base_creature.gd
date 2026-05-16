@@ -484,6 +484,7 @@ func _on_absorb_finished(anim_name: StringName) -> void:
 	_held_item.queue_free()
 	_held_item = null
 	action_queue.done()
+	action_queue.push_front(&"idle", {})
 
 		
 func _set_shader(intensity: float) -> void:

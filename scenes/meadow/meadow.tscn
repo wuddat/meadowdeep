@@ -249,6 +249,10 @@ item_data = SubResource("Resource_4afjc")
 position = Vector2(500, 374)
 item_data = SubResource("Resource_n08lr")
 
+[node name="MeadowWorldItem3" parent="." unique_id=143414983 instance=ExtResource("23_u018s")]
+position = Vector2(500, 374)
+item_data = SubResource("Resource_n08lr")
+
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
 [connection signal="body_entered" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_entered"]
 [connection signal="body_exited" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_exited"]
