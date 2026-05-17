@@ -48,6 +48,12 @@ func setup(stat: GrowthStat, label: String) -> void:
 	_last_max_pips = stat.max_pips
 
 
+func reset() -> void:
+	_last_lvl = -1
+	_last_pips = -1
+	_last_max_pips = 0
+
+
 func _ensure_pips(count: int) -> void:
 	while pill_box.get_child_count() < count:
 		var p := TextureRect.new()

@@ -20,6 +20,7 @@ buses/default_bus_layout="uid://b8wr0hwoqop4v"
 
 [autoload]
 
+SaveMgr="*uid://c5i8cf1r1tqr3"
 Events="*uid://bjprdav8m6dv5"
 RNG="*uid://c1fxnlev86vbu"
 Shaker="*uid://buj7kaqos1l3l"

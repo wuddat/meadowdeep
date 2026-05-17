@@ -1,7 +1,10 @@
 class_name Meadow
 extends Node2D
 
-const MEADOW_WORLD_ITEM := preload("res://scenes/meadow/meadow_world_item.tscn")
+const MEADOW_WORLD_ITEM := preload("uid://d4g4hbpijemuw")
+const MEADOW_CREATURE_SCN := preload("uid://bio1g4lsk4beu")
+
+const SPAWN_COORDS: Array[Vector2] = [Vector2(569,392), Vector2(461,336), Vector2(631,461)]
 
 const TOSS_RADIUS_MIN := 16.0
 const TOSS_RADIUS_MAX := 48.0
@@ -20,10 +23,22 @@ var player_data: PlayerData
 func setup(run_data: PlayerData) -> void:
 	player_data = run_data
 	player_model.stats = run_data
-	if player_data.creatures.size():
-		base_creature.instance = player_data.creatures[0]
+	_spawn_creatures()
+	#base_creature.instance = player_data.creatures[0] (can use as fallback for testing)
 	_print_inventory()
 	_spawn_loot_party()
+
+
+func _spawn_creatures() -> void:
+	if player_data.creatures.is_empty():
+		return
+	if base_creature:
+		base_creature.queue_free()
+	for i in player_data.creatures.size():
+		var creature_node: BaseCreature = MEADOW_CREATURE_SCN.instantiate()
+		creature_node.instance = player_data.creatures[i]
+		add_child(creature_node)
+		creature_node.position = SPAWN_COORDS[i % SPAWN_COORDS.size()]
 
 
 func _print_inventory() -> void:
@@ -35,12 +50,6 @@ func _print_inventory() -> void:
 	for e in entries:
 		var n: String = e.item.id if e.item else "<null>"
 		print("  - %s x%d" % [n, e.qty])
-
-
-func save_meadow_stats() -> PlayerData:
-	if base_creature:
-		player_data.creatures.append(base_creature.instance)
-	return player_data
 
 
 func _spawn_loot_party() -> void:

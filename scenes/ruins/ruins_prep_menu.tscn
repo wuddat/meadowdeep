@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://31pta4kuy77o"]
 
 [ext_resource type="Script" uid="uid://dqqtr57ya4m3r" path="res://scenes/ruins/ruins_prep_menu.gd" id="1_vo3rc"]
-[ext_resource type="SpriteFrames" uid="uid://blb87ni4h37mi" path="res://creatures/water_sprite_frames.tres" id="2_0um1a"]
+[ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="2_3uyyh"]
 [ext_resource type="PackedScene" uid="uid://bdppximmf2egb" path="res://scenes/meadow/creature_stat_bar.tscn" id="4_cgf58"]
 
 [node name="RuinsPrepMenu" type="Control" unique_id=861773403]
@@ -63,15 +63,13 @@ offset_right = 211.0
 offset_bottom = 12.0
 grow_vertical = 2
 
-[node name="creatureSprite" type="AnimatedSprite2D" parent="CreatureSelector" unique_id=1852800921]
+[node name="CreatureTextures" parent="CreatureSelector" unique_id=969795458 instance=ExtResource("2_3uyyh")]
 unique_name_in_owner = true
 position = Vector2(98, 87)
-sprite_frames = ExtResource("2_0um1a")
-animation = &"idle"
-autoplay = "idle"
 
 [node name="LeftButton" type="Button" parent="CreatureSelector" unique_id=656934519]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(50, 24)
 layout_mode = 0
 offset_left = -12.0
@@ -83,6 +81,7 @@ text = "<"
 
 [node name="RightButton" type="Button" parent="CreatureSelector" unique_id=1631702906]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(50, 24)
 layout_mode = 0
 offset_left = 162.0
@@ -224,7 +223,8 @@ offset_bottom = 341.0
 size_flags_horizontal = 4
 text = "Meadow"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1609143325]
+[node name="StatPanel" type="VBoxContainer" parent="." unique_id=1609143325]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -239,22 +239,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 
-[node name="CreatureStatPWR" parent="VBoxContainer" unique_id=1907918716 instance=ExtResource("4_cgf58")]
+[node name="CreatureStatPWR" parent="StatPanel" unique_id=1907918716 instance=ExtResource("4_cgf58")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CreatureStatAGI" parent="VBoxContainer" unique_id=1635699973 instance=ExtResource("4_cgf58")]
+[node name="CreatureStatAGI" parent="StatPanel" unique_id=1635699973 instance=ExtResource("4_cgf58")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CreatureStatRES" parent="VBoxContainer" unique_id=1075460141 instance=ExtResource("4_cgf58")]
+[node name="CreatureStatRES" parent="StatPanel" unique_id=1075460141 instance=ExtResource("4_cgf58")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CreatureStatMYS" parent="VBoxContainer" unique_id=682732483 instance=ExtResource("4_cgf58")]
+[node name="CreatureStatMYS" parent="StatPanel" unique_id=682732483 instance=ExtResource("4_cgf58")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CreatureStatFOC" parent="VBoxContainer" unique_id=484717605 instance=ExtResource("4_cgf58")]
+[node name="CreatureStatFOC" parent="StatPanel" unique_id=484717605 instance=ExtResource("4_cgf58")]
 unique_name_in_owner = true
 layout_mode = 2

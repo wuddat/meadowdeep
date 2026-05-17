@@ -3,8 +3,7 @@ extends Control
 
 const MAX_ACTIVE_SKILLS := 4
 
-
-@onready var creature_sprite: AnimatedSprite2D = %creatureSprite
+@onready var creature_textures: CreatureTextures = %CreatureTextures
 @onready var name_label: Label = %NameLabel
 @onready var element_label: Label = %ElementLabel
 @onready var active_skills_grid: GridContainer = %ActiveSkillsGrid
@@ -13,6 +12,13 @@ const MAX_ACTIVE_SKILLS := 4
 @onready var meadow_button: Button = %MeadowButton
 @onready var left_button: Button = %LeftButton
 @onready var right_button: Button = %RightButton
+@onready var creature_stat_pwr: CreatureStatBar = %CreatureStatPWR
+@onready var creature_stat_agi: CreatureStatBar = %CreatureStatAGI
+@onready var creature_stat_res: CreatureStatBar = %CreatureStatRES
+@onready var creature_stat_mys: CreatureStatBar = %CreatureStatMYS
+@onready var creature_stat_foc: CreatureStatBar = %CreatureStatFOC
+@onready var stat_panel: VBoxContainer = %StatPanel
+
 
 var _creatures: Array[CreatureInstance] = []
 var _creature_index: int = 0
@@ -29,8 +35,10 @@ func setup(stats: PlayerData) -> void:
 	if stats:
 		_creatures = stats.get_all_creatures()
 
-	if not _creatures.is_empty():
+	if _creatures.size() > 1:
 		populate_creature(_creatures[0])
+		left_button.visible = true
+		right_button.visible = true
 
 
 func populate_creature(creature: CreatureInstance) -> void:
@@ -40,8 +48,16 @@ func populate_creature(creature: CreatureInstance) -> void:
 		identity.known_moves = definition.starting_moves.duplicate()
 
 	if definition.frames:
-		creature_sprite.sprite_frames = definition.frames
-		creature_sprite.play("idle")
+		creature_textures.sprite_frames = definition.frames
+		creature_textures.play("idle")
+	
+	for child:CreatureStatBar in stat_panel.get_children():
+		child.reset()
+	creature_stat_pwr.setup(identity.PWR, "PWR")
+	creature_stat_agi.setup(identity.AGI, "AGI")
+	creature_stat_res.setup(identity.RES, "RES")
+	creature_stat_mys.setup(identity.MYS, "MYS")
+	creature_stat_foc.setup(identity.FOC, "FOC")
 
 	name_label.text = definition.creature_name if definition.creature_name else definition.species_id
 	element_label.text = definition.element_type
