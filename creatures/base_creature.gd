@@ -43,6 +43,7 @@ const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
 
 # ── Action queue ──────────────────────────────────────────────────────────────
 var action_queue := ActionQueue.new()
+const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: CreatureTextures = $CreatureTextures
@@ -61,22 +62,23 @@ var action_queue := ActionQueue.new()
 @onready var hold_pos: Node2D = $CreatureTextures/HoldPos
 
 
-
+# ── Creature Ref ────────────────────────────────────────────────────────────────
 @export var instance: CreatureInstance : set = set_instance
 
 const SNORE_SOUND  = preload("res://art/game_art/sfx/snore1.wav")
 const NOMNOM_SOUND = preload("res://art/game_art/sfx/nomnom.wav")
 
+# ── Node/Position refs ────────────────────────────────────────────────────────────────
 var _home: Vector2
 var _player: CharacterBody2D
 var _food: Area2D
 var _eating_food: Node2D = null
 var _held_item: Node2D = null
-
-var is_held := false
-var _holder: Node2D = null
 const HOLD_OFFSET := Vector2(0, -18)
 const ITEM_SEEK_RANGE := 200.0
+var _holder: Node2D = null
+
+var is_held := false
 var _saved_collision_layer := 0
 var _saved_collision_mask := 0
 
@@ -182,6 +184,8 @@ func _physics_process(delta: float) -> void:
 func _on_queue_emptied() -> void:
 	action_queue.enqueue(&"idle", {})
 
+func _is_busy() -> bool:
+	return action_queue.current_action in BUSY_ACTIONS
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
 	creature_animation_handler.play("RESET")
@@ -237,6 +241,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			_sprite.play("idle")
 			creature_animation_handler.play("absorb_item")
 			creature_animation_handler.animation_finished.connect(_on_absorb_finished, CONNECT_ONE_SHOT)
+
+
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -397,6 +403,8 @@ func release() -> void:
 
 
 func receive_food(food_item: Node2D, from_player: Node2D) -> void:
+	if _is_busy():
+		return
 	from_player.set("carried_food", null)
 	from_player.set("nearby_food", null)
 	if food_item.has_method("drop"):
@@ -414,7 +422,7 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	Events.creature_stat_view_requested.emit(instance)
 
 func receive_item(world_item: Node2D, from_player: Node2D) -> void:
-	if creature_animation_handler.is_playing() and creature_animation_handler.current_animation == "absorb_item":
+	if _is_busy():
 		return
 	from_player.set("carried_item", null)
 	from_player.set("nearby_item", null)
@@ -469,8 +477,7 @@ func _get_item() -> WorldItemBase:
 			nearest_dist = d
 			nearest = item
 	return nearest
-
-
+	
 
 func _on_sprite_animation_looped() -> void:
 	if _sprite.animation == &"run" or _sprite.animation == &"sleep":

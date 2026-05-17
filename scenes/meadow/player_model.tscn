@@ -316,7 +316,8 @@ texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
 sprite_frames = SubResource("SpriteFrames_2k1gd")
-animation = &"carry"
+animation = &"run"
+frame_progress = 0.7693972
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
 position = Vector2(-2, 9)

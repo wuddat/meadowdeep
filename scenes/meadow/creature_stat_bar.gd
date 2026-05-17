@@ -23,9 +23,19 @@ var _last_lvl: int = -1
 var _last_pips: int = -1
 var _last_max_pips: int = 0
 var _active_tween: Tween = null
+var _pending_stat: GrowthStat = null
+var _pending_label: String = ""
 
 
 func setup(stat: GrowthStat, label: String) -> void:
+	if _active_tween and _active_tween.is_valid():
+		_pending_stat = stat
+		_pending_label = label
+		return
+	_do_setup(stat, label)
+
+
+func _do_setup(stat: GrowthStat, label: String) -> void:
 	stat_name.text = label
 	stat_grade.text = GrowthStat.Grade.keys()[stat.grade]
 	_ensure_pips(stat.max_pips)
@@ -35,23 +45,37 @@ func setup(stat: GrowthStat, label: String) -> void:
 		total_new = (stat.lvl - _last_lvl) * _last_max_pips + stat.pips - _last_pips
 
 	if total_new <= 0:
-		if _active_tween and _active_tween.is_valid():
-			_active_tween.kill()
 		lvl.text = "LV: %d" % stat.lvl
 		score.text = str(stat.points)
 		_set_pips_visual(stat.pips)
 	else:
 		_animate_sequence(stat)
+		if _active_tween:
+			_active_tween.finished.connect(_drain_pending, CONNECT_ONE_SHOT)
 
 	_last_lvl = stat.lvl
 	_last_pips = stat.pips
 	_last_max_pips = stat.max_pips
 
 
+func _drain_pending() -> void:
+	if _pending_stat == null:
+		return
+	var s := _pending_stat
+	var l := _pending_label
+	_pending_stat = null
+	_pending_label = ""
+	_do_setup(s, l)
+
+
 func reset() -> void:
 	_last_lvl = -1
 	_last_pips = -1
 	_last_max_pips = 0
+	_pending_stat = null
+	_pending_label = ""
+	if _active_tween and _active_tween.is_valid():
+		_active_tween.kill()
 
 
 func _ensure_pips(count: int) -> void:
@@ -107,7 +131,11 @@ func _animate_sequence(stat: GrowthStat) -> void:
 			_active_tween.parallel().tween_property(lvl, "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
 			_active_tween.tween_property(stat_name, "modulate", Color.WHITE, PIP_FLASH_DURATION)
 			_active_tween.parallel().tween_property(lvl, "modulate", Color.WHITE, PIP_FLASH_DURATION)
-			_active_tween.tween_interval(LEVEL_UP_PAUSE)
+			_active_tween.tween_property(stat_name, "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
+			_active_tween.parallel().tween_property(lvl, "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
+			_active_tween.tween_property(stat_name, "modulate", Color.WHITE, PIP_FLASH_DURATION)
+			_active_tween.parallel().tween_property(lvl, "modulate", Color.WHITE, PIP_FLASH_DURATION)
+			_active_tween.parallel().tween_interval(LEVEL_UP_PAUSE)
 			cur_lvl += 1
 			cur_pips = 0
 		else:
