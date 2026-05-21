@@ -17,8 +17,11 @@ func _ready() -> void:
 	var type_id := item_data.id if item_data and item_data.id != "" else "item"
 	uid = str(RNG.instance.randi())
 	add_to_group("items")
-	if item_data and item_data.art:
-		sprite.texture = item_data.art
+	if item_data:
+		if item_data.art:
+			sprite.texture = item_data.art
+		if item_data.color:
+			sprite.modulate = item_data.color
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 

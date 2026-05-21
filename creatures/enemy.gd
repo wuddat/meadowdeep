@@ -5,7 +5,6 @@ extends BattleActor
 
 const ARROW_OFFSET := 20
 
-@export var instance: CreatureInstance : set = set_instance
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
 

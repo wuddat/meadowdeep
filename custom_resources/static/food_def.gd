@@ -8,5 +8,6 @@ extends ItemDef
 @export var attribute_increment: int
 
 
+
 func _init() -> void:
 	category = ItemCategory.FOOD

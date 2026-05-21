@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="StatFragment" format=3 uid="uid://b12taqajdca5u"]
+[gd_resource type="Resource" script_class="FragmentDef" format=3 uid="uid://b12taqajdca5u"]
 
-[ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="1_clkvw"]
+[ext_resource type="Texture2D" uid="uid://dsfyp7vnrn1s3" path="res://art/game_art/items/star.png" id="1_clkvw"]
 [ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="1_y80ni"]
 
 [resource]
 script = ExtResource("1_y80ni")
 creature_attribute = 1
-pips = 5
+pips = 2
 id = "test_fragment"
 display_name = "Test Fragment"
 description = "used to test animations"

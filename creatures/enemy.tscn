@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://dsc4swpxj2a68" path="res://battles/battle_actions/aggressive/strike.tres" id="4_8hsss"]
 [ext_resource type="Resource" uid="uid://b12taqajdca5u" path="res://data/items/test_fragment.tres" id="4_ljyq2"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="5_4wx45"]
-[ext_resource type="Resource" uid="uid://cxtgdej4hal1f" path="res://scenes/ruins/resources/test2.tres" id="5_qrpmh"]
+[ext_resource type="Resource" uid="uid://bly2no5ia10o3" path="res://data/items/test_fragment2.tres" id="5_p0fjc"]
 [ext_resource type="Script" uid="uid://d4nceet3ghjw2" path="res://battles/brain.gd" id="6_2bth1"]
 [ext_resource type="Script" uid="uid://bjabwshglkugs" path="res://custom_resources/static/loot_table.gd" id="6_lrgqf"]
 [ext_resource type="Resource" uid="uid://clgemi1pvmcx2" path="res://battles/battle_actions/aggressive/dash_in.tres" id="7_8hsss"]
@@ -21,11 +21,15 @@
 [sub_resource type="Resource" id="Resource_5dw82"]
 script = ExtResource("3_ljyq2")
 item = ExtResource("4_ljyq2")
+min_qty = 0
+max_qty = 3
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [sub_resource type="Resource" id="Resource_vubwh"]
 script = ExtResource("3_ljyq2")
-item = ExtResource("5_qrpmh")
+item = ExtResource("5_p0fjc")
+drop_chance = 0.5
+min_qty = 0
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [sub_resource type="Resource" id="Resource_qcalr"]

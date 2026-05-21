@@ -12,6 +12,7 @@ enum ItemCategory { FOOD, TOY, MEDICINE, RELIC, STAT_FRAGMENT, ESSENCE, INFUSION
 @export var category: ItemCategory = ItemCategory.FOOD
 @export var rarity: Rarity = Rarity.COMMON
 @export var value: int
+@export var color: Color = Color(1,1,1,1)
 
 # ── Visuals ───────────────────────────────────────────────────────────────────
 @export_group("Visuals")

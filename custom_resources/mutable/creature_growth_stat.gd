@@ -16,6 +16,7 @@ const GRADE_VALUES := {
 }
 
 const MAX_POINTS := 3069
+const COMBAT_MOD := 10
 
 @export var grade: Grade = Grade.C
 @export var points: int = 0
@@ -24,7 +25,14 @@ const MAX_POINTS := 3069
 @export var max_pips: int = 8
 
 
-# Called when food is applied. Fills one pip; levels up when full.
+static func create(starting_grade: Grade = Grade.C, starting_points: int = 0) -> GrowthStat:
+	var block := GrowthStat.new()
+	block.grade = starting_grade
+	block.points = starting_points
+	return block
+
+
+# Called when stat points are applied. Fills one pip; levels up when full.
 func add_pip() -> void:
 	pips += 1
 	if pips >= max_pips:
@@ -39,12 +47,9 @@ func calculate_gain() -> int:
 	return base + RNG.instance.randi_range(-2, 2)
 
 
-func get_effective_value() -> int:
+func get_points() -> int:
 	return points
 
 
-static func create(starting_grade: Grade = Grade.C, starting_points: int = 0) -> GrowthStat:
-	var block := GrowthStat.new()
-	block.grade = starting_grade
-	block.points = starting_points
-	return block
+func get_combat_mod() -> int:
+	return points / COMBAT_MOD

@@ -8,11 +8,13 @@
 [sub_resource type="Resource" id="Resource_noq14"]
 script = ExtResource("1_mg0d6")
 item = ExtResource("2_4v4jx")
+min_qty = 0
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [sub_resource type="Resource" id="Resource_ngmlf"]
 script = ExtResource("1_mg0d6")
 item = ExtResource("3_je6ki")
+max_qty = 2
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [resource]

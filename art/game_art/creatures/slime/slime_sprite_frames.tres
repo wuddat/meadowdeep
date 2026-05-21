@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dk6va1ub8lqw4" path="res://art/game_art/creatures/slime/custom/slime_base_idle.png" id="3_xm1r5"]
 [ext_resource type="Texture2D" uid="uid://4eaugijujs43" path="res://art/game_art/creatures/slime/custom/slime_run_base.png" id="4_i6j5a"]
 [ext_resource type="Texture2D" uid="uid://bhv6ohlc4qyst" path="res://art/game_art/creatures/slime/custom/slime_sleep_base.png" id="5_byig6"]
+[ext_resource type="Texture2D" uid="uid://dd8areoq4i2mo" path="res://art/game_art/creatures/slime/custom/slime_attack.png" id="6_a3n1p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nosak"]
 atlas = ExtResource("1_4hn0q")
@@ -112,6 +113,22 @@ region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q3evn"]
 atlas = ExtResource("5_byig6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm1r5"]
+atlas = ExtResource("6_a3n1p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6j5a"]
+atlas = ExtResource("6_a3n1p")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byig6"]
+atlas = ExtResource("6_a3n1p")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1sun"]
+atlas = ExtResource("6_a3n1p")
 region = Rect2(96, 0, 32, 32)
 
 [resource]
@@ -227,4 +244,21 @@ animations = [{
 "loop": true,
 "name": &"sleep",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm1r5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6j5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byig6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1sun")
+}],
+"loop": false,
+"name": &"strike",
+"speed": 5.0
 }]

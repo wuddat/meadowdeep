@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var move_speed: float = 40.0
 @export var battle_action_list: Array[BattleAction]
 @export var creature_animation_handler: CreatureAnimationHandler
+@export var instance: CreatureInstance : set = set_instance
 
 var action_queue := ActionQueue.new()
 var _in_combat: bool = false
@@ -37,7 +38,8 @@ func stop_combat() -> void:
 	_in_combat = false
 	action_queue.clear()
 
-
+func set_instance(value: CreatureInstance) -> void:
+	pass
 func _physics_process(delta: float) -> void:
 	if not _in_combat:
 		return

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://bmfmewl6e8gem"]
+[gd_resource type="Resource" script_class="ItemDef" format=3 uid="uid://bmfmewl6e8gem"]
 
 [ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/static/item_def.gd" id="1_e0yqp"]
 

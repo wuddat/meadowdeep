@@ -3,7 +3,7 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
-@export var instance: CreatureInstance : set = set_instance
+
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 

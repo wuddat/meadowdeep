@@ -11,6 +11,7 @@ metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [resource]
 script = ExtResource("2_mnmcg")
+stat_scale_type = 1
 hit_effects = Array[ExtResource("1_qs32o")]([SubResource("Resource_gwgry")])
 animation_string = "punch"
 display_name = "Strike"

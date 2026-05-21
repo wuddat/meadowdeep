@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="FragmentDef" format=3 uid="uid://bly2no5ia10o3"]
+
+[ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="1_d23kt"]
+[ext_resource type="Texture2D" uid="uid://dsfyp7vnrn1s3" path="res://art/game_art/items/star.png" id="1_pdghj"]
+
+[resource]
+script = ExtResource("1_d23kt")
+pips = 6
+color = Color(1, 0, 0, 1)
+id = "test_PWR_Frag"
+display_name = "test_PWR_Frag"
+description = "test_PWR_Frag"
+category = 4
+rarity = 1
+value = 250
+art = ExtResource("1_pdghj")
+metadata/_custom_type_script = "uid://ce0btr4rfpgp"
