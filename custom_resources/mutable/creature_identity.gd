@@ -21,9 +21,9 @@ extends Resource
 @export var evolution_stage: int = 0
 
 # ── Moves ─────────────────────────────────────────────────────────────────────
-@export_group("Moves")
-@export var known_moves: Array[String] = []     # moves learned so far
-@export var assigned_moves: Array[String] = []  # chosen for next run
+@export_group("BattleActions")
+@export var known_actions: Array[String] = []     # moves learned so far
+@export var assigned_actions: Array[String] = []  # chosen for next run
 
 # ── Element Alignment ─────────────────────────────────────────────────────────────────
 

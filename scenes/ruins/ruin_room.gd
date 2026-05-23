@@ -61,7 +61,11 @@ func _ready() -> void:
 func setup(stats: PlayerData) -> void:
 	_active_stats = stats
 	player.stats = _active_stats
-	#player_creature.stats = _active_stats.creatures[0]
+	if not player_creature.is_node_ready():
+		await player_creature.ready
+	if _active_stats.ruins_creature:
+		player_creature.instance = _active_stats.ruins_creature
+	print("[RUINROOM] ruins_creature: ", _active_stats.ruins_creature)
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 	enter_room(Vector2i.ZERO)

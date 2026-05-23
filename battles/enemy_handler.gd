@@ -25,27 +25,19 @@ func setup_enemies(bat_stats: EncounterDef) -> void:
 	if not bat_stats:
 		return
 	encounter = bat_stats.duplicate()
-
 	for enemy: Enemy in get_children():
 		enemy.queue_free()
-
 	if encounter.enemy_creature_party.is_empty():
 		encounter.assign_creature_party()
-
 	var species_ids: Array[String] = encounter.enemy_creature_party.duplicate()
-
-	if not encounter.enemies:
+	if not encounter.spawn_layout:
 		push_error("EnemyHandler: EncounterDef.enemies PackedScene is not set")
 		return
-
-	var all_new_enemies := encounter.enemies.instantiate()
-	var enemy_nodes := all_new_enemies.get_children()
-
+	var spawn_layout = encounter.spawn_layout.instantiate()
+	var enemy_nodes = spawn_layout.get_children()
 	for i in range(min(species_ids.size(), enemy_nodes.size())):
 		_spawn_enemy(species_ids[i], enemy_nodes[i])
-
-	all_new_enemies.queue_free()
-
+	spawn_layout.queue_free()
 
 
 func start_turn() -> void:

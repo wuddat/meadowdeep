@@ -170,12 +170,13 @@ func _update_action_timer_ui(remaining: float) -> void:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-func set_instance(value: CreatureInstance) -> void:
-	instance = value
+func set_instance(creature: CreatureInstance) -> void:
+	instance = creature
 	if not instance:
 		return
 	if not instance.stats_changed.is_connected(update_stats):
 		instance.stats_changed.connect(update_stats)
+	super(creature)
 	update_creature()
 
 

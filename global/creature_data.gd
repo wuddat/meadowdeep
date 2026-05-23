@@ -54,7 +54,6 @@ func _build_definitions() -> void:
 		def.creature_name = data.get("creature_name", species_id)
 		def.element_type = data.get("element_type", "normal")
 		def.max_health = data.get("max_health", 10)
-		def.is_companion = data.get("is_companion", false)
 		def.egg_rarity = data.get("egg_rarity", "common")
 		def.egg_depth_found = data.get("egg_depth_found", 0)
 		var sprite_res = load(data.get("sprite_path", "res://art/placeholder.png"))
@@ -63,8 +62,8 @@ func _build_definitions() -> void:
 		else:
 			def.art = sprite_res
 		def.icon = load(data.get("icon_path", "res://art/placeholder.png"))
-		def.move_ids = Utils.to_typed_string_array(data.get("move_ids", []))
-		def.starting_moves = Utils.to_typed_string_array(data.get("starting_moves", []))
+		def.action_ids = Utils.to_typed_string_array(data.get("action_ids", []))
+		def.starting_actions = Utils.to_typed_string_array(data.get("starting_actions", []))
 		def.evolves_to = data.get("evolves_to", "")
 		def.evolution_level = data.get("evolution_level", 101)
 		_definitions[species_id] = def
@@ -85,8 +84,9 @@ func create_creature_instance(species_id: String) -> CreatureInstance:
 		return null
 
 	var identity := CreatureIdentity.new()
-	identity.known_moves = def.starting_moves.duplicate()
-	identity.assigned_moves = identity.known_moves.duplicate()
+	identity.known_actions = def.starting_actions.duplicate()
+	# assigned_actions left empty — prep menu picks for player creatures,
+	# BattleActor._hydrate_actions falls back to known_actions for enemies.
 
 	var data: Dictionary = creatures.get(species_id, {})
 	if data.has("identity"):

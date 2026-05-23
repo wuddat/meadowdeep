@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="MeadowWorldItem" format=3 uid="uid://cxtgdej4hal1f"]
+[gd_resource type="Resource" script_class="ItemDef" format=3 uid="uid://cxtgdej4hal1f"]
 
-[ext_resource type="Texture2D" uid="uid://06kfsn2abhvo" path="res://art/game_art/creatures/base_creature/base_armR.png" id="1_2g85i"]
+[ext_resource type="Texture2D" uid="uid://dsfyp7vnrn1s3" path="res://art/game_art/items/star.png" id="1_2g85i"]
 [ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/static/item_def.gd" id="2_y32ng"]
 
 [resource]

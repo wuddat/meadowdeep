@@ -6,8 +6,8 @@ const MAX_ACTIVE_SKILLS := 4
 @onready var creature_textures: CreatureTextures = %CreatureTextures
 @onready var name_label: Label = %NameLabel
 @onready var element_label: Label = %ElementLabel
-@onready var active_skills_grid: GridContainer = %ActiveSkillsGrid
-@onready var known_skills_grid: GridContainer = %KnownSkillsGrid
+@onready var active_actions_grid: GridContainer = %ActiveSkillsGrid
+@onready var known_actions_grid: GridContainer = %KnownSkillsGrid
 @onready var start_button: Button = %StartButton
 @onready var meadow_button: Button = %MeadowButton
 @onready var left_button: Button = %LeftButton
@@ -35,7 +35,7 @@ func setup(stats: PlayerData) -> void:
 	if stats:
 		_creatures = stats.get_all_creatures()
 
-	if _creatures.size() > 1:
+	if _creatures.size():
 		populate_creature(_creatures[0])
 		left_button.visible = true
 		right_button.visible = true
@@ -44,13 +44,13 @@ func setup(stats: PlayerData) -> void:
 func populate_creature(creature: CreatureInstance) -> void:
 	var identity := creature.identity
 	var definition := creature.definition
-	if identity.known_moves.is_empty() and not definition.starting_moves.is_empty():
-		identity.known_moves = definition.starting_moves.duplicate()
+	if identity.known_actions.is_empty() and not definition.starting_actions.is_empty():
+		identity.known_actions = definition.starting_actions.duplicate()
 
 	if definition.frames:
 		creature_textures.sprite_frames = definition.frames
 		creature_textures.play("idle")
-	
+
 	for child:CreatureStatBar in stat_panel.get_children():
 		child.reset()
 	creature_stat_pwr.setup(identity.PWR, "PWR")
@@ -62,46 +62,65 @@ func populate_creature(creature: CreatureInstance) -> void:
 	name_label.text = definition.creature_name if definition.creature_name else definition.species_id
 	element_label.text = definition.element_type
 
-	_rebuild_known_skills(creature)
-	_rebuild_active_skills(creature)
+	print("[PrepMenu] %s  known=%s  assigned=%s" % [
+		definition.species_id, identity.known_actions, identity.assigned_actions
+	])
+	_rebuild_grids(creature)
 
 
-func _rebuild_known_skills(creature: CreatureInstance) -> void:
-	for child in known_skills_grid.get_children():
+func _rebuild_grids(creature: CreatureInstance) -> void:
+	_rebuild_known_actions(creature)
+	_rebuild_active_actions(creature)
+
+
+func _rebuild_known_actions(creature: CreatureInstance) -> void:
+	for child in known_actions_grid.get_children():
 		child.queue_free()
 
-	for move_id in creature.identity.known_moves:
-		var btn := Button.new()
-		btn.text = move_id.capitalize()
-		btn.pressed.connect(_on_known_skill_pressed.bind(move_id, creature))
-		known_skills_grid.add_child(btn)
-		btn.custom_minimum_size = Vector2(80,0)
+	for action_id in creature.identity.known_actions:
+		if creature.identity.assigned_actions.has(action_id):
+			continue
+		known_actions_grid.add_child(_make_action_button(action_id, creature, true))
 
 
-func _rebuild_active_skills(creature: CreatureInstance) -> void:
-	for child in active_skills_grid.get_children():
+func _rebuild_active_actions(creature: CreatureInstance) -> void:
+	for child in active_actions_grid.get_children():
 		child.queue_free()
 
-	for move_id in creature.identity.assigned_moves:
-		var btn := Button.new()
-		btn.text = move_id.capitalize()
-		btn.pressed.connect(_on_active_skill_pressed.bind(move_id, creature))
-		active_skills_grid.add_child(btn)
-		btn.custom_minimum_size = Vector2(80,0)
+	for action_id in creature.identity.assigned_actions:
+		active_actions_grid.add_child(_make_action_button(action_id, creature, false))
 
 
-func _on_known_skill_pressed(move_id: String, creature: CreatureInstance) -> void:
-	if creature.identity.assigned_moves.size() >= MAX_ACTIVE_SKILLS:
+func _make_action_button(action_id: String, creature: CreatureInstance, is_known: bool) -> Button:
+	var btn := Button.new()
+	btn.text = _action_label(action_id)
+	btn.custom_minimum_size = Vector2(80, 0)
+	if is_known:
+		btn.pressed.connect(_on_known_action_pressed.bind(action_id, creature))
+	else:
+		btn.pressed.connect(_on_active_action_pressed.bind(action_id, creature))
+	return btn
+
+
+func _action_label(action_id: String) -> String:
+	var act := ActionData.get_action(action_id)
+	if act and act.display_name != "":
+		return act.display_name
+	return action_id.capitalize()
+
+
+func _on_known_action_pressed(action_id: String, creature: CreatureInstance) -> void:
+	if creature.identity.assigned_actions.size() >= MAX_ACTIVE_SKILLS:
 		return
-	if creature.identity.assigned_moves.has(move_id):
+	if creature.identity.assigned_actions.has(action_id):
 		return
-	creature.identity.assigned_moves.append(move_id)
-	_rebuild_active_skills(creature)
+	creature.identity.assigned_actions.append(action_id)
+	_rebuild_grids(creature)
 
 
-func _on_active_skill_pressed(move_id: String, creature: CreatureInstance) -> void:
-	creature.identity.assigned_moves.erase(move_id)
-	_rebuild_active_skills(creature)
+func _on_active_action_pressed(action_id: String, creature: CreatureInstance) -> void:
+	creature.identity.assigned_actions.erase(action_id)
+	_rebuild_grids(creature)
 
 
 func _on_left_pressed() -> void:
@@ -123,4 +142,5 @@ func _on_meadow_pressed() -> void:
 
 
 func _on_start_pressed() -> void:
+	Events.ruins_run_started.emit(_creatures[_creature_index])
 	Events.scene_transition_requested.emit("ruins")

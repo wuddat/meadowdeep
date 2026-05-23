@@ -39,7 +39,9 @@ func stop_combat() -> void:
 	action_queue.clear()
 
 func set_instance(value: CreatureInstance) -> void:
-	pass
+	_hydrate_actions()
+
+
 func _physics_process(delta: float) -> void:
 	if not _in_combat:
 		return
@@ -147,7 +149,6 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 	var to_target: Vector2 = target.global_position - global_position
 	var dist := to_target.length()
 	
-	
 	match mode:
 		MoveToAction.Mode.TOWARD:
 			if dist <= stop_distance:
@@ -217,6 +218,15 @@ func _apply_knockback(source_pos: Vector2) -> void:
 		action_queue.clear()
 		action_queue.enqueue(&"idle", {"timer": 0.2})
 
+func _hydrate_actions() -> void:
+	if not instance or not instance.identity:
+		return
+	var ids: Array[String] = instance.identity.assigned_actions
+	if ids.is_empty():
+		ids = instance.identity.known_actions
+	if ids.is_empty() and instance.definition:
+		ids = instance.definition.starting_actions
+	battle_action_list = ActionData.get_actions(ids)
 
 func _decay_knockback(delta: float) -> void:
 	if knockback_velocity.length() <= 0.01:

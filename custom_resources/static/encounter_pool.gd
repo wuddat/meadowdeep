@@ -6,17 +6,17 @@ extends Resource
 var total_weights_by_tier := [0.0, 0.0, 0.0]
 
 
-func _get_all_battles_for_tier_and_type(tier: int, type: String) -> Array[EncounterDef]:
+func _get_all_battles_for_tier(tier: int, is_boss: bool) -> Array[EncounterDef]:
 	return pool.filter(
 		func(battle: EncounterDef):
-			return battle.depth_tier == tier and battle.encounter_type == type
+			return battle.depth_tier == tier and battle.is_boss == is_boss
 	)
 
 
-func get_random_battle_for_tier_and_type(tier: int, type: String) -> EncounterDef:
-	var filtered := _get_all_battles_for_tier_and_type(tier, type)
+func _get_random_battle_for_tier(tier: int, is_boss: bool) -> EncounterDef:
+	var filtered := _get_all_battles_for_tier(tier, is_boss)
 	if filtered.is_empty():
-		push_warning("EncounterDefPool: no battles for tier %d type %s" % [tier, type])
+		push_warning("EncounterPool: no %s battles for tier %d" % ["boss" if is_boss else "wild", tier])
 		return null
 
 	var selected_battle: EncounterDef = RNG.array_pick_random(filtered).duplicate()
@@ -25,11 +25,11 @@ func get_random_battle_for_tier_and_type(tier: int, type: String) -> EncounterDe
 
 
 func get_wild_battle_for_tier(tier: int) -> EncounterDef:
-	return get_random_battle_for_tier_and_type(tier, "Wild")
+	return _get_random_battle_for_tier(tier, false)
 
 
 func get_boss_battle_for_tier(tier: int) -> EncounterDef:
-	return get_random_battle_for_tier_and_type(tier, "Boss")
+	return _get_random_battle_for_tier(tier, true)
 
 
 func _setup_weight_for_tier(tier: int) -> void:

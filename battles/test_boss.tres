@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="BattleStats" format=3 uid="uid://c4j6mpgc6muu4"]
+[gd_resource type="Resource" script_class="EncounterDef" format=3 uid="uid://c4j6mpgc6muu4"]
 
 [ext_resource type="Script" uid="uid://cl6frcau8od6p" path="res://custom_resources/static/encounter_def.gd" id="1_58g2i"]
 [ext_resource type="PackedScene" uid="uid://c1btyhum4dwpl" path="res://battles/test_enemies.tscn" id="1_cogkc"]
 
 [resource]
 script = ExtResource("1_58g2i")
-encounter_type = "Boss"
 depth_tier = 1
-enemies = ExtResource("1_cogkc")
-enemy_amt = 1
+spawn_layout = ExtResource("1_cogkc")
+is_boss = true
 enemy_creature_party = Array[String](["stone"])
 metadata/_custom_type_script = "uid://cl6frcau8od6p"

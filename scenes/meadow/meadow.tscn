@@ -140,7 +140,7 @@ item_data = SubResource("Resource_8uyeg")
 
 [node name="CreatureFood3" parent="." unique_id=552193260 instance=ExtResource("8_pxhms")]
 modulate = Color(2.40685, 1.9309977, 1.4642963, 1)
-position = Vector2(403, 431)
+position = Vector2(456, 296)
 stages = 4
 item_data = SubResource("Resource_j48bh")
 

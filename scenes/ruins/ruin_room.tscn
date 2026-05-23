@@ -34,11 +34,12 @@ metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
 
 [sub_resource type="Resource" id="Resource_dlmko"]
 script = ExtResource("14_03dcb")
-amount = 100
+amount = 5
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_ocehn"]
 script = ExtResource("15_vc38w")
+stat_scale_type = 1
 hit_effects = Array[ExtResource("13_k8vac")]([SubResource("Resource_dlmko")])
 animation_string = "punch_2"
 display_name = "Strike"
@@ -47,11 +48,12 @@ metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
 [sub_resource type="Resource" id="Resource_rbvr3"]
 script = ExtResource("14_03dcb")
-amount = 100
+amount = 5
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_lddhi"]
 script = ExtResource("15_vc38w")
+stat_scale_type = 1
 hit_effects = Array[ExtResource("13_k8vac")]([SubResource("Resource_rbvr3")])
 animation_string = "punch_2"
 intent = 1
@@ -117,10 +119,10 @@ encounter_pool = ExtResource("8_qkvym")
 [node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("7_c4qfd")]
 unique_name_in_owner = true
 position = Vector2(517, 272)
-instance = ExtResource("14_vkuii")
 sprite_frames = ExtResource("12_k8vac")
 move_speed = 125.0
 battle_action_list = Array[ExtResource("12_vve1t")]([SubResource("Resource_ocehn"), ExtResource("16_vkuii"), ExtResource("17_1lbdh"), ExtResource("18_frkgh"), ExtResource("19_wugeb"), SubResource("Resource_lddhi")])
+instance = ExtResource("14_vkuii")
 
 [node name="BattleColliders" type="StaticBody2D" parent="." unique_id=1341241905]
 unique_name_in_owner = true

@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="BattleStats" format=3 uid="uid://c2ypkkq037xkr"]
+[gd_resource type="Resource" script_class="EncounterDef" format=3 uid="uid://c2ypkkq037xkr"]
 
-[ext_resource type="PackedScene" uid="uid://c1btyhum4dwpl" path="res://battles/test_enemies.tscn" id="1_0ib1s"]
 [ext_resource type="Script" uid="uid://cl6frcau8od6p" path="res://custom_resources/static/encounter_def.gd" id="1_whl0u"]
+[ext_resource type="PackedScene" uid="uid://c1btyhum4dwpl" path="res://battles/test_enemies.tscn" id="2_0ib1s"]
 
 [resource]
 script = ExtResource("1_whl0u")
+spawn_layout = ExtResource("2_0ib1s")
+max_enemies = 2
+enemy_creature_party = Array[String](["test_shooter", "test_chaser"])
 gold_reward_min = 25
 gold_reward_max = 5
-enemies = ExtResource("1_0ib1s")
-enemy_amt = 1
-enemy_creature_party = Array[String](["stone", "stone"])
 metadata/_custom_type_script = "uid://cl6frcau8od6p"

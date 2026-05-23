@@ -21,5 +21,4 @@ speed = 200.0
 max_distance = 200.0
 intent = 1
 display_name = "Shoot"
-chance_weight = 0.0
 metadata/_custom_type_script = "uid://bdhmsij2whdko"

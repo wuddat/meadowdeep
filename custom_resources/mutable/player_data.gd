@@ -9,6 +9,7 @@ extends Resource
 
 @export_group("Gameplay Data")
 @export var inventory: Inventory
+var ruins_creature: CreatureInstance = null
 
 @export_group("Creature Data")
 @export var starting_party: Array[String] = []

@@ -21,15 +21,14 @@ extends Resource
 @export var icon: Texture
 
 # ── Moves ─────────────────────────────────────────────────────────────────────
-@export_group("Moves")
-@export var move_ids: Array[String] = []        # learnable pool
-@export var starting_moves: Array[String] = []  # moves at creation
+@export_group("BattleActions")
+@export var action_ids: Array[String] = []        # learnable pool
+@export var starting_actions: Array[String] = []  # moves at creation
 
 # ── Egg Origin ────────────────────────────────────────────────────────────────
 @export_group("Egg Origin")
 @export var egg_rarity: String = ""     # "common" | "uncommon" | "rare" | "ancient"
 @export var egg_depth_found: int = 0    # Ruin floor the egg was found on
-@export var is_companion: bool = false
 
 # ── Evolution ─────────────────────────────────────────────────────────────────
 @export_group("Evolution")

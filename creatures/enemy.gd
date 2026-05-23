@@ -3,8 +3,6 @@
 class_name Enemy
 extends BattleActor
 
-const ARROW_OFFSET := 20
-
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
 
@@ -31,12 +29,13 @@ func _ready() -> void:
 	spawn_coords = global_position
 
 
-func set_instance(value: CreatureInstance) -> void:
-	instance = value
+func set_instance(creature: CreatureInstance) -> void:
+	instance = creature
 	if not instance:
 		return
 	if not instance.stats_changed.is_connected(update_stats):
 		instance.stats_changed.connect(update_stats)
+	super(creature)
 	update_enemy()
 
 
@@ -51,7 +50,6 @@ func update_enemy() -> void:
 	if not is_inside_tree():
 		await ready
 	sprite_2d.texture = instance.definition.art
-	arrow.position = Vector2.UP * (sprite_2d.get_rect().size.y / 2 + ARROW_OFFSET)
 	update_stats()
 
 
