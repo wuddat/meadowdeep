@@ -1,23 +1,35 @@
 [gd_scene format=3 uid="uid://blecxow5xccjl"]
 
+[ext_resource type="Shader" uid="uid://b44o02wkltjhe" path="res://scenes/meadow/palmtree.gdshader" id="1_7j318"]
 [ext_resource type="Texture2D" uid="uid://c7y1lme766cu0" path="res://art/game_art/tiles/palm3_top.png" id="1_vpafi"]
 [ext_resource type="Texture2D" uid="uid://cb23liw1lim72" path="res://art/game_art/tiles/palm3_trunk.png" id="2_7j318"]
 [ext_resource type="Texture2D" uid="uid://cwkyeml7xgmxu" path="res://art/game_art/tiles/palm2_shadow.png" id="2_vpafi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6ycd"]
+shader = ExtResource("1_7j318")
+shader_parameter/start_y = 0.5200000247
+shader_parameter/strength = 0.2000000095
+shader_parameter/curve_scale = 0.0
+shader_parameter/speed = 1.05200004997
+shader_parameter/wind_start = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ycd"]
 size = Vector2(17, 13)
 
 [node name="PalmTree" type="StaticBody2D" unique_id=2069530847]
+material = SubResource("ShaderMaterial_u6ycd")
 collision_mask = 5
 
 [node name="palm" type="Sprite2D" parent="." unique_id=977000778]
 z_index = 3
 z_as_relative = false
+use_parent_material = true
 texture = ExtResource("1_vpafi")
 
 [node name="trunk" type="Sprite2D" parent="palm" unique_id=656487184]
 z_index = -1
 z_as_relative = false
+use_parent_material = true
 texture = ExtResource("2_7j318")
 
 [node name="shadow" type="Sprite2D" parent="palm" unique_id=941372297]

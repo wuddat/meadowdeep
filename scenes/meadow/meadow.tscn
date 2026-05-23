@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="20_foo57"]
 [ext_resource type="Script" uid="uid://ddyhhw5ulpr8m" path="res://scenes/meadow/ruins_entrance.gd" id="20_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://12dwwov5nus" path="res://art/game_art/WorldTileset.png" id="21_foo57"]
-[ext_resource type="PackedScene" uid="uid://d4g4hbpijemuw" path="res://scenes/meadow/meadow_world_item.tscn" id="23_u018s"]
+[ext_resource type="Script" uid="uid://bp6uf6gr8kjfn" path="res://scenes/debug/debug_item_spawner.gd" id="23_rhup3"]
 [ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="24_u018s"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
@@ -61,36 +61,15 @@ radius = 32.140316
 script = ExtResource("20_foo57")
 metadata/_custom_type_script = "uid://b4saeaban3m3y"
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fyjhr"]
-load_path = "res://.godot/imported/berry.png-2c6bbad10a991c76facd7dd43755a431.ctex"
-
-[sub_resource type="Resource" id="Resource_4afjc"]
+[sub_resource type="Resource" id="Resource_foo57"]
 script = ExtResource("24_u018s")
-creature_attribute = 1
-pips = 5
-id = "test_fragment"
-display_name = "Test Fragment"
-description = "used to test animations"
+pips = 8
+id = "pwr_test_spawn"
+display_name = "pwr_test_spawn"
+description = "pwr_test_spawn"
 category = 4
-rarity = 2
-value = 100
-art = SubResource("CompressedTexture2D_fyjhr")
-metadata/_custom_type_script = "uid://ce0btr4rfpgp"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ejc1j"]
-load_path = "res://.godot/imported/berry.png-2c6bbad10a991c76facd7dd43755a431.ctex"
-
-[sub_resource type="Resource" id="Resource_n08lr"]
-script = ExtResource("24_u018s")
-creature_attribute = 1
-pips = 5
-id = "test_fragment"
-display_name = "Test Fragment"
-description = "used to test animations"
-category = 4
-rarity = 2
-value = 100
-art = SubResource("CompressedTexture2D_ejc1j")
+color = Color(1, 0, 0, 1)
+art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://ce0btr4rfpgp"
 
 [node name="Meadow" type="Node2D" unique_id=428296654 node_paths=PackedStringArray("base_creature")]
@@ -247,20 +226,13 @@ shape = SubResource("CircleShape2D_u018s")
 position = Vector2(568, 410)
 instance = SubResource("Resource_rhup3")
 
-[node name="MeadowWorldItem" parent="." unique_id=486343511 instance=ExtResource("23_u018s")]
-position = Vector2(500, 374)
-item_data = SubResource("Resource_4afjc")
-
-[node name="MeadowWorldItem2" parent="." unique_id=2132208006 instance=ExtResource("23_u018s")]
-position = Vector2(500, 374)
-item_data = SubResource("Resource_n08lr")
-
-[node name="MeadowWorldItem3" parent="." unique_id=143414983 instance=ExtResource("23_u018s")]
-position = Vector2(500, 374)
-item_data = SubResource("Resource_n08lr")
-
 [node name="PosCheck" type="Marker2D" parent="." unique_id=2059791059]
 position = Vector2(631, 461)
+
+[node name="DebugItemSpawner" type="Node2D" parent="." unique_id=1053546176]
+position = Vector2(452, 360)
+script = ExtResource("23_rhup3")
+spawn_item = SubResource("Resource_foo57")
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
 [connection signal="body_entered" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_entered"]

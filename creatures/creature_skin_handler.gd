@@ -1,6 +1,9 @@
 class_name CreatureSkinHandler
 extends Node
 
+@export var stat_palette: StatPalette = StatPalette.new()
+@export var identity: CreatureIdentity
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $"../CreatureTextures"
 @onready var pattern: Sprite2D = $"../CreatureTextures/Pattern"
 @onready var mouth: Sprite2D = $"../CreatureTextures/Eyes/Mouth"
@@ -39,12 +42,33 @@ var mouth_states: Dictionary = {
 }
 
 var base_textures: Dictionary = {"eyes": null, "mouth": null}
+var _palette_material: ShaderMaterial
 
 func _ready() -> void:
 	if not eyes.texture or not mouth.texture:
 		apply_skin()
 	base_textures["eyes"] = eyes.texture
 	base_textures["mouth"] = mouth.texture
+
+
+# Called by base_creature once the palette ShaderMaterial is built.
+# Apply to body + pattern + arms; eyes/mouth keep their own textures.
+func adopt_palette_material(mat: ShaderMaterial) -> void:
+	_palette_material = mat
+	if animated_sprite_2d:
+		animated_sprite_2d.material = mat
+	if pattern:
+		pattern.material = mat
+	if left_arm:
+		left_arm.material = mat
+	if right_arm:
+		right_arm.material = mat
+
+
+func refresh_palette(_uid: String = "") -> void:
+	if not _palette_material or not identity:
+		return
+	_palette_material.set_shader_parameter("gradient", StatPalette.build_gradient(identity))
 
 func apply_skin() -> void:
 	set_eyes("base")

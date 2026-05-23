@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bio1g4lsk4beu"]
 
+[ext_resource type="Shader" uid="uid://boy12gwxxdf87" path="res://art/game_art/shaders/stat_palette_shader.gdshader" id="1_5crrt"]
 [ext_resource type="Script" uid="uid://c6fnwb36kt2qi" path="res://creatures/base_creature.gd" id="1_b2jx7"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="2_tam7t"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="3_tam7t"]
@@ -14,6 +15,9 @@
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="16_t2q5c"]
 [ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="19_eycut"]
 [ext_resource type="Texture2D" uid="uid://c1mldp0ubbicq" path="res://art/game_art/creatures/base_creature/eyes_cl_tight.png" id="20_eyclt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t2q5c"]
+shader = ExtResource("1_5crrt")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx7dx"]
 size = Vector2(8, 10)
@@ -780,6 +784,7 @@ _data = {
 }
 
 [node name="BaseCreature" type="CharacterBody2D" unique_id=576682274]
+material = SubResource("ShaderMaterial_t2q5c")
 collision_layer = 4
 script = ExtResource("1_b2jx7")
 

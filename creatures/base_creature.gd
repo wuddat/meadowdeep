@@ -13,7 +13,7 @@ const SLEEP_BUBBLE   = preload("uid://egy4dv4ia6wo")
 const LOVE_BUBBLE    = preload("uid://bqlkju2dhllnv")
 const RELAXED_BUBBLE = preload("uid://belrasl0o441s")
 const JOY_BUBBLE     = preload("uid://b2g1rvgiv1pxs")
-const HIGHLIGHT_SHADER := preload("uid://jjkitdbqimry")
+const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 const QUESTION_BUBBLE = preload("uid://bpd78uay7a3i6")
 
 
@@ -91,6 +91,11 @@ func _ready() -> void:
 	_home = global_position
 	if not instance:
 		_ensure_stats()
+	# Palette material must exist before _wire_instance triggers refresh_palette.
+	var shader_material := ShaderMaterial.new()
+	shader_material.shader = STAT_PALETTE_SHADER
+	if creature_skin_handler:
+		creature_skin_handler.adopt_palette_material(shader_material)
 	_wire_instance()
 	_establish_connections()
 	action_queue.action_started.connect(_on_action_start)
@@ -98,10 +103,6 @@ func _ready() -> void:
 	_on_ready_creature()
 	action_queue.enqueue(&"idle", {})
 	creature_animation_handler.base_eyes = eyes.texture
-	var shader_material := ShaderMaterial.new()
-	shader_material.shader = HIGHLIGHT_SHADER
-	shader_material.set_shader_parameter("width", 0.0)
-	_sprite.material = shader_material
 	input_pickable = true
 
 
@@ -120,6 +121,11 @@ func _wire_instance() -> void:
 		creature_stat_handler.creature_uid = instance.uid
 	if emotion_handler:
 		emotion_handler.instance = instance
+	if creature_skin_handler:
+		creature_skin_handler.identity = instance.identity
+		if creature_stat_handler and not creature_stat_handler.stat_changed.is_connected(creature_skin_handler.refresh_palette):
+			creature_stat_handler.stat_changed.connect(creature_skin_handler.refresh_palette)
+		creature_skin_handler.refresh_palette()
 
 # Override in child scripts for creature-specific setup (visuals, shaders, etc.)
 func _on_ready_creature() -> void:
