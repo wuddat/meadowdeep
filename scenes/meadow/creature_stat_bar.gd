@@ -9,15 +9,15 @@ extends Control
 
 const PILL_EMPTY = preload("uid://cg4v0q208cksl")
 const PILL_FULL = preload("uid://d3wnng60mj0x0")
-const PING_SFX: AudioStream = preload("res://art/game_art/sfx/ping_SFX.wav")
-const LEVEL_UP_SFX: AudioStream = preload("res://art/game_art/sfx/level_up.wav")
+const PING_SFX: AudioStream = preload("res://art/sounds/sfx/card_sfx1.mp3") #preload("res://art/game_art/sfx/ping_SFX.wav")
+const LEVEL_UP_SFX: AudioStream = preload("res://art/sounds/sfx/card_sfx1.mp3")
 
-const PIP_STAGGER := 0.2
+const PIP_STAGGER := 0.05 #base 0.2 edited for debug
 const PIP_FLASH_DURATION := 0.2
 const PIP_PREVIEW_PAUSE := .2
 const PIP_REST_COLOR := Color(0.84, 0.681, 0.116, 1.0)
 const PIP_FLASH_COLOR := Color.WHITE
-const LEVEL_UP_PAUSE := 0.5
+const LEVEL_UP_PAUSE := 0.1 #base 0.5 edited for debug
 
 var _last_lvl: int = -1
 var _last_pips: int = -1

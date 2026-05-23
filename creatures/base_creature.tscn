@@ -798,11 +798,9 @@ texture = ExtResource("2_tam7t")
 animation = &"idle"
 
 [node name="RightArm" parent="CreatureTextures" index="2" unique_id=110823812]
-modulate = Color(1.3831543, 1.6197081, 0.49296463, 1)
 offset = Vector2(4, 0)
 
 [node name="LeftArm" parent="CreatureTextures" index="3" unique_id=67353298]
-modulate = Color(1.3520288, 1.6197081, 0.49296463, 1)
 scale = Vector2(1.2, 1.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]

@@ -63,6 +63,10 @@ func adopt_palette_material(mat: ShaderMaterial) -> void:
 		left_arm.material = mat
 	if right_arm:
 		right_arm.material = mat
+	#if eyes:
+		#eyes.material = mat
+	if mouth:
+		mouth.material = mat
 
 
 func refresh_palette(_uid: String = "") -> void:
