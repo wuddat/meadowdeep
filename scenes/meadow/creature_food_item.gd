@@ -22,7 +22,7 @@ func decrement_stage() -> void:
 
 
 func start_eating() -> void:
-	if stages == 0:
+	if stages == 0 or being_eaten == true:
 		return
 	being_eaten = true
 

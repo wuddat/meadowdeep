@@ -219,8 +219,6 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			move_sfx.play()
 		&"eat_food":
 			_sprite.play("eat")
-			if eyes:
-				eyes.texture = EYES_SAD
 			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
 			creature_animation_handler.play("eat")
@@ -326,15 +324,17 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 
 
 func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
-	var food := _get_food()
+	var food:CreatureFoodItem = _get_food()
 	if not food:
 		action_queue.done()
 		return
 	var dir: Vector2 = food.global_position - global_position
 	if dir.length() < 20.0:
-		_eating_food = food
-		food.start_eating()
-		action_queue.enqueue(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
+		if not food.being_eaten:
+			food.start_eating()
+			_eating_food = food
+			pickup_item(food)
+			action_queue.enqueue(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 		action_queue.done()
 		return
 	velocity = dir.normalized() * move_speed
@@ -360,10 +360,10 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		animation_player.play("bubble_fade_out")
 		if _eating_food:
 			if _eating_food.get("stages") == 0:
+				drop_item(_eating_food)
 				_eating_food.queue_free()
 			else:
-				if _eating_food.has_method("drop"):
-					_eating_food.drop()
+				drop_item(_eating_food)
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
 		Events.creature_stat_view_dismissed.emit(instance.uid)
@@ -383,6 +383,24 @@ func pickup(holder: Node2D) -> void:
 	collision_mask = 0
 	Events.creature_stat_view_requested.emit(instance)
 
+func pickup_item(item:WorldItemBase) -> void:
+	if _held_item:
+		return
+	match item.item_data.get_category():
+		item.item_data.ItemCategory.FOOD:
+			_food = item
+			_held_item = item
+			item.pickup(self)
+		_:
+			_held_item = item
+			item.pickup(self)
+
+func drop_item(item:WorldItemBase) -> void:
+	if not _held_item:
+		return
+	_food = null
+	_held_item = null
+	item.drop()
 
 func release() -> void:
 	is_held = false
@@ -398,13 +416,10 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 		return
 	from_player.set("carried_food", null)
 	from_player.set("nearby_food", null)
-	if food_item.has_method("drop"):
-		food_item.drop()
 	if food_item.has_method("start_eating"):
 		food_item.start_eating()
-	food_item.global_position = global_position + Vector2(5, 5)
 	_eating_food = food_item
-	_food = null
+	pickup_item(food_item)
 	action_queue.remove(&"seek_food")
 	action_queue.remove(&"eat_food")
 	action_queue.push_front(&"eat_food", {
@@ -418,8 +433,7 @@ func receive_item(world_item: Node2D, from_player: Node2D) -> void:
 	from_player.set("carried_item", null)
 	from_player.set("nearby_item", null)
 	if world_item.has_method("pickup"):
-		world_item.pickup(self)
-	_held_item = world_item
+		pickup_item(world_item)
 	action_queue.push_front(&"absorb_item", {})
 	Events.creature_stat_view_requested.emit(instance)
 
@@ -443,13 +457,15 @@ func _get_player() -> CharacterBody2D:
 	return _player
 
 
-func _get_food() -> Area2D:
+func _get_food() -> CreatureFoodItem:
 	var foods := get_tree().get_nodes_in_group("food")
 	if foods.is_empty():
 		return null
-	var nearest_food: Area2D = null
+	var nearest_food: CreatureFoodItem = null
 	var nearest_dist: = INF
 	for f in foods:
+		if f.being_eaten:
+			continue
 		var dis := global_position.distance_squared_to(f.global_position)
 		if dis < nearest_dist:
 			nearest_dist = dis
