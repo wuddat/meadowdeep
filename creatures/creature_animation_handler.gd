@@ -25,7 +25,7 @@ const GIVE_ITEM = preload("uid://bavc86swxvjti")
 
 const IDLE_WEIGHTS := {
 	"think": 1,
-	"hover": 6,
+	"hover": 20,
 	"wave": 1,
 }
 

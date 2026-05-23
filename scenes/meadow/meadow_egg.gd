@@ -1,20 +1,14 @@
 class_name MeadowEgg
 extends Node2D
 
-# Map species_id → creature scene path
-const CREATURE_SCENES := {
-	"verdant":    "res://creatures/slime.tscn",
-	"ember":      "res://creatures/fire_sprite.tscn",
-	"tide":       "res://creatures/water_sprite.tscn",
-	"stone":      "res://creatures/slime.tscn",
-	"wisp":       "res://creatures/slime.tscn",
-}
+const BASE_CREATURE_SCENE := preload("res://creatures/base_creature.tscn")
+const HATCH_ACTIONS: Array[String] = ["move_toward", "move_away"]
+const HATCH_MAX_HEALTH := 20
 
 const SPLIT_DISTANCE := 28.0
 const SPLIT_DURATION := 0.5
 const DETECT_RANGE   := 48.0
 
-@export var species_id: String = "ember"
 @export var rarity: String = "common"
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -68,25 +62,35 @@ func begin_hatch() -> void:
 	tween.tween_property(bottom_half, "position", bottom_start + Vector2(0,  SPLIT_DISTANCE), SPLIT_DURATION).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	await tween.finished
 
-	_spawn_creature()
+	_hatch_creature()
 	queue_free()
 
 
-func _spawn_creature() -> void:
-	var scene_path: String = CREATURE_SCENES.get(species_id, "res://creatures/slime.tscn")
-	var scene := load(scene_path) as PackedScene
-	if not scene:
-		push_warning("MeadowEgg: failed to load scene for '%s'" % species_id)
-		return
-	var creature := scene.instantiate()
+func _hatch_creature() -> void:
+	var creature: BaseCreature = BASE_CREATURE_SCENE.instantiate()
 	creature.global_position = global_position
-	var instance := CreatureData.create_creature_instance(species_id)
-	if instance:
-		creature.set("instance", instance)
-	else:
-		push_warning("MeadowEgg: no creature data for '%s'" % species_id)
+	creature.instance = _build_hatch_instance()
 	get_parent().add_child(creature)
-	print("[Egg] hatched: %s at %s" % [species_id, global_position])
+	creature.creature_skin_handler.randomize_skin.call_deferred()
+	print("[Egg] hatched at %s" % global_position)
+
+
+func _build_hatch_instance() -> CreatureInstance:
+	var def := CreatureDef.new()
+	def.creature_name = "Hatchling"
+	def.max_health = HATCH_MAX_HEALTH
+
+	var identity := CreatureIdentity.new()
+	identity.randomize_grades()
+	identity.known_actions = HATCH_ACTIONS.duplicate()
+
+	var instance := CreatureInstance.new()
+	instance.definition = def
+	instance.identity = identity
+	instance.health = def.max_health
+	instance.block = 0
+	instance.uid = "hatch_%d_%d" % [Time.get_unix_time_from_system(), RNG.instance.randi()]
+	return instance
 
 
 func _get_player() -> Node2D:

@@ -78,6 +78,16 @@ func apply_skin() -> void:
 	set_eyes("base")
 	set_mouth("smile")
 
+
+# Picks a random eyes/mouth pairing from the pools and re-caches base_textures
+# so reset_base reverts to the hatched look, not the scene default.
+func randomize_skin() -> void:
+	var eye_key: String = eyes_states.keys().pick_random()
+	var mouth_key: String = mouth_states.keys().pick_random()
+	set_both(eye_key, mouth_key)
+	base_textures["eyes"] = eyes.texture
+	base_textures["mouth"] = mouth.texture
+
 func set_eyes(state: String) -> void:
 	if eyes_states.has(state):
 		eyes.texture = eyes_states[state]

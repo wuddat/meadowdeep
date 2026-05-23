@@ -10,7 +10,8 @@ const STAT_COLORS := {
 	"FOC": Color(0.95, 0.55, 0.10),  # orange
 }
 
-const BASE_VALUE := 0.65            # midtone brightness of the blended color
+const BASE_VALUE := 0.7            # midtone brightness of the blended color
+const BIRTH_SATURATION := 0.2
 const SATURATION_FULL_AT := 100.0   # total points at which color fully blooms
 
 # ── Painterly shading (warm highlights, cool shadows) ─────────────────────────
@@ -60,7 +61,7 @@ static func compute(identity: CreatureIdentity) -> Color:
 		vec += Vector2(cos(hue), sin(hue)) * w
 
 	if vec.length() < 0.001 or total <= 0.0:
-		return Color.from_hsv(0.2, 0.2, BASE_VALUE)
+		return _birth_color(identity)
 
 	var blended_hue: float = wrapf(vec.angle(), 0.0, TAU) / TAU
 	var direction_purity: float = clampf(vec.length() / total, 0.0, 1.0)
@@ -118,3 +119,17 @@ static func _lerp_hue(from: float, to: float, t: float) -> float:
 	elif diff < -0.5:
 		diff += 1.0
 	return wrapf(from + diff * t, 0.0, 1.0)
+
+
+static func _birth_color (identity: CreatureIdentity) -> Color:
+	var best_stat := ""
+	var best_grade := -1
+	for stat in STAT_COLORS:
+		var growth_stat: GrowthStat = identity.get(stat)
+		if growth_stat and growth_stat.grade > best_grade:
+			best_grade = growth_stat.grade
+			best_stat = stat
+	if best_stat == "":
+		return Color.from_hsv(0.0,0.0, BASE_VALUE)
+	var hue: float = STAT_COLORS[best_stat].h
+	return Color.from_hsv(hue, BIRTH_SATURATION, BASE_VALUE)

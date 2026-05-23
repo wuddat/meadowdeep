@@ -153,22 +153,7 @@ func _ensure_stats() -> void:
 		sb.FOC.grade == GrowthStat.Grade.C
 	)
 	if all_default:
-		sb.PWR.grade = _random_grade()
-		sb.AGI.grade = _random_grade()
-		sb.RES.grade = _random_grade()
-		sb.MYS.grade = _random_grade()
-		sb.FOC.grade = _random_grade()
-
-
-func _random_grade() -> GrowthStat.Grade:
-	# Weighted: C most common, S/E rare
-	var roll := randi() % 100
-	if roll < 5:   return GrowthStat.Grade.S
-	elif roll < 15: return GrowthStat.Grade.A
-	elif roll < 35: return GrowthStat.Grade.B
-	elif roll < 65: return GrowthStat.Grade.C
-	elif roll < 85: return GrowthStat.Grade.D
-	else:           return GrowthStat.Grade.E
+		sb.randomize_grades()
 
 
 func _physics_process(delta: float) -> void:

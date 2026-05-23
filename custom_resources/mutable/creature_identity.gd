@@ -62,3 +62,22 @@ func _init() -> void:
 	FOC = GrowthStat.new()
 	personality = Personality.new()
 	personality.create_personality()
+
+
+# Weighted grade roll: C common, S/E rare. Shared by hatch + BaseCreature default setup.
+func randomize_grades() -> void:
+	PWR.grade = _roll_grade()
+	AGI.grade = _roll_grade()
+	RES.grade = _roll_grade()
+	MYS.grade = _roll_grade()
+	FOC.grade = _roll_grade()
+
+
+func _roll_grade() -> GrowthStat.Grade:
+	var roll := randi() % 100
+	if roll < 5:    return GrowthStat.Grade.S
+	elif roll < 15: return GrowthStat.Grade.A
+	elif roll < 35: return GrowthStat.Grade.B
+	elif roll < 65: return GrowthStat.Grade.C
+	elif roll < 85: return GrowthStat.Grade.D
+	else:           return GrowthStat.Grade.E

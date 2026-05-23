@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://ddyhhw5ulpr8m" path="res://scenes/meadow/ruins_entrance.gd" id="20_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://12dwwov5nus" path="res://art/game_art/WorldTileset.png" id="21_foo57"]
 [ext_resource type="Script" uid="uid://bp6uf6gr8kjfn" path="res://scenes/debug/debug_item_spawner.gd" id="23_rhup3"]
+[ext_resource type="PackedScene" uid="uid://cyclrtdygm8eu" path="res://scenes/meadow/meadow_egg.tscn" id="23_u018s"]
 [ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="24_u018s"]
 [ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
@@ -267,6 +268,18 @@ spawn_item = SubResource("Resource_u018s")
 position = Vector2(447, 399)
 script = ExtResource("23_rhup3")
 spawn_item = SubResource("Resource_fyjhr")
+
+[node name="MeadowEgg" parent="." unique_id=882203231 instance=ExtResource("23_u018s")]
+position = Vector2(353, 291)
+
+[node name="MeadowEgg2" parent="." unique_id=544029397 instance=ExtResource("23_u018s")]
+position = Vector2(380, 290)
+
+[node name="MeadowEgg3" parent="." unique_id=154564532 instance=ExtResource("23_u018s")]
+position = Vector2(329, 288)
+
+[node name="MeadowEgg4" parent="." unique_id=1291340875 instance=ExtResource("23_u018s")]
+position = Vector2(304, 288)
 
 [connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
 [connection signal="body_entered" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_entered"]
