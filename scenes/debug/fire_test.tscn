@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://o8a5w7mf6p7g"]
+
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="1_87c6l"]
+[ext_resource type="Shader" uid="uid://cq8h8yi44isaw" path="res://art/game_art/shaders/fire_shader.gdshader" id="1_ckjak"]
+[ext_resource type="Texture2D" uid="uid://c3nj4vsfn21kt" path="res://art/game_art/scenery/goblet.png" id="1_w5vkb"]
+
+[sub_resource type="Gradient" id="Gradient_87c6l"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6cvoq"]
+gradient = SubResource("Gradient_87c6l")
+fill_from = Vector2(0.517094, 0.84615386)
+fill_to = Vector2(0.15811966, 0.62393165)
+
+[sub_resource type="Gradient" id="Gradient_xuiw3"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uf32v"]
+gradient = SubResource("Gradient_xuiw3")
+fill_from = Vector2(0.5940171, 0.7008547)
+fill_to = Vector2(1, 0.5726496)
+
+[sub_resource type="Gradient" id="Gradient_aor01"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ltnm5"]
+gradient = SubResource("Gradient_aor01")
+fill_from = Vector2(0.6282051, 1)
+fill_to = Vector2(0.63247865, 0.86752135)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wd7fv"]
+noise_type = 3
+seed = 5
+frequency = 0.0078
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_67noc"]
+noise = SubResource("FastNoiseLite_wd7fv")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3pc8v"]
+shader = ExtResource("1_ckjak")
+shader_parameter/debug = false
+shader_parameter/pallet_size = 3
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_67noc")
+shader_parameter/grad_tex = SubResource("GradientTexture2D_ltnm5")
+shader_parameter/frame_grad_1 = SubResource("GradientTexture2D_6cvoq")
+shader_parameter/frame_grad_2 = SubResource("GradientTexture2D_uf32v")
+shader_parameter/mask_color = Color(1, 1, 1, 1)
+shader_parameter/bg_color = Color(0, 0, 0, 0)
+shader_parameter/flame_0 = Color(0, 0, 0, 1)
+shader_parameter/flame_1 = Color(0.77, 0.100099996, 0.100099996, 1)
+shader_parameter/flame_2 = Color(0.78284067, 0.1689229, 0.19712311, 1)
+shader_parameter/flame_3 = Color(0, 0, 0, 1)
+shader_parameter/flame_4 = Color(0, 0, 0, 1)
+shader_parameter/scroll_speed = 30.0
+shader_parameter/thresh_f0 = 0.2
+shader_parameter/thresh_f1 = 0.4
+shader_parameter/thresh_f2 = 0.6
+shader_parameter/thresh_f3 = 0.7
+shader_parameter/thresh_f4 = 0.0
+
+[sub_resource type="Gradient" id="Gradient_22els"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ckjak"]
+gradient = SubResource("Gradient_22els")
+width = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5vkb"]
+size = Vector2(20, 10)
+
+[node name="Fire" type="Node2D" unique_id=518193642]
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1173694947]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(0, 4)
+scale = Vector2(1.21875, 1)
+texture = ExtResource("1_87c6l")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2121833570]
+position = Vector2(1, 5)
+texture = ExtResource("1_w5vkb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1480939312]
+z_index = 2
+material = SubResource("ShaderMaterial_3pc8v")
+position = Vector2(2.3841858e-07, -82)
+scale = Vector2(31, 2.5397677)
+texture = SubResource("GradientTexture2D_ckjak")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1706604938]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=811087413]
+position = Vector2(1, 5)
+shape = SubResource("RectangleShape2D_w5vkb")
