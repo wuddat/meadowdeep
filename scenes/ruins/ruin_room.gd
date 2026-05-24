@@ -4,6 +4,8 @@ extends Node2D
 const DOOR = preload("uid://j0qtggfhqrak")
 const COMBAT_START_DELAY: float = 0.75
 const BATTLE_COLLIDER_LAYER: int = 8
+const DOOR_SLAM = preload("uid://cfh2snlwrbn8s")
+
 
 const DOOR_POS := {
 	&"N": Vector2(313, 19),
@@ -147,6 +149,10 @@ func _start_room_combat(room: Room) -> void:
 	for door in doors.values():
 		if door.state == Door.State.OPEN:
 			door.close()
+	await get_tree().create_timer(.15).timeout
+	SFXPlayer.play(DOOR_SLAM)
+	Events.shake_camera_requested.emit()
+			
 	battle_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 	room_colliders.collision_layer = 0
 	await get_tree().create_timer(COMBAT_START_DELAY).timeout

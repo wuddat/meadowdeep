@@ -4,6 +4,7 @@ extends Node
 # Run / Scene
 signal scene_transition_requested(scene_id: String)
 signal ruins_run_started(creature: CreatureInstance)
+signal shake_camera_requested()
 
 # Meadow Creature stat view
 signal creature_stat_view_requested(instance: CreatureInstance)

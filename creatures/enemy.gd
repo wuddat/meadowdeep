@@ -17,6 +17,7 @@ extends BattleActor
 
 var spawn_coords: Vector2
 var last_damage_taken: int = 0
+const SLIME_DEATH_1 = preload("uid://nm3nmguhpfkf")
 
 
 func _ready() -> void:
@@ -103,6 +104,7 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 	tween.tween_interval(0.17)
 	tween.finished.connect(func():
 		if instance.health <= 0:
+			SFXPlayer.pitch_play(SLIME_DEATH_1)
 			Events.enemy_fainted.emit(self)
 	)
 

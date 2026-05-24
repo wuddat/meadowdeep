@@ -6,13 +6,13 @@
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="2_yq8xq"]
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="3_vc38w"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="3_yka08"]
-[ext_resource type="Texture2D" uid="uid://cqabvme4u5an4" path="res://art/game_art/concepts/map_room_bg.png" id="3_yq8xq"]
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="4_5b7mo"]
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="4_vkuii"]
 [ext_resource type="Script" uid="uid://c8hfqggmjj1qk" path="res://scenes/ruins/loot_handler.gd" id="5_k8vac"]
 [ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="7_4ddbq"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="7_c4qfd"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="8_qkvym"]
+[ext_resource type="Texture2D" uid="uid://bcpqpwyfbi7ko" path="res://art/game_art/concepts/map_room_bg_2.png" id="8_vkuii"]
 [ext_resource type="SpriteFrames" uid="uid://c3ay6pay3dmmh" path="res://scenes/ruins/greenie_frames.tres" id="12_k8vac"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="12_vve1t"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="13_k8vac"]
@@ -86,7 +86,7 @@ z_index = -5
 z_as_relative = false
 offset_right = 640.0
 offset_bottom = 360.0
-texture = ExtResource("3_yq8xq")
+texture = ExtResource("8_vkuii")
 
 [node name="Doors" type="Node2D" parent="." unique_id=985720702]
 
