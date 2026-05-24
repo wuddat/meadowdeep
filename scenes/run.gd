@@ -54,7 +54,7 @@ func _swap_scene(scene_id: String) -> void:
 		await new_scene.ready
 	if new_scene.has_method("setup"):
 		new_scene.setup(active_stats)
-	
+
 
 func _clear_current_view() -> void:
 	if current_view.get_child_count() > 0:

@@ -24,5 +24,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not (event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo):
 		return
-	Events.scene_transition_requested.emit("ruins_prep")
 	get_viewport().set_input_as_handled()
+	Events.scene_transition_requested.emit("ruins_prep")

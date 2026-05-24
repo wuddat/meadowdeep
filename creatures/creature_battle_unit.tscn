@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cbu0mdw000001"]
 
 [ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
-[ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="2_8acdo"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="2_yfbhk"]
 [ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="3_r6ech"]
@@ -23,13 +22,6 @@
 [ext_resource type="Texture2D" uid="uid://cf2hju6xyyjsb" path="res://art/game_art/creatures/base_creature/mouth_surprise.png" id="22_mthsr"]
 [ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="23_eycut"]
 [ext_resource type="Texture2D" uid="uid://c1mldp0ubbicq" path="res://art/game_art/creatures/base_creature/eyes_cl_tight.png" id="24_eyclt"]
-
-[sub_resource type="Resource" id="Resource_xxh6r"]
-script = ExtResource("2_8acdo")
-max_health = 500
-health = 500
-uid = "22"
-metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
 [sub_resource type="Resource" id="Resource_gwgry"]
 script = ExtResource("7_rlrki")
@@ -711,7 +703,6 @@ _data = {
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
-stats = SubResource("Resource_xxh6r")
 sprite_frames = ExtResource("2_yfbhk")
 move_speed = 80.0
 battle_action_list = Array[ExtResource("3_r6ech")]([SubResource("Resource_g8vsc"), ExtResource("8_dnym6"), ExtResource("9_ok274"), ExtResource("8_wo3yl"), ExtResource("9_abx5i"), SubResource("Resource_vyn8i")])
@@ -798,6 +789,7 @@ autoplay = &"hover"
 script = ExtResource("19_abx5i")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
+unique_name_in_owner = true
 script = ExtResource("20_ng24t")
 
 [editable path="CreatureTextures"]

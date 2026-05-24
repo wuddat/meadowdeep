@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dqqtr57ya4m3r" path="res://scenes/ruins/ruins_prep_menu.gd" id="1_vo3rc"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="2_3uyyh"]
+[ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="3_cgf58"]
 [ext_resource type="PackedScene" uid="uid://bdppximmf2egb" path="res://scenes/meadow/creature_stat_bar.tscn" id="4_cgf58"]
 
 [node name="RuinsPrepMenu" type="Control" unique_id=861773403]
@@ -90,6 +91,11 @@ offset_right = 212.0
 offset_bottom = 106.0
 size_flags_horizontal = 4
 text = ">"
+
+[node name="CreatureSkinHandler" type="Node" parent="CreatureSelector" unique_id=699084373]
+unique_name_in_owner = true
+script = ExtResource("3_cgf58")
+metadata/_custom_type_script = "uid://bylbe3ro3wyn4"
 
 [node name="NamePanel" type="Panel" parent="." unique_id=1033498954]
 layout_mode = 0

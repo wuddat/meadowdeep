@@ -10,6 +10,11 @@ func _ready() -> void:
 	_on_child_order_changed()
 
 func _on_child_order_changed() -> void:
+	# Guard against infinite respawn loop while the parent scene is freeing:
+	# children get removed during free cascade, fires child_order_changed,
+	# we add_child a new item, that gets freed too, signal fires again, repeat.
+	if is_queued_for_deletion() or not is_inside_tree():
+		return
 	if get_children().is_empty():
 		var new_item: MeadowItemOneUse = MEADOW_WORLD_ITEM.instantiate()
 		new_item.item_data = spawn_item

@@ -2,6 +2,7 @@ class_name RuinsPrepMenu
 extends Control
 
 const MAX_ACTIVE_SKILLS := 4
+const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 
 @onready var creature_textures: CreatureTextures = %CreatureTextures
 @onready var name_label: Label = %NameLabel
@@ -18,6 +19,7 @@ const MAX_ACTIVE_SKILLS := 4
 @onready var creature_stat_mys: CreatureStatBar = %CreatureStatMYS
 @onready var creature_stat_foc: CreatureStatBar = %CreatureStatFOC
 @onready var stat_panel: VBoxContainer = %StatPanel
+@onready var creature_skin_handler: CreatureSkinHandler = %CreatureSkinHandler
 
 
 var _creatures: Array[CreatureInstance] = []
@@ -29,6 +31,10 @@ func _ready() -> void:
 	right_button.pressed.connect(_on_right_pressed)
 	meadow_button.pressed.connect(_on_meadow_pressed)
 	start_button.pressed.connect(_on_start_pressed)
+	if creature_skin_handler:
+		var mat := ShaderMaterial.new()
+		mat.shader = STAT_PALETTE_SHADER
+		creature_skin_handler.adopt_palette_material(mat)
 
 
 func setup(stats: PlayerData) -> void:
@@ -50,6 +56,10 @@ func populate_creature(creature: CreatureInstance) -> void:
 	if definition.frames:
 		creature_textures.sprite_frames = definition.frames
 		creature_textures.play("idle")
+
+	if creature_skin_handler:
+		creature_skin_handler.identity = identity
+		creature_skin_handler.refresh_palette()
 
 	for child:CreatureStatBar in stat_panel.get_children():
 		child.reset()

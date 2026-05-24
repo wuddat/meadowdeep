@@ -3,6 +3,7 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
+const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
@@ -14,6 +15,7 @@ extends BattleActor
 @onready var action_name: Label = %ActionName
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn
 @onready var hitbox: Area2D = %Hitbox
+@onready var creature_skin_handler: CreatureSkinHandler = %CreatureSkinHandler
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -35,6 +37,14 @@ func _ready() -> void:
 
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
+
+	if creature_skin_handler:
+		var mat := ShaderMaterial.new()
+		mat.shader = STAT_PALETTE_SHADER
+		creature_skin_handler.adopt_palette_material(mat)
+		if instance:
+			creature_skin_handler.identity = instance.identity
+			creature_skin_handler.refresh_palette()
 
 	# Default behavior outside combat: follow the player.
 	start_following_player()
@@ -189,6 +199,9 @@ func update_creature() -> void:
 	if frames_to_use:
 		creature_textures.sprite_frames = frames_to_use
 		creature_textures.play("idle")
+	if creature_skin_handler:
+		creature_skin_handler.identity = instance.identity
+		creature_skin_handler.refresh_palette()
 	update_stats()
 
 
