@@ -24,8 +24,9 @@ func _ready() -> void:
 	add_to_group("enemies")
 	super()
 	await get_tree().process_frame
-	if instance and sprite_frames:
-		animated_sprite_2d.sprite_frames = sprite_frames
+	var frames_to_use: SpriteFrames = instance.definition.frames if instance and instance.definition and instance.definition.frames else sprite_frames
+	if frames_to_use:
+		animated_sprite_2d.sprite_frames = frames_to_use
 		animated_sprite_2d.play("idle")
 	spawn_coords = global_position
 
@@ -70,7 +71,11 @@ func _get_action_interval() -> float:
 
 
 func _play_animation(anim_name: StringName) -> void:
-	animated_sprite_2d.play(anim_name)
+	if animated_sprite_2d.sprite_frames:
+		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
+			animated_sprite_2d.play(anim_name)
+		else:
+			animated_sprite_2d.play("default")
 
 
 func _face_direction(vel: Vector2) -> void:

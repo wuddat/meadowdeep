@@ -46,7 +46,7 @@
 			"max_health": 10.0,
 			"egg_rarity": "common",
 			"egg_depth_found": 0.0,
-			"sprite_path": "res://art/placeholder.png",
+			"sprite_path": "res://art/game_art/creatures/bat/bat_sprite_frames.tres",
 			"icon_path": "res://art/placeholder.png",
 			"starting_actions": ["strike", "move_toward"],
 			"identity": {

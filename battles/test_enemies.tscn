@@ -3,7 +3,13 @@
 [node name="test_enemies" type="Node2D" unique_id=1635388599]
 
 [node name="Node2D" type="Node2D" parent="." unique_id=938578590]
-position = Vector2(556, 200)
+position = Vector2(544, 93)
 
 [node name="Node2D2" type="Node2D" parent="." unique_id=1583448635]
-position = Vector2(470, 210)
+position = Vector2(89, 97)
+
+[node name="Node2D3" type="Node2D" parent="." unique_id=2041517313]
+position = Vector2(95, 254)
+
+[node name="Node2D4" type="Node2D" parent="." unique_id=1790390297]
+position = Vector2(550, 263)

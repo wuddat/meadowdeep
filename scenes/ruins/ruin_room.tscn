@@ -23,6 +23,12 @@
 [ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="17_1lbdh"]
 [ext_resource type="Resource" uid="uid://clgemi1pvmcx2" path="res://battles/battle_actions/aggressive/dash_in.tres" id="18_frkgh"]
 [ext_resource type="Resource" uid="uid://cvtquesykjxkc" path="res://battles/battle_actions/defensive/dash_out.tres" id="19_wugeb"]
+[ext_resource type="PackedScene" uid="uid://o8a5w7mf6p7g" path="res://scenes/debug/fire_test.tscn" id="24_1lbdh"]
+[ext_resource type="Texture2D" uid="uid://c03eqnblwe0by" path="res://art/game_art/scenery/spire.png" id="25_wugeb"]
+[ext_resource type="Texture2D" uid="uid://v030g8va4lj1" path="res://art/game_art/scenery/spire_shadow.png" id="26_dlmko"]
+[ext_resource type="Material" uid="uid://c8q3ck8mf0qau" path="res://art/game_art/shaders/flame_flicker.tres" id="26_rbvr3"]
+[ext_resource type="SpriteFrames" uid="uid://behq2uqry32k4" path="res://art/game_art/creatures/bat/bat_sprite_frames.tres" id="27_ocehn"]
+[ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="28_rbvr3"]
 
 [sub_resource type="Resource" id="Resource_1lbdh"]
 script = ExtResource("4_vkuii")
@@ -64,6 +70,24 @@ metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ksvj"]
 size = Vector2(682, 26)
 
+[sub_resource type="Gradient" id="Gradient_y34cg"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hvte7"]
+gradient = SubResource("Gradient_y34cg")
+fill = 1
+fill_from = Vector2(0.52991456, 0.52991456)
+fill_to = Vector2(0.021367522, 0.517094)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_a2kfm"]
+polygon = PackedVector2Array(-1, 46, -11, 39, -9, -31, -1, -47)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbvr3"]
+size = Vector2(20, 22)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lddhi"]
+polygon = PackedVector2Array(0, 47, 1, -30, 1, -47, 9, -30, 11, 39)
+
 [node name="RuinRoom" type="Node2D" unique_id=1210557673]
 script = ExtResource("1_qhq8s")
 
@@ -92,7 +116,7 @@ texture = ExtResource("8_vkuii")
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("1_s0srl")]
 z_index = 1
-position = Vector2(315, 154)
+position = Vector2(325, 264)
 collision_layer = 5
 collision_mask = 13
 motion_mode = 1
@@ -106,6 +130,7 @@ zoom = Vector2(1.1, 1.1)
 script = ExtResource("2_yq8xq")
 
 [node name="RoomTypeLabel" type="Label" parent="." unique_id=593852780]
+modulate = Color(1, 1, 1, 0.15294118)
 offset_left = 262.0
 offset_top = 177.0
 offset_right = 364.0
@@ -118,7 +143,7 @@ encounter_pool = ExtResource("8_qkvym")
 
 [node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("7_c4qfd")]
 unique_name_in_owner = true
-position = Vector2(517, 272)
+position = Vector2(261, 293)
 sprite_frames = ExtResource("12_k8vac")
 move_speed = 125.0
 battle_action_list = Array[ExtResource("12_vve1t")]([SubResource("Resource_ocehn"), ExtResource("16_vkuii"), ExtResource("17_1lbdh"), ExtResource("18_frkgh"), ExtResource("19_wugeb"), SubResource("Resource_lddhi")])
@@ -169,3 +194,92 @@ shape = SubResource("RectangleShape2D_1ksvj")
 position = Vector2(645, 208)
 rotation = -1.5707964
 shape = SubResource("RectangleShape2D_1ksvj")
+
+[node name="Fire" parent="." unique_id=518193642 instance=ExtResource("24_1lbdh")]
+position = Vector2(319, 227)
+
+[node name="PointLight2D" type="PointLight2D" parent="Fire" unique_id=1832745396]
+position = Vector2(11.999985, -16.000008)
+scale = Vector2(1.9895391, 1.1884269)
+color = Color(1, 0, 0, 0.84705883)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_hvte7")
+texture_scale = 4.72
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1602507145]
+z_index = 2
+position = Vector2(149, 148)
+texture = ExtResource("25_wugeb")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D" unique_id=1252433545]
+z_index = -1
+material = ExtResource("26_rbvr3")
+position = Vector2(-28, 12)
+rotation = -0.893283
+texture = ExtResource("26_dlmko")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D" unique_id=1349736774]
+occluder = SubResource("OccluderPolygon2D_a2kfm")
+sdf_collision = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D" unique_id=1634789095]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/StaticBody2D" unique_id=325733660]
+position = Vector2(0, 30)
+shape = SubResource("RectangleShape2D_rbvr3")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1442133879]
+z_index = 2
+position = Vector2(322, 90)
+texture = ExtResource("25_wugeb")
+flip_h = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D2" unique_id=296519451]
+z_index = -1
+material = ExtResource("26_rbvr3")
+position = Vector2(-6, -0.9999999)
+rotation = -0.1680623
+texture = ExtResource("26_dlmko")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D2" unique_id=684841450]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D2/StaticBody2D" unique_id=327842243]
+position = Vector2(0, 30)
+shape = SubResource("RectangleShape2D_rbvr3")
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=38155350]
+z_index = 2
+position = Vector2(503, 147)
+texture = ExtResource("25_wugeb")
+flip_h = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D3" unique_id=1122434152]
+z_index = -1
+material = ExtResource("26_rbvr3")
+position = Vector2(28, 11.999999)
+rotation = 0.88180697
+texture = ExtResource("26_dlmko")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D3" unique_id=710073837]
+occluder = SubResource("OccluderPolygon2D_lddhi")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D3" unique_id=75300677]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D3/StaticBody2D" unique_id=1300224941]
+position = Vector2(0, 30)
+shape = SubResource("RectangleShape2D_rbvr3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1970673660]
+visible = false
+position = Vector2(216, 130)
+sprite_frames = ExtResource("27_ocehn")
+frame_progress = 0.73347646
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D" unique_id=2122103933]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-1, 22)
+texture = ExtResource("28_rbvr3")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1455113439]
+color = Color(0.7, 0.7, 0.7, 1)

@@ -5,6 +5,7 @@ const DOOR = preload("uid://j0qtggfhqrak")
 const COMBAT_START_DELAY: float = 0.75
 const BATTLE_COLLIDER_LAYER: int = 8
 const DOOR_SLAM = preload("uid://cfh2snlwrbn8s")
+const RUINS_LOOP = preload("uid://c21qpja5wmsl1")
 
 
 const DOOR_POS := {
@@ -70,6 +71,7 @@ func setup(stats: PlayerData) -> void:
 	print("[RUINROOM] ruins_creature: ", _active_stats.ruins_creature)
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
+	SFXPlayer.play(RUINS_LOOP)
 	enter_room(Vector2i.ZERO)
 	
 func _establish_connections() -> void:
@@ -171,6 +173,8 @@ func _finish_room_combat(victory: bool) -> void:
 		_active_combat_room.cleared = true
 		refresh_doors(_active_combat_room)
 		_active_combat_room = null
+		SFXPlayer.pitch_play(DOOR_SLAM,1.2,1.2)
+		Events.shake_camera_requested.emit()
 	else:
 		Events.scene_transition_requested.emit("meadow")
 

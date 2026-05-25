@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://behq2uqry32k4"]
+
+[ext_resource type="Texture2D" uid="uid://7n1j62rh5kjd" path="res://art/game_art/creatures/bat/bat_sprite_sheet.png" id="1_xr7gm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7n8w"]
+atlas = ExtResource("1_xr7gm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a3i1f"]
+atlas = ExtResource("1_xr7gm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2fyh"]
+atlas = ExtResource("1_xr7gm")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yf0i1"]
+atlas = ExtResource("1_xr7gm")
+region = Rect2(96, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7n8w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a3i1f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v2fyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yf0i1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]

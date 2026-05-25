@@ -44,9 +44,9 @@ shader_parameter/frame_grad_1 = SubResource("GradientTexture2D_6cvoq")
 shader_parameter/frame_grad_2 = SubResource("GradientTexture2D_uf32v")
 shader_parameter/mask_color = Color(1, 1, 1, 1)
 shader_parameter/bg_color = Color(0, 0, 0, 0)
-shader_parameter/flame_0 = Color(0, 0, 0, 1)
-shader_parameter/flame_1 = Color(0.77, 0.100099996, 0.100099996, 1)
-shader_parameter/flame_2 = Color(0.78284067, 0.1689229, 0.19712311, 1)
+shader_parameter/flame_0 = Color(0, 0, 0, 0.6509804)
+shader_parameter/flame_1 = Color(0.77, 0.100099996, 0.100099996, 0.58431375)
+shader_parameter/flame_2 = Color(0.78, 0.17160001, 0.20202014, 0.7529412)
 shader_parameter/flame_3 = Color(0, 0, 0, 1)
 shader_parameter/flame_4 = Color(0, 0, 0, 1)
 shader_parameter/scroll_speed = 30.0
@@ -64,7 +64,7 @@ gradient = SubResource("Gradient_22els")
 width = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w5vkb"]
-size = Vector2(20, 10)
+size = Vector2(20, 15)
 
 [node name="Fire" type="Node2D" unique_id=518193642]
 
@@ -90,5 +90,5 @@ collision_layer = 15
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=811087413]
-position = Vector2(1, 5)
+position = Vector2(1, 2.5)
 shape = SubResource("RectangleShape2D_w5vkb")
