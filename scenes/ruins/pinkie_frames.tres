@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://rmy5i47q2y07"]
+
+[ext_resource type="Texture2D" uid="uid://dokpmwvq6artg" path="res://art/game_art/concepts/bases/pinkie_base.png" id="1_yeuo1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24xqt"]
+atlas = ExtResource("1_yeuo1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlvfl"]
+atlas = ExtResource("1_yeuo1")
+region = Rect2(0, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24xqt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dlvfl")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]

@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://o3im86e3myve"]
+
+[ext_resource type="Texture2D" uid="uid://covimfh4od8i6" path="res://art/game_art/concepts/bases/bluie_base.png" id="1_108i7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ti7sg"]
+atlas = ExtResource("1_108i7")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soy23"]
+atlas = ExtResource("1_108i7")
+region = Rect2(0, 0, 48, 48)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ti7sg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_soy23")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]

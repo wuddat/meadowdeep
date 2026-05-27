@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="1_87c6l"]
 [ext_resource type="Shader" uid="uid://cq8h8yi44isaw" path="res://art/game_art/shaders/fire_shader.gdshader" id="1_ckjak"]
 [ext_resource type="Texture2D" uid="uid://c3nj4vsfn21kt" path="res://art/game_art/scenery/goblet.png" id="1_w5vkb"]
+[ext_resource type="AudioStream" uid="uid://uay56k834r3k" path="res://art/game_art/sfx/fire_sound.wav" id="4_87c6l"]
 
 [sub_resource type="Gradient" id="Gradient_87c6l"]
 
@@ -92,3 +93,9 @@ collision_mask = 15
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=811087413]
 position = Vector2(1, 2.5)
 shape = SubResource("RectangleShape2D_w5vkb")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2082813076]
+stream = ExtResource("4_87c6l")
+volume_db = -26.51
+autoplay = true
+bus = &"SFX"

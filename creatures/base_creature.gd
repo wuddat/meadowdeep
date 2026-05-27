@@ -425,6 +425,7 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	action_queue.push_front(&"eat_food", {
 		"timer": randf_range(action_duration_min, action_duration_max)
 	})
+	instance.increment_bond(0.05)
 	Events.creature_stat_view_requested.emit(instance)
 
 func receive_item(world_item: Node2D, from_player: Node2D) -> void:
@@ -435,6 +436,8 @@ func receive_item(world_item: Node2D, from_player: Node2D) -> void:
 	if world_item.has_method("pickup"):
 		pickup_item(world_item)
 	action_queue.push_front(&"absorb_item", {})
+	if instance:
+		instance.identity.increment_bond(0.05)
 	Events.creature_stat_view_requested.emit(instance)
 
 

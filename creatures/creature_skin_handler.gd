@@ -11,6 +11,10 @@ extends Node
 @onready var left_arm: Sprite2D = $"../CreatureTextures/LeftArm"
 @onready var right_arm: Sprite2D = $"../CreatureTextures/RightArm"
 
+const GREENIE_FRAMES = preload("res://scenes/ruins/greenie_frames.tres")
+const BLUIE_FRAMES = preload("uid://o3im86e3myve")
+const PINKIE_FRAMES = preload("uid://rmy5i47q2y07")
+
 
 const EYES_CLOSED = preload("res://art/game_art/creatures/greenie/eyes_cl.png")
 const EYES_CL_SOFT = preload("res://art/game_art/creatures/greenie/eyes_cl.png")
@@ -73,6 +77,15 @@ func refresh_palette(_uid: String = "") -> void:
 	if not _palette_material or not identity:
 		return
 	_palette_material.set_shader_parameter("gradient", StatPalette.build_gradient(identity))
+	var pwr_pts := identity.PWR.get_points()
+	var agi_pts := identity.AGI.get_points()
+	if pwr_pts > 50:
+		animated_sprite_2d.sprite_frames = PINKIE_FRAMES
+	elif agi_pts > 50:
+		animated_sprite_2d.sprite_frames = BLUIE_FRAMES
+	elif agi_pts > pwr_pts:
+		animated_sprite_2d.sprite_frames = BLUIE_FRAMES
+	else: animated_sprite_2d.sprite_frames = GREENIE_FRAMES
 
 func apply_skin() -> void:
 	set_eyes("base")

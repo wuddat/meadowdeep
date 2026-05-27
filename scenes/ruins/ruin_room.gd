@@ -71,7 +71,7 @@ func setup(stats: PlayerData) -> void:
 	print("[RUINROOM] ruins_creature: ", _active_stats.ruins_creature)
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
-	SFXPlayer.play(RUINS_LOOP)
+	MusicPlayer.play(RUINS_LOOP)
 	enter_room(Vector2i.ZERO)
 	
 func _establish_connections() -> void:

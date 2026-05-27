@@ -1,6 +1,11 @@
 extends Node
 
 
+func _ready() -> void:
+	for player in get_children():
+		(player as AudioStreamPlayer).bus = &"SFX"
+
+
 func play(audio: AudioStream, single := false) -> void:
 	if not audio:
 		return

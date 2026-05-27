@@ -270,10 +270,10 @@ position = Vector2(0, 30)
 shape = SubResource("RectangleShape2D_rbvr3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1970673660]
-visible = false
 position = Vector2(216, 130)
 sprite_frames = ExtResource("27_ocehn")
-frame_progress = 0.73347646
+autoplay = "default"
+frame_progress = 0.41399083
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D" unique_id=2122103933]
 modulate = Color(0, 0, 0, 1)

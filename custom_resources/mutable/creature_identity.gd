@@ -17,13 +17,12 @@ extends Resource
 @export_group("Identity")
 @export_range(-100,100,1) var courage: int = 0
 @export var personality: Personality
-@export var dominant_stat: String = ""   # "PWR" | "AGI" | "RES" | "MYS" | "FOC"
 @export var evolution_stage: int = 0
 
 # ── Moves ─────────────────────────────────────────────────────────────────────
 @export_group("BattleActions")
-@export var known_actions: Array[String] = []     # moves learned so far
-@export var assigned_actions: Array[String] = []  # chosen for next run
+@export var known_actions: Array[String] = []     # actions learned so far
+@export var assigned_actions: Array[String] = []  # actions for next run
 
 # ── Element Alignment ─────────────────────────────────────────────────────────────────
 
@@ -33,12 +32,14 @@ extends Resource
 @export var earth_alignment: float = 0.0
 @export var air_alignment: float = 0.0
 @export var corruption_alignment: float = 0.0
+@export_range(-1, 1, 0.05) var pwr_mys_alignment: float = 0.0
+@export_range(-1, 1, 0.05) var agi_res_alignment: float = 0.0
 
 # ── Bonds ─────────────────────────────────────────────────────────────────────
 @export_group("Bonds")
-@export var bond_with_player: float = 0.0      # 0.0 – 100.0
-@export var bond_with_companion: float = 0.0   # 0.0 – 100.0
-var bonds_with_creatures: Dictionary = {}       # uid (String) → bond score (float)
+@export_range(-1, 1, 0.05) var bond: float = 0.0
+@export_range(-1, 1, 0.05) var bond_with_companion: float = 0.0
+var creature_bonds: Dictionary = {}       # uid (String) → bond score (float)
 
 # ── History ───────────────────────────────────────────────────────────────────
 @export_group("History")
@@ -81,3 +82,7 @@ func _roll_grade() -> GrowthStat.Grade:
 	elif roll < 65: return GrowthStat.Grade.C
 	elif roll < 85: return GrowthStat.Grade.D
 	else:           return GrowthStat.Grade.E
+
+
+func increment_bond(val: float = 0.05) -> void:
+	bond += val

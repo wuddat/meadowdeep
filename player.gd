@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const STAT_VIEW_SCENE := preload("res://scenes/meadow/creature_stat_view.tscn")
+const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
 
 @export var speed: float = 200.0
 @export var roll_speed: float = 400.0
@@ -32,6 +33,7 @@ var _drop_offset_x: float = 0.0
 func _ready() -> void:
 	add_to_group("player")
 	_drop_offset_x = absf(drop_position.position.x)
+	sprite.frame_changed.connect(_on_frame_changed)
 
 func _physics_process(delta):
 	var input_vector = Vector2.ZERO
@@ -161,3 +163,7 @@ func _on_player_animation_finished() -> void:
 
 func _on_ruins_entrance_body_entered(body: Node2D) -> void:
 	pass # Replace with function body.
+
+func _on_frame_changed() -> void:
+	if sprite.animation == "run" and (sprite.frame == 3 or sprite.frame ==7):
+		SFXPlayer.pitch_play(FOOTSTEP_STONE)

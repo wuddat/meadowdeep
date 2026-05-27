@@ -21,7 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://12dwwov5nus" path="res://art/game_art/WorldTileset.png" id="21_foo57"]
 [ext_resource type="Script" uid="uid://bp6uf6gr8kjfn" path="res://scenes/debug/debug_item_spawner.gd" id="23_rhup3"]
 [ext_resource type="Script" uid="uid://ce0btr4rfpgp" path="res://custom_resources/static/fragment_def.gd" id="24_u018s"]
-[ext_resource type="AudioStream" uid="uid://byyiynr17r81x" path="res://art/game_art/sfx/Meadow.wav" id="meadow_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppo6b"]
 size = Vector2(10, 9)
@@ -119,11 +118,6 @@ position = Vector2(536, 281)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Food" unique_id=1442299800]
 shape = SubResource("RectangleShape2D_ppo6b")
-
-[node name="MeadowMusic" type="AudioStreamPlayer" parent="." unique_id=2064506534]
-stream = ExtResource("meadow_music")
-volume_db = -14.144
-autoplay = true
 
 [node name="Pop" type="AudioStreamPlayer" parent="." unique_id=2109370644]
 stream = ExtResource("7_nrc7r")
@@ -268,6 +262,5 @@ position = Vector2(447, 399)
 script = ExtResource("23_rhup3")
 spawn_item = SubResource("Resource_fyjhr")
 
-[connection signal="finished" from="MeadowMusic" to="MeadowMusic" method="play"]
 [connection signal="body_entered" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_entered"]
 [connection signal="body_exited" from="RuinsEntrance" to="RuinsEntrance" method="_on_body_exited"]
