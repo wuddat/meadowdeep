@@ -20,6 +20,8 @@ signal player_died
 # Combat lifecycle
 signal combat_started
 signal combat_ended
+signal creature_ensnared(creature: CreatureBattleUnit)
+signal creature_freed(creature: CreatureBattleUnit)
 
 # Enemy
 signal enemy_fainted(enemy: Enemy)

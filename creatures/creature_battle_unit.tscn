@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://bdc3kfksvk4uu" path="res://art/game_art/creatures/base_creature/mouth_smile.png" id="21_mthsm"]
 [ext_resource type="Texture2D" uid="uid://cf2hju6xyyjsb" path="res://art/game_art/creatures/base_creature/mouth_surprise.png" id="22_mthsr"]
 [ext_resource type="Texture2D" uid="uid://capxhpxiavcru" path="res://art/game_art/creatures/base_creature/eyes_cute.png" id="23_eycut"]
+[ext_resource type="Texture2D" uid="uid://bj27t8cl4xhfy" path="res://art/game_art/status_effect/chained.png" id="23_ok274"]
 [ext_resource type="Texture2D" uid="uid://c1mldp0ubbicq" path="res://art/game_art/creatures/base_creature/eyes_cl_tight.png" id="24_eyclt"]
 
 [sub_resource type="Resource" id="Resource_gwgry"]
@@ -791,5 +792,10 @@ script = ExtResource("19_abx5i")
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 unique_name_in_owner = true
 script = ExtResource("20_ng24t")
+
+[node name="StatusGraphic" type="Sprite2D" parent="." unique_id=1791694206]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("23_ok274")
 
 [editable path="CreatureTextures"]

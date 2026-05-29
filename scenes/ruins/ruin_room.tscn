@@ -13,10 +13,10 @@
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="7_c4qfd"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="8_qkvym"]
 [ext_resource type="Texture2D" uid="uid://bcpqpwyfbi7ko" path="res://art/game_art/concepts/map_room_bg_2.png" id="8_vkuii"]
-[ext_resource type="SpriteFrames" uid="uid://c3ay6pay3dmmh" path="res://scenes/ruins/greenie_frames.tres" id="12_k8vac"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="12_vve1t"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="13_k8vac"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="14_03dcb"]
+[ext_resource type="SpriteFrames" uid="uid://rmy5i47q2y07" path="res://scenes/ruins/pinkie_frames.tres" id="14_rbvr3"]
 [ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="14_vkuii"]
 [ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="15_vc38w"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="16_vkuii"]
@@ -144,7 +144,7 @@ encounter_pool = ExtResource("8_qkvym")
 [node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("7_c4qfd")]
 unique_name_in_owner = true
 position = Vector2(261, 293)
-sprite_frames = ExtResource("12_k8vac")
+sprite_frames = ExtResource("14_rbvr3")
 move_speed = 125.0
 battle_action_list = Array[ExtResource("12_vve1t")]([SubResource("Resource_ocehn"), ExtResource("16_vkuii"), ExtResource("17_1lbdh"), ExtResource("18_frkgh"), ExtResource("19_wugeb"), SubResource("Resource_lddhi")])
 instance = ExtResource("14_vkuii")
@@ -223,6 +223,8 @@ occluder = SubResource("OccluderPolygon2D_a2kfm")
 sdf_collision = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D" unique_id=1634789095]
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/StaticBody2D" unique_id=325733660]
 position = Vector2(0, 30)
@@ -242,6 +244,8 @@ rotation = -0.1680623
 texture = ExtResource("26_dlmko")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D2" unique_id=684841450]
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D2/StaticBody2D" unique_id=327842243]
 position = Vector2(0, 30)
@@ -264,6 +268,8 @@ texture = ExtResource("26_dlmko")
 occluder = SubResource("OccluderPolygon2D_lddhi")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D3" unique_id=75300677]
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D3/StaticBody2D" unique_id=1300224941]
 position = Vector2(0, 30)

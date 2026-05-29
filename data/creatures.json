@@ -58,6 +58,25 @@
 				"FOC_grade": 3.0
 			}
 		},
+		"test_boss": {
+			"species_id": "test_boss",
+			"creature_name": "test_boss",
+			"element_type": "test_boss",
+			"max_health": 900.0,
+			"egg_rarity": "common",
+			"egg_depth_found": 2.0,
+			"sprite_path": "res://scenes/ruins/test_boss_frames.tres",
+			"icon_path": "res://art/placeholder.png",
+			"starting_actions": ["strike", "move_toward"],
+			"identity": {
+				"personality": "neutral",
+				"PWR_grade": 5.0,
+				"AGI_grade": 1.0,
+				"RES_grade": 1.0,
+				"MYS_grade": 1.0,
+				"FOC_grade": 2.0
+			}
+		},
 		"verdant": {
 			"species_id": "verdant",
 			"creature_name": "Verdant",

@@ -1,0 +1,26 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c1uf3oi4l14ev"]
+
+[ext_resource type="Texture2D" uid="uid://cs7pjrkq3p1x5" path="res://art/game_art/creatures/boss/boss_test.png" id="1_w8cnd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7plkg"]
+atlas = ExtResource("1_w8cnd")
+region = Rect2(0, 0, 143, 118)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7plkg")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7plkg")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]

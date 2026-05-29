@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="EncounterDef" format=3 uid="uid://c4j6mpgc6muu4"]
+[gd_resource type="Resource" script_class="BossEncounterDef" format=3 uid="uid://c4j6mpgc6muu4"]
 
-[ext_resource type="Script" uid="uid://cl6frcau8od6p" path="res://custom_resources/static/encounter_def.gd" id="1_58g2i"]
+[ext_resource type="PackedScene" uid="uid://b4dcdkr3qljli" path="res://scenes/ruins/test_boss.tscn" id="1_cogkc"]
 [ext_resource type="PackedScene" uid="uid://c1btyhum4dwpl" path="res://battles/test_enemies.tscn" id="2_cogkc"]
+[ext_resource type="Script" uid="uid://ttbyrdow6ti7" path="res://custom_resources/static/boss_encounter_def.gd" id="2_v2fyi"]
 
 [resource]
-script = ExtResource("1_58g2i")
+script = ExtResource("2_v2fyi")
+boss_scene = ExtResource("1_cogkc")
 depth_tier = 1
 spawn_layout = ExtResource("2_cogkc")
 is_boss = true
-enemy_creature_party = Array[String](["stone"])
+enemy_creature_party = Array[String](["test_boss"])
 metadata/_custom_type_script = "uid://cl6frcau8od6p"

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CreatureInstance" format=3 uid="uid://b15ej7nmh0ka"]
 
-[ext_resource type="SpriteFrames" uid="uid://c3ay6pay3dmmh" path="res://scenes/ruins/greenie_frames.tres" id="1_6tcn4"]
+[ext_resource type="SpriteFrames" uid="uid://rmy5i47q2y07" path="res://scenes/ruins/pinkie_frames.tres" id="1_6tcn4"]
 [ext_resource type="Script" uid="uid://bv7nks8mfcsfs" path="res://custom_resources/static/creature_def.gd" id="2_s7m1w"]
 [ext_resource type="Script" uid="uid://bwa2s0g7unhav" path="res://custom_resources/mutable/creature_growth_stat.gd" id="3_0yj10"]
 [ext_resource type="Script" uid="uid://bl13efbtyvkg4" path="res://custom_resources/mutable/personality.gd" id="4_1ktdr"]

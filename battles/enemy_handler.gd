@@ -33,6 +33,8 @@ func setup_enemies(bat_stats: EncounterDef) -> void:
 	if not encounter.spawn_layout:
 		push_error("EnemyHandler: EncounterDef.enemies PackedScene is not set")
 		return
+	if _is_boss(species_ids):
+		return
 	var spawn_layout = encounter.spawn_layout.instantiate()
 	var enemy_nodes = spawn_layout.get_children()
 	for i in range(min(species_ids.size(), enemy_nodes.size())):
@@ -45,14 +47,14 @@ func start_turn() -> void:
 		enemy.start_combat()
 
 
-func _spawn_enemy(species_id: String, enemy_node: Node2D) -> void:
+func _spawn_enemy(species_id: String, enemy_node: Node2D, scene: PackedScene = enemy_scene) -> void:
 	if not is_instance_valid(enemy_node):
 		return
-	if not enemy_scene:
+	if not scene:
 		push_error("EnemyHandler: enemy_scene is not set in the inspector")
 		return
 
-	var enemy: Enemy = enemy_scene.instantiate()
+	var enemy: Enemy = scene.instantiate()
 	if enemy_node:
 		enemy.global_position = enemy_node.global_position
 
@@ -76,3 +78,12 @@ func _on_enemy_fainted(enemy: Enemy) -> void:
 
 func get_enemies() -> Array[Node]:
 	return get_children()
+
+func _is_boss(species_ids) -> bool:
+	if encounter is BossEncounterDef and encounter.boss_scene:
+		var layout = encounter.spawn_layout.instantiate()
+		var pts = layout.get_children()
+		_spawn_enemy(species_ids[0], pts[0], encounter.boss_scene)
+		layout.queue_free()
+		return true
+	return false
