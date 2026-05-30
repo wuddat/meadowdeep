@@ -21,6 +21,7 @@ func populate_rewards() -> void:
 		if not new_choice.is_node_ready():
 			await new_choice.ready
 		new_choice.reward = reward
+		new_choice.setup()
 		
 
 
@@ -32,6 +33,10 @@ func _on_reward_ui_dismissed() -> void:
 	hide()
 	_kill_children()
 
+func _on_reward_selected(reward: RewardDef) -> void:
+	if reward.mod == Modifier.Type.STAT_MOD:
+		var modifier: Modifier = creature.modifier_handler.get_modifier(reward.mod)
+		modifier.add_new_value(reward.mod_type, reward.stat, reward.amount)
 
 func _kill_children() -> void:
 	for child in reward_container.get_children():
@@ -39,5 +44,6 @@ func _kill_children() -> void:
 
 
 func _establish_connections() -> void:
+	Events.reward_selected.connect(_on_reward_selected)
 	Events.reward_ui_requested.connect(_on_reward_ui_requested)
 	Events.reward_ui_dismissed.connect(_on_reward_ui_dismissed)

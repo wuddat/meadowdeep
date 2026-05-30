@@ -52,4 +52,4 @@ func get_points() -> int:
 
 
 func get_combat_mod() -> int:
-	return points / COMBAT_MOD
+	return lvl

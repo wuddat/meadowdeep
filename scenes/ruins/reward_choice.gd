@@ -7,9 +7,9 @@ extends Panel
 @onready var select_button: Button = $MarginContainer/VBoxContainer/SelectButton
 
 
-@export var reward: RewardDef: set = setup
+@export var reward: RewardDef
 
-func setup(reward) -> void:
+func setup() -> void:
 	reward_title.text = reward.title
 	reward_icon.texture = reward.icon
 	reward_description.text = reward.description
@@ -17,4 +17,5 @@ func setup(reward) -> void:
 
 
 func _on_select_button_button_up() -> void:
+	Events.reward_selected.emit(reward)
 	Events.reward_ui_dismissed.emit()

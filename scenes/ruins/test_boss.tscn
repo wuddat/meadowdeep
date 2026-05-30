@@ -2,17 +2,29 @@
 
 [ext_resource type="Script" uid="uid://kxx3bjfq1fvf" path="res://battles/boss.gd" id="1_1fg8g"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="2_16wos"]
+[ext_resource type="PackedScene" uid="uid://cinaas1i56ukh" path="res://scenes/modifier_handler/modifier_handler.tscn" id="3_1fg8g"]
 [ext_resource type="SpriteFrames" uid="uid://b720p3wrks6ip" path="res://scenes/ruins/test_boss_tentacles.tres" id="3_n5au4"]
 [ext_resource type="SpriteFrames" uid="uid://c1uf3oi4l14ev" path="res://scenes/ruins/test_boss_frames.tres" id="4_75sjx"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_1ep4a"]
-[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="6_xvv3b"]
 [ext_resource type="Script" uid="uid://bpar68if6yj65" path="res://scenes/ruins/boss_controller.gd" id="7_1fg8g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n7ctl"]
 
-[node name="Boss" type="CharacterBody2D" unique_id=990251346]
+[node name="Boss" type="CharacterBody2D" unique_id=990251346 node_paths=PackedStringArray("modifier_handler")]
 script = ExtResource("1_1fg8g")
 move_speed = 25.0
+modifier_handler = NodePath("ModifierHandler")
+
+[node name="BossController" type="Node2D" parent="." unique_id=173258134]
+unique_name_in_owner = true
+script = ExtResource("7_1fg8g")
+
+[node name="AnimationHandler" type="Node" parent="." unique_id=1558349599]
+
+[node name="NameContainer" type="Node" parent="." unique_id=1778713495]
+unique_name_in_owner = true
+
+[node name="ModifierHandler" parent="." unique_id=1755083685 instance=ExtResource("3_1fg8g")]
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=223718481]
 modulate = Color(0, 0, 0, 1)
@@ -46,22 +58,14 @@ scale = Vector2(1, -1)
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=92517847]
 
-[node name="AnimationHandler" type="Node" parent="." unique_id=1558349599]
-
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_1ep4a")]
 unique_name_in_owner = true
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -11.0
-offset_bottom = 37.0
+offset_top = 38.0
+offset_bottom = 86.0
 grow_vertical = 0
-
-[node name="NameContainer" type="Node" parent="." unique_id=1778713495]
-unique_name_in_owner = true
-
-[node name="ModifierHandler" type="Node" parent="." unique_id=1674737696]
-script = ExtResource("6_xvv3b")
 
 [node name="ActionTimer" type="Panel" parent="." unique_id=204315814]
 unique_name_in_owner = true
@@ -83,7 +87,3 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 122.0
 offset_bottom = 7.0
-
-[node name="BossController" type="Node2D" parent="." unique_id=173258134]
-unique_name_in_owner = true
-script = ExtResource("7_1fg8g")

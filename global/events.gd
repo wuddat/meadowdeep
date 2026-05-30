@@ -28,6 +28,7 @@ signal enemy_fainted(enemy: Enemy)
 
 # Battle UI
 signal battle_over_screen_requested(text: String, type: BattleOverPanel.Type)
+signal reward_selected(reward: RewardDef)
 signal reward_ui_requested
 signal reward_ui_dismissed
 

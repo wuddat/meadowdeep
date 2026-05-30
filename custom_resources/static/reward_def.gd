@@ -7,3 +7,4 @@ extends Resource
 @export var mod: Modifier.Type
 @export var mod_type: ModifierValue.Type
 @export var amount: float
+@export var stat: GrowthStat.StatType

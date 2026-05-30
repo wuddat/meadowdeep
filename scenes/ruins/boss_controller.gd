@@ -11,12 +11,16 @@ enum State {SNARING, ATTACKING, VULNERABLE}
 
 var _state: State = State.SNARING
 var _creature: Node
+var _boss: BattleActor
+var prop_controller: PropController
 
 func _ready() -> void:
 	_establish_connections()
 	
 
 func next_steps(boss: BattleActor) -> Array[Dictionary]:
+	if not _boss:
+		_boss = boss
 	if not is_instance_valid(_creature):
 		_creature = _get_node("active_creatures")
 		
@@ -61,13 +65,19 @@ func _vulnerable() -> Array[Dictionary]:
 
 func _on_creature_snared(c: CreatureBattleUnit) -> void:
 	print("[BOSS] recv creature_ensnared | SNARING -> ATTACKING")
-	
+	_random_assign_unsnare_and_creature(c)
 	_state = State.ATTACKING
 	var p := self.get_parent()
 	if p:
 		p.collider.disabled = true
 
+func _teleport_self_to_coords(coords: Vector2) -> void:
+	_boss.global_position = coords
 
+func _random_assign_unsnare_and_creature(c: CreatureBattleUnit) -> void:
+	var unsnare_spawn = (RNG.instance.randi_range(0,2) + 1)
+	prop_controller.spawn_interactable(unsnare_spawn, c)
+	
 func _on_creature_freed(_c: CreatureBattleUnit) -> void:
 	print("[BOSS] recv creature_freed | -> VULNERABLE (%.1fs)" % vulnerable_duration)
 	_state = State.VULNERABLE

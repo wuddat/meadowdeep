@@ -2,8 +2,14 @@ class_name BattleAction
 extends Resource
 
 enum Intent { AGGRESSIVE, DEFENSIVE }
+enum ActionSlot { UNIVERSAL, BASIC, SECONDARY, DEFENSIVE, DASH }
+#TODO will influence where actions can be placed in ruins_prep_menu
+# UNIVERSAL will be reserved for moves all creatures get like, move_toward, move_away
+
 
 @export var intent: Intent = Intent.AGGRESSIVE
+@export var stat_categories: Array[GrowthStat.StatType] = []
+@export var action_slot: ActionSlot = ActionSlot.UNIVERSAL
 @export var display_name: String = ""
 @export var on_gcd: bool = true
 @export_range(0.0, 10.0) var chance_weight: float = 1.0

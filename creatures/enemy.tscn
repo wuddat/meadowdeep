@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://de3iwgnmkrukk" path="res://creatures/enemy.gd" id="1_enm01"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="2_jm0xe"]
-[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_enm01"]
 [ext_resource type="Script" uid="uid://hfrflgf1ontv" path="res://custom_resources/static/loot_table_drop.gd" id="3_ljyq2"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="3_slkkl"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
@@ -17,6 +16,7 @@
 [ext_resource type="Resource" uid="uid://cvtquesykjxkc" path="res://battles/battle_actions/defensive/dash_out.tres" id="8_4wx45"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="8_jsys2"]
 [ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="8_p0fjc"]
+[ext_resource type="PackedScene" uid="uid://cinaas1i56ukh" path="res://scenes/modifier_handler/modifier_handler.tscn" id="15_p0fjc"]
 
 [sub_resource type="Resource" id="Resource_5dw82"]
 script = ExtResource("3_ljyq2")
@@ -40,13 +40,24 @@ metadata/_custom_type_script = "uid://bjabwshglkugs"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
 size = Vector2(19, 17)
 
-[node name="Enemy" type="CharacterBody2D" unique_id=1956526154 groups=["enemies"]]
+[node name="Enemy" type="CharacterBody2D" unique_id=1956526154 node_paths=PackedStringArray("modifier_handler") groups=["enemies"]]
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_enm01")
 sprite_frames = ExtResource("3_xdx88")
 loot_table = SubResource("Resource_qcalr")
 battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_4wx45"), ExtResource("4_8hsss"), ExtResource("5_4wx45"), ExtResource("8_p0fjc"), ExtResource("7_8hsss"), ExtResource("8_4wx45")])
+modifier_handler = NodePath("ModifierHandler")
+
+[node name="Brain" type="Node" parent="." unique_id=1628127531]
+script = ExtResource("6_2bth1")
+
+[node name="ModifierHandler" parent="." unique_id=1755083685 instance=ExtResource("15_p0fjc")]
+
+[node name="AnimationHandler" type="Node" parent="." unique_id=426115024]
+
+[node name="NameContainer" type="Node" parent="." unique_id=159970826]
+unique_name_in_owner = true
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=458258168]
 modulate = Color(0, 0, 0, 1)
@@ -74,8 +85,6 @@ scale = Vector2(1, -1)
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=1164419915]
 
-[node name="AnimationHandler" type="Node" parent="." unique_id=426115024]
-
 [node name="StatsUI" parent="." unique_id=1797224862 instance=ExtResource("2_jm0xe")]
 unique_name_in_owner = true
 anchors_preset = 7
@@ -84,12 +93,6 @@ anchor_bottom = 1.0
 offset_top = -11.0
 offset_bottom = 37.0
 grow_vertical = 0
-
-[node name="NameContainer" type="Node" parent="." unique_id=159970826]
-unique_name_in_owner = true
-
-[node name="ModifierHandler" type="Node" parent="." unique_id=1112906390]
-script = ExtResource("3_enm01")
 
 [node name="ActionTimer" type="Panel" parent="." unique_id=1617250168]
 unique_name_in_owner = true
@@ -111,6 +114,3 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 122.0
 offset_bottom = 7.0
-
-[node name="Brain" type="Node" parent="." unique_id=1628127531]
-script = ExtResource("6_2bth1")

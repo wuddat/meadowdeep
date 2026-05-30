@@ -62,7 +62,7 @@
 			"species_id": "test_boss",
 			"creature_name": "test_boss",
 			"element_type": "test_boss",
-			"max_health": 900.0,
+			"max_health": 100.0,
 			"egg_rarity": "common",
 			"egg_depth_found": 2.0,
 			"sprite_path": "res://scenes/ruins/test_boss_frames.tres",

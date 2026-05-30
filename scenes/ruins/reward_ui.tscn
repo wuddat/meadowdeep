@@ -12,6 +12,7 @@ script = ExtResource("2_to8jp")
 title = "PWR Up"
 icon = ExtResource("3_lddwk")
 description = "'Mo Damage"
+mod = 5
 mod_type = 1
 amount = 1.0
 metadata/_custom_type_script = "uid://dkqwjn172qtq7"
@@ -21,8 +22,10 @@ script = ExtResource("2_to8jp")
 title = "RES Up"
 icon = ExtResource("4_4yjyl")
 description = "Gain 10 HP"
+mod = 5
 mod_type = 1
-amount = 10.0
+amount = 1.0
+stat = 2
 metadata/_custom_type_script = "uid://dkqwjn172qtq7"
 
 [sub_resource type="Resource" id="Resource_snsak"]
@@ -30,7 +33,9 @@ script = ExtResource("2_to8jp")
 title = "AGI Up"
 icon = ExtResource("5_k23ga")
 description = "Move Faster"
+mod = 5
 amount = 0.1
+stat = 1
 metadata/_custom_type_script = "uid://dkqwjn172qtq7"
 
 [node name="RewardUI" type="Control" unique_id=861013308]

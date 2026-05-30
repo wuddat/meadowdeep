@@ -4,10 +4,13 @@
 class_name BattleActor
 extends CharacterBody2D
 
-@export var move_speed: float = 40.0
+@export var move_speed: float = 65.0
 @export var battle_action_list: Array[BattleAction]
 @export var creature_animation_handler: CreatureAnimationHandler
 @export var instance: CreatureInstance : set = set_instance
+@export var modifier_handler: ModifierHandler
+
+const BASE_MOVESPEED: float = 125.0
 
 var action_queue := ActionQueue.new()
 var _in_combat: bool = false
@@ -40,6 +43,7 @@ func stop_combat() -> void:
 
 func set_instance(value: CreatureInstance) -> void:
 	_hydrate_actions()
+	move_speed = BASE_MOVESPEED + value.identity.AGI.get_combat_mod()
 
 
 func _physics_process(delta: float) -> void:

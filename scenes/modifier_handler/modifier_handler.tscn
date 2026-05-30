@@ -1,6 +1,21 @@
 [gd_scene format=3 uid="uid://cinaas1i56ukh"]
 
-[ext_resource type="Script" uid="uid://s33vitkil4tg" path="res://scenes/modifier_handler/modifier_handler.gd" id="1_jiope"]
+[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="1_jiope"]
+[ext_resource type="PackedScene" uid="uid://btwh8nsmqma2k" path="res://scenes/modifier_handler/modifier.tscn" id="2_yystb"]
 
-[node name="ModifierHandler" type="Node"]
+[node name="ModifierHandler" type="Node" unique_id=1755083685]
 script = ExtResource("1_jiope")
+
+[node name="DmgDealtModifier" parent="." unique_id=468237282 instance=ExtResource("2_yystb")]
+
+[node name="DmgTakenModifier" parent="." unique_id=2060428368 instance=ExtResource("2_yystb")]
+type = 1
+
+[node name="BlockGainedModifier" parent="." unique_id=1232789683 instance=ExtResource("2_yystb")]
+type = 2
+
+[node name="HealModifier" parent="." unique_id=1112139034 instance=ExtResource("2_yystb")]
+type = 3
+
+[node name="StatModifier" parent="." unique_id=994733557 instance=ExtResource("2_yystb")]
+type = 5

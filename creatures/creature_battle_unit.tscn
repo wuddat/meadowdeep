@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://rgp8vb0dyypa" path="res://creatures/creature_battle_unit.gd" id="1_cbu01"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="2_yfbhk"]
-[ext_resource type="Script" uid="uid://bjhwwvxwrqnx7" path="res://scenes/modifier_handler/modifier_handler.gd" id="3_cbu01"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="3_r6ech"]
-[ext_resource type="PackedScene" uid="uid://btwh8nsmqma2k" path="res://scenes/modifier_handler/modifier.tscn" id="4_mod"]
 [ext_resource type="PackedScene" uid="uid://b5xmc80xwdal6" path="res://scenes/ui/stats_ui.tscn" id="5_m8yh8"]
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="6_ji0g7"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="7_rlrki"]
@@ -16,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://cvtquesykjxkc" path="res://battles/battle_actions/defensive/dash_out.tres" id="9_abx5i"]
 [ext_resource type="Resource" uid="uid://cq7d62n1m5r41" path="res://battles/battle_actions/defensive/move_away.tres" id="9_ok274"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="12_83sfk"]
+[ext_resource type="PackedScene" uid="uid://cinaas1i56ukh" path="res://scenes/modifier_handler/modifier_handler.tscn" id="13_dnym6"]
 [ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="19_abx5i"]
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="20_ng24t"]
 [ext_resource type="Texture2D" uid="uid://bdc3kfksvk4uu" path="res://art/game_art/creatures/base_creature/mouth_smile.png" id="21_mthsm"]
@@ -700,7 +699,7 @@ _data = {
 &"wave": SubResource("Animation_v1wfr")
 }
 
-[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler") groups=["active_creatures"]]
+[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler") groups=["active_creatures"]]
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
@@ -708,6 +707,16 @@ sprite_frames = ExtResource("2_yfbhk")
 move_speed = 80.0
 battle_action_list = Array[ExtResource("3_r6ech")]([SubResource("Resource_g8vsc"), ExtResource("8_dnym6"), ExtResource("9_ok274"), ExtResource("8_wo3yl"), ExtResource("9_abx5i"), SubResource("Resource_vyn8i")])
 creature_animation_handler = NodePath("CreatureAnimationHandler")
+modifier_handler = NodePath("ModifierHandler")
+
+[node name="Brain" type="Node" parent="." unique_id=1274749943]
+script = ExtResource("8_skpnv")
+
+[node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
+unique_name_in_owner = true
+script = ExtResource("20_ng24t")
+
+[node name="ModifierHandler" parent="." unique_id=1755083685 instance=ExtResource("13_dnym6")]
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=1542111543]
 modulate = Color(0, 0, 0, 1)
@@ -729,23 +738,6 @@ shape = SubResource("CircleShape2D_ji0g7")
 [node name="ProjectileSpawn" type="Marker2D" parent="CreatureTextures" unique_id=449928542]
 unique_name_in_owner = true
 position = Vector2(14, 0)
-
-[node name="ModifierHandler" type="Node" parent="." unique_id=689255252]
-script = ExtResource("3_cbu01")
-
-[node name="DmgDealtModifier" parent="ModifierHandler" unique_id=501878021 instance=ExtResource("4_mod")]
-
-[node name="DmgTakenModifier" parent="ModifierHandler" unique_id=1094195427 instance=ExtResource("4_mod")]
-type = 1
-
-[node name="CardCostModifier" parent="ModifierHandler" unique_id=1995895497 instance=ExtResource("4_mod")]
-type = 2
-
-[node name="BlockGainedModifier" parent="ModifierHandler" unique_id=1813275059 instance=ExtResource("4_mod")]
-type = 4
-
-[node name="HealModifier" parent="ModifierHandler" unique_id=2017218852 instance=ExtResource("4_mod")]
-type = 5
 
 [node name="StatsUI" parent="." unique_id=840621186 instance=ExtResource("5_m8yh8")]
 offset_top = -2.0
@@ -780,22 +772,16 @@ grow_vertical = 2
 visible = false
 shape = SubResource("CircleShape2D_dnym6")
 
-[node name="Brain" type="Node" parent="." unique_id=1274749943]
-script = ExtResource("8_skpnv")
-
 [node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1038007195]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_dnym6")
 autoplay = &"hover"
 script = ExtResource("19_abx5i")
 
-[node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
-unique_name_in_owner = true
-script = ExtResource("20_ng24t")
-
 [node name="StatusGraphic" type="Sprite2D" parent="." unique_id=1791694206]
 unique_name_in_owner = true
 visible = false
 texture = ExtResource("23_ok274")
 
+[editable path="ModifierHandler"]
 [editable path="CreatureTextures"]

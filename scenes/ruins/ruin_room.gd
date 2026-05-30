@@ -48,7 +48,7 @@ const PLAYER_INSET := 60.0
 @onready var enemy_handler: EnemyHandler = $EnemyHandler
 @onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
 @onready var loot_handler: LootHandler = %LootHandler
-@onready var room_object_handler: RoomObjectHandler = $RoomObjectHandler
+@onready var prop_controller: PropController = $PropController
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
@@ -72,7 +72,8 @@ func setup(stats: PlayerData) -> void:
 	print("[RUINROOM] ruins_creature: ", _active_stats.ruins_creature)
 	battle_colliders.collision_layer = 0
 	room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
-	MusicPlayer.play(RUINS_LOOP)
+	#MusicPlayer.play(RUINS_LOOP)
+	MusicPlayer.stop()
 	enter_room(Vector2i.ZERO)
 	
 func _establish_connections() -> void:
@@ -92,7 +93,6 @@ func _spawn_doors() -> void:
 
 func enter_room(pos: Vector2i, from_direction: StringName = &"") -> void:
 	var room: Room = map_generator.room_map.get(pos)
-	print("[RuinRoom] enter_room pos=%s, room=%s, room_map_size=%d" % [pos, room, map_generator.room_map.size()])
 	if room == null:
 		push_warning("RuinRoom: no room at %s" % pos)
 		return
@@ -112,7 +112,7 @@ func _update_current_room_info(room: Room, pos: Vector2i) -> void:
 	visited[pos] = true
 	_refresh_label(room)
 	refresh_doors(room)
-	room_object_handler.set_objects(room)
+	prop_controller.set_objects(room)
 
 
 func _refresh_label(room: Room) -> void:
@@ -165,7 +165,7 @@ func _initialize_combat(room: Room) -> void:
 	enemy_handler.setup_enemies(room.encounter)
 	loot_handler.generate_battle_loot()
 	creature_combat_handler.start_combat([player_creature])
-	enemy_handler.start_turn()
+	enemy_handler.start_combat()
 	_active_combat_room = room
 
 func _finish_room_combat(victory: bool) -> void:

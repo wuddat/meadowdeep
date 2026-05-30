@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://donau0qqfd3sc" path="res://scenes/ruins/ruin_room.gd" id="1_qhq8s"]
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="1_s0srl"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="2_23ogo"]
-[ext_resource type="Script" uid="uid://dp0s6p5opmpoq" path="res://scenes/ruins/room_object_handler.gd" id="2_lddhi"]
+[ext_resource type="Script" uid="uid://dp0s6p5opmpoq" path="res://scenes/ruins/prop_controller.gd" id="2_lddhi"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="2_yq8xq"]
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="3_vc38w"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="3_yka08"]
@@ -93,13 +93,14 @@ polygon = PackedVector2Array(0, 47, 1, -30, 1, -47, 9, -30, 11, 39)
 [node name="RuinRoom" type="Node2D" unique_id=1210557673]
 script = ExtResource("1_qhq8s")
 
-[node name="RoomObjectHandler" type="Node2D" parent="." unique_id=501971802]
+[node name="PropController" type="Node2D" parent="." unique_id=501971802]
 script = ExtResource("2_lddhi")
 
-[node name="EnemyHandler" type="Node2D" parent="." unique_id=637328052 groups=["enemy_handler"]]
+[node name="EnemyHandler" type="Node2D" parent="." unique_id=637328052 node_paths=PackedStringArray("prop_controller") groups=["enemy_handler"]]
 script = ExtResource("2_23ogo")
 player_data = SubResource("Resource_1lbdh")
 enemy_scene = ExtResource("3_yka08")
+prop_controller = NodePath("../PropController")
 
 [node name="CreatureCombatHandler" type="Node" parent="." unique_id=1983730526]
 unique_name_in_owner = true
@@ -300,5 +301,6 @@ position = Vector2(322, 138)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=720247368]
 
-[node name="RewardUI" parent="CanvasLayer" unique_id=861013308 instance=ExtResource("31_y34cg")]
+[node name="RewardUI" parent="CanvasLayer" unique_id=861013308 node_paths=PackedStringArray("creature") instance=ExtResource("31_y34cg")]
 visible = false
+creature = NodePath("../../PlayerCreature")

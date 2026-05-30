@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_w0ber")
 mode = 3
+stat_categories = Array[int]([3, 4])
 display_name = "Orbit R"
 on_gcd = false
 metadata/_custom_type_script = "uid://dgftoxf418knu"

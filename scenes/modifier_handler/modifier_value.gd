@@ -2,7 +2,7 @@
 class_name ModifierValue
 extends Node
 
-enum Type {PERCENT_BASED, FLAT}
+enum Type {PERCENTAGE, FLAT}
 
 @export var type: Type
 @export var percent_value: float

@@ -10,7 +10,6 @@ const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 
 @onready var creature_textures: CreatureTextures = $CreatureTextures
 @onready var stats_ui: HBoxContainer = $StatsUI
-@onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn

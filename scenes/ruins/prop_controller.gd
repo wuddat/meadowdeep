@@ -1,4 +1,4 @@
-class_name RoomObjectHandler
+class_name PropController
 extends Node2D
 
 @onready var pylon_1: Sprite2D = $"../Pylon1"
@@ -6,21 +6,33 @@ extends Node2D
 @onready var pylon_3: Sprite2D = $"../Pylon3"
 @onready var fire: Node2D = $"../Fire"
 
+#in case you ever delete the pylons because we both know you will
+const pylon_1_pos = Vector2(149,148)
+const pylon_2_pos = Vector2(322,90)
+const pylon_3_pos = Vector2(503,148)
+
 const INTERACTABLE = preload("uid://c607lg16urosb")
 
-func _ready() -> void:
-	_establish_connections()
+
+func spawn_interactable(pylon: int, c: CreatureBattleUnit) -> void:
+	var spawn_pos: Vector2
+	match pylon:
+		1:
+			spawn_pos = pylon_1.global_position
+			c.global_position = pylon_3.global_position
+		2:
+			spawn_pos = pylon_2.global_position
+			c.global_position = pylon_1.global_position
+		3:
+			spawn_pos = pylon_3.global_position
+			c.global_position = pylon_2.global_position
+
+	var interactable := INTERACTABLE.instantiate() as Interactable
+	interactable._creature = c
+	interactable.global_position = spawn_pos
+	self.add_child(interactable)
 
 
-func _on_creature_snared(_c: CreatureBattleUnit) -> void:
-	var test_trigger := INTERACTABLE.instantiate() as Interactable
-	
-	test_trigger._creature = _c
-	test_trigger.global_position = pylon_2.global_position
-	self.add_child(test_trigger)
-
-func _on_creature_freed(_c: CreatureBattleUnit) -> void:
-	pass
 func set_objects(room: Room) -> void:
 	if room.type != Room.Type.NOT_ASSIGNED:
 		if pylon_1 == null:
@@ -48,7 +60,3 @@ func _show_children(node: Node) -> void:
 	for child in children:
 		if "visible" in child:
 			child.visible = true
-
-func _establish_connections() -> void:
-	Events.creature_freed.connect(_on_creature_freed)
-	Events.creature_ensnared.connect(_on_creature_snared)

@@ -15,7 +15,6 @@ extends BattleActor
 @onready var stats_ui: Node = %StatsUI
 @onready var animation_handler: Node = $AnimationHandler
 @onready var name_container: Node = %NameContainer
-@onready var modifier_handler: ModifierHandler = $ModifierHandler
 @onready var projectile_spawn: Node2D = %ProjectileSpawn
 
 var spawn_coords: Vector2

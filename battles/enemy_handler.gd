@@ -7,6 +7,7 @@ extends Node2D
 @export var player_data: PlayerData : set = set_character
 @export var enemy_scene: PackedScene
 @export var stats_ui_scene: PackedScene
+@export var prop_controller: PropController
 
 @onready var party_handler: PartyHandler = $"../PartyHandler"
 
@@ -45,21 +46,21 @@ func setup_enemies(bat_stats: EncounterDef) -> void:
 	spawn_layout.queue_free()
 
 
-func start_turn() -> void:
+func start_combat() -> void:
 	for enemy: Enemy in get_children():
 		enemy.start_combat()
 
 
-func _spawn_enemy(species_id: String, enemy_node: Node2D, scene: PackedScene = enemy_scene) -> void:
-	if not is_instance_valid(enemy_node):
+func _spawn_enemy(species_id: String, enemy_spawn_node: Node2D, scene: PackedScene = enemy_scene) -> void:
+	if not is_instance_valid(enemy_spawn_node):
 		return
 	if not scene:
 		push_error("EnemyHandler: enemy_scene is not set in the inspector")
 		return
 
 	var enemy: Enemy = scene.instantiate()
-	if enemy_node:
-		enemy.global_position = enemy_node.global_position
+	if enemy_spawn_node:
+		enemy.global_position = enemy_spawn_node.global_position
 
 	var instance: CreatureInstance = CreatureData.create_creature_instance(species_id)
 	if not instance:
@@ -72,6 +73,10 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D, scene: PackedScene = e
 		enemy.sfx = BAT_SFX_1
 		enemy.death_sfx = BAT_DEATH_1
 	add_child(enemy)
+	if "boss_controller" in enemy:
+		enemy.boss_controller.prop_controller = prop_controller
+		print("boss_controller DETECTED: Assigning PropController")
+
 
 
 func _on_enemy_fainted(enemy: Enemy) -> void:
