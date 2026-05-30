@@ -31,6 +31,7 @@ func _unhandled_input(input: InputEvent) -> void:
 	if input.is_action_pressed("left_mouse") and _usable == true and _creature:
 		_creature.unsnare()
 		_usable = false
+		queue_free()
 
 func _establish_connections() -> void:
 	Events.creature_ensnared.connect(_on_creature_ensnared)

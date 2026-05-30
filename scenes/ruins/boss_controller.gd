@@ -8,7 +8,6 @@ enum State {SNARING, ATTACKING, VULNERABLE}
 @export var attack_damage: int = 5
 @export var vulnerable_duration: float = 3.0
 
-const INTERACTABLE = preload("uid://c607lg16urosb")
 
 var _state: State = State.SNARING
 var _creature: Node
@@ -62,11 +61,7 @@ func _vulnerable() -> Array[Dictionary]:
 
 func _on_creature_snared(c: CreatureBattleUnit) -> void:
 	print("[BOSS] recv creature_ensnared | SNARING -> ATTACKING")
-	var test_trigger := INTERACTABLE.instantiate() as Interactable
 	
-	test_trigger._creature = c
-	test_trigger.position = Vector2(position.x, position.y)
-	self.add_child(test_trigger)
 	_state = State.ATTACKING
 	var p := self.get_parent()
 	if p:

@@ -48,6 +48,7 @@ const PLAYER_INSET := 60.0
 @onready var enemy_handler: EnemyHandler = $EnemyHandler
 @onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
 @onready var loot_handler: LootHandler = %LootHandler
+@onready var room_object_handler: RoomObjectHandler = $RoomObjectHandler
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
@@ -99,7 +100,11 @@ func enter_room(pos: Vector2i, from_direction: StringName = &"") -> void:
 	if from_direction != &"":
 		_park_player_at(OPPOSITE[from_direction])
 	if room.type in [Room.Type.COMBAT, Room.Type.BOSS] and not room.cleared:
-		_start_room_combat(room)
+		match room.type:
+			Room.Type.COMBAT:
+				_start_room_combat(room)
+			Room.Type.BOSS:
+				_start_room_combat(room)
 
 
 func _update_current_room_info(room: Room, pos: Vector2i) -> void:
@@ -107,12 +112,12 @@ func _update_current_room_info(room: Room, pos: Vector2i) -> void:
 	visited[pos] = true
 	_refresh_label(room)
 	refresh_doors(room)
+	room_object_handler.set_objects(room)
 
 
 func _refresh_label(room: Room) -> void:
 	room_type_label.text = "%s @ %s  depth=%d" % [
-		Room.Type.keys()[room.type], room.grid_pos, room.depth
-	]
+		Room.Type.keys()[room.type], room.grid_pos, room.depth ]
 
 
 func refresh_doors(room: Room) -> void:
@@ -148,16 +153,14 @@ func _park_player_at(dir: StringName) -> void:
 
 
 func _start_room_combat(room: Room) -> void:
-	for door in doors.values():
-		if door.state == Door.State.OPEN:
-			door.close()
-	await get_tree().create_timer(.15).timeout
-	SFXPlayer.play(DOOR_SLAM)
-	Events.shake_camera_requested.emit()
-			
+	await _slam_lock_doors() 
 	battle_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 	room_colliders.collision_layer = 0
 	await get_tree().create_timer(COMBAT_START_DELAY).timeout
+	_initialize_combat(room)
+
+
+func _initialize_combat(room: Room) -> void:
 	enemy_handler.player_data = _active_stats
 	enemy_handler.setup_enemies(room.encounter)
 	loot_handler.generate_battle_loot()
@@ -171,12 +174,22 @@ func _finish_room_combat(victory: bool) -> void:
 		battle_colliders.collision_layer = 0
 		room_colliders.collision_layer = BATTLE_COLLIDER_LAYER
 		_active_combat_room.cleared = true
+		Events.reward_ui_requested.emit()
+		await Events.reward_ui_dismissed
 		refresh_doors(_active_combat_room)
 		_active_combat_room = null
 		SFXPlayer.pitch_play(DOOR_SLAM,1.2,1.2)
 		Events.shake_camera_requested.emit()
 	else:
 		Events.scene_transition_requested.emit("meadow")
+
+func _slam_lock_doors() -> void:
+	for door in doors.values():
+		if door.state == Door.State.OPEN:
+			door.close()
+	await get_tree().create_timer(.15).timeout
+	SFXPlayer.play(DOOR_SLAM)
+	Events.shake_camera_requested.emit()
 
 func _on_door_entered(destination: Room, from_direction: StringName) -> void:
 	enter_room(destination.grid_pos, from_direction)

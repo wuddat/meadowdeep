@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://d2yhbcx0kroha"]
+
+[ext_resource type="Texture2D" uid="uid://bq4im540nk025" path="res://art/tile_0106.png" id="1_jgria"]
+[ext_resource type="Script" uid="uid://ewlpluow48k7" path="res://scenes/ruins/reward_choice.gd" id="1_rby5r"]
+
+[node name="RewardChoice" type="Panel" unique_id=399506877]
+custom_minimum_size = Vector2(150, 150)
+script = ExtResource("1_rby5r")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1593230632]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1752624321]
+layout_mode = 2
+alignment = 1
+
+[node name="RewardTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=34576528]
+layout_mode = 2
+text = "+ DAMAGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RewardIcon" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=483598898]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture = ExtResource("1_jgria")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="RewardDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=632505446]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "This is a description"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1304219613]
+layout_mode = 2
+text = "SELECT"
+
+[connection signal="button_up" from="MarginContainer/VBoxContainer/SelectButton" to="." method="_on_select_button_button_up"]

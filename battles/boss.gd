@@ -6,7 +6,10 @@ extends Enemy
 @onready var collider: CollisionShape2D = $CollisionShape2D
 
 
+
 func _on_queue_emptied() -> void:
+	if knockbackable:
+		knockbackable = false
 	if not _in_combat:
 		return
 	var steps = boss_controller.next_steps(self)

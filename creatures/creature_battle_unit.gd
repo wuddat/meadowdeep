@@ -32,6 +32,7 @@ const ACTION_INTERVAL: float = 0.4
 var _following_player: bool = false
 
 var is_snared: bool = false
+var knockbackable: bool = true
 
 func _ready() -> void:
 	super()

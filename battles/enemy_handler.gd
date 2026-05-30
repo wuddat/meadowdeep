@@ -12,6 +12,9 @@ extends Node2D
 
 var encounter: EncounterDef = null
 
+const BAT_SFX_1 = preload("uid://b6ei6ar836t2r")
+const BAT_DEATH_1 = preload("uid://c3284gsyob4n7")
+
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
@@ -65,6 +68,9 @@ func _spawn_enemy(species_id: String, enemy_node: Node2D, scene: PackedScene = e
 		return
 	instance.uid = "enemy_%s_%d" % [species_id, Time.get_ticks_msec()]
 	enemy.instance = instance
+	if enemy.instance.definition.species_id == "test_chaser":
+		enemy.sfx = BAT_SFX_1
+		enemy.death_sfx = BAT_DEATH_1
 	add_child(enemy)
 
 
@@ -81,9 +87,9 @@ func get_enemies() -> Array[Node]:
 
 func _is_boss(species_ids) -> bool:
 	if encounter is BossEncounterDef and encounter.boss_scene:
-		var layout = encounter.spawn_layout.instantiate()
-		var pts = layout.get_children()
-		_spawn_enemy(species_ids[0], pts[0], encounter.boss_scene)
-		layout.queue_free()
+		var spawn_node := Node2D.new()
+		spawn_node.position = encounter.spawn_coords
+		_spawn_enemy(species_ids[0], spawn_node, encounter.boss_scene)
+		spawn_node.queue_free()
 		return true
 	return false

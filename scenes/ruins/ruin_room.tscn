@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://donau0qqfd3sc" path="res://scenes/ruins/ruin_room.gd" id="1_qhq8s"]
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="1_s0srl"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="2_23ogo"]
+[ext_resource type="Script" uid="uid://dp0s6p5opmpoq" path="res://scenes/ruins/room_object_handler.gd" id="2_lddhi"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="2_yq8xq"]
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="3_vc38w"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="3_yka08"]
@@ -29,6 +30,7 @@
 [ext_resource type="Material" uid="uid://c8q3ck8mf0qau" path="res://art/game_art/shaders/flame_flicker.tres" id="26_rbvr3"]
 [ext_resource type="SpriteFrames" uid="uid://behq2uqry32k4" path="res://art/game_art/creatures/bat/bat_sprite_frames.tres" id="27_ocehn"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="28_rbvr3"]
+[ext_resource type="PackedScene" uid="uid://dbchva62s1pjx" path="res://scenes/ruins/reward_ui.tscn" id="31_y34cg"]
 
 [sub_resource type="Resource" id="Resource_1lbdh"]
 script = ExtResource("4_vkuii")
@@ -90,6 +92,9 @@ polygon = PackedVector2Array(0, 47, 1, -30, 1, -47, 9, -30, 11, 39)
 
 [node name="RuinRoom" type="Node2D" unique_id=1210557673]
 script = ExtResource("1_qhq8s")
+
+[node name="RoomObjectHandler" type="Node2D" parent="." unique_id=501971802]
+script = ExtResource("2_lddhi")
 
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=637328052 groups=["enemy_handler"]]
 script = ExtResource("2_23ogo")
@@ -206,72 +211,72 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_hvte7")
 texture_scale = 4.72
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1602507145]
+[node name="Pylon1" type="Sprite2D" parent="." unique_id=1602507145]
 z_index = 2
 position = Vector2(149, 148)
 texture = ExtResource("25_wugeb")
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D" unique_id=1252433545]
+[node name="Sprite2D" type="Sprite2D" parent="Pylon1" unique_id=1252433545]
 z_index = -1
 material = ExtResource("26_rbvr3")
 position = Vector2(-28, 12)
 rotation = -0.893283
 texture = ExtResource("26_dlmko")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D" unique_id=1349736774]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Pylon1" unique_id=1349736774]
 occluder = SubResource("OccluderPolygon2D_a2kfm")
 sdf_collision = false
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D" unique_id=1634789095]
+[node name="StaticBody2D" type="StaticBody2D" parent="Pylon1" unique_id=1634789095]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/StaticBody2D" unique_id=325733660]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pylon1/StaticBody2D" unique_id=325733660]
 position = Vector2(0, 30)
 shape = SubResource("RectangleShape2D_rbvr3")
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1442133879]
+[node name="Pylon2" type="Sprite2D" parent="." unique_id=1442133879]
 z_index = 2
 position = Vector2(322, 90)
 texture = ExtResource("25_wugeb")
 flip_h = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D2" unique_id=296519451]
+[node name="Sprite2D" type="Sprite2D" parent="Pylon2" unique_id=296519451]
 z_index = -1
 material = ExtResource("26_rbvr3")
 position = Vector2(-6, -0.9999999)
 rotation = -0.1680623
 texture = ExtResource("26_dlmko")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D2" unique_id=684841450]
+[node name="StaticBody2D" type="StaticBody2D" parent="Pylon2" unique_id=684841450]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D2/StaticBody2D" unique_id=327842243]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pylon2/StaticBody2D" unique_id=327842243]
 position = Vector2(0, 30)
 shape = SubResource("RectangleShape2D_rbvr3")
 
-[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=38155350]
+[node name="Pylon3" type="Sprite2D" parent="." unique_id=38155350]
 z_index = 2
 position = Vector2(503, 147)
 texture = ExtResource("25_wugeb")
 flip_h = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D3" unique_id=1122434152]
+[node name="Sprite2D" type="Sprite2D" parent="Pylon3" unique_id=1122434152]
 z_index = -1
 material = ExtResource("26_rbvr3")
 position = Vector2(28, 11.999999)
 rotation = 0.88180697
 texture = ExtResource("26_dlmko")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D3" unique_id=710073837]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Pylon3" unique_id=710073837]
 occluder = SubResource("OccluderPolygon2D_lddhi")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D3" unique_id=75300677]
+[node name="StaticBody2D" type="StaticBody2D" parent="Pylon3" unique_id=75300677]
 collision_layer = 0
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D3/StaticBody2D" unique_id=1300224941]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pylon3/StaticBody2D" unique_id=1300224941]
 position = Vector2(0, 30)
 shape = SubResource("RectangleShape2D_rbvr3")
 
@@ -289,3 +294,11 @@ texture = ExtResource("28_rbvr3")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1455113439]
 color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="PosID" type="Marker2D" parent="." unique_id=1114982930]
+position = Vector2(322, 138)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=720247368]
+
+[node name="RewardUI" parent="CanvasLayer" unique_id=861013308 instance=ExtResource("31_y34cg")]
+visible = false

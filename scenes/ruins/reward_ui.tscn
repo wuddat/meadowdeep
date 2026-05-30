@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://dbchva62s1pjx"]
+
+[ext_resource type="Script" uid="uid://b3b0xqjbbof2w" path="res://scenes/ruins/reward_ui.gd" id="1_w57ci"]
+[ext_resource type="PackedScene" uid="uid://d2yhbcx0kroha" path="res://scenes/ruins/reward_choice.tscn" id="2_a4t7d"]
+[ext_resource type="Script" uid="uid://dkqwjn172qtq7" path="res://custom_resources/static/reward_def.gd" id="2_to8jp"]
+[ext_resource type="Texture2D" uid="uid://c6rme2o6dyaoj" path="res://art/tile_0104.png" id="3_lddwk"]
+[ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://art/heart.png" id="4_4yjyl"]
+[ext_resource type="Texture2D" uid="uid://psr6xk3k26oh" path="res://art/tile_0114.png" id="5_k23ga"]
+
+[sub_resource type="Resource" id="Resource_wm8nt"]
+script = ExtResource("2_to8jp")
+title = "PWR Up"
+icon = ExtResource("3_lddwk")
+description = "'Mo Damage"
+mod_type = 1
+amount = 1.0
+metadata/_custom_type_script = "uid://dkqwjn172qtq7"
+
+[sub_resource type="Resource" id="Resource_vbfa2"]
+script = ExtResource("2_to8jp")
+title = "RES Up"
+icon = ExtResource("4_4yjyl")
+description = "Gain 10 HP"
+mod_type = 1
+amount = 10.0
+metadata/_custom_type_script = "uid://dkqwjn172qtq7"
+
+[sub_resource type="Resource" id="Resource_snsak"]
+script = ExtResource("2_to8jp")
+title = "AGI Up"
+icon = ExtResource("5_k23ga")
+description = "Move Faster"
+amount = 0.1
+metadata/_custom_type_script = "uid://dkqwjn172qtq7"
+
+[node name="RewardUI" type="Control" unique_id=861013308]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w57ci")
+reward_array = Array[ExtResource("2_to8jp")]([SubResource("Resource_wm8nt"), SubResource("Resource_vbfa2"), SubResource("Resource_snsak")])
+
+[node name="bg" type="Panel" parent="." unique_id=603262174]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RewardContainer" type="HBoxContainer" parent="." unique_id=2010819893]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="RewardChoice" parent="RewardContainer" unique_id=399506877 instance=ExtResource("2_a4t7d")]
+layout_mode = 2

@@ -2,7 +2,7 @@
 class_name MapGenerator
 extends Node
 
-const ROOM_BASE := 7
+const ROOM_BASE := 3
 const FLOOR_MOD := 2
 const MAX_RADIUS := 8
 
@@ -14,11 +14,11 @@ const DOOR_W := 8
 const ROOM_PIXEL_SPACING := Vector2(32, 32)
 const SAFETY_CONST := 500
 
-const COMBAT_WEIGHT := 0.0
-const REST_SITE_WEIGHT := 10.0
-const SHOP_WEIGHT := 10.0
-const EVENT_WEIGHT := 10.0
-const EGG_CHAMBER_WEIGHT := 10.0
+const COMBAT_WEIGHT := 100.0
+const REST_SITE_WEIGHT := 0
+const SHOP_WEIGHT := 0
+const EVENT_WEIGHT := 0
+const EGG_CHAMBER_WEIGHT := 0
 
 @export var encounter_pool: EncounterPool
 

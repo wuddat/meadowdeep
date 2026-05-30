@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_tkqvf")
-max_duration = 2.0
+max_duration = 0.25
 mode = 1
 display_name = "Move Away"
 on_gcd = false

@@ -7,6 +7,7 @@
 [resource]
 script = ExtResource("2_v2fyi")
 boss_scene = ExtResource("1_cogkc")
+spawn_coords = Vector2(322, 138)
 depth_tier = 1
 spawn_layout = ExtResource("2_cogkc")
 is_boss = true

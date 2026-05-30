@@ -5,6 +5,9 @@ extends BattleActor
 
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
+@export var knockbackable: bool = true
+@export var sfx: AudioStream
+@export var death_sfx: AudioStream
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -100,7 +103,8 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 				dmg_text.show_text("%s" % modified_damage)
 			var source := _get_target()
 			if is_instance_valid(source):
-				_apply_knockback(source.global_position)
+				if knockbackable:
+					_apply_knockback(source.global_position)
 		last_damage_taken = modified_damage
 
 	var tween := create_tween()
@@ -109,7 +113,10 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 	tween.tween_interval(0.17)
 	tween.finished.connect(func():
 		if instance.health <= 0:
-			SFXPlayer.pitch_play(SLIME_DEATH_1)
+			if death_sfx:
+				SFXPlayer.pitch_play(death_sfx)
+			else:
+				SFXPlayer.pitch_play(SLIME_DEATH_1)
 			Events.enemy_fainted.emit(self)
 	)
 

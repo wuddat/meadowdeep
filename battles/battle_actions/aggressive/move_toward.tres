@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_ye18o")
-max_duration = 2.0
-stop_distance = 10.0
+max_duration = 0.25
+stop_distance = 20.0
 display_name = "Move Toward"
 on_gcd = false
 chance_weight = 5.0
