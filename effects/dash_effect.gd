@@ -9,7 +9,7 @@ enum DashDirection { AWAY, TOWARD, UP, DOWN }
 @export var duration: float = 0.4
 
 
-func execute(targets: Array[Node]) -> void:
+func execute(targets: Array[Node], _user: Node = null) -> void:
 	for target in targets:
 		var actor := target as BattleActor
 		if actor == null or not is_instance_valid(actor):

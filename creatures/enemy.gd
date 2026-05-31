@@ -86,7 +86,7 @@ func _face_direction(vel: Vector2) -> void:
 
 # ── Combat ────────────────────────────────────────────────────────────────────
 
-func take_damage(damage: int, mod_type: Modifier.Type) -> void:
+func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 	if instance.health <= 0:
 		return
 	last_damage_taken = 0
@@ -100,10 +100,10 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 			add_child(dmg_text)
 			if dmg_text.has_method("show_text"):
 				dmg_text.show_text("%s" % modified_damage)
-			var source := _get_target()
-			if is_instance_valid(source):
-				if knockbackable:
-					_apply_knockback(source.global_position)
+			if attacker == null:
+				attacker = _get_target()
+			if is_instance_valid(attacker) and knockbackable:
+				_apply_knockback(attacker.global_position)
 		last_damage_taken = modified_damage
 
 	var tween := create_tween()

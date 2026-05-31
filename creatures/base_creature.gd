@@ -31,7 +31,7 @@ const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
 
 # ── Tuning ────────────────────────────────────────────────────────────────────
 @export_group("Movement")
-@export var move_speed: float        = 40.0
+@export var movespeed: float        = 40.0
 @export var wander_radius: float     = 80.0
 
 @export_group("Action Timing")
@@ -288,7 +288,7 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 		instance.lower_emotion(&"boredom", 40.0)
 		action_queue.done()
 		return
-	velocity = dir.normalized() * move_speed
+	velocity = dir.normalized() * movespeed
 	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
@@ -318,7 +318,7 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 		animation_player.play("bubble_fade_out")
 		return
 
-	velocity = dir.normalized() * move_speed
+	velocity = dir.normalized() * movespeed
 	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
@@ -337,7 +337,7 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 			action_queue.enqueue(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 		action_queue.done()
 		return
-	velocity = dir.normalized() * move_speed
+	velocity = dir.normalized() * movespeed
 	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 

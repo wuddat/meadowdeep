@@ -36,7 +36,7 @@ func _on_reward_ui_dismissed() -> void:
 func _on_reward_selected(reward: RewardDef) -> void:
 	if reward.mod == Modifier.Type.STAT_MOD:
 		var modifier: Modifier = creature.modifier_handler.get_modifier(reward.mod)
-		modifier.add_new_value(reward.mod_type, reward.stat, reward.amount)
+		modifier.adjust_stat_value(reward.mod_type, reward.stat, reward.amount)
 
 func _kill_children() -> void:
 	for child in reward_container.get_children():

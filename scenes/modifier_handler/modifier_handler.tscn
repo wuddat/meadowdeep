@@ -19,3 +19,6 @@ type = 3
 
 [node name="StatModifier" parent="." unique_id=994733557 instance=ExtResource("2_yystb")]
 type = 5
+
+[node name="MovespeedMod" parent="." unique_id=461083876 instance=ExtResource("2_yystb")]
+type = 6

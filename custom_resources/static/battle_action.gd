@@ -29,6 +29,20 @@ static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	return user.global_position.distance_to(target.global_position) <= max_range
 
 
+static func find_opponents_in_radius(user: Node, radius: int) -> Array[Node]:
+	var group := "enemies" if user.is_in_group("active_creatures") else "active_creatures"
+	var candidates := user.get_tree().get_nodes_in_group(group)
+	var opps: Array[Node] = []
+	for c in candidates:
+		if not is_instance_valid(c):
+			continue
+		if "instance" in c and c.instance and c.instance.health <= 0:
+			continue
+		var d: float = user.global_position.distance_to(c.global_position)
+		if d < radius:
+			opps.append(c)
+	return opps
+
 static func find_nearest_opponent(user: BattleActor) -> Node:
 	var group := "enemies" if user.is_in_group("active_creatures") else "active_creatures"
 	var candidates := user.get_tree().get_nodes_in_group(group)

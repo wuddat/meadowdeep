@@ -6,7 +6,7 @@ extends Effect
 @export var amount := 0
 
 
-func execute(targets: Array[Node]) -> void:
+func execute(targets: Array[Node], _user: Node = null) -> void:
 	for target in targets:
 		if not is_instance_valid(target):
 			continue

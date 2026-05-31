@@ -4,18 +4,22 @@
 class_name BattleActor
 extends CharacterBody2D
 
-@export var move_speed: float = 65.0
+@export var base_movespeed: float = MIN_MOVESPEED
 @export var battle_action_list: Array[BattleAction]
 @export var creature_animation_handler: CreatureAnimationHandler
 @export var instance: CreatureInstance : set = set_instance
 @export var modifier_handler: ModifierHandler
 
-const BASE_MOVESPEED: float = 125.0
+const MIN_MOVESPEED: float = 45.0
+var _current_movespeed: float
 
-var action_queue := ActionQueue.new()
 var _in_combat: bool = false
-var is_dodging: bool = false
+var action_queue := ActionQueue.new()
 var _current_action: BattleAction
+
+var is_dodging: bool = false
+var is_countering: bool = false
+var _counter_completed:bool = false
 
 
 var knockback_strength: float = 1000.0
@@ -28,8 +32,7 @@ var knockback_velocity: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
-	action_queue.action_started.connect(_on_action_start)
-	action_queue.queue_emptied.connect(_on_queue_emptied)
+	_establish_connections()
 
 
 func start_combat() -> void:
@@ -43,7 +46,10 @@ func stop_combat() -> void:
 
 func set_instance(value: CreatureInstance) -> void:
 	_hydrate_actions()
-	move_speed = BASE_MOVESPEED + value.identity.AGI.get_combat_mod()
+	var min_spd: float = MIN_MOVESPEED + value.identity.AGI.get_combat_mod()
+	if base_movespeed < min_spd:
+		base_movespeed = MIN_MOVESPEED + value.identity.AGI.get_combat_mod()
+	_current_movespeed = base_movespeed
 
 
 func _physics_process(delta: float) -> void:
@@ -82,8 +88,19 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"move":       _play_animation(&"run")
 		&"dash":       _play_animation(&"dash")
 		&"strike":     _play_animation(&"strike")
-		&"brace":      _play_animation(&"brace")
 		&"projectile": _play_animation(&"strike")
+		&"tackle":     _play_animation(&"tackle")
+		&"buff":       
+			_play_animation(&"buff") 
+			for buff in data["buffs"]:
+				modifier_handler.add_timed_value(buff.modifier, buff.mod_type, buff.source, buff.amount, buff.duration)
+		&"counter":
+			_play_animation(&"counter")
+			is_countering = true
+			_counter_completed = false
+			var mod:Modifier = modifier_handler.get_modifier(Modifier.Type.DMG_TAKEN)
+			var dur:float = data["duration"]
+			mod.add_new_value(ModifierValue.Type.PERCENTAGE, &"counter", -50, dur)
 
 
 func _check_battle_triggers() -> void:
@@ -99,8 +116,9 @@ func _tick_current_action(delta: float) -> void:
 		&"move":       _tick_move(current["data"], delta)
 		&"dash":       _tick_dash(current["data"], delta)
 		&"strike":     _tick_strike(current["data"], delta)
-		&"brace":      _tick_brace(current["data"], delta)
 		&"projectile": _tick_projectile(current["data"], delta)
+		&"counter":    _tick_counter(current["data"], delta)
+		&"buff":        _tick_buff(current["data"], delta)
 
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
@@ -113,9 +131,10 @@ func _tick_idle(data: Dictionary, delta: float) -> void:
 
 func _tick_brace(data:Dictionary, delta: float) -> void:
 	data["duration"] -= delta
-	_update_action_timer_ui(data["duration"])
-	if data["duration"] > 0.0:
-		return
+	if data.has("min_duration"):
+		data["min_duration"] -= delta
+		if data["min_duration"] >= 0.0:
+			return
 	action_queue.done()
 
 
@@ -159,22 +178,22 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 				base_velocity = Vector2.ZERO
 				action_queue.done()
 				return
-			base_velocity = to_target.normalized() * move_speed
+			base_velocity = to_target.normalized() * _current_movespeed
 
 		MoveToAction.Mode.AWAY:
 			if dist >= stop_distance: # Assuming stopping at a max distance away, modify if you want continuous flee
 				base_velocity = Vector2.ZERO
 				action_queue.done()
 				return
-			base_velocity = -to_target.normalized() * move_speed
+			base_velocity = -to_target.normalized() * _current_movespeed
 
 		MoveToAction.Mode.ORBITL:
 			var tangent := to_target.normalized().rotated(-PI / 2)
-			base_velocity = tangent * move_speed
+			base_velocity = tangent * _current_movespeed
 
 		MoveToAction.Mode.ORBITR:
 			var tangent := to_target.normalized().rotated(PI / 2)
-			base_velocity = tangent * move_speed
+			base_velocity = tangent * _current_movespeed
 
 	_face_direction(base_velocity)
 
@@ -207,11 +226,30 @@ func _tick_dash(data: Dictionary, delta: float) -> void:
 		is_dodging = false
 		action_queue.done()
 
+func _tick_buff(data: Dictionary, delta: float) -> void:
+	data["duration"] -= delta
+	if data.has("min_duration"):
+		data["min_duration"] -= delta
+		if data["min_duration"] >= 0.0:
+			return
+	action_queue.done()
 
+func _tick_counter(data: Dictionary, delta: float) -> void:
+	data["duration"] -= delta
+	if data["duration"] <= 0 or _counter_completed:
+		is_countering = false
+		_counter_completed = false
+		action_queue.done()
+	
+	
 # ── Virtual hooks ─────────────────────────────────────────────────────────────
 
 func _get_action_interval() -> float:
 	return 0.25
+
+func get_movespeed() -> float:
+	var new_movespeed := modifier_handler.get_modified_value(int(base_movespeed), Modifier.Type.MOVESPEED)
+	return new_movespeed
 
 func _apply_knockback(source_pos: Vector2) -> void:
 	var direction := (global_position - source_pos).normalized()
@@ -246,3 +284,11 @@ func _face_direction(_vel: Vector2) -> void:
 
 func _update_action_timer_ui(_remaining: float) -> void:
 	pass
+
+func _on_mods_changed() -> void:
+	_current_movespeed = get_movespeed()
+
+func _establish_connections() -> void:
+	action_queue.action_started.connect(_on_action_start)
+	action_queue.queue_emptied.connect(_on_queue_emptied)
+	modifier_handler.mods_changed.connect(_on_mods_changed)

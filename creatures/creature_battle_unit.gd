@@ -24,6 +24,7 @@ var last_damage_taken: int = 0
 
 var _action_fill: ColorRect = null
 var _enemy: Enemy
+var _already_damaged_bodies: Array[Node] = []
 
 const FOLLOW_DISTANCE := 48.0
 const ACTION_INTERVAL: float = 0.4
@@ -98,20 +99,25 @@ func _physics_process(delta: float) -> void:
 
 func _tick_current_action(delta: float) -> void:
 	var current := action_queue.peek()
-	if not current.is_empty() and current["id"] == &"seek":
-		_tick_seek_player(current["data"], delta)
-		return
-	super(delta)
+	if not current.is_empty():
+		match current["id"]:
+			&"idle":       _tick_idle(current["data"], delta)
+			&"seek":       _tick_seek_player(current["data"], delta)
+			&"tackle":     _tick_contact_damage_action(current["data"], delta)
+			_:             super(delta)
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
 	match id:
 		&"seek":       _play_animation(&"idle")
-		&"strike":     _run_one_shot_action(data)
+		&"strike":     _run_one_damage_frame_action(data)
+		&"tackle":     
+			_already_damaged_bodies.clear()
+			super(id, data)
 		_:             super(id, data)
 
 
-func _run_one_shot_action(data: Dictionary) -> void:
+func _run_one_damage_frame_action(data: Dictionary) -> void:
 	var anim: String = data.get("animation_string", "")
 	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
 	if not creature_animation_handler or anim == "":
@@ -123,6 +129,23 @@ func _run_one_shot_action(data: Dictionary) -> void:
 		if body != self:
 			if is_instance_valid(body) and not effects.is_empty():
 				EffectExecutor.run(effects, [body], self)
+
+
+func _tick_contact_damage_action(data: Dictionary, delta) -> void:
+	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 120.0)
+	data["duration"] -= delta
+	if data["duration"] <= 0.0:
+		base_velocity = Vector2.ZERO
+		_already_damaged_bodies.clear()
+		action_queue.done()
+		return
+	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
+	var hits := _get_hit_bodies()
+	for body in hits:
+		if body not in _already_damaged_bodies:
+			if is_instance_valid(body) and not effects.is_empty():
+				EffectExecutor.run(effects, [body], self)
+				_already_damaged_bodies.append(body)
 
 func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 	var player := _get_player()
@@ -137,7 +160,7 @@ func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 		base_velocity = Vector2.ZERO
 		_play_animation(&"idle")
 		return
-	base_velocity = to_player.normalized() * move_speed
+	base_velocity = to_player.normalized() * _current_movespeed
 	_play_animation(&"run")
 	_face_direction(base_velocity)
 
@@ -163,6 +186,13 @@ func _get_target() -> Node2D:
 		_enemy = enemies[0] as Enemy
 	return _enemy
 
+func _get_hit_bodies() -> Array[Node]:
+	var all_hits := hitbox.get_overlapping_bodies()
+	var hits: Array[Node]
+	for body in all_hits:
+		if body != self:
+			hits.append(body)
+	return hits
 
 func _get_action_interval() -> float:
 	if not instance or not instance.definition:
@@ -234,7 +264,7 @@ func gain_block(block: int, _mod_type: Modifier.Type) -> void:
 	tween.tween_interval(0.17)
 
 
-func take_damage(damage: int, mod_type: Modifier.Type) -> void:
+func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 	if instance.health <= 0: return
 	last_damage_taken = 0
 
@@ -243,9 +273,17 @@ func take_damage(damage: int, mod_type: Modifier.Type) -> void:
 	if modified_damage > 0:
 		show_combat_text("%s" % modified_damage)
 		last_damage_taken = modified_damage
-		var source := _get_target()
-		if is_instance_valid(source):
-			_apply_knockback(source.global_position)
+		if attacker == null:
+			attacker = _get_target()
+		if is_instance_valid(attacker):
+			_apply_knockback(attacker.global_position)
+		if is_countering:
+			if "take_damage" in attacker and attacker is Enemy:
+				var att:Enemy = attacker
+				att.take_damage(modified_damage,Modifier.Type.DMG_TAKEN, self)
+				_counter_completed = true
+				is_countering = false
+		
 		var tween := create_tween()
 		Shaker.shake(self, 25, 0.15)
 		tween.tween_callback(instance.take_damage.bind(modified_damage))

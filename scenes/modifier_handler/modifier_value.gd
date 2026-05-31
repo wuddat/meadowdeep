@@ -8,7 +8,7 @@ enum Type {PERCENTAGE, FLAT}
 @export var percent_value: float
 @export var flat_value: int
 @export var source: String
-
+@export var duration: float = 0.0
 
 static func create_new_modifier(modifier_source: String, mod_type: Type) -> ModifierValue:
 	var new_modifier := new()
