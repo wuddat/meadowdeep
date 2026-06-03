@@ -2,7 +2,7 @@
 class_name MapGenerator
 extends Node
 
-const ROOM_BASE := 3
+const ROOM_BASE := 6
 const FLOOR_MOD := 2
 const MAX_RADIUS := 8
 

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuffAction" format=3 uid="uid://oroay7revrjd"]
+
+[ext_resource type="Script" uid="uid://dthkc1uswrqi5" path="res://custom_resources/static/buff_def.gd" id="1_8mxb0"]
+[ext_resource type="Script" uid="uid://bfndxpf00evch" path="res://battles/battle_actions/buff_action.gd" id="2_mnrh2"]
+
+[sub_resource type="Resource" id="Resource_8mxb0"]
+script = ExtResource("1_8mxb0")
+mod = 1
+amount = -50.0
+duration = 3.0
+metadata/_custom_type_script = "uid://dthkc1uswrqi5"
+
+[resource]
+script = ExtResource("2_mnrh2")
+buffs = Array[ExtResource("1_8mxb0")]([SubResource("Resource_8mxb0")])
+animation_string = "roar"
+intent = 1
+stat_categories = Array[int]([0])
+action_slot = 3
+display_name = "Brace"
+metadata/_custom_type_script = "uid://bfndxpf00evch"

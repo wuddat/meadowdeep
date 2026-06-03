@@ -79,6 +79,19 @@ func _play_animation(anim_name: StringName) -> void:
 		else:
 			animated_sprite_2d.play("default")
 
+func _tick_strike(data: Dictionary, delta: float) -> void:
+	var targets: Array[Node] = data.get("target", [] as Array[Node])
+	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
+	if not effects.is_empty():
+		var valid_targets: Array[Node] = targets.filter(func(node): return is_instance_valid(node))
+		if not valid_targets.is_empty():
+			EffectExecutor.run(effects, valid_targets, self)
+			data["effects"] = [] as Array[Effect]
+	if data.has("min_duration"):
+		data["min_duration"] -= delta
+		if data["min_duration"] >= 0.0:
+			return
+	action_queue.done()
 
 func _face_direction(vel: Vector2) -> void:
 	animated_sprite_2d.scale.x = -1.0 if vel.x < 0 else 1.0

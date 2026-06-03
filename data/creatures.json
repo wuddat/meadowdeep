@@ -9,7 +9,7 @@
 			"egg_depth_found": 0.0,
 			"sprite_path": "res://scenes/ruins/greenie_frames.tres",
 			"icon_path": "res://art/placeholder.png",
-			"starting_actions": ["move_toward", "move_away", "strike"],
+			"starting_actions": ["move_toward", "move_away", "strike", "buff_charge", "reversal", "tackle_tackle", "throw_rock", "buff_brace", "counter_counter", "roar", "shove_away"],
 			"action_ids": [],
 			"identity": {
 				"personality": "brave",

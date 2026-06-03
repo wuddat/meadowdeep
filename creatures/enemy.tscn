@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://hfrflgf1ontv" path="res://custom_resources/static/loot_table_drop.gd" id="3_ljyq2"]
 [ext_resource type="Script" uid="uid://tl2j1gesbx5u" path="res://custom_resources/static/battle_action.gd" id="3_slkkl"]
 [ext_resource type="SpriteFrames" uid="uid://bowjtvciudqlm" path="res://art/game_art/creatures/slime/slime_sprite_frames.tres" id="3_xdx88"]
-[ext_resource type="Resource" uid="uid://bjbolueg3mmes" path="res://battles/battle_actions/aggressive/shoot.tres" id="4_4wx45"]
+[ext_resource type="Resource" uid="uid://bjbolueg3mmes" path="res://battles/battle_actions/defensive/shoot.tres" id="4_4wx45"]
 [ext_resource type="Resource" uid="uid://dsc4swpxj2a68" path="res://battles/battle_actions/aggressive/strike.tres" id="4_8hsss"]
 [ext_resource type="Resource" uid="uid://b12taqajdca5u" path="res://data/items/test_fragment.tres" id="4_ljyq2"]
 [ext_resource type="Resource" uid="uid://bo2ovmh0qxw08" path="res://battles/battle_actions/aggressive/move_toward.tres" id="5_4wx45"]

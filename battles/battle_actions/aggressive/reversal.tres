@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AttackAction" format=3 uid="uid://bgqvgwwwekx1r"]
+
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_g0qf1"]
+[ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="2_hwgd7"]
+[ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="2_mr7x4"]
+[ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="3_cdum0"]
+
+[sub_resource type="Resource" id="Resource_rwxxy"]
+script = ExtResource("2_mr7x4")
+dash_direction = 1
+metadata/_custom_type_script = "uid://i2o70yng31r3"
+
+[sub_resource type="Resource" id="Resource_ip48a"]
+script = ExtResource("3_cdum0")
+amount = 1
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[resource]
+script = ExtResource("2_hwgd7")
+max_range = 100.0
+hit_effects = Array[ExtResource("1_g0qf1")]([SubResource("Resource_rwxxy"), SubResource("Resource_ip48a")])
+animation_string = "roar"
+stat_categories = Array[int]([0])
+action_slot = 2
+display_name = "Reversal"
+metadata/_custom_type_script = "uid://b8gg2gg4qk755"

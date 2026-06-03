@@ -93,7 +93,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"buff":       
 			_play_animation(&"buff") 
 			for buff in data["buffs"]:
-				modifier_handler.add_timed_value(buff.modifier, buff.mod_type, buff.source, buff.amount, buff.duration)
+				modifier_handler.add_timed_value(buff.mod, buff.mod_type, buff.source, buff.amount, buff.duration)
 		&"counter":
 			_play_animation(&"counter")
 			is_countering = true
@@ -139,11 +139,13 @@ func _tick_brace(data:Dictionary, delta: float) -> void:
 
 
 func _tick_strike(data: Dictionary, delta: float) -> void:
-	var t = data.get("target")
+	var targets: Array[Node] = data.get("target", [] as Array[Node])
 	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
-	if is_instance_valid(t) and not effects.is_empty():
-		EffectExecutor.run(effects, [t], self)
-		data["effects"] = [] as Array[Effect]
+	if not effects.is_empty():
+		var valid_targets: Array[Node] = targets.filter(func(node): return is_instance_valid(node))
+		if not valid_targets.is_empty():
+			EffectExecutor.run(effects, valid_targets, self)
+			data["effects"] = [] as Array[Effect]
 	if data.has("min_duration"):
 		data["min_duration"] -= delta
 		if data["min_duration"] >= 0.0:
@@ -227,7 +229,6 @@ func _tick_dash(data: Dictionary, delta: float) -> void:
 		action_queue.done()
 
 func _tick_buff(data: Dictionary, delta: float) -> void:
-	data["duration"] -= delta
 	if data.has("min_duration"):
 		data["min_duration"] -= delta
 		if data["min_duration"] >= 0.0:

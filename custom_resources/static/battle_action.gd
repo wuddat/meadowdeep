@@ -29,7 +29,8 @@ static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	return user.global_position.distance_to(target.global_position) <= max_range
 
 
-static func find_opponents_in_radius(user: Node, radius: int) -> Array[Node]:
+static func find_opponents_in_radius(user: Node, aoe_radius: float) -> Array[Node]:
+	var radius := int(aoe_radius)
 	var group := "enemies" if user.is_in_group("active_creatures") else "active_creatures"
 	var candidates := user.get_tree().get_nodes_in_group(group)
 	var opps: Array[Node] = []

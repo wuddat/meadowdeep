@@ -114,6 +114,10 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"tackle":     
 			_already_damaged_bodies.clear()
 			super(id, data)
+		&"buff":
+			_play_animation(&"buff") 
+			for buff in data["buffs"]:
+				modifier_handler.add_timed_value(buff.mod, buff.mod_type, buff.source, buff.amount, buff.duration)
 		_:             super(id, data)
 
 
@@ -124,6 +128,11 @@ func _run_one_damage_frame_action(data: Dictionary) -> void:
 		return
 	creature_animation_handler.play(anim)
 	await creature_animation_handler.damage_frame
+	var aoe_radius:float = data.get("aoe_radius", 0.0)
+	if aoe_radius > 0:
+		var targets: Array[Node] = AttackAction.find_opponents_in_radius(self, aoe_radius)
+		EffectExecutor.run(effects, targets, self)
+		return
 	var hits := hitbox.get_overlapping_bodies()
 	for body in hits:
 		if body != self:
@@ -203,6 +212,11 @@ func _get_action_interval() -> float:
 func _play_animation(anim_name: StringName) -> void:
 	play_animation(anim_name)
 
+func play_animation(anim_name: StringName) -> void:
+	if creature_textures and creature_textures.sprite_frames:
+		if creature_textures.sprite_frames.has_animation(anim_name):
+			creature_textures.play(anim_name)
+
 
 func _face_direction(vel: Vector2) -> void:
 	creature_textures.scale.x = -1.0 if vel.x < 0 else 1.0
@@ -239,12 +253,6 @@ func update_creature() -> void:
 		creature_skin_handler.identity = instance.identity
 		creature_skin_handler.refresh_palette()
 	update_stats()
-
-
-func play_animation(anim_name: StringName) -> void:
-	if creature_textures and creature_textures.sprite_frames:
-		if creature_textures.sprite_frames.has_animation(anim_name):
-			creature_textures.play(anim_name)
 
 
 func update_stats() -> void:

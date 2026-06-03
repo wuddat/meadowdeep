@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FireProjectileAction" format=3 uid="uid://d3f17kgeiuj3l"]
+
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_7g0n3"]
+[ext_resource type="Texture2D" uid="uid://b4imlsqokqwyf" path="res://art/game_art/scenery/pebble.png" id="1_b7egw"]
+[ext_resource type="Script" uid="uid://bdhmsij2whdko" path="res://battles/battle_actions/fire_projectile_action.gd" id="2_5aggf"]
+[ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="3_63ldt"]
+[ext_resource type="PackedScene" uid="uid://bdq2fu4cx0tgw" path="res://scenes/battle/projectile_object.tscn" id="3_jo1mn"]
+
+[sub_resource type="Resource" id="Resource_8tm5h"]
+script = ExtResource("3_63ldt")
+amount = 5
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[resource]
+script = ExtResource("2_5aggf")
+projectile_scene = ExtResource("3_jo1mn")
+art = ExtResource("1_b7egw")
+effects = Array[ExtResource("1_7g0n3")]([SubResource("Resource_8tm5h")])
+duration = 2.0
+speed = 100.0
+max_distance = 200.0
+stat_categories = Array[int]([0])
+action_slot = 2
+display_name = "Throw Rock"
+metadata/_custom_type_script = "uid://bdhmsij2whdko"

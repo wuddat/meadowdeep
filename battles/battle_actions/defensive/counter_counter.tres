@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CounterAction" format=3 uid="uid://d1vu3encn6the"]
+
+[ext_resource type="Script" uid="uid://dg2lj3vhrrn0u" path="res://battles/battle_actions/counter_action.gd" id="1_b7h24"]
+
+[resource]
+script = ExtResource("1_b7h24")
+animation_string = "roar"
+intent = 1
+stat_categories = Array[int]([0])
+action_slot = 3
+display_name = "Counter"
+metadata/_custom_type_script = "uid://dg2lj3vhrrn0u"

@@ -31,6 +31,8 @@ const IDLE_WEIGHTS := {
 
 func play_idle() -> void:
 	play("RESET")
+	if not emotion_player.is_node_ready():
+		return
 	if emotion_player.is_playing() and emotion_player.assigned_animation == "bubble_fade_in":
 		await emotion_player.animation_finished
 		emotion_player.play("bubble_fade_out")
