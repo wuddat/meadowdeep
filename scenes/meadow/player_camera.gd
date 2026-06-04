@@ -9,7 +9,7 @@ func _ready() -> void:
 		Events.shake_camera_requested.connect(_on_shake_requested)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	position = player.position
 
 func _on_shake_requested(strength: float = 25.0, duration:float = 0.15) -> void:

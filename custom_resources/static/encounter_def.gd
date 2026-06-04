@@ -19,10 +19,10 @@ extends Resource
 
 var accumulated_weight: float = 0.0
 
-func start_encounter(handler: EnemyHandler) -> void:
+func start_encounter(_handler: EnemyHandler) -> void:
 	push_error("[ENCOUNTERDEF]: start_encounter() MUST be overridden")
 
-func on_enemy_fainted(handler: EnemyHandler) -> void:
+func on_enemy_fainted(_handler: EnemyHandler) -> void:
 	pass
 
 func is_complete(handler:EnemyHandler) -> bool:

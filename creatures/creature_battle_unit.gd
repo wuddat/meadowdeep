@@ -108,6 +108,8 @@ func _tick_current_action(delta: float) -> void:
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
+	if action_name:
+		action_name.text = String(id).capitalize()
 	match id:
 		&"seek":       _play_animation(&"idle")
 		&"strike":     _run_one_damage_frame_action(data)
@@ -360,6 +362,8 @@ func unsnare() -> void:
 	Events.creature_freed.emit(self)
 
 func _on_queue_emptied() -> void:
+	if action_name:
+		action_name.text = ""
 	if is_snared:
 		return
 	super()

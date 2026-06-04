@@ -90,6 +90,21 @@ size = Vector2(20, 22)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lddhi"]
 polygon = PackedVector2Array(0, 47, 1, -30, 1, -47, 9, -30, 11, 39)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_y34cg"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_hvte7"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a2kfm"]
+gradient = SubResource("Gradient_hvte7")
+height = 200
+fill_from = Vector2(0.24358974, 0.02991453)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5jltu"]
+gradient = SubResource("Gradient_hvte7")
+height = 200
+fill_from = Vector2(0.24358974, 0.02991453)
+
 [node name="RuinRoom" type="Node2D" unique_id=1210557673]
 script = ExtResource("1_qhq8s")
 
@@ -151,7 +166,6 @@ encounter_pool = ExtResource("8_qkvym")
 unique_name_in_owner = true
 position = Vector2(261, 293)
 sprite_frames = ExtResource("14_rbvr3")
-move_speed = 125.0
 battle_action_list = Array[ExtResource("12_vve1t")]([SubResource("Resource_ocehn"), ExtResource("16_vkuii"), ExtResource("17_1lbdh"), ExtResource("18_frkgh"), ExtResource("19_wugeb"), SubResource("Resource_lddhi")])
 instance = ExtResource("14_vkuii")
 
@@ -304,3 +318,48 @@ position = Vector2(322, 138)
 [node name="RewardUI" parent="CanvasLayer" unique_id=861013308 node_paths=PackedStringArray("creature") instance=ExtResource("31_y34cg")]
 visible = false
 creature = NodePath("../../PlayerCreature")
+
+[node name="Light" type="Parallax2D" parent="." unique_id=1490411718]
+visible = false
+modulate = Color(0.49, 0.3866917, 0.22049999, 0.22352941)
+z_index = 100
+scroll_scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Light" unique_id=812960670]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(168.48181, 55.71167)
+rotation = 0.31210062
+scale = Vector2(1, 7.824948)
+texture = SubResource("GradientTexture2D_a2kfm")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Light/Sprite2D" unique_id=1571412658]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(64, 0)
+texture = SubResource("GradientTexture2D_5jltu")
+flip_h = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="Light" unique_id=391872859]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(464.79022, 84.954605)
+rotation = 0.31210062
+scale = Vector2(1, 8.162499)
+texture = SubResource("GradientTexture2D_a2kfm")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Light/Sprite2D2" unique_id=960203364]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(64, 0)
+texture = SubResource("GradientTexture2D_5jltu")
+flip_h = true
+
+[node name="Sprite2D3" type="Sprite2D" parent="Light" unique_id=357900718]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(346.70764, 73.02887)
+rotation = 0.31210062
+scale = Vector2(0.36855364, 6.089406)
+texture = SubResource("GradientTexture2D_a2kfm")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Light/Sprite2D3" unique_id=935704373]
+material = SubResource("CanvasItemMaterial_y34cg")
+position = Vector2(64, 0)
+texture = SubResource("GradientTexture2D_5jltu")
+flip_h = true

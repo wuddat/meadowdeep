@@ -9,11 +9,12 @@
 [ext_resource type="Script" uid="uid://bpar68if6yj65" path="res://scenes/ruins/boss_controller.gd" id="7_1fg8g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n7ctl"]
+size = Vector2(83, 63)
 
-[node name="Boss" type="CharacterBody2D" unique_id=990251346 node_paths=PackedStringArray("modifier_handler")]
+[node name="Boss" type="CharacterBody2D" unique_id=990251346 node_paths=PackedStringArray("modifier_handler", "collider")]
 script = ExtResource("1_1fg8g")
-move_speed = 25.0
 modifier_handler = NodePath("ModifierHandler")
+collider = NodePath("CollisionShape2D")
 
 [node name="BossController" type="Node2D" parent="." unique_id=173258134]
 unique_name_in_owner = true
@@ -38,6 +39,7 @@ animation = &"strike"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1585374527]
+position = Vector2(-5.5, 8.5)
 shape = SubResource("RectangleShape2D_n7ctl")
 disabled = true
 

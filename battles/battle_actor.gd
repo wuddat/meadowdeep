@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export var creature_animation_handler: CreatureAnimationHandler
 @export var instance: CreatureInstance : set = set_instance
 @export var modifier_handler: ModifierHandler
+@export var collider: CollisionShape2D
 
 const MIN_MOVESPEED: float = 45.0
 var _current_movespeed: float

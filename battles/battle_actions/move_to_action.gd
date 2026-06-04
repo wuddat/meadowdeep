@@ -12,7 +12,15 @@ func can_execute(user: BattleActor) -> bool:
 	var target := find_nearest_opponent(user)
 	if target == null:
 		return false
-	return user.global_position.distance_to(target.global_position) > stop_distance
+	var within := range_check(user, target, stop_distance)
+	match mode:
+		Mode.TOWARD:
+			return not within
+		Mode.AWAY:
+			return within
+		Mode.ORBITL, Mode.ORBITR:
+			return true
+	return false
 
 
 func build_steps(user: BattleActor) -> Array[Dictionary]:

@@ -3,7 +3,6 @@ extends Enemy
 
 @onready var boss_controller: Node2D = %BossController
 @onready var tentacles: AnimatedSprite2D = $Tentacles
-@onready var collider: CollisionShape2D = $CollisionShape2D
 
 
 

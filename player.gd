@@ -161,7 +161,7 @@ func _on_player_animation_finished() -> void:
 	is_attacking = false
 
 
-func _on_ruins_entrance_body_entered(body: Node2D) -> void:
+func _on_ruins_entrance_body_entered(_body: Node2D) -> void:
 	pass # Replace with function body.
 
 func _on_frame_changed() -> void:

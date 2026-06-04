@@ -26,7 +26,8 @@ func build_steps(_user: BattleActor) -> Array[Dictionary]:
 static func range_check(user: Node, target: Node, max_range: float) -> bool:
 	if not is_instance_valid(user) or not is_instance_valid(target):
 		return false
-	return user.global_position.distance_to(target.global_position) <= max_range
+	var surface_dist: float = user.global_position.distance_to(target.global_position) - collider_radius(user) - collider_radius(target)
+	return surface_dist <= max_range
 
 
 static func find_opponents_in_radius(user: Node, aoe_radius: float) -> Array[Node]:
@@ -59,3 +60,13 @@ static func find_nearest_opponent(user: BattleActor) -> Node:
 			nearest_dist = d
 			nearest = c
 	return nearest
+
+static func collider_radius(actor: BattleActor) -> float:
+	if not ("collider" in actor) or actor.collider == null:
+		return 0.0
+	var shape := actor.collider.shape
+	if shape is CircleShape2D or shape is CapsuleShape2D:
+		return shape.radius
+	if shape is RectangleShape2D:
+		return maxf(shape.size.x,shape.size.y) * 0.5
+	return 0.0

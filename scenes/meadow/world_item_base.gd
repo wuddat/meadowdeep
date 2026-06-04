@@ -22,8 +22,7 @@ func _ready() -> void:
 			sprite.texture = item_data.art
 		if item_data.color:
 			sprite.modulate = item_data.color
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
+	_establish_connections()
 
 
 func _process(_delta: float) -> void:
@@ -44,14 +43,20 @@ func drop() -> void:
 	collision_shape.call_deferred("set_disabled", false)
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _establish_connections() -> void:
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	if not body_exited.is_connected(_on_body_exited):
+		body_exited.connect(_on_body_exited)
+
+func _on_body_entered(_body: Node2D) -> void:
 	pass
 
 
-func _on_body_exited(body: Node2D) -> void:
+func _on_body_exited(_body: Node2D) -> void:
 	pass
 
 
 ## Override in subclasses to add delivery-specific behavior.
-func on_delivered(creature: Node) -> void:
+func on_delivered(_creature: Node) -> void:
 	pass

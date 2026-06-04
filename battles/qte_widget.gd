@@ -11,7 +11,7 @@ var _start_time: int
 var _origin: Vector2
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not _data or _resolved:
 		return
 	var _elapsed := (Time.get_ticks_msec() - _start_time) / 1000.0

@@ -136,7 +136,7 @@ func _calc_depths() -> void:
 				frontier.append(n)
 
 
-func _assign_room_types(floor_num: int) -> void:
+func _assign_room_types(_floor_num: int) -> void:
 	encounter_pool.setup()
 	_setup_random_room_weights()
 

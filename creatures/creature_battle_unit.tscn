@@ -47,7 +47,7 @@ radius = 20.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_dnym6"]
 radius = 13.0
 
-[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler") groups=["active_creatures"]]
+[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider") groups=["active_creatures"]]
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
@@ -56,6 +56,7 @@ base_movespeed = 80.0
 battle_action_list = Array[ExtResource("3_r6ech")]([SubResource("Resource_g8vsc"), ExtResource("8_dnym6"), ExtResource("9_ok274"), ExtResource("8_wo3yl"), ExtResource("9_abx5i"), SubResource("Resource_vyn8i")])
 creature_animation_handler = NodePath("CreatureAnimationHandler")
 modifier_handler = NodePath("ModifierHandler")
+collider = NodePath("CollisionShape2D")
 
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")

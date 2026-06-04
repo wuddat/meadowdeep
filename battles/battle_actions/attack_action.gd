@@ -20,7 +20,6 @@ func can_execute(user: BattleActor) -> bool:
 		var targets := find_opponents_in_radius(user, aoe_radius)
 		return targets != []
 
-
 func build_steps(user: BattleActor) -> Array[Dictionary]:
 	var t: Array[Node] = []
 	if aoe_radius > 0.0:

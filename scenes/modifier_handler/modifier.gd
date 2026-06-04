@@ -36,7 +36,7 @@ func _set_mod_val_timer(mod_val: ModifierValue, mod_type: ModifierValue.Type, am
 	modifier_timeout.emit(mod_val, mod_type, amount)
 
 
-func adjust_stat_value(mod_type: ModifierValue.Type, stat: GrowthStat.StatType, amount: float, duration: float = 0.0) -> void:
+func adjust_stat_value(mod_type: ModifierValue.Type, stat: GrowthStat.StatType, amount: float, _duration: float = 0.0) -> void:
 	var stat_name: String = CreatureData.STAT_NAMES.get(stat)
 	var value:ModifierValue = _get_or_create_value(stat_name, mod_type)
 	match mod_type:
