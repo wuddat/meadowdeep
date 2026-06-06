@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_w0ber")
+max_duration = 0.25
 mode = 3
 stat_categories = Array[int]([3, 4])
 display_name = "Orbit R"

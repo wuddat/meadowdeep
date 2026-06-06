@@ -73,7 +73,7 @@ func _spawn_enemy(species_id: String, enemy_spawn_node: Node2D, scene: PackedSce
 	add_child(enemy)
 	if "boss_controller" in enemy:
 		enemy.boss_controller.prop_controller = prop_controller
-		print("boss_controller DETECTED: Assigning PropController")
+		#print("boss_controller DETECTED: Assigning PropController")
 
 
 

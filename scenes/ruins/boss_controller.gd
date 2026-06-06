@@ -64,7 +64,6 @@ func _vulnerable() -> Array[Dictionary]:
 
 
 func _on_creature_snared(c: CreatureBattleUnit) -> void:
-	print("[BOSS] recv creature_ensnared | SNARING -> ATTACKING")
 	_random_assign_unsnare_and_creature(c)
 	_state = State.ATTACKING
 	var p := self.get_parent()
@@ -79,14 +78,12 @@ func _random_assign_unsnare_and_creature(c: CreatureBattleUnit) -> void:
 	prop_controller.spawn_interactable(unsnare_spawn, c)
 	
 func _on_creature_freed(_c: CreatureBattleUnit) -> void:
-	print("[BOSS] recv creature_freed | -> VULNERABLE (%.1fs)" % vulnerable_duration)
 	_state = State.VULNERABLE
 	var p := self.get_parent()
 	if p:
 		p.collider.disabled = false
 	await get_tree().create_timer(vulnerable_duration).timeout
 	if _state == State.VULNERABLE:
-		print("[BOSS] vulnerable window over | VULNERABLE -> SNARING")
 		_state = State.SNARING
 
 

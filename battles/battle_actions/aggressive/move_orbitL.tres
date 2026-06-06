@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_3d7ql")
-max_duration = 2.0
+max_duration = 0.25
 mode = 2
 stat_categories = Array[int]([3, 4])
 display_name = "Orbit L"

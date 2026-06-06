@@ -73,16 +73,18 @@ shape = SubResource("RectangleShape2D_enm01")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1298247572]
 visible = false
 
+[node name="ProjectileSpawnL" type="Node2D" parent="." unique_id=1569843512]
+unique_name_in_owner = true
+position = Vector2(-14, 0)
+
+[node name="ProjectileSpawnR" type="Node2D" parent="." unique_id=1320871624]
+unique_name_in_owner = true
+position = Vector2(13, 0)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328390287]
 scale = Vector2(-1, 1)
 sprite_frames = ExtResource("3_xdx88")
 animation = &"idle"
-
-[node name="ProjectileSpawn" type="Node2D" parent="AnimatedSprite2D" unique_id=1569843512]
-unique_name_in_owner = true
-position = Vector2(19, 0)
-rotation = 3.1415927
-scale = Vector2(1, -1)
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=1164419915]
 

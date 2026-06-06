@@ -43,7 +43,7 @@ func build_steps(user: BattleActor) -> Array[Dictionary]:
 				for effect in hit_effects:
 					if effect is DamageEffect:
 						base_dam = effect.amount
-				print("[ATTACKACTION] %s: base: %s, lvl: %s, mod: %s" % [stat_name, base_dam, user_stat.get_combat_mod(), (stat_mod.get_modified_value(user_stat.get_combat_mod())-user_stat.get_combat_mod())])
+				#print("[ATTACKACTION] %s: base: %s, lvl: %s, mod: %s" % [stat_name, base_dam, user_stat.get_combat_mod(), (stat_mod.get_modified_value(user_stat.get_combat_mod())-user_stat.get_combat_mod())])
 				bonus = int(stat_mod.get_modified_value(user_stat.get_combat_mod(), stat_name) * stat_scale_val)
 	var final_effects: Array[Effect] = []
 	if bonus != 0:

@@ -134,12 +134,14 @@ func _run_one_damage_frame_action(data: Dictionary) -> void:
 	var aoe_radius:float = data.get("aoe_radius", 0.0)
 	if aoe_radius > 0:
 		var targets: Array[Node] = AttackAction.find_opponents_in_radius(self, aoe_radius)
+		_face_direction(targets[0].global_position - global_position)
 		EffectExecutor.run(effects, targets, self)
 		return
 	var hits := hitbox.get_overlapping_bodies()
 	for body in hits:
 		if body != self:
 			if is_instance_valid(body) and not effects.is_empty():
+				_face_direction(body.global_position - global_position)
 				EffectExecutor.run(effects, [body], self)
 
 
@@ -177,6 +179,7 @@ func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 	_face_direction(base_velocity)
 
 func _tick_strike(data: Dictionary, delta: float) -> void:
+	_face_target(data)
 	if data.has("min_duration"):
 		data["min_duration"] -= delta
 		if data["min_duration"] >= 0.0:
@@ -223,6 +226,7 @@ func play_animation(anim_name: StringName) -> void:
 
 func _face_direction(vel: Vector2) -> void:
 	creature_textures.scale.x = -1.0 if vel.x < 0 else 1.0
+
 
 
 func _update_action_timer_ui(remaining: float) -> void:
@@ -293,9 +297,9 @@ func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 				_counter_completed = true
 				is_countering = false
 		if creature_animation_handler:
-			creature_animation_handler.play("on_hurt")
+			if not creature_animation_handler.is_playing():
+				creature_animation_handler.play("on_hurt")
 		var tween := create_tween()
-		Shaker.shake(self, 25, 0.15)
 		tween.tween_callback(instance.take_damage.bind(modified_damage))
 		tween.tween_interval(0.17)
 		tween.finished.connect(func():
@@ -350,15 +354,14 @@ func snare() -> void:
 	is_snared = true
 	action_queue.clear()
 	base_velocity = Vector2.ZERO
-	print("[CREATURE] snare() -> emit creature_ensnared")
 	Events.creature_ensnared.emit(self)
 	
 	
 func unsnare() -> void:
 	status_graphic.visible = false
 	is_snared = false
+	print("[IDLE]: unSNARE")
 	action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
-	print("[CREATURE] unsnare() -> emit creature_freed")
 	Events.creature_freed.emit(self)
 
 func _on_queue_emptied() -> void:

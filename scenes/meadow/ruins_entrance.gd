@@ -8,7 +8,6 @@ var _is_active: bool = false
 
 func _on_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):
-		print("not player")
 		return
 	_is_active = true
 

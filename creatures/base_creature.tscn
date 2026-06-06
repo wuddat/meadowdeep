@@ -57,7 +57,7 @@ resource_name = "bubble_fade_in_out"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%AnimationPlayer")
+tracks/0/path = NodePath("EmotionPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -223,7 +223,7 @@ tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [-1]
 }
 tracks/11/type = "value"
 tracks/11/imported = false
@@ -913,7 +913,6 @@ texture = ExtResource("2_tam7t")
 animation = &"idle"
 
 [node name="RightArm" parent="CreatureTextures" index="2" unique_id=110823812]
-z_index = 0
 offset = Vector2(4, 0)
 
 [node name="LeftArm" parent="CreatureTextures" index="3" unique_id=67353298]
@@ -931,7 +930,7 @@ position = Vector2(10, -15)
 scale = Vector2(0.53125, 0.53125)
 texture = ExtResource("5_k81i3")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="EmotionDisplay" unique_id=1899814673]
+[node name="EmotionPlayer" type="AnimationPlayer" parent="EmotionDisplay" unique_id=1899814673]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_a4vea")
 
@@ -959,10 +958,13 @@ script = ExtResource("16_t2q5c")
 [node name="Particles" parent="." unique_id=2079994363 instance=ExtResource("14_w4qan")]
 position = Vector2(2, -17)
 
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1263077136]
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1263077136 node_paths=PackedStringArray("emotion_display", "emotion_player", "particles")]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_45v1c")
 script = ExtResource("15_hx68g")
+emotion_display = NodePath("../EmotionDisplay")
+emotion_player = NodePath("../EmotionDisplay/EmotionPlayer")
+particles = NodePath("../Particles")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

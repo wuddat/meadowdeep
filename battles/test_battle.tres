@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_whl0u")
 spawn_layout = ExtResource("2_0ib1s")
-enemy_creature_party = Array[String](["test_shooter", "test_chaser"])
+enemy_creature_party = Array[String](["test_chaser", "test_chaser"])
 gold_reward_min = 25
 gold_reward_max = 5
 metadata/_custom_type_script = "uid://cl6frcau8od6p"

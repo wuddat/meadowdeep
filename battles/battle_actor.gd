@@ -12,6 +12,7 @@ extends CharacterBody2D
 @export var collider: CollisionShape2D
 
 const MIN_MOVESPEED: float = 45.0
+const BRAIN_DELAY: float = 0.1
 var _current_movespeed: float
 
 var _in_combat: bool = false
@@ -39,6 +40,8 @@ func _ready() -> void:
 
 func start_combat() -> void:
 	_in_combat = true
+	if self is CreatureBattleUnit:
+		print("[IDLE]: combat start")
 	action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
 
@@ -68,19 +71,27 @@ func _on_queue_emptied() -> void:
 	if not _in_combat:
 		return
 	if brain == null or battle_action_list.is_empty():
-		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
+		if self is CreatureBattleUnit:
+			print("[IDLE]: brain NULL or action_list EMPTY")
+		action_queue.enqueue(&"idle", {"timer": BRAIN_DELAY})
 		return
 	var chosen := brain.select_action()
 	if chosen == null:
-		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
+		if self is CreatureBattleUnit:
+			print("[IDLE]: _queue_emptied chosen == null")
+		action_queue.enqueue(&"idle", {"timer": BRAIN_DELAY})
 		return
 	var steps := chosen.build_steps(self)
 	if steps.is_empty():
+		if self is CreatureBattleUnit:
+			print("[IDLE]: steps.is_empty")
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 		return
 	for step in steps:
 		action_queue.enqueue(step["id"], step["data"])
 	if action_queue.peek().is_empty():
+		if self is CreatureBattleUnit:
+			print("[IDLE]: action_queue.peek().is_empty():")
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
 
@@ -260,11 +271,16 @@ func apply_knockback(source_pos: Vector2, strength: float = -1.0) -> void:
 	var force := strength if strength >= 0.0 else knockback_strength
 	var direction := (global_position - source_pos).normalized()
 	knockback_velocity = direction * force
-	#if action_queue.current_action != &"strike":
-		#if creature_animation_handler:
-			#creature_animation_handler.RESET()
-	action_queue.clear()
-	action_queue.enqueue(&"idle", {"timer": 0.1})
+	if action_queue.current_action != &"strike":
+		if creature_animation_handler:
+			if not creature_animation_handler.is_playing():
+				creature_animation_handler.RESET()
+				creature_animation_handler.play("on_hurt")
+		if self is CreatureBattleUnit:
+			print("[IDLE]: apply_knockback")
+		if action_queue.current_action != &"idle":
+			action_queue.clear()
+			action_queue.enqueue(&"idle", {"timer": 0.1})
 
 func _hydrate_actions() -> void:
 	if not instance or not instance.identity:
@@ -287,6 +303,11 @@ func _play_animation(_anim_name: StringName) -> void:
 
 func _face_direction(_vel: Vector2) -> void:
 	pass
+
+func _face_target(data: Dictionary) -> void:
+	var target = data.get("target")
+	if is_instance_valid(target):
+		_face_direction(target.global_position - global_position)
 
 func _update_action_timer_ui(_remaining: float) -> void:
 	pass

@@ -14,10 +14,12 @@ extends BattleActor
 @onready var stats_ui: Node = %StatsUI
 @onready var animation_handler: Node = $AnimationHandler
 @onready var name_container: Node = %NameContainer
-@onready var projectile_spawn: Node2D = %ProjectileSpawn
+@onready var projectile_spawn_l: Node2D = %ProjectileSpawnL
+@onready var projectile_spawn_r: Node2D = %ProjectileSpawnR
 
 var spawn_coords: Vector2
 var last_damage_taken: int = 0
+var projectile_spawn: Node2D
 const SLIME_DEATH_1 = preload("uid://nm3nmguhpfkf")
 
 
@@ -40,6 +42,15 @@ func set_instance(creature: CreatureInstance) -> void:
 		instance.stats_changed.connect(update_stats)
 	super(creature)
 	update_enemy()
+
+func _on_action_start(id: StringName, data: Dictionary) -> void:
+	match id:
+		&"projectile":
+			var target = data.get("target")
+			if is_instance_valid(target):
+				_face_direction(target.global_position - global_position)
+			return
+	super(id, data)
 
 
 func update_stats() -> void:
@@ -94,6 +105,7 @@ func _tick_strike(data: Dictionary, delta: float) -> void:
 
 func _face_direction(vel: Vector2) -> void:
 	animated_sprite_2d.scale.x = -1.0 if vel.x < 0 else 1.0
+	projectile_spawn = projectile_spawn_l if animated_sprite_2d.scale.x < 0 else projectile_spawn_r
 
 
 # ── Combat ────────────────────────────────────────────────────────────────────

@@ -48,7 +48,7 @@ const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: CreatureTextures         = $CreatureTextures
 @onready var emotion_display: Sprite2D         = %EmotionDisplay
-@onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var animation_player: AnimationPlayer = %EmotionPlayer
 @onready var emotion_handler: Node             = %EmotionHandler
 @onready var move_sfx: AudioStreamPlayer       = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer     = %ActionSFX

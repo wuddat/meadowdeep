@@ -14,10 +14,12 @@ metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_lwe5h"]
 script = ExtResource("4_lwe5h")
+strength = 100.0
 
 [resource]
 script = ExtResource("1_okg4l")
 projectile_scene = ExtResource("2_exokp")
+min_range = 10.0
 art = ExtResource("1_esx5v")
 effects = Array[ExtResource("1_bnjok")]([SubResource("Resource_jbpqi"), SubResource("Resource_lwe5h")])
 duration = 2.0

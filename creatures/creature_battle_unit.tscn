@@ -46,12 +46,6 @@ display_name = "Strike"
 chance_weight = 10.0
 metadata/_custom_type_script = "uid://b8gg2gg4qk755"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ji0g7"]
-radius = 20.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_dnym6"]
-radius = 13.0
-
 [sub_resource type="Animation" id="Animation_i8k6i"]
 length = 0.001
 tracks/0/type = "value"
@@ -186,7 +180,7 @@ tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [-1]
 }
 tracks/11/type = "value"
 tracks/11/imported = false
@@ -481,9 +475,12 @@ tracks/0/path = NodePath("CreatureSkinHandler")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(2.3431145e-05, 0.01030032, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [],
+"method": &"reset_base"
+}, {
 "args": ["tears", "hurt"],
 "method": &"set_both"
 }, {
@@ -546,7 +543,8 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_hx68g"]
 resource_name = "punch"
-length = 3.5
+length = 0.5
+step = 0.0333
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -554,11 +552,14 @@ tracks/0/path = NodePath("CreatureSkinHandler")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.49821267),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": ["determined"],
-"method": &"set_eyes"
+"args": ["determined", "smile"],
+"method": &"set_both"
+}, {
+"args": [],
+"method": &"reset_base"
 }]
 }
 tracks/1/type = "value"
@@ -568,7 +569,7 @@ tracks/1/path = NodePath("CreatureTextures:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6333333, 1.8449403, 1.8759159, 1.883699, 1.9, 1.9333333, 2.1333334, 2.5333333, 3.0938377),
+"times": PackedFloat32Array(0, 0.06739837, 0.11753188, 0.13740523, 0.1451884, 0.15871377, 0.17678152, 0.26437157, 0.3620118, 0.48082584),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-3, 0), Vector2(-3, 0), Vector2(-5, 0), Vector2(-5, 0), Vector2(12, 0), Vector2(12, 0), Vector2(14, 0), Vector2(9, 0), Vector2(0, 0)]
@@ -580,10 +581,24 @@ tracks/2/path = NodePath("CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.33247757, 0.7930657, 0.96666664, 1.1333333, 1.3666667, 1.5800309, 1.8301517, 1.9666667, 2.0666666, 2.1333334, 2.2333336, 2.4333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.041289493, 0.12217216, 0.18235932, 0.23239915, 0.2657593, 0.31163603, 0.35527837),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(4, 0), Vector2(0, 0), Vector2(-10.442799, -5), Vector2(-12, -7), Vector2(-10, -4), Vector2(-8, -9), Vector2(-10.442799, -5), Vector2(-10, -9), Vector2(19, -2), Vector2(25, -2), Vector2(25, -2), Vector2(18, -2), Vector2(0, 0)]
+"values": [Vector2(4, 0), Vector2(0, 0), Vector2(-10, -9), Vector2(19, -2), Vector2(25, -2), Vector2(25, -2), Vector2(18, -2), Vector2(0, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CreatureAnimationHandler")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.20091218),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"emit_damage"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_5vuag"]
@@ -879,6 +894,12 @@ _data = {
 &"wave": SubResource("Animation_v1wfr")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ji0g7"]
+radius = 45.82914
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dnym6"]
+radius = 13.0
+
 [node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider") groups=["active_creatures"]]
 collision_mask = 8
 motion_mode = 1
@@ -892,6 +913,11 @@ collider = NodePath("CollisionShape2D")
 
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
+
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1297873367]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_ws817")
+script = ExtResource("23_rlrki")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 unique_name_in_owner = true
@@ -908,15 +934,11 @@ texture = ExtResource("8_kdnho")
 [node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("12_83sfk")]
 animation = &"idle"
 
-[node name="RightArm" parent="CreatureTextures" index="2" unique_id=110823812]
-z_index = 0
-
 [node name="Hitbox" type="Area2D" parent="CreatureTextures/LeftArm" parent_id_path=PackedInt32Array(969795458, 67353298) index="0" unique_id=1949318630]
 unique_name_in_owner = true
 position = Vector2(-7, 9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CreatureTextures/LeftArm/Hitbox" unique_id=1791354512]
-visible = false
 shape = SubResource("CircleShape2D_ji0g7")
 
 [node name="ProjectileSpawn" type="Marker2D" parent="CreatureTextures" unique_id=449928542]
@@ -960,11 +982,6 @@ shape = SubResource("CircleShape2D_dnym6")
 unique_name_in_owner = true
 visible = false
 texture = ExtResource("23_ok274")
-
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1297873367]
-unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_ws817")
-script = ExtResource("23_rlrki")
 
 [editable path="ModifierHandler"]
 [editable path="CreatureTextures"]

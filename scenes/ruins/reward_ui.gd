@@ -26,6 +26,7 @@ func populate_rewards() -> void:
 
 
 func _on_reward_ui_requested() -> void:
+	_kill_children()
 	populate_rewards()
 	show()
 
