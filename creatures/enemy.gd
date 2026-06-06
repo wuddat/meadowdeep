@@ -5,7 +5,6 @@ extends BattleActor
 
 @export var sprite_frames: SpriteFrames
 @export var loot_table: LootTable
-@export var knockbackable: bool = true
 @export var sfx: AudioStream
 @export var death_sfx: AudioStream
 
@@ -113,10 +112,6 @@ func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 			add_child(dmg_text)
 			if dmg_text.has_method("show_text"):
 				dmg_text.show_text("%s" % modified_damage)
-			if attacker == null:
-				attacker = _get_target()
-			if is_instance_valid(attacker) and knockbackable:
-				_apply_knockback(attacker.global_position)
 		last_damage_taken = modified_damage
 
 	var tween := create_tween()

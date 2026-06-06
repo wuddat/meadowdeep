@@ -17,7 +17,8 @@ var direction: StringName  # &"N" / &"S" / &"E" / &"W"
 
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 	_refresh_visuals()
 
 

@@ -9,8 +9,6 @@ extends Node2D
 @export var stats_ui_scene: PackedScene
 @export var prop_controller: PropController
 
-@onready var party_handler: PartyHandler = $"../PartyHandler"
-
 var encounter: EncounterDef = null
 
 const BAT_SFX_1 = preload("uid://b6ei6ar836t2r")

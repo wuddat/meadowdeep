@@ -3,6 +3,7 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
+
 const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 
 @export var spawn_position: String
@@ -16,6 +17,7 @@ const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 @onready var hitbox: Area2D = %Hitbox
 @onready var creature_skin_handler: CreatureSkinHandler = %CreatureSkinHandler
 @onready var status_graphic: Sprite2D = %StatusGraphic
+
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -32,7 +34,6 @@ const ACTION_INTERVAL: float = 0.4
 var _following_player: bool = false
 
 var is_snared: bool = false
-var knockbackable: bool = true
 
 func _ready() -> void:
 	super()
@@ -285,15 +286,14 @@ func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 		last_damage_taken = modified_damage
 		if attacker == null:
 			attacker = _get_target()
-		if is_instance_valid(attacker):
-			_apply_knockback(attacker.global_position)
 		if is_countering:
 			if "take_damage" in attacker and attacker is Enemy:
 				var att:Enemy = attacker
 				att.take_damage(modified_damage,Modifier.Type.DMG_TAKEN, self)
 				_counter_completed = true
 				is_countering = false
-		
+		if creature_animation_handler:
+			creature_animation_handler.play("on_hurt")
 		var tween := create_tween()
 		Shaker.shake(self, 25, 0.15)
 		tween.tween_callback(instance.take_damage.bind(modified_damage))

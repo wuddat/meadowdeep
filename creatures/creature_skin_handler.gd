@@ -26,23 +26,25 @@ const EYES_HEART = preload("res://art/game_art/creatures/base_creature/eyes_hear
 const EYES_SAD = preload("res://art/game_art/creatures/greenie/eyes_sad.png")
 const EYES_YAWN = preload("res://art/game_art/creatures/greenie/eyes_slant.png")
 const EYES_CUTE_DETERMINED = preload("res://art/game_art/creatures/greenie/eyes_ang.png")
+const EYES_TEARS = preload("uid://b41u2vlw0idid")
 
 const MOUTH_FROWN = preload("res://art/game_art/creatures/greenie/mouth_frown.png")
 const MOUTH_GRIN = preload("res://art/game_art/creatures/greenie/mouth_grin.png")
 const MOUTH_SMILE = preload("res://art/game_art/creatures/greenie/mouth_uwu.png")
 const MOUTH_SURPRISE = preload("res://art/game_art/creatures/greenie/mouth_surprise.png")
 const MOUTH_UWU = preload("res://art/game_art/creatures/greenie/mouth_uwu.png")
+const MOUTH_HURT = preload("uid://sf2pw5whfepr")
 
 
 var eyes_states: Dictionary = {
 	"base": EYES_CUTE, "happy": EYES_HAPPY, "cl_tight": EYES_CL_TIGHT, "sad": EYES_SAD,
 	"determined": EYES_CUTE_DETERMINED, "closed": EYES_CLOSED, "cl_soft": EYES_CL_SOFT,
-	"yawn": EYES_YAWN, "open": EYES_CUTE,
+	"yawn": EYES_YAWN, "open": EYES_CUTE, "tears": EYES_TEARS
 }
 
 var mouth_states: Dictionary = {
 	"smile": MOUTH_SMILE, "grin": MOUTH_GRIN, "frown": MOUTH_FROWN,
-	 "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE
+	 "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE, "hurt": MOUTH_HURT,
 }
 
 var base_textures: Dictionary = {"eyes": null, "mouth": null}

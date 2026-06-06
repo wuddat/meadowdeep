@@ -18,6 +18,7 @@ var _in_combat: bool = false
 var action_queue := ActionQueue.new()
 var _current_action: BattleAction
 
+var knockbackable: bool = true
 var is_dodging: bool = false
 var is_countering: bool = false
 var _counter_completed:bool = false
@@ -253,14 +254,17 @@ func get_movespeed() -> float:
 	var new_movespeed := modifier_handler.get_modified_value(int(base_movespeed), Modifier.Type.MOVESPEED)
 	return new_movespeed
 
-func _apply_knockback(source_pos: Vector2) -> void:
+func apply_knockback(source_pos: Vector2, strength: float = -1.0) -> void:
+	if "knockbackable" in self and not knockbackable:
+		return
+	var force := strength if strength >= 0.0 else knockback_strength
 	var direction := (global_position - source_pos).normalized()
-	knockback_velocity = direction * knockback_strength
-	if action_queue.current_action != &"strike":
-		if creature_animation_handler:
-			creature_animation_handler.RESET()
-		action_queue.clear()
-		action_queue.enqueue(&"idle", {"timer": 0.2})
+	knockback_velocity = direction * force
+	#if action_queue.current_action != &"strike":
+		#if creature_animation_handler:
+			#creature_animation_handler.RESET()
+	action_queue.clear()
+	action_queue.enqueue(&"idle", {"timer": 0.1})
 
 func _hydrate_actions() -> void:
 	if not instance or not instance.identity:

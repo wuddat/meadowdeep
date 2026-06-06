@@ -3,20 +3,22 @@
 [ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_2lvxe"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="2_24vcv"]
 [ext_resource type="Script" uid="uid://b8gg2gg4qk755" path="res://battles/battle_actions/attack_action.gd" id="2_kedpk"]
-[ext_resource type="Script" uid="uid://i2o70yng31r3" path="res://effects/dash_effect.gd" id="3_4lthl"]
+[ext_resource type="AudioStream" uid="uid://de2ryat1pxq6" path="res://art/enemy_attack.ogg" id="3_aph3l"]
+[ext_resource type="Script" uid="uid://b4745be6xl1i6" path="res://effects/knockback_effect.gd" id="4_4lthl"]
 
 [sub_resource type="Resource" id="Resource_aph3l"]
 script = ExtResource("2_24vcv")
 amount = 10
+sound = ExtResource("3_aph3l")
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
 [sub_resource type="Resource" id="Resource_vm57r"]
-script = ExtResource("3_4lthl")
-metadata/_custom_type_script = "uid://i2o70yng31r3"
+script = ExtResource("4_4lthl")
 
 [resource]
 script = ExtResource("2_kedpk")
 stat_scaling = true
+max_range = 45.0
 hit_effects = Array[ExtResource("1_2lvxe")]([SubResource("Resource_aph3l"), SubResource("Resource_vm57r")])
 aoe_radius = 64.0
 animation_string = "roar"

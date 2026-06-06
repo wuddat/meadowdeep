@@ -5,17 +5,21 @@
 [ext_resource type="Script" uid="uid://bdhmsij2whdko" path="res://battles/battle_actions/fire_projectile_action.gd" id="1_okg4l"]
 [ext_resource type="PackedScene" uid="uid://bdq2fu4cx0tgw" path="res://scenes/battle/projectile_object.tscn" id="2_exokp"]
 [ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="3_840u2"]
+[ext_resource type="Script" uid="uid://b4745be6xl1i6" path="res://effects/knockback_effect.gd" id="4_lwe5h"]
 
 [sub_resource type="Resource" id="Resource_jbpqi"]
 script = ExtResource("3_840u2")
 amount = 10
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 
+[sub_resource type="Resource" id="Resource_lwe5h"]
+script = ExtResource("4_lwe5h")
+
 [resource]
 script = ExtResource("1_okg4l")
 projectile_scene = ExtResource("2_exokp")
 art = ExtResource("1_esx5v")
-effects = Array[ExtResource("1_bnjok")]([SubResource("Resource_jbpqi")])
+effects = Array[ExtResource("1_bnjok")]([SubResource("Resource_jbpqi"), SubResource("Resource_lwe5h")])
 duration = 2.0
 speed = 200.0
 max_distance = 200.0

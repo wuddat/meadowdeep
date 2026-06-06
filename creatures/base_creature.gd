@@ -46,17 +46,17 @@ var action_queue := ActionQueue.new()
 const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
-@onready var _sprite: CreatureTextures = $CreatureTextures
+@onready var _sprite: CreatureTextures         = $CreatureTextures
 @onready var emotion_display: Sprite2D         = %EmotionDisplay
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
-@onready var emotion_handler: Node = %EmotionHandler
-@onready var move_sfx: AudioStreamPlayer = %MoveSFX
-@onready var action_sfx: AudioStreamPlayer = %ActionSFX
-@onready var creature_stat_handler: Node = %CreatureStatHandler
-@onready var left_arm: Sprite2D = $CreatureTextures/LeftArm
-@onready var right_arm: Sprite2D = $CreatureTextures/RightArm
-@onready var eyes: Sprite2D = $CreatureTextures/Eyes
-@onready var mouth: Sprite2D = $CreatureTextures/Eyes/Mouth
+@onready var emotion_handler: Node             = %EmotionHandler
+@onready var move_sfx: AudioStreamPlayer       = %MoveSFX
+@onready var action_sfx: AudioStreamPlayer     = %ActionSFX
+@onready var creature_stat_handler: Node       = %CreatureStatHandler
+@onready var left_arm: Sprite2D                = $CreatureTextures/LeftArm
+@onready var right_arm: Sprite2D               = $CreatureTextures/RightArm
+@onready var eyes: Sprite2D                    = $CreatureTextures/Eyes
+@onready var mouth: Sprite2D                   = $CreatureTextures/Eyes/Mouth
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
 @onready var creature_skin_handler: CreatureSkinHandler = $CreatureSkinHandler
 @onready var hold_pos: Node2D = $CreatureTextures/HoldPos
@@ -208,9 +208,7 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			creature_animation_handler.play("frolic")
 			emotion_display.texture = LOVE_BUBBLE
 			animation_player.play("bubble_fade_in")
-			if eyes and mouth:
-				eyes.texture = EYES_HAPPY
-				mouth.texture = MOUTH_GRIN
+			creature_animation_handler.set_both("happy", "grin")
 			move_sfx.pitch_scale = randf_range(0.9, 1.1)
 			move_sfx.play()
 		&"seek_food":
