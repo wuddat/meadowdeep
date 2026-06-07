@@ -8,14 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://ccwrihbuuotsk" path="res://scenes/meadow/creature_food.tscn" id="8_pxhms"]
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/static/food_def.gd" id="10_c4haw"]
+[ext_resource type="Texture2D" uid="uid://22jjmukfy01c" path="res://art/game_art/concepts/bodies.png" id="12_uaavs"]
 [ext_resource type="Texture2D" uid="uid://c46k7sae8es1q" path="res://art/game_art/creatures/arch/test_arch2.png" id="14_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="14_uaavs"]
-[ext_resource type="Texture2D" uid="uid://crukrtql876ou" path="res://art/game_art/concepts/cutie_4.png" id="15_8uyeg"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
-[ext_resource type="Texture2D" uid="uid://dioegirmgqwvw" path="res://art/game_art/concepts/pinkie.png" id="16_uaavs"]
-[ext_resource type="Texture2D" uid="uid://cf3gm0hhffdt3" path="res://art/game_art/concepts/crem.png" id="18_1hwgg"]
-[ext_resource type="Texture2D" uid="uid://m4cn10yrutlb" path="res://art/game_art/concepts/crem2.png" id="19_8g1w3"]
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="20_foo57"]
 [ext_resource type="Script" uid="uid://ddyhhw5ulpr8m" path="res://scenes/meadow/ruins_entrance.gd" id="20_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://12dwwov5nus" path="res://art/game_art/WorldTileset.png" id="21_foo57"]
@@ -155,34 +152,6 @@ offset_bottom = 173.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="lilguy" type="TextureRect" parent="." unique_id=1169527965]
-offset_left = 522.0
-offset_top = 427.0
-offset_right = 554.0
-offset_bottom = 470.0
-texture = ExtResource("14_uaavs")
-
-[node name="lilguy" type="TextureRect" parent="lilguy" unique_id=1715710047]
-layout_mode = 0
-offset_top = 7.0
-offset_right = 32.0
-offset_bottom = 39.0
-texture = ExtResource("15_8uyeg")
-
-[node name="pinki" type="TextureRect" parent="." unique_id=1754595803]
-offset_left = 480.0
-offset_top = 428.0
-offset_right = 512.0
-offset_bottom = 471.0
-texture = ExtResource("14_uaavs")
-
-[node name="lilguy" type="TextureRect" parent="pinki" unique_id=1912210576]
-layout_mode = 0
-offset_top = 7.0
-offset_right = 32.0
-offset_bottom = 39.0
-texture = ExtResource("16_uaavs")
-
 [node name="arch" type="TextureRect" parent="." unique_id=274798912]
 offset_left = 648.0
 offset_top = 387.0
@@ -198,35 +167,51 @@ offset_right = 33.0
 offset_bottom = 38.0
 texture = ExtResource("14_pl7hq")
 
-[node name="crem" type="TextureRect" parent="." unique_id=685051548]
-visible = false
-offset_left = 542.0
-offset_top = 394.0
-offset_right = 574.0
-offset_bottom = 437.0
+[node name="lilguy" type="TextureRect" parent="." unique_id=1411641603]
+offset_left = 465.0
+offset_top = 429.0
+offset_right = 625.0
+offset_bottom = 468.0
+texture = ExtResource("12_uaavs")
+
+[node name="shadow" type="TextureRect" parent="lilguy" unique_id=1653095910]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 11.0
+offset_right = 64.0
+offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
-[node name="lilguy" type="TextureRect" parent="crem" unique_id=1822004019]
+[node name="shadow3" type="TextureRect" parent="lilguy" unique_id=141672033]
 layout_mode = 0
-offset_top = 6.0
-offset_right = 34.0
-offset_bottom = 38.0
-texture = ExtResource("18_1hwgg")
-flip_h = true
-
-[node name="crem2" type="TextureRect" parent="." unique_id=1653095910]
-offset_left = 498.0
-offset_top = 401.0
-offset_right = 530.0
-offset_bottom = 433.0
+offset_left = 64.0
+offset_top = 11.0
+offset_right = 96.0
+offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
-[node name="lilguy" type="TextureRect" parent="crem2" unique_id=1411641603]
+[node name="shadow4" type="TextureRect" parent="lilguy" unique_id=1907729654]
 layout_mode = 0
-offset_top = -3.0
+offset_left = 96.0
+offset_top = 11.0
+offset_right = 128.0
+offset_bottom = 43.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow5" type="TextureRect" parent="lilguy" unique_id=1346253564]
+layout_mode = 0
+offset_left = 127.0
+offset_top = 11.0
+offset_right = 159.0
+offset_bottom = 43.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow2" type="TextureRect" parent="lilguy" unique_id=816808953]
+layout_mode = 0
+offset_top = 11.0
 offset_right = 32.0
-offset_bottom = 29.0
-texture = ExtResource("19_8g1w3")
+offset_bottom = 43.0
+texture = ExtResource("14_uaavs")
 
 [node name="RuinsEntrance" type="Area2D" parent="." unique_id=475154369 node_paths=PackedStringArray("sprite_2d", "collision_shape_2d")]
 position = Vector2(602, 326)

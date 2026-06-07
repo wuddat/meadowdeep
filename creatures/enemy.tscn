@@ -84,7 +84,8 @@ position = Vector2(13, 0)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328390287]
 scale = Vector2(-1, 1)
 sprite_frames = ExtResource("3_xdx88")
-animation = &"idle"
+animation = &"die"
+frame_progress = 0.7104361
 
 [node name="Arrow" type="Sprite2D" parent="." unique_id=1164419915]
 

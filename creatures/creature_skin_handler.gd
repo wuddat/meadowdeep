@@ -4,12 +4,13 @@ extends Node
 @export var stat_palette: StatPalette = StatPalette.new()
 @export var identity: CreatureIdentity
 
-@onready var animated_sprite_2d: AnimatedSprite2D = $"../CreatureTextures"
-@onready var pattern: Sprite2D = $"../CreatureTextures/Pattern"
-@onready var mouth: Sprite2D = $"../CreatureTextures/Eyes/Mouth"
-@onready var eyes: Sprite2D = $"../CreatureTextures/Eyes"
-@onready var left_arm: Sprite2D = $"../CreatureTextures/LeftArm"
-@onready var right_arm: Sprite2D = $"../CreatureTextures/RightArm"
+
+@onready var pattern: Sprite2D = $"../CreatureNode/CreatureTextures/Pattern"
+@onready var eyes: Sprite2D = $"../CreatureNode/CreatureTextures/Eyes"
+@onready var mouth: Sprite2D = $"../CreatureNode/CreatureTextures/Eyes/Mouth"
+@onready var right_arm: Sprite2D = $"../CreatureNode/CreatureTextures/RightArm"
+@onready var left_arm: Sprite2D = $"../CreatureNode/CreatureTextures/LeftArm"
+@onready var creature_textures: CreatureTextures = %CreatureTextures
 
 const GREENIE_FRAMES = preload("res://scenes/ruins/greenie_frames.tres")
 const BLUIE_FRAMES = preload("uid://o3im86e3myve")
@@ -47,12 +48,11 @@ var mouth_states: Dictionary = {
 	 "surprise": MOUTH_SURPRISE, "open": MOUTH_SURPRISE, "hurt": MOUTH_HURT,
 }
 
-var base_textures: Dictionary = {"eyes": null, "mouth": null}
+var base_textures: Dictionary = {"eyes": EYES_CUTE, "mouth": MOUTH_SMILE}
 var _palette_material: ShaderMaterial
 
 func _ready() -> void:
-	if not eyes.texture or not mouth.texture:
-		apply_skin()
+	apply_skin()
 	base_textures["eyes"] = eyes.texture
 	base_textures["mouth"] = mouth.texture
 
@@ -61,8 +61,8 @@ func _ready() -> void:
 # Apply to body + pattern + arms; eyes/mouth keep their own textures.
 func adopt_palette_material(mat: ShaderMaterial) -> void:
 	_palette_material = mat
-	if animated_sprite_2d:
-		animated_sprite_2d.material = mat
+	if creature_textures:
+		creature_textures.material = mat
 	if pattern:
 		pattern.material = mat
 	if left_arm:
@@ -82,12 +82,12 @@ func refresh_palette(_uid: String = "") -> void:
 	var pwr_pts := identity.PWR.get_points()
 	var agi_pts := identity.AGI.get_points()
 	if pwr_pts > 50:
-		animated_sprite_2d.sprite_frames = PINKIE_FRAMES
+		creature_textures.sprite_frames = PINKIE_FRAMES
 	elif agi_pts > 50:
-		animated_sprite_2d.sprite_frames = BLUIE_FRAMES
+		creature_textures.sprite_frames = BLUIE_FRAMES
 	elif agi_pts > pwr_pts:
-		animated_sprite_2d.sprite_frames = BLUIE_FRAMES
-	else: animated_sprite_2d.sprite_frames = GREENIE_FRAMES
+		creature_textures.sprite_frames = BLUIE_FRAMES
+	else: creature_textures.sprite_frames = GREENIE_FRAMES
 
 func apply_skin() -> void:
 	set_eyes("base")

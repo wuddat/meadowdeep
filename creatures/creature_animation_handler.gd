@@ -3,10 +3,12 @@ extends AnimationPlayer
 
 signal damage_frame
 
-@export var base_eyes: CompressedTexture2D
 @export var emotion_display: Node2D
 @export var emotion_player: AnimationPlayer
 @export var particles: Particles
+
+var move_SFX: AudioStream
+var move_anim: String = "move_hop"
 
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
 const SLEEP_BUBBLE   = preload("res://art/game_art/emoticons/sleep.png")
@@ -25,7 +27,7 @@ const GIVE_ITEM = preload("uid://bavc86swxvjti")
 
 const IDLE_WEIGHTS := {
 	"think": 1,
-	"hover": 20,
+	"idle": 20,
 	"wave": 1,
 }
 
@@ -50,6 +52,7 @@ func play_idle() -> void:
 
 func RESET() -> void:
 	play("RESET")
+	advance(0.0)
 
 
 func _select_idle_anim(weights: Dictionary) -> String:
@@ -74,6 +77,13 @@ func emotion_bubble_fade_in_out() -> void:
 func emit_damage() -> void:
 	damage_frame.emit()
 
+func play_move_animation() -> void:
+	if current_animation != move_anim:
+		play(move_anim)
+
+func footstep() -> void:
+	if move_SFX:
+		SFXPlayer.pitch_play(move_SFX)
 
 func release_particles() -> void:
 	if particles:

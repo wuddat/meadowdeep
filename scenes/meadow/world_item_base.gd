@@ -11,7 +11,8 @@ const CARRY_OFFSET := Vector2(0, -18)
 var uid: String = ""
 var is_carried: bool = false
 var _carrier: Node2D = null
-
+var _old_z_index: int
+var _tween: Tween
 
 func _ready() -> void:
 	var type_id := item_data.id if item_data and item_data.id != "" else "item"
@@ -27,7 +28,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if is_carried and _carrier:
-		var carry_node:Node2D = _carrier.get("carry_position") if _carrier.get("carry_position") else _carrier.get("hold_pos")
+		if _tween.is_running():
+			return
+		var carry_node:Node2D = _get_carry_node()
 		global_position = carry_node.global_position if carry_node else _carrier.global_position + CARRY_OFFSET
 
 
@@ -35,13 +38,28 @@ func pickup(carrier: Node2D) -> void:
 	is_carried = true
 	_carrier = carrier
 	collision_shape.disabled = true
+	if not _old_z_index:
+		_old_z_index = self.z_index
+	var carrier_z: int = carrier.z_index + 1
+	self.z_index = carrier_z
+	var carry_node:Node2D = _get_carry_node()
+	var target_pos: Vector2 = carry_node.global_position if carry_node else _carrier.global_position + CARRY_OFFSET
+	_tween = create_tween()
+	_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_tween.tween_property( self, "global_position", target_pos, (0.1) )
 
 
 func drop() -> void:
 	is_carried = false
 	_carrier = null
 	collision_shape.call_deferred("set_disabled", false)
+	if _old_z_index:
+		self.z_index = _old_z_index
 
+
+func _get_carry_node() -> Node2D:
+	var carry_node: Node2D = _carrier.get("carry_position") if _carrier.get("carry_position") else _carrier.get("hold_pos")
+	return carry_node
 
 func _establish_connections() -> void:
 	if not body_entered.is_connected(_on_body_entered):

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="3_tam7t"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="5_k81i3"]
 [ext_resource type="Script" uid="uid://d3o5ga610agt8" path="res://creatures/emotion_handler.gd" id="6_6ol7j"]
+[ext_resource type="Script" uid="uid://bxqwkj0x0sd5d" path="res://creatures/emotion_player.gd" id="6_t2q5c"]
 [ext_resource type="PackedScene" uid="uid://i4rscngixp3r" path="res://creatures/creature_stat_handler.tscn" id="7_tpqfy"]
 [ext_resource type="Texture2D" uid="uid://dlsj72llu1lpa" path="res://art/game_art/creatures/greenie/mouth_surprise.png" id="10_5crrt"]
 [ext_resource type="Texture2D" uid="uid://bwqvsfk3ko4ga" path="res://art/game_art/creatures/greenie/mouth_uwu.png" id="11_t2q5c"]
@@ -94,7 +95,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -106,7 +107,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -118,7 +119,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/RightArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -130,7 +131,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures/Eyes/Mouth:visible")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/Eyes/Mouth:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -142,7 +143,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CreatureTextures/Eyes:position")
+tracks/4/path = NodePath("CreatureNode/CreatureTextures/Eyes:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -154,7 +155,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("CreatureTextures/RightArm:rotation")
+tracks/5/path = NodePath("CreatureNode/CreatureTextures/RightArm:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -166,7 +167,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("CreatureTextures:rotation")
+tracks/6/path = NodePath("CreatureNode/CreatureTextures:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -178,7 +179,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("CreatureTextures/Eyes/Mouth:position")
+tracks/7/path = NodePath("CreatureNode/CreatureTextures/Eyes/Mouth:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -190,7 +191,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("CreatureTextures/HoldPos:position")
+tracks/8/path = NodePath("CreatureNode/CreatureTextures/HoldPos:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -216,7 +217,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("CreatureTextures/RightArm:z_index")
+tracks/10/path = NodePath("CreatureNode/CreatureTextures/RightArm:z_index")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -228,7 +229,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("CreatureTextures:scale")
+tracks/11/path = NodePath("CreatureNode/CreatureTextures:scale")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -236,6 +237,18 @@ tracks/11/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("CreatureNode/CreatureTextures/HoldPos:rotation")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_w4qan"]
@@ -279,7 +292,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -291,7 +304,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/Eyes:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/Eyes:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -303,7 +316,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures/RightArm:position")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -315,7 +328,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CreatureTextures/HoldPos:position")
+tracks/4/path = NodePath("CreatureNode/CreatureTextures/HoldPos:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -349,7 +362,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -361,7 +374,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/RightArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -373,7 +386,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/HoldPos:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/HoldPos:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -390,7 +403,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -402,7 +415,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/Eyes/Mouth:texture")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/Eyes/Mouth:texture")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -414,7 +427,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -426,7 +439,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures/RightArm:position")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -438,7 +451,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("CreatureTextures/Eyes:texture")
+tracks/4/path = NodePath("CreatureNode/CreatureTextures/Eyes:texture")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -446,6 +459,30 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("12_5uny8")]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CreatureNode/CreatureTextures/HoldPos:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 12)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CreatureNode/CreatureTextures/HoldPos:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_5crrt"]
@@ -455,7 +492,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -467,7 +504,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/RightArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -498,7 +535,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -506,6 +543,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1.4640859, 1.5529007),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -3)]
+}
+
+[sub_resource type="Animation" id="Animation_bcjtj"]
+resource_name = "idle"
+length = 2.0000033
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(0.63728005, 0.16493858, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.02, 1.02), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_4ktp7"]
@@ -517,7 +571,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -529,7 +583,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -541,7 +595,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/RightArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -553,7 +607,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures/HoldPos:position")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/HoldPos:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -583,7 +637,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -595,7 +649,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -611,7 +665,7 @@ length = 0.35
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -623,7 +677,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/RightArm:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -635,7 +689,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/RightArm:z_index")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/RightArm:z_index")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -681,7 +735,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("CreatureTextures:scale")
+tracks/5/path = NodePath("CreatureNode/CreatureTextures:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -697,7 +751,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/Eyes/Mouth:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/Eyes/Mouth:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -709,7 +763,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/Eyes:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/Eyes:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -721,7 +775,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -733,7 +787,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures/RightArm:position")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -757,13 +811,62 @@ tracks/4/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_or6bf"]
+resource_name = "sleep"
+length = 1.0000033
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.76666665, 1),
+"transitions": PackedFloat32Array(0.26794344, 0.57434905, 1, 0.26794344),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.76666665, 1),
+"transitions": PackedFloat32Array(0.267, 0.57434905, 1, 0.26794344),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1), Vector2(0, 3), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureSkinHandler")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.46666667, 0.76666665),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["cl_soft", "hurt"],
+"method": &"set_both"
+}, {
+"args": ["open"],
+"method": &"set_mouth"
+}, {
+"args": ["hurt"],
+"method": &"set_mouth"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_t2q5c"]
 resource_name = "think"
 length = 2.45
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/Eyes/Mouth:visible")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/Eyes/Mouth:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -775,7 +878,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CreatureTextures/Eyes:position")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/Eyes:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -787,7 +890,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures/LeftArm:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -797,13 +900,69 @@ tracks/2/keys = {
 "values": [Vector2(3, 0), Vector2(6, -2), Vector2(6.75, -2), Vector2(6, -2), Vector2(6, -2), Vector2(6, -2), Vector2(3, 0), Vector2(3, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_flnyy"]
+resource_name = "walk_hop"
+length = 0.70001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, -9), Vector2(0, -9), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.8), Vector2(0.78125, 1.21875), Vector2(1, 0.9), Vector2(0.78125, 1.21875), Vector2(1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CreatureAnimationHandler")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"footstep"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_v1wfr"]
 resource_name = "wave"
 length = 1.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureTextures/RightArm:position")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -815,7 +974,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = false
-tracks/1/path = NodePath("CreatureTextures/RightArm:rotation")
+tracks/1/path = NodePath("CreatureNode/CreatureTextures/RightArm:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -827,7 +986,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CreatureTextures:position")
+tracks/2/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -839,7 +998,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureTextures:rotation")
+tracks/3/path = NodePath("CreatureNode/CreatureTextures:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -851,7 +1010,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = false
-tracks/4/path = NodePath("CreatureTextures/Eyes:texture")
+tracks/4/path = NodePath("CreatureNode/CreatureTextures/Eyes:texture")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -889,12 +1048,15 @@ _data = {
 &"eat": SubResource("Animation_tpqfy"),
 &"frolic": SubResource("Animation_5crrt"),
 &"hover": SubResource("Animation_ode48"),
+&"idle": SubResource("Animation_bcjtj"),
 &"on_hurt": SubResource("Animation_4ktp7"),
 &"pickup": SubResource("Animation_p73fv"),
 &"punch": SubResource("Animation_hx68g"),
 &"roar": SubResource("Animation_5vuag"),
 &"sad": SubResource("Animation_4cryv"),
+&"sleep": SubResource("Animation_or6bf"),
 &"think": SubResource("Animation_t2q5c"),
+&"walk_hop": SubResource("Animation_flnyy"),
 &"wave": SubResource("Animation_v1wfr")
 }
 
@@ -905,17 +1067,27 @@ script = ExtResource("1_b2jx7")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=554806506]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(0.49999857, 7)
+position = Vector2(-2.9802322e-08, 4)
 scale = Vector2(1.0312499, 1)
 texture = ExtResource("2_tam7t")
 
-[node name="CreatureTextures" parent="." unique_id=969795458 instance=ExtResource("3_tam7t")]
+[node name="CreatureNode" type="Node2D" parent="." unique_id=897771231]
+unique_name_in_owner = true
+
+[node name="CreatureTextures" parent="CreatureNode" unique_id=969795458 instance=ExtResource("3_tam7t")]
+unique_name_in_owner = true
 animation = &"idle"
 
-[node name="RightArm" parent="CreatureTextures" index="2" unique_id=110823812]
+[node name="Eyes" parent="CreatureNode/CreatureTextures" index="1" unique_id=16866039]
+texture = ExtResource("12_5uny8")
+
+[node name="Mouth" parent="CreatureNode/CreatureTextures/Eyes" index="0" unique_id=1644141900]
+texture = ExtResource("10_5crrt")
+
+[node name="RightArm" parent="CreatureNode/CreatureTextures" index="2" unique_id=110823812]
 offset = Vector2(4, 0)
 
-[node name="LeftArm" parent="CreatureTextures" index="3" unique_id=67353298]
+[node name="LeftArm" parent="CreatureNode/CreatureTextures" index="3" unique_id=67353298]
 scale = Vector2(1.2, 1.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
@@ -930,9 +1102,11 @@ position = Vector2(10, -15)
 scale = Vector2(0.53125, 0.53125)
 texture = ExtResource("5_k81i3")
 
-[node name="EmotionPlayer" type="AnimationPlayer" parent="EmotionDisplay" unique_id=1899814673]
+[node name="EmotionPlayer" type="AnimationPlayer" parent="EmotionDisplay" unique_id=1899814673 node_paths=PackedStringArray("emotion_display")]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_a4vea")
+script = ExtResource("6_t2q5c")
+emotion_display = NodePath("..")
 
 [node name="MoveSFX" type="AudioStreamPlayer" parent="." unique_id=632200258]
 unique_name_in_owner = true
@@ -969,4 +1143,4 @@ particles = NodePath("../Particles")
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 
-[editable path="CreatureTextures"]
+[editable path="CreatureNode/CreatureTextures"]

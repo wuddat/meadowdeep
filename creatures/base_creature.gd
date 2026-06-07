@@ -8,6 +8,10 @@ extends CharacterBody2D
 # Extend this and override _on_ready_creature() for creature-specific setup.
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# ── Creature Const ───────────────────────────────────────────────────────────
+const MOVE_ANIM: String = "walk_hop"
+const MOVE_SFX: String = "res://art/game_art/sfx/pop.wav"
+
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
 const SLEEP_BUBBLE   = preload("uid://egy4dv4ia6wo")
 const LOVE_BUBBLE    = preload("uid://bqlkju2dhllnv")
@@ -46,20 +50,20 @@ var action_queue := ActionQueue.new()
 const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
-@onready var _sprite: CreatureTextures         = $CreatureTextures
+@onready var _sprite: CreatureTextures         = %CreatureTextures
+@onready var creature_node: Node2D = %CreatureNode
 @onready var emotion_display: Sprite2D         = %EmotionDisplay
 @onready var animation_player: AnimationPlayer = %EmotionPlayer
 @onready var emotion_handler: Node             = %EmotionHandler
-@onready var move_sfx: AudioStreamPlayer       = %MoveSFX
 @onready var action_sfx: AudioStreamPlayer     = %ActionSFX
 @onready var creature_stat_handler: Node       = %CreatureStatHandler
-@onready var left_arm: Sprite2D                = $CreatureTextures/LeftArm
-@onready var right_arm: Sprite2D               = $CreatureTextures/RightArm
-@onready var eyes: Sprite2D                    = $CreatureTextures/Eyes
-@onready var mouth: Sprite2D                   = $CreatureTextures/Eyes/Mouth
+@onready var left_arm: Sprite2D                = %CreatureTextures/LeftArm
+@onready var right_arm: Sprite2D               = %CreatureTextures/RightArm
+@onready var eyes: Sprite2D                    = %CreatureTextures/Eyes
+@onready var mouth: Sprite2D                   = %CreatureTextures/Eyes/Mouth
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
 @onready var creature_skin_handler: CreatureSkinHandler = $CreatureSkinHandler
-@onready var hold_pos: Node2D = $CreatureTextures/HoldPos
+@onready var hold_pos: Node2D = %CreatureTextures/HoldPos
 
 
 # ── Creature Ref ────────────────────────────────────────────────────────────────
@@ -98,11 +102,11 @@ func _ready() -> void:
 		creature_skin_handler.adopt_palette_material(shader_material)
 	_wire_instance()
 	_establish_connections()
+	_setup_creature_animation_handler()
 	action_queue.action_started.connect(_on_action_start)
 	action_queue.queue_emptied.connect(_on_queue_emptied)
 	_on_ready_creature()
 	action_queue.enqueue(&"idle", {})
-	creature_animation_handler.base_eyes = eyes.texture
 	input_pickable = true
 
 
@@ -179,24 +183,21 @@ func _is_busy() -> bool:
 	return action_queue.current_action in BUSY_ACTIONS
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
-	creature_animation_handler.play("RESET")
+	creature_animation_handler.RESET()
 	match id:
 		&"idle":
 			velocity = Vector2.ZERO
-			_sprite.play("idle")
 			creature_animation_handler.play_idle()
 			if eyes:
 				eyes.texture = EYES_CUTE
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
 		&"wander":
-			_sprite.play("run")
+			if creature_animation_handler:
+				creature_animation_handler.play_move_animation()
 			if eyes:
 				eyes.texture = EYES_CUTE
-			move_sfx.pitch_scale = randf_range(0.9, 1.1)
-			move_sfx.play()
 		&"sleep":
 			velocity = Vector2.ZERO
-			_sprite.play("sleep")
 			if creature_skin_handler:
 				creature_skin_handler.set_eyes("closed")
 			emotion_display.texture = SLEEP_BUBBLE
@@ -204,19 +205,14 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			action_sfx.stream = SNORE_SOUND
 			action_sfx.play()
 		&"seek_player":
-			_sprite.play("run")
 			creature_animation_handler.play("frolic")
+			creature_skin_handler.set_both("happy", "grin")
 			emotion_display.texture = LOVE_BUBBLE
-			animation_player.play("bubble_fade_in")
-			creature_animation_handler.set_both("happy", "grin")
-			move_sfx.pitch_scale = randf_range(0.9, 1.1)
-			move_sfx.play()
+			animation_player.bubble_in_out()
 		&"seek_food":
-			_sprite.play("run")
-			move_sfx.pitch_scale = randf_range(0.9, 1.1)
-			move_sfx.play()
+			if creature_animation_handler:
+				creature_animation_handler.play_move_animation()
 		&"eat_food":
-			_sprite.play("eat")
 			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
 			creature_animation_handler.play("eat")
@@ -225,11 +221,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			action_sfx.pitch_scale = randf_range(0.9, 1.1)
 			action_sfx.play()
 		&"absorb_item":
-			_sprite.play("idle")
 			creature_animation_handler.play("absorb_item")
 			creature_animation_handler.animation_finished.connect(_on_absorb_finished, CONNECT_ONE_SHOT)
-
-
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -281,17 +274,21 @@ func _tick_idle(data: Dictionary, delta: float) -> void:
 
 
 func _tick_wander(data: Dictionary, _delta: float) -> void:
+	if creature_animation_handler and creature_animation_handler.current_animation != MOVE_ANIM:
+		creature_animation_handler.play_move_animation()
 	var dir: Vector2 = data["target"] - global_position
 	if dir.length() < 4.0:
 		instance.lower_emotion(&"boredom", 40.0)
 		action_queue.done()
 		return
 	velocity = dir.normalized() * movespeed
-	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
+	creature_node.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 
 func _tick_sleep(data: Dictionary, delta: float) -> void:
+	if creature_animation_handler and creature_animation_handler.current_animation != "sleep":
+		creature_animation_handler.play("sleep")
 	data["timer"] -= delta
 	instance.lower_emotion(&"sleepiness", 20.0 * delta)
 	if not action_sfx.playing:
@@ -304,6 +301,9 @@ func _tick_sleep(data: Dictionary, delta: float) -> void:
 
 
 func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
+	if creature_animation_handler and creature_animation_handler.current_animation != MOVE_ANIM:
+		if creature_animation_handler.current_animation != "frolic":
+			creature_animation_handler.play_move_animation()
 	var player := _get_player()
 	if not player:
 		action_queue.done()
@@ -313,15 +313,16 @@ func _tick_seek_player(_data: Dictionary, _delta: float) -> void:
 		instance.lower_emotion(&"lonely", 60.0)
 		instance.raise_emotion(&"joy", 30.0)
 		action_queue.done()
-		animation_player.play("bubble_fade_out")
 		return
 
 	velocity = dir.normalized() * movespeed
-	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
+	creature_node.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 
 func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
+	if creature_animation_handler and creature_animation_handler.current_animation != MOVE_ANIM:
+		creature_animation_handler.play_move_animation()
 	var food:CreatureFoodItem = _get_food()
 	if not food:
 		action_queue.done()
@@ -336,7 +337,7 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 		action_queue.done()
 		return
 	velocity = dir.normalized() * movespeed
-	_sprite.scale.x = -1.0 if velocity.x < 0 else 1.0
+	creature_node.scale.x = -1.0 if velocity.x < 0 else 1.0
 	move_and_slide()
 
 
@@ -375,6 +376,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 func pickup(holder: Node2D) -> void:
 	is_held = true
 	_holder = holder
+	creature_animation_handler.play("idle")
 	_saved_collision_layer = collision_layer
 	_saved_collision_mask = collision_mask
 	collision_layer = 0
@@ -444,6 +446,7 @@ func receive_item(world_item: Node2D, from_player: Node2D) -> void:
 # Helpers
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 func _pick_wander_target() -> Vector2:
 	var angle := randf() * TAU
 	var dist  := randf() * wander_radius
@@ -485,12 +488,7 @@ func _get_item() -> WorldItemBase:
 			nearest_dist = d
 			nearest = item
 	return nearest
-	
 
-func _on_sprite_animation_looped() -> void:
-	if _sprite.animation == &"run" or _sprite.animation == &"sleep":
-		move_sfx.pitch_scale = randf_range(0.9, 1.1)
-		move_sfx.play()
 
 func _on_absorb_finished(anim_name: StringName) -> void:
 	if anim_name != &"absorb_item":
@@ -507,13 +505,18 @@ func _set_shader(intensity: float) -> void:
 		(_sprite.material as ShaderMaterial).set_shader_parameter("width", intensity)
 		
 
+func _setup_creature_animation_handler() -> void:
+	if MOVE_ANIM:
+		creature_animation_handler.move_anim = MOVE_ANIM
+	if MOVE_SFX:
+		creature_animation_handler.move_SFX = load(MOVE_SFX)
+		
+
 func _establish_connections() -> void:
 	if not mouse_entered.is_connected(_on_mouse_entered):
 		mouse_entered.connect(_on_mouse_entered)
 	if not mouse_exited.is_connected(_on_mouse_exited):
 		mouse_exited.connect(_on_mouse_exited)
-	if not _sprite.animation_looped.is_connected(_on_sprite_animation_looped):
-		_sprite.animation_looped.connect(_on_sprite_animation_looped)
 
 func _on_mouse_entered() -> void:
 	_set_shader(1.5)
