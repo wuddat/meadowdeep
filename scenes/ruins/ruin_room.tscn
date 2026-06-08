@@ -363,3 +363,7 @@ material = SubResource("CanvasItemMaterial_y34cg")
 position = Vector2(64, 0)
 texture = SubResource("GradientTexture2D_5jltu")
 flip_h = true
+
+[editable path="PlayerCreature"]
+[editable path="PlayerCreature/ModifierHandler"]
+[editable path="PlayerCreature/CreatureTextures"]

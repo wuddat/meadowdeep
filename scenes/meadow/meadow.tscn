@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://gkhhuxvsluej" path="res://art/game_art/items/berry.png" id="9_5ncuc"]
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/static/food_def.gd" id="10_c4haw"]
 [ext_resource type="Texture2D" uid="uid://22jjmukfy01c" path="res://art/game_art/concepts/bodies.png" id="12_uaavs"]
+[ext_resource type="Texture2D" uid="uid://d05r7kpgth8f4" path="res://art/game_art/concepts/bodies2.png" id="13_1hwgg"]
 [ext_resource type="Texture2D" uid="uid://c46k7sae8es1q" path="res://art/game_art/creatures/arch/test_arch2.png" id="14_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="14_uaavs"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
@@ -101,7 +102,7 @@ z_index = -5
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("2_nrc7r")]
 z_index = 1
-position = Vector2(473, 391)
+position = Vector2(447, 369)
 collision_layer = 5
 collision_mask = 5
 
@@ -175,6 +176,7 @@ offset_bottom = 468.0
 texture = ExtResource("12_uaavs")
 
 [node name="shadow" type="TextureRect" parent="lilguy" unique_id=1653095910]
+z_index = -1
 layout_mode = 0
 offset_left = 32.0
 offset_top = 11.0
@@ -183,6 +185,7 @@ offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
 [node name="shadow3" type="TextureRect" parent="lilguy" unique_id=141672033]
+z_index = -1
 layout_mode = 0
 offset_left = 64.0
 offset_top = 11.0
@@ -191,6 +194,7 @@ offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
 [node name="shadow4" type="TextureRect" parent="lilguy" unique_id=1907729654]
+z_index = -1
 layout_mode = 0
 offset_left = 96.0
 offset_top = 11.0
@@ -199,6 +203,7 @@ offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
 [node name="shadow5" type="TextureRect" parent="lilguy" unique_id=1346253564]
+z_index = -1
 layout_mode = 0
 offset_left = 127.0
 offset_top = 11.0
@@ -207,10 +212,54 @@ offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
 [node name="shadow2" type="TextureRect" parent="lilguy" unique_id=816808953]
+z_index = -1
 layout_mode = 0
 offset_top = 11.0
 offset_right = 32.0
 offset_bottom = 43.0
+texture = ExtResource("14_uaavs")
+
+[node name="lilguy2" type="TextureRect" parent="." unique_id=498810217]
+offset_left = 463.0
+offset_top = 385.0
+offset_right = 623.0
+offset_bottom = 434.0
+texture = ExtResource("13_1hwgg")
+
+[node name="shadow3" type="TextureRect" parent="lilguy2" unique_id=1667992498]
+z_index = -1
+layout_mode = 0
+offset_left = 12.0
+offset_top = 20.0
+offset_right = 44.0
+offset_bottom = 52.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow4" type="TextureRect" parent="lilguy2" unique_id=1787630148]
+z_index = -1
+layout_mode = 0
+offset_left = 51.0
+offset_top = 20.0
+offset_right = 83.0
+offset_bottom = 52.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow5" type="TextureRect" parent="lilguy2" unique_id=1573142875]
+z_index = -1
+layout_mode = 0
+offset_left = 85.0
+offset_top = 20.0
+offset_right = 117.0
+offset_bottom = 52.0
+texture = ExtResource("14_uaavs")
+
+[node name="shadow2" type="TextureRect" parent="lilguy2" unique_id=1819261040]
+z_index = -1
+layout_mode = 0
+offset_left = 122.0
+offset_top = 19.0
+offset_right = 154.0
+offset_bottom = 51.0
 texture = ExtResource("14_uaavs")
 
 [node name="RuinsEntrance" type="Area2D" parent="." unique_id=475154369 node_paths=PackedStringArray("sprite_2d", "collision_shape_2d")]
@@ -226,7 +275,7 @@ texture = SubResource("AtlasTexture_rhup3")
 shape = SubResource("CircleShape2D_u018s")
 
 [node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
-position = Vector2(568, 410)
+position = Vector2(448, 332)
 instance = SubResource("Resource_rhup3")
 
 [node name="PosCheck" type="Marker2D" parent="." unique_id=2059791059]

@@ -9,7 +9,7 @@ const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
 
-@onready var creature_textures: CreatureTextures = $CreatureTextures
+@onready var creature_textures: CreatureTextures = %CreatureTextures
 @onready var stats_ui: HBoxContainer = $StatsUI
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName

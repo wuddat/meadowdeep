@@ -13,7 +13,7 @@ config_version=5
 config/name="MeadowDeep"
 run/main_scene="uid://csm4ugfkog5e3"
 config/features=PackedStringArray("4.6", "Forward Plus")
-boot_splash/image="uid://dioegirmgqwvw"
+boot_splash/image="uid://c70wt2oj15xqo"
 config/icon="res://icon.svg"
 
 [audio]

@@ -43,8 +43,9 @@ func setup(stats: PlayerData) -> void:
 
 	if _creatures.size():
 		populate_creature(_creatures[0])
-		left_button.visible = true
-		right_button.visible = true
+		if _creatures.size() > 1:
+			left_button.visible = true
+			right_button.visible = true
 
 
 func populate_creature(creature: CreatureInstance) -> void:
