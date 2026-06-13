@@ -181,7 +181,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8aly8"]
-size = Vector2(20, 14)
+size = Vector2(19, 6)
 
 [node name="PlayerModel" type="CharacterBody2D" unique_id=1075955909 groups=["player"]]
 script = ExtResource("1_ju0yt")
@@ -202,7 +202,8 @@ autoplay = "run"
 frame_progress = 0.40157896
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
-position = Vector2(3, 12)
+unique_name_in_owner = true
+position = Vector2(3.5, 24)
 shape = SubResource("RectangleShape2D_8aly8")
 
 [node name="CarryPosition" type="Node2D" parent="." unique_id=501755239]
@@ -212,5 +213,9 @@ position = Vector2(18, 4)
 [node name="DropPosition" type="Node2D" parent="." unique_id=1981231435]
 unique_name_in_owner = true
 position = Vector2(46, 16)
+
+[node name="ZSortPos" type="Marker2D" parent="." unique_id=208391832]
+unique_name_in_owner = true
+position = Vector2(3, 21)
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]

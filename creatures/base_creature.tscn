@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bio1g4lsk4beu"]
 
-[ext_resource type="Shader" uid="uid://boy12gwxxdf87" path="res://art/game_art/shaders/stat_palette_shader.gdshader" id="1_5crrt"]
 [ext_resource type="Script" uid="uid://c6fnwb36kt2qi" path="res://creatures/base_creature.gd" id="1_b2jx7"]
+[ext_resource type="Shader" uid="uid://jjkitdbqimry" path="res://art/game_art/shaders/highlight.gdshader" id="1_t2q5c"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="2_tam7t"]
 [ext_resource type="PackedScene" uid="uid://s3krywagqpnj" path="res://creatures/creature_textures.tscn" id="3_tam7t"]
 [ext_resource type="Texture2D" uid="uid://egy4dv4ia6wo" path="res://art/game_art/emoticons/sleep.png" id="5_k81i3"]
@@ -18,10 +18,15 @@
 [ext_resource type="Script" uid="uid://bylbe3ro3wyn4" path="res://creatures/creature_skin_handler.gd" id="16_t2q5c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t2q5c"]
-shader = ExtResource("1_5crrt")
+shader = ExtResource("1_t2q5c")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 0.0
+shader_parameter/pattern = 2
+shader_parameter/inside = false
+shader_parameter/add_margins = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx7dx"]
-size = Vector2(8, 10)
+size = Vector2(21, 6)
 
 [sub_resource type="Animation" id="Animation_nosak"]
 length = 0.001
@@ -1053,8 +1058,8 @@ _data = {
 }
 
 [node name="BaseCreature" type="CharacterBody2D" unique_id=576682274]
-material = SubResource("ShaderMaterial_t2q5c")
 collision_layer = 4
+input_pickable = true
 script = ExtResource("1_b2jx7")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=554806506]
@@ -1063,8 +1068,15 @@ position = Vector2(-2.9802322e-08, 4)
 scale = Vector2(1.0312499, 1)
 texture = ExtResource("2_tam7t")
 
-[node name="CreatureNode" type="Node2D" parent="." unique_id=897771231]
+[node name="ZSortPos" type="Marker2D" parent="Shadow" unique_id=1890735377]
 unique_name_in_owner = true
+position = Vector2(2.3841858e-07, 11)
+
+[node name="CreatureNode" type="CanvasGroup" parent="." unique_id=276495048]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_t2q5c")
+fit_margin = 0.0
+clear_margin = 0.0
 
 [node name="CreatureTextures" parent="CreatureNode" unique_id=969795458 instance=ExtResource("3_tam7t")]
 unique_name_in_owner = true
@@ -1077,6 +1089,7 @@ texture = ExtResource("12_5uny8")
 texture = ExtResource("10_5crrt")
 
 [node name="RightArm" parent="CreatureNode/CreatureTextures" index="2" unique_id=110823812]
+z_as_relative = false
 offset = Vector2(4, 0)
 
 [node name="LeftArm" parent="CreatureNode/CreatureTextures" index="3" unique_id=67353298]
@@ -1086,8 +1099,8 @@ scale = Vector2(1.2, 1.2)
 position = Vector2(17, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
-visible = false
-position = Vector2(1, 8)
+unique_name_in_owner = true
+position = Vector2(1, 15)
 shape = SubResource("RectangleShape2D_hx7dx")
 
 [node name="EmotionDisplay" type="Sprite2D" parent="." unique_id=981894687]

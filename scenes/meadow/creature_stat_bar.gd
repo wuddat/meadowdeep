@@ -1,6 +1,9 @@
 class_name CreatureStatBar
 extends Control
 
+signal pip_filled
+signal stat_level_up
+
 @onready var stat_name: Label = %StatName
 @onready var lvl: Label = %Lvl
 @onready var pill_box: HBoxContainer = %PillBox
@@ -9,8 +12,6 @@ extends Control
 
 const PILL_EMPTY = preload("uid://cg4v0q208cksl")
 const PILL_FULL = preload("uid://d3wnng60mj0x0")
-const PING_SFX: AudioStream = preload("res://art/sounds/sfx/card_sfx1.mp3") #preload("res://art/game_art/sfx/ping_SFX.wav")
-const LEVEL_UP_SFX: AudioStream = preload("res://art/sounds/sfx/card_sfx1.mp3")
 
 const PIP_STAGGER := 0.05 #base 0.2 edited for debug
 const PIP_FLASH_DURATION := 0.2
@@ -121,12 +122,12 @@ func _animate_sequence(stat: GrowthStat) -> void:
 
 		for i in range(slice_start, slice_end):
 			var idx := i
-			_active_tween.tween_callback(func() -> void: SFXPlayer.play(PING_SFX))
+			_active_tween.tween_callback(func() -> void: pip_filled.emit())
 			_active_tween.tween_property(pill_box.get_child(idx), "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
 			_active_tween.tween_interval(PIP_STAGGER)
 
 		if ends_with_levelup:
-			_active_tween.tween_callback(func() -> void: SFXPlayer.play(LEVEL_UP_SFX))
+			_active_tween.tween_callback(func() -> void: stat_level_up.emit())
 			_active_tween.tween_property(stat_name, "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
 			_active_tween.parallel().tween_property(lvl, "modulate", PIP_REST_COLOR, PIP_FLASH_DURATION)
 			_active_tween.tween_property(stat_name, "modulate", Color.WHITE, PIP_FLASH_DURATION)

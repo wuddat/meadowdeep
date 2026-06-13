@@ -52,20 +52,19 @@ const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: CreatureTextures         = %CreatureTextures
-@onready var creature_node: Node2D = %CreatureNode
+@onready var creature_node: CanvasGroup        = %CreatureNode
 @onready var emotion_display: Sprite2D         = %EmotionDisplay
 @onready var animation_player: AnimationPlayer = %EmotionPlayer
 @onready var emotion_handler: Node             = %EmotionHandler
 @onready var action_sfx: AudioStreamPlayer     = %ActionSFX
 @onready var creature_stat_handler: Node       = %CreatureStatHandler
-@onready var left_arm: Sprite2D                = %CreatureTextures/LeftArm
-@onready var right_arm: Sprite2D               = %CreatureTextures/RightArm
 @onready var eyes: Sprite2D                    = %CreatureTextures/Eyes
 @onready var mouth: Sprite2D                   = %CreatureTextures/Eyes/Mouth
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
-@onready var creature_skin_handler: CreatureSkinHandler = $CreatureSkinHandler
+@onready var creature_skin_handler: CreatureSkinHandler  = $CreatureSkinHandler
 @onready var hold_pos: Node2D = %CreatureTextures/HoldPos
-
+@onready var z_sort_pos: Marker2D = %ZSortPos
+@onready var collider: CollisionShape2D = %CollisionShape2D
 
 # ── Creature Ref ────────────────────────────────────────────────────────────────
 @export var instance: CreatureInstance : set = set_instance
@@ -163,6 +162,7 @@ func _ensure_stats() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_assign_z_to_y()
 	if is_held:
 		var carry_node := _holder.get("carry_position") as Node2D
 		global_position = carry_node.global_position if carry_node else _holder.global_position + HOLD_OFFSET
@@ -172,7 +172,8 @@ func _physics_process(delta: float) -> void:
 	_check_emotion_triggers()
 	_tick_current_action(delta)
 
-
+func _assign_z_to_y() -> void:
+	self.z_index = int(z_sort_pos.global_position.y)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Action Queue
@@ -442,7 +443,8 @@ func receive_food(food_item: Node2D, from_player: Node2D) -> void:
 	action_queue.push_front(&"eat_food", {
 		"timer": randf_range(action_duration_min, action_duration_max)
 	})
-	instance.increment_bond(0.05)
+	if instance:
+		instance.identity.increment_bond(0.05)
 	Events.creature_stat_view_requested.emit(instance)
 
 func receive_item(world_item: Node2D, from_player: Node2D) -> void:
@@ -518,8 +520,8 @@ func _on_absorb_finished(anim_name: StringName) -> void:
 
 		
 func _set_shader(intensity: float) -> void:
-	if _sprite.material is ShaderMaterial:
-		(_sprite.material as ShaderMaterial).set_shader_parameter("width", intensity)
+	if creature_node.material is ShaderMaterial:
+		(creature_node.material as ShaderMaterial).set_shader_parameter("width", intensity)
 
 func _set_home_pos() -> void:
 	_home = global_position
@@ -544,8 +546,13 @@ func _establish_connections() -> void:
 	if not mouse_exited.is_connected(_on_mouse_exited):
 		mouse_exited.connect(_on_mouse_exited)
 
+func _input_event(_viewport: Viewport, input: InputEvent, shape_idx: int) -> void:
+	if input.is_action_pressed("right_mouse"):
+		Events.camera_target_requested.emit(self)
+
 func _on_mouse_entered() -> void:
-	_set_shader(1.5)
+	print("mouse entered")
+	_set_shader(4.5)
 
 func _on_mouse_exited() -> void:
 	_set_shader(0.0)

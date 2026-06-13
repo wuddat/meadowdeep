@@ -97,7 +97,7 @@ script = ExtResource("1_foo57")
 base_creature = NodePath("BaseCreature")
 
 [node name="BG" parent="." unique_id=1020387881 instance=ExtResource("3_kvjms")]
-z_index = -5
+z_index = -1000
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("2_nrc7r")]
 z_index = 1
@@ -105,10 +105,11 @@ position = Vector2(447, 369)
 collision_layer = 5
 collision_mask = 5
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1905531462]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1905531462 node_paths=PackedStringArray("_camera_target")]
 position = Vector2(647, 1071)
 scale = Vector2(82.46371, 8.475021)
 script = ExtResource("4_bn14v")
+_camera_target = NodePath("../PlayerModel")
 
 [node name="Food" type="Area2D" parent="." unique_id=84511921]
 position = Vector2(536, 281)
@@ -122,19 +123,19 @@ volume_db = -14.144
 bus = &"SFX"
 
 [node name="CreatureFood" parent="." unique_id=851834460 instance=ExtResource("8_pxhms")]
-position = Vector2(451, 193)
+position = Vector2(446, 429)
 stages = 4
 item_data = SubResource("Resource_bh7u7")
 
 [node name="CreatureFood2" parent="." unique_id=1642560484 instance=ExtResource("8_pxhms")]
 modulate = Color(1, 1, 0.36862746, 1)
-position = Vector2(399, 334)
+position = Vector2(392, 428)
 stages = 4
 item_data = SubResource("Resource_8uyeg")
 
 [node name="CreatureFood3" parent="." unique_id=552193260 instance=ExtResource("8_pxhms")]
 modulate = Color(2.40685, 1.9309977, 1.4642963, 1)
-position = Vector2(456, 296)
+position = Vector2(500, 436)
 stages = 4
 item_data = SubResource("Resource_j48bh")
 
@@ -153,6 +154,7 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="lilguy" type="TextureRect" parent="." unique_id=1411641603]
+visible = false
 offset_left = 465.0
 offset_top = 429.0
 offset_right = 625.0
@@ -204,6 +206,7 @@ offset_bottom = 43.0
 texture = ExtResource("14_uaavs")
 
 [node name="lilguy2" type="TextureRect" parent="." unique_id=498810217]
+visible = false
 offset_left = 463.0
 offset_top = 385.0
 offset_right = 623.0
@@ -266,17 +269,17 @@ instance = SubResource("Resource_rhup3")
 position = Vector2(631, 461)
 
 [node name="DebugItemSpawner" type="Node2D" parent="." unique_id=1053546176]
-position = Vector2(452, 360)
+position = Vector2(588, 418)
 script = ExtResource("23_rhup3")
 spawn_item = SubResource("Resource_foo57")
 
 [node name="DebugItemSpawner2" type="Node2D" parent="." unique_id=234815497]
-position = Vector2(525, 361)
+position = Vector2(587, 382)
 script = ExtResource("23_rhup3")
 spawn_item = SubResource("Resource_u018s")
 
 [node name="DebugItemSpawner3" type="Node2D" parent="." unique_id=254055711]
-position = Vector2(447, 399)
+position = Vector2(588, 455)
 script = ExtResource("23_rhup3")
 spawn_item = SubResource("Resource_fyjhr")
 

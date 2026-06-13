@@ -3,6 +3,7 @@ extends WorldItemBase
 
 @export var stages: int = 5
 
+var edible: bool = true
 var _max_stages: int = maxi(stages, 1)
 var being_eaten: bool = false
 

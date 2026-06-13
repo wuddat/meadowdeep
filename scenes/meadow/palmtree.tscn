@@ -38,5 +38,5 @@ z_as_relative = false
 texture = ExtResource("2_vpafi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1697399416]
-position = Vector2(-1.5, 15.5)
+position = Vector2(-2, 21)
 shape = SubResource("RectangleShape2D_u6ycd")

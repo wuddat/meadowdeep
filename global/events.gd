@@ -8,6 +8,8 @@ signal scene_transition_requested(scene_id: String)
 signal ruins_run_started(creature: CreatureInstance)
 @warning_ignore("unused_signal")
 signal shake_camera_requested()
+@warning_ignore("unused_signal")
+signal camera_target_requested(node: Node2D)
 
 # Meadow Creature stat view
 @warning_ignore("unused_signal")

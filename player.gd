@@ -12,11 +12,14 @@ const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
 @onready var carry_position: Node2D = %CarryPosition
 @onready var drop_position: Node2D = %DropPosition
 @onready var shadow: Sprite2D = %Shadow
+@onready var z_sort_pos: Marker2D = %ZSortPos
+@onready var collider: CollisionShape2D = %CollisionShape2D
 
-var is_rolling := false
-var roll_timer := 0.0
-var roll_direction := Vector2.ZERO
-var is_attacking := false
+var is_rolling:bool = false
+var roll_timer:float = 0.0
+var roll_direction:Vector2 = Vector2.ZERO
+var is_attacking:bool = false
+var _movement_enabled:bool = true
 
 var nearby_food: Node2D = null
 var nearby_creature: Node2D = null
@@ -36,9 +39,12 @@ func _ready() -> void:
 	add_to_group("player")
 	_drop_offset_x = absf(drop_position.position.x)
 	_carry_offset_x = absf(carry_position.position.x)
-	sprite.frame_changed.connect(_on_frame_changed)
+	_establish_connections()
 
 func _physics_process(delta):
+	if not _movement_enabled:
+		return
+	_assign_z_to_y()
 	var input_vector = Vector2.ZERO
 
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -86,16 +92,16 @@ func _physics_process(delta):
 	# Food delivery on collision
 	if carried_food:
 		for i in get_slide_collision_count():
-			var collider = get_slide_collision(i).get_collider()
-			if collider.has_method("receive_food") and collider.instance.get_emotion(&"hunger") < 80.0:
-				collider.receive_food(carried_food, self)
+			var _collider = get_slide_collision(i).get_collider()
+			if _collider.has_method("receive_food") and _collider.instance.get_emotion(&"hunger") < 80.0:
+				_collider.receive_food(carried_food, self)
 				break
 	
 	if carried_item:
 		for i in get_slide_collision_count():
-			var collider = get_slide_collision(i).get_collider()
-			if collider.has_method("receive_item"):
-				collider.receive_item(carried_item, self)
+			var _collider = get_slide_collision(i).get_collider()
+			if _collider.has_method("receive_item"):
+				_collider.receive_item(carried_item, self)
 				break
 		
 
@@ -103,9 +109,9 @@ func _physics_process(delta):
 	if not held_creature:
 		nearby_creature = null
 		for i in get_slide_collision_count():
-			var collider = get_slide_collision(i).get_collider()
-			if collider.has_method("pickup"):
-				nearby_creature = collider
+			var _collider = get_slide_collision(i).get_collider()
+			if _collider.has_method("pickup"):
+				nearby_creature = _collider
 				break
 
 
@@ -175,3 +181,18 @@ func _on_ruins_entrance_body_entered(_body: Node2D) -> void:
 func _on_frame_changed() -> void:
 	if sprite.animation == "run" and (sprite.frame == 3 or sprite.frame ==7):
 		SFXPlayer.pitch_play(FOOTSTEP_STONE)
+
+func _on_camera_target_requested(camera_target: Node) -> void:
+	if camera_target != self:
+		_movement_enabled = false
+	else:
+		_movement_enabled = true
+
+func _assign_z_to_y() -> void:
+	self.z_index = int(z_sort_pos.global_position.y)
+
+func _establish_connections() -> void:
+	if not sprite.frame_changed.is_connected(_on_frame_changed):
+		sprite.frame_changed.connect(_on_frame_changed)
+	if not Events.camera_target_requested.is_connected(_on_camera_target_requested):
+		Events.camera_target_requested.connect(_on_camera_target_requested)
