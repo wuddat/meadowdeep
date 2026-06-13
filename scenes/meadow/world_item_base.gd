@@ -7,6 +7,9 @@ extends Area2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 const CARRY_OFFSET := Vector2(0, -18)
+const TOSS_DISTANCE := 70.0
+const TOSS_ARC_HEIGHT := 30.0
+const TOSS_DURATION := 0.35
 
 var uid: String = ""
 var is_carried: bool = false
@@ -56,6 +59,27 @@ func drop() -> void:
 	if _old_z_index:
 		self.z_index = _old_z_index
 
+
+
+func toss() -> void:
+	# Read facing off the creature before we drop the carrier ref.
+	var facing:int = 1
+	var creature_node: Node2D = _carrier.get("creature_node") if _carrier else null
+	if creature_node:
+		facing = 1 if creature_node.scale.x < 0 else -1
+
+	drop()
+
+	var start_pos:Vector2 = global_position
+	var end_pos:Vector2 = start_pos + Vector2(TOSS_DISTANCE * facing, 0.0)
+	_tween = create_tween()
+	_tween.tween_method(
+		func(t: float) -> void:
+			var pos := start_pos.lerp(end_pos, t)
+			pos.y -= TOSS_ARC_HEIGHT * sin(t * PI)  # 0 at ends, peak at midpoint
+			global_position = pos,
+		0.0, 1.0, TOSS_DURATION)
+	
 
 func _get_carry_node() -> Node2D:
 	var carry_node: Node2D = _carrier.get("carry_position") if _carrier.get("carry_position") else _carrier.get("hold_pos")

@@ -5,7 +5,7 @@ const MEADOW_WORLD_ITEM := preload("uid://d4g4hbpijemuw")
 const MEADOW_CREATURE_SCN := preload("uid://bio1g4lsk4beu")
 const MEADOW = preload("uid://byyiynr17r81x")
 
-const SPAWN_COORDS: Array[Vector2] = [Vector2(569,392), Vector2(461,336), Vector2(631,461)]
+const SPAWN_COORDS: Array[Vector2] = [Vector2(486,331), Vector2(461,336), Vector2(631,461)]
 
 const TOSS_RADIUS_MIN := 16.0
 const TOSS_RADIUS_MAX := 48.0

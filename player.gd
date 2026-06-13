@@ -11,6 +11,7 @@ const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
 @onready var sprite: AnimatedSprite2D = $Player
 @onready var carry_position: Node2D = %CarryPosition
 @onready var drop_position: Node2D = %DropPosition
+@onready var shadow: Sprite2D = %Shadow
 
 var is_rolling := false
 var roll_timer := 0.0
@@ -28,11 +29,13 @@ var carried_item: Node2D = null
 
 var _stat_view: Control = null
 var _drop_offset_x: float = 0.0
+var _carry_offset_x: float = 0.0
 
 
 func _ready() -> void:
 	add_to_group("player")
 	_drop_offset_x = absf(drop_position.position.x)
+	_carry_offset_x = absf(carry_position.position.x)
 	sprite.frame_changed.connect(_on_frame_changed)
 
 func _physics_process(delta):
@@ -61,14 +64,20 @@ func _physics_process(delta):
 
 	elif not is_attacking:
 		velocity = input_vector * speed
+		var carrying := held_creature or carried_food or carried_item
 		if input_vector != Vector2.ZERO:
-			if sprite.animation != "run":
-				sprite.play("run")
+			var run_anim := "carry_run" if carrying else "run"
+			if sprite.animation != run_anim:
+				sprite.play(run_anim)
 			if input_vector.x != 0:
 				sprite.flip_h = input_vector.x < 0
+				shadow.flip_h = input_vector.x < 0
 				drop_position.position.x = _drop_offset_x * (-1.0 if sprite.flip_h else 1.0)
+				carry_position.position.x = _carry_offset_x * (-1.0 if sprite.flip_h else 1.0)
+				if carrying and held_creature:
+					held_creature.face_direction(-1.0 if sprite.flip_h else 1.0)
 		else:
-			var idle_anim := "carry" if held_creature || carried_food || carried_item else "idle"
+			var idle_anim := "carry" if carrying else "idle"
 			if sprite.animation != idle_anim:
 				sprite.play(idle_anim)
 
@@ -155,7 +164,6 @@ func _hide_stat_view() -> void:
 		_stat_view.get_parent().queue_free()
 		_stat_view = null
 		print("[StatView] hidden")
-
 
 func _on_player_animation_finished() -> void:
 	is_attacking = false

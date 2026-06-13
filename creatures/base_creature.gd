@@ -10,7 +10,8 @@ extends CharacterBody2D
 
 # ── Creature Const ───────────────────────────────────────────────────────────
 const MOVE_ANIM: String = "walk_hop"
-const MOVE_SFX: String = "res://art/game_art/sfx/pop.wav"
+const MOVE_SFX: String = "uid://dlxj66hun1l4t"
+const PICKUP_SFX: AudioStream = preload("uid://do140slmgni2k")
 
 # ── Emotion bubbles ───────────────────────────────────────────────────────────
 const SLEEP_BUBBLE   = preload("uid://egy4dv4ia6wo")
@@ -92,7 +93,6 @@ var _saved_collision_mask := 0
 # ═══════════════════════════════════════════════════════════════════════════════
 
 func _ready() -> void:
-	_home = global_position
 	if not instance:
 		_ensure_stats()
 	# Palette material must exist before _wire_instance triggers refresh_palette.
@@ -120,6 +120,8 @@ func set_instance(data: CreatureInstance) -> void:
 func _wire_instance() -> void:
 	if not instance:
 		return
+	if not _home:
+		_set_home_pos()
 	if creature_stat_handler:
 		creature_stat_handler.identity = instance.identity
 		creature_stat_handler.creature_uid = instance.uid
@@ -184,6 +186,7 @@ func _is_busy() -> bool:
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
 	creature_animation_handler.RESET()
+	_set_home_pos()
 	match id:
 		&"idle":
 			velocity = Vector2.ZERO
@@ -215,6 +218,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"eat_food":
 			emotion_display.texture = JOY_BUBBLE
 			animation_player.play("bubble_fade_in")
+			creature_animation_handler.play("pickup_item")
+			await creature_animation_handler.animation_finished
 			creature_animation_handler.play("eat")
 			data["timer"] = randf_range(action_duration_min, action_duration_max)
 			action_sfx.stream = NOMNOM_SOUND
@@ -277,6 +282,7 @@ func _tick_wander(data: Dictionary, _delta: float) -> void:
 	if creature_animation_handler and creature_animation_handler.current_animation != MOVE_ANIM:
 		creature_animation_handler.play_move_animation()
 	var dir: Vector2 = data["target"] - global_position
+
 	if dir.length() < 4.0:
 		instance.lower_emotion(&"boredom", 40.0)
 		action_queue.done()
@@ -330,9 +336,11 @@ func _tick_seek_food(_data: Dictionary, _delta: float) -> void:
 	var dir: Vector2 = food.global_position - global_position
 	if dir.length() < 20.0:
 		if not food.being_eaten:
-			food.start_eating()
+			food.start_being_eaten()
 			_eating_food = food
 			pickup_item(food)
+			if creature_animation_handler and not creature_animation_handler.current_animation == "pickup_item":
+				creature_animation_handler.play("pickup_item")
 			action_queue.enqueue(&"eat_food", {"timer": randf_range(action_duration_min, action_duration_max)})
 		action_queue.done()
 		return
@@ -362,7 +370,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 				drop_item(_eating_food)
 				_eating_food.queue_free()
 			else:
-				drop_item(_eating_food)
+				toss_item(_eating_food)
 				_eating_food.set("being_eaten", false)
 			_eating_food = null
 		Events.creature_stat_view_dismissed.emit(instance.uid)
@@ -386,6 +394,7 @@ func pickup(holder: Node2D) -> void:
 func pickup_item(item:WorldItemBase) -> void:
 	if _held_item:
 		return
+	SFXPlayer.play(PICKUP_SFX)
 	match item.item_data.get_category():
 		item.item_data.ItemCategory.FOOD:
 			_food = item
@@ -402,12 +411,20 @@ func drop_item(item:WorldItemBase) -> void:
 	_held_item = null
 	item.drop()
 
+func toss_item(item:WorldItemBase) -> void:
+	if not _held_item:
+		return
+	_food = null
+	_held_item = null
+	item.toss()
+
 func release() -> void:
 	is_held = false
 	_holder = null
 	collision_layer = _saved_collision_layer
 	collision_mask = _saved_collision_mask
 	action_queue.push_front(&"idle", {})
+	_set_home_pos()
 	Events.creature_stat_view_dismissed.emit(instance.uid)
 
 
@@ -503,7 +520,16 @@ func _on_absorb_finished(anim_name: StringName) -> void:
 func _set_shader(intensity: float) -> void:
 	if _sprite.material is ShaderMaterial:
 		(_sprite.material as ShaderMaterial).set_shader_parameter("width", intensity)
-		
+
+func _set_home_pos() -> void:
+	_home = global_position
+
+func face_direction(dir_x: float) -> void:
+	if dir_x == 0.0:
+		return
+	var target_scale := -1.0 if dir_x < 0.0 else 1.0
+	if creature_node.scale.x != target_scale:
+		creature_node.scale.x = target_scale
 
 func _setup_creature_animation_handler() -> void:
 	if MOVE_ANIM:

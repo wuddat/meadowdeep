@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://dqnvwkhoyjwxj" path="res://custom_resources/static/food_def.gd" id="10_c4haw"]
 [ext_resource type="Texture2D" uid="uid://22jjmukfy01c" path="res://art/game_art/concepts/bodies.png" id="12_uaavs"]
 [ext_resource type="Texture2D" uid="uid://d05r7kpgth8f4" path="res://art/game_art/concepts/bodies2.png" id="13_1hwgg"]
-[ext_resource type="Texture2D" uid="uid://c46k7sae8es1q" path="res://art/game_art/creatures/arch/test_arch2.png" id="14_pl7hq"]
 [ext_resource type="Texture2D" uid="uid://c4kfc74vrpdb4" path="res://art/game_art/creatures/shadow.png" id="14_uaavs"]
 [ext_resource type="PackedScene" uid="uid://bio1g4lsk4beu" path="res://creatures/base_creature.tscn" id="15_70id3"]
 [ext_resource type="PackedScene" uid="uid://ckyc6blh5lggp" path="res://scenes/meadow/creature_stat_view.tscn" id="15_j48bh"]
@@ -153,21 +152,6 @@ offset_bottom = 173.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="arch" type="TextureRect" parent="." unique_id=274798912]
-offset_left = 648.0
-offset_top = 387.0
-offset_right = 680.0
-offset_bottom = 430.0
-texture = ExtResource("14_uaavs")
-
-[node name="lilguy" type="TextureRect" parent="arch" unique_id=403356388]
-layout_mode = 0
-offset_left = 1.0
-offset_top = -25.0
-offset_right = 33.0
-offset_bottom = 38.0
-texture = ExtResource("14_pl7hq")
-
 [node name="lilguy" type="TextureRect" parent="." unique_id=1411641603]
 offset_left = 465.0
 offset_top = 429.0
@@ -275,7 +259,7 @@ texture = SubResource("AtlasTexture_rhup3")
 shape = SubResource("CircleShape2D_u018s")
 
 [node name="BaseCreature" parent="." unique_id=41217280 instance=ExtResource("15_70id3")]
-position = Vector2(448, 332)
+position = Vector2(486, 331)
 instance = SubResource("Resource_rhup3")
 
 [node name="PosCheck" type="Marker2D" parent="." unique_id=2059791059]

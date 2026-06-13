@@ -3,7 +3,7 @@ extends WorldItemBase
 
 @export var stages: int = 5
 
-var _max_stages: int = 0
+var _max_stages: int = maxi(stages, 1)
 var being_eaten: bool = false
 
 
@@ -18,10 +18,14 @@ func decrement_stage() -> void:
 		self.queue_free()
 		return
 	stages -= 1
-	scale = Vector2.ONE * (float(stages) / float(_max_stages))
+	var old_scale: Vector2 = Vector2.ONE * (float(stages) / float(_max_stages))
+	var new_scale: Vector2 = Vector2.ONE
+	new_scale.x = maxf(0.5, old_scale.x)
+	new_scale.y = maxf(0.5, old_scale.y)
+	scale = new_scale
 
 
-func start_eating() -> void:
+func start_being_eaten() -> void:
 	if stages == 0 or being_eaten == true:
 		return
 	being_eaten = true
