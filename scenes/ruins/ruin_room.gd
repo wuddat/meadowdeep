@@ -10,9 +10,9 @@ const RUINS_LOOP = preload("uid://c21qpja5wmsl1")
 
 const DOOR_POS := {
 	&"N": Vector2(313, 19),
-	&"S": Vector2(319, 341),
-	&"E": Vector2(622, 177),
-	&"W": Vector2(20, 167),
+	&"S": Vector2(319, 375),
+	&"E": Vector2(650, 175),
+	&"W": Vector2(-25, 175),
 }
 
 const DIR_VEC := {
@@ -36,19 +36,21 @@ const OPPOSITE := {
 	&"W": &"E",
 }
 
-const PLAYER_INSET := 60.0
+const PLAYER_INSET := 150.0
 
 @onready var room_type_label: Label = $RoomTypeLabel
 @onready var map_generator: MapGenerator = $MapGenerator
-@onready var doors_container: Node2D = $Doors
-@onready var player: Node2D = $PlayerModel
+@onready var doors_container: Node2D = %Doors
+@onready var player: Node2D = %PlayerModel
 @onready var player_creature: CreatureBattleUnit = %PlayerCreature
 @onready var battle_colliders: StaticBody2D = %BattleColliders
 @onready var room_colliders: StaticBody2D = %RoomColliders
-@onready var enemy_handler: EnemyHandler = $EnemyHandler
+@onready var enemy_handler: EnemyHandler = %EnemyHandler
 @onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
 @onready var loot_handler: LootHandler = %LootHandler
-@onready var prop_controller: PropController = $PropController
+@onready var prop_controller: PropController = %PropController
+@onready var dungeon_door_tile_template: TileMapLayer = %DungeonDoorTileTemplate
+@onready var dungeon_door_tile_map: DungeonDoorTileMap = %DungeonDoorTileMap
 
 var current_pos: Vector2i = Vector2i.ZERO
 var visited: Dictionary = {}
@@ -58,7 +60,9 @@ var _active_combat_room: Room
 
 func _ready() -> void:
 	map_generator.generate_floor(1)
+	dungeon_door_tile_template.visible = false
 	_spawn_doors()
+	_setup_door_anchors()
 	_establish_connections()
 
 
@@ -90,6 +94,9 @@ func _spawn_doors() -> void:
 		door.entered.connect(_on_door_entered)
 		doors[dir] = door
 
+func _setup_door_anchors() -> void:
+	for dir: StringName in DOOR_POS.keys():
+		dungeon_door_tile_map.anchors[dir] = dungeon_door_tile_map.local_to_map(DOOR_POS[dir])
 
 func enter_room(pos: Vector2i, from_direction: StringName = &"") -> void:
 	var room: Room = map_generator.room_map.get(pos)
@@ -127,8 +134,10 @@ func refresh_doors(room: Room) -> void:
 			var neighbor_pos: Vector2i = current_pos + DIR_VEC[dir]
 			var neighbor: Room = map_generator.room_map.get(neighbor_pos)
 			door.setup(neighbor, dir, Door.State.OPEN)
+			dungeon_door_tile_map.open(dir)
 		else:
 			door.setup(null, dir, Door.State.NO_DOOR)
+			dungeon_door_tile_map.clear_blocks(dir)
 
 
 func _door_rotation(dir: StringName) -> float:
@@ -184,9 +193,10 @@ func _finish_room_combat(victory: bool) -> void:
 		Events.scene_transition_requested.emit("meadow")
 
 func _slam_lock_doors() -> void:
-	for door in doors.values():
+	for door:Door in doors.values():
 		if door.state == Door.State.OPEN:
 			door.close()
+			dungeon_door_tile_map.close(door.direction)
 	await get_tree().create_timer(.15).timeout
 	SFXPlayer.play(DOOR_SLAM)
 	Events.shake_camera_requested.emit()

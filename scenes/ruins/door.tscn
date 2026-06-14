@@ -1,19 +1,14 @@
 [gd_scene format=3 uid="uid://j0qtggfhqrak"]
 
-[ext_resource type="Texture2D" uid="uid://bxcuo8dd6tonf" path="res://art/game_art/concepts/door_cl.png" id="2_rnxmn"]
 [ext_resource type="Script" uid="uid://cd3an2ily742b" path="res://scenes/ruins/door.gd" id="2_u57nk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sdxjs"]
-size = Vector2(37, 29)
+size = Vector2(99, 78)
 
 [node name="Door" type="Area2D" unique_id=453754443]
 script = ExtResource("2_u57nk")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1456550918]
-texture = ExtResource("2_rnxmn")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=656290546]
-position = Vector2(0.5, -0.5)
 shape = SubResource("RectangleShape2D_sdxjs")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

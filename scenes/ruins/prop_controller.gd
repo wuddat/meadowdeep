@@ -55,6 +55,8 @@ func _hide_children(node: Node) -> void:
 			child.visible = false
 
 func _show_children(node: Node) -> void:
+	if not node:
+		return
 	node.show()
 	var children := node.get_children()
 	for child in children:

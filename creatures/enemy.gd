@@ -33,7 +33,6 @@ func _ready() -> void:
 		animated_sprite_2d.play("idle")
 	spawn_coords = global_position
 
-
 func set_instance(creature: CreatureInstance) -> void:
 	instance = creature
 	if not instance:

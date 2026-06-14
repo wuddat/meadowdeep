@@ -10,7 +10,6 @@ signal entered(destination: Room, from_direction: StringName)
 
 @export var state: State = State.CLOSED
 
-@onready var sprite: Sprite2D = $Sprite2D
 
 var room_data: Room
 var direction: StringName  # &"N" / &"S" / &"E" / &"W"
@@ -46,14 +45,14 @@ func _refresh_visuals() -> void:
 	visible = active
 	monitoring = active
 	monitorable = active
-	if sprite == null:
-		return
-	match state:
-		State.OPEN:     sprite.texture = DOOR_OP
-		State.CLOSED:   sprite.texture = DOOR_CL
-		State.REVEALED: sprite.texture = DOOR_CL
-		State.SECRET:   sprite.texture = null
-		State.NO_DOOR:  sprite.texture = null
+	#if sprite == null:
+		#return
+	#match state:
+		#State.OPEN:     sprite.texture = DOOR_OP
+		#State.CLOSED:   sprite.texture = DOOR_CL
+		#State.REVEALED: sprite.texture = DOOR_CL
+		#State.SECRET:   sprite.texture = null
+		#State.NO_DOOR:  sprite.texture = null
 
 
 func _on_body_entered(_body: Node2D) -> void:
