@@ -30,9 +30,9 @@ If a system in this codebase doesn't ultimately serve that — directly or indir
 
 ### Three feelings the game must deliver
 
-- *"Look how far we've come"* — creatures visibly evolve and change based on what you do together. The meadow looks different. The ruins go deeper.
-- *"This one is mine"* — you carried that egg out of the ruins. You hatched it. It grew differently because of how you played.
-- *"One more run"* — each descent feels different because your living, growing party shapes the encounter.
+- _"Look how far we've come"_ — creatures visibly evolve and change based on what you do together. The meadow looks different. The ruins go deeper.
+- _"This one is mine"_ — you carried that egg out of the ruins. You hatched it. It grew differently because of how you played.
+- _"One more run"_ — each descent feels different because your living, growing party shapes the encounter.
 
 ---
 
@@ -40,7 +40,7 @@ If a system in this codebase doesn't ultimately serve that — directly or indir
 
 ### Combat is a stage, not a calculator
 
-The game pivoted from card-based combat to a **brain-driven autobattler**. The player is the AUDIENCE, not the operator. Combat is something the player WATCHES the creature do, with light interaction (QTEs) for engagement. This shapes everything:
+The game pivoted from card-based combat to a **brain-driven autobattler**. The player is the AUDIENCE, not the operator. Combat is something the player has MINIMAL interaction with. They WATCH what the creature does, with light interaction for engagement. This shapes everything:
 
 - Damage equations are not the point. **Visible behavior is the point.**
 - A creature winning by 1 HP because it hesitated bravely is more valuable than a creature winning cleanly with optimal play.
@@ -57,11 +57,11 @@ When designing a stat system and you find yourself asking "what does this number
 
 The Brain selecting actions based on intent is not just a clever AI architecture — it's the place where the creature's PERSONALITY lives. A Brave EMBER and a Cautious EMBER, given identical stats and identical action pools, must fight differently. The brain's `_evaluate_intent()` is where that difference is born. Personality is not a decorative tag; it's a scoring weight that biases real, observable behavior.
 
-This is why the `_evaluate_intent()` slot is sacred. Every personality input — bravery, caution, loyalty, recklessness — eventually feeds into that one method. Don't pollute it. Don't bypass it. Don't build parallel decision systems that ignore it.
+This is why the `_evaluate_intent()` slot is sacred. Every personality input — bravery, caution, loyalty, recklessness — eventually feeds into that one method. Don't pollute it. Don't bypass it. Don't build parallel decision systems that ignore it. If a decision, feature, or function, **of a CREATURE** is being implemented without consideration of personality or `_evaluate_intent()` - something is wrong.
 
 ### The player raises, the creature acts
 
-The player's role in combat is **director, not operator**. They've already done the meaningful work BEFORE the fight: feeding, bonding, teaching, exploring. The fight is when that work becomes visible. The player's in-fight agency (QTEs, encouragement, eventual commands) should ENHANCE the creature's expression, not OVERRIDE it.
+The player's role in combat is **director, not operator**. They've already done the meaningful work BEFORE the fight: feeding, bonding, teaching, exploring. The fight is when that work becomes visible. The player's in-fight agency (encouragement, eventual commands, or creature healing/buffing) should ENHANCE the creature's expression, not OVERRIDE it.
 
 This is why the card system died as a combat mechanic. Cards put the player at the center of combat. The pivot to brain-driven autobattle puts the CREATURE at the center. Anything that drifts back toward "player chooses creature's actions" is drifting away from the vision.
 
@@ -72,7 +72,7 @@ The two-worlds split (meadow / ruins) is not just architectural convenience. It'
 - **Meadow** = where the player INVESTS. Quiet, slow, full of small care-actions. Bonds form. Personality emerges. The creature grows.
 - **Ruins** = where the player WITNESSES the investment paying off. Combat, exploration, stakes. The creature's growth becomes legible.
 
-When designing meadow systems, ask: *does this create something the player will later SEE in the ruins?* When designing ruins systems, ask: *does this make visible what the player did in the meadow?* If the answer is no on either side, the system is decoupled from the emotional loop.
+When designing meadow systems, ask: _does this create something the player will later SEE in the ruins?_ When designing ruins systems, ask: _does this make visible what the player did in the meadow?_ If the answer is no on either side, the system is decoupled from the emotional loop.
 
 ---
 
@@ -112,7 +112,7 @@ These are the load-bearing decisions. Don't undo them without understanding why 
 
 ### Cards are dormant, not deleted
 
-**Why:** they were built for a different vision (player-as-operator). The pivot didn't need their absence; it needed their irrelevance. Leaving them on disk costs nothing and preserves optionality. **But: do not revive them in combat without explicit vision-level reconsideration.**
+**Why:** they were built for a different vision (player-as-operator). The pivot didn't need their absence; it needed their irrelevance. Leaving them on disk costs nothing and preserves optionality. **But: do not revive them.**
 
 ### Meadow and battle are parallel, not unified
 
@@ -125,22 +125,28 @@ These are the load-bearing decisions. Don't undo them without understanding why 
 These are the patterns that look reasonable but quietly betray the vision. Watch for them in your own suggestions.
 
 ### The "more numbers" trap
+
 "This creature could have a Crit Chance stat, a Lifesteal stat, a Counter Rate stat..." — RPG-genre thinking, not vision thinking. If a proposed stat doesn't change how the creature LOOKS while fighting, it's probably not a stat MeadowDeep wants.
 
 ### The "let the player decide" trap
-"What if the player could pick the creature's action each turn?" — regressing to the operator model. The player's input layer is QTEs, encouragement, and pre-fight setup.
+
+"What if the player could pick the creature's action each turn?" — regressing to the operator model. The player's input layer is encouragement and pre-fight setup. The player can interact, but must never directly damage enemies.
 
 ### The "balanced for competitive play" trap
+
 MeadowDeep is not competitive. A Brave creature SHOULD sometimes lose by charging in. A Cautious creature SHOULD sometimes win by waiting. "Imbalance" in service of character is correct.
 
 ### The "feature parity with [other game]" trap
+
 "Pokemon has X, so we should have X." No. Every borrowed mechanic must be re-justified against the vision. Borrowing without reinterpreting bakes another game's vision into our codebase.
 
 ### The "make it autoload-y" trap
+
 Globals are seductive. Use autoloads for genuinely global concerns (Events, RNG). Resist them for context-specific data (creature state, current encounter, party).
 
 ### The "the architecture works, let's add content" trap
-Adding more BattleActions, creatures, items, rooms is tempting because it shows visible progress. But content built on top of a system whose VISION isn't fully expressed yet (e.g., personality scoring still placeholder) is content the player won't feel. Make existing systems sing before adding more instruments.
+
+Adding more BattleActions, creatures, items, rooms is tempting because it shows visible progress. But content built on top of a system whose VISION isn't fully expressed yet is content the player won't feel. Make existing systems sing before adding more instruments.
 
 ---
 
@@ -150,20 +156,23 @@ Two alternating phases:
 
 **MEADOW (Home / Exhale)** — Nurture creatures, build and customize habitats, hatch eggs brought back from runs, watch creatures interact and bond, prep your party for the next descent.
 
-**RUINS (Descent / Inhale)** — Brain-driven autobattler combat where your party expresses who they've become, explore branching procedural chambers, find eggs and carry them back safely (risk/reward tension), collect loot to fuel meadow development, return safely or push deeper for rarer rewards.
+**RUINS (Descent / Inhale)** — Brain-driven autobattler combat with roguelite elements where your party expresses who they've become, explore branching procedural chambers, find eggs and carry them back safely (risk/reward tension), collect loot to fuel meadow development, return safely or push deeper for rarer rewards.
 
 ---
 
 ## Core Systems Design
 
 ### Bond System
+
 - Built through: shared runs, surviving together, meadow care
 - Affects combat: higher bond = different brain weights, stronger personality expression, potential combo behaviors with other bonded creatures
 - Affects growth: deeply bonded creatures develop different traits than neglected ones
 - Creates stakes: sending a bonded creature into danger feels different
 
 ### The Egg System
+
 Eggs are the primary way to acquire new creatures.
+
 - Found deeper in ruins — rarer eggs require greater depth
 - Carrying an egg home creates tension: push deeper for loot, or protect the egg?
 - Eggs must be nurtured in the meadow before hatching
@@ -171,11 +180,13 @@ Eggs are the primary way to acquire new creatures.
 - By the time a creature hatches, you've already invested in it
 
 ### Growth & Evolution
+
 - Threshold evolutions: buildup then transformation
 - Experience-shaped traits: run through fire encounters, develop fire-related traits
 - The biography: a creature's appearance, behavior, and traits form a readable history
 
 ### Habitat System
+
 - Each creature has a buildable habitat in the meadow
 - Habitat type may influence growth direction
 - Resources to build come from ruin runs — exploration has direct meadow impact
@@ -185,14 +196,17 @@ Eggs are the primary way to acquire new creatures.
 ## Technical Foundation
 
 ### Engine
+
 Godot 4.4, GDScript, JSON-driven data for creatures/moves/items.
 
+**JSON footgun:** `JSON.parse_string` returns numeric literals as **floats** (`5.0`, not `5`). Godot `Dictionary` lookups are type-strict, so `dict[5]` and `dict[5.0]` are different keys. When JSON data feeds an int-keyed lookup (enum maps, grade tables, type IDs), `int()`-cast at the boundary. Silent miss otherwise — `.get(default)` just returns the default and you'll chase a phantom for an hour.
+
 ### Architecture Lineage
+
 This project began as a port of **PokéSpire** — a Pokemon + Slay the Spire fan game. The card-based combat from PokéSpire was ported, then **deliberately demoted** when the vision crystallized around brain-driven autobattler combat. PokéSpire systems still in the codebase fall into three categories:
 
-- **Active** — `EffectExecutor`, `Status`, `ModifierHandler`, `Events`, `RNG`, `Utils`, `SFXPlayer`, `MusicPlayer`, `CardPile`. These work and are in use.
-- **Dormant** — `Card` base class and subclasses, `TypeChart`, individual card resources. Files exist on disk; not instantiated in combat. **Do not revive without vision review.**
-- **Vestigial** — `enemy_action_picker`, `EnemyAction` resources, `update_action()` stubs, `catching.gd`. Kept to avoid breaking references; functionally inert.
+- **Active** — `EffectExecutor`, `ModifierHandler`, `Events`, `RNG`, `Utils`, `SFXPlayer`, `MusicPlayer`. These work and are in use.
+- **Purged** (2026-05-12) — card system, EnemyAction picker hierarchy, TypeChart, status system, EnemyStats. Do not revive.
 
 When you encounter a PokéSpire-era system, check which category it falls in before extending it.
 
@@ -208,10 +222,16 @@ BaseCreature                    BattleActor
   └─ ActionQueue (meadow)         └─ ActionQueue (combat)
   └─ CreatureAnimationHandler     └─ Brain
   └─ CreatureStatHandler          └─ BattleAction[]
-  └─ EmotionSystem
+  └─ EmotionHandler (stateless)
+        ↓ both hold the same ↓
+              CreatureInstance
+                ├─ definition: CreatureDef    (static, JSON-baked)
+                ├─ identity:   CreatureIdentity (mutable: growth, bonds, moves)
+                ├─ health / block             (live combat state)
+                └─ emotions: Dictionary       (lives here, survives scene unloads)
 ```
 
-`BaseCreature` lives in `creatures/`, drives meadow behavior. `BattleActor` lives in `battles/`, drives combat behavior. `CreatureBattleUnit` extends `BattleActor` and holds `CreatureStats`, bridging the two worlds.
+`BaseCreature` lives in `creatures/`, drives meadow behavior. `BattleActor` lives in `battles/`, drives combat behavior. `CreatureBattleUnit` extends `BattleActor`; both it and `Enemy` hold a `CreatureInstance` — same resource shape party and enemies, built by `CreatureData.create_creature_instance(species_id)`.
 
 ### Combat Flow
 
@@ -221,29 +241,33 @@ queue_emptied → Brain.select_action()
                   ├─ filter battle_action_list by intent + can_execute()
                   └─ _pick_weighted() → BattleAction
               → BattleActor calls action.execute_action(self)
-              → action enqueues primitive (&"move", &"attack", &"brace", &"idle")
+              → action enqueues primitive (&"move", &"attack", &"projectile", &"idle")
               → BattleActor ticks the primitive until it calls action_queue.done()
               → repeat
 ```
 
 ### Current Action Roster
 
-| Action | Intent | Condition | Enqueues |
-|---|---|---|---|
-| `AttackAction` | AGGRESSIVE | in range | `&"attack"` |
-| `MoveTowardAction` | AGGRESSIVE | out of stop_distance | `&"move" mode:toward` |
-| `MoveAwayAction` | DEFENSIVE | closer than desired_distance | `&"move" mode:away` |
-| `BraceAction` | DEFENSIVE | always | `&"brace"` |
+| Action                 | Intent                  | Condition                    | Enqueues                                           |
+| ---------------------- | ----------------------- | ---------------------------- | -------------------------------------------------- |
+| `AttackAction`         | AGGRESSIVE              | in range                     | `&"strike"`                                        |
+| `DashAction`           | AGGRESSIVE or DEFENSIVE | out of stop_distance         | `&"dash" enum Mode { TOWARD, AWAY, LEFT, RIGHT }`  |
+| `MoveToAction`         | AGGRESSIVE or DEFENSIVE | closer than desired_distance | `&"move" enum Mode {TOWARD, AWAY, ORBITL, ORBITR}` |
+| `FireProjectileAction` | AGGRESSIVE or DEFENSIVE | closer than desired_distance | `&"projectile"`                                    |
+| `BraceAction`          | DEFENSIVE               | always                       | `&"brace"`                                         |
 
 ### What Is True Right Now
 
-- **The Brain exists** but `_evaluate_intent()` is 50/50 random. Personality scoring is the next vision-critical work.
-- **Cards are dormant** but their resources still exist on disk. Don't revive them in combat without vision review.
-- **The QTE system is wired but cosmetic** — outcomes don't affect damage yet. Wiring it to real damage is roadmap and vision-aligned (player-as-encourager, not operator).
-- **Stats exist as numbers** but their behavioral expression is minimal. The bridge from "stat number" to "visible behavior fingerprint" is the next big design layer.
+- **The core loop is closed (2026-05-30).** Meadow creature growth → ruins descent → combat (brain-driven, stats + behaviors + weights) → loot gain → boss fight → return all function end-to-end. The skeleton is whole; remaining work is **content, not plumbing** (care verbs, bonds, growth/evolution, elements, statuses, enemy/boss variety, ruins room types & biomes, roguelite depth, progression, polish). See [[project_content_roadmap]] for the categorized backlog. The failure mode to resist now is "architecture works, let's add content" decoupled from expression — every content add must ladder to making the raised creature visible (run it through The Lens).
+- **The Brain exists** as a proof of concept. A brave ember fights differently than a cautious one. Once there is more content like battle actions, actual goals in the ruins, and more concrete stat implementation, this should be revisited for more impactful weighting and expansion past just Courage weighting. Reads personality via `_actor.instance.identity.personality`.
+- **Cards are purged** (2026-05-12). Do not revive.
+- **The QTE system is functional but cosmetic/inert** — QTE while player is a present entity in the ruins is clunky and distracts from the main focus, the creature.
+- **Stats exist as numbers** but the eventual goal is behavioral expression. The bridge from "stat number" to "visible behavior fingerprint" is a necessary wiring once the content foundation is laid.
 - **The meadow has mechanical foundations** (creatures, food, items) but its emotional surface (bond, habitat, eggs, personality emergence) is largely stubbed.
-- **CreatureStats and EnemyStats are split.** May eventually unify but isn't urgent.
-- **Auto-seek is removed.** All movement is brain-driven via `&"move"`. If you see code re-introducing implicit movement, flag it as a vision violation.
+- **Creature data uses a three-tier split:** `CreatureDef` (static species template, `custom_resources/static/`), `CreatureIdentity` (mutable identity/growth/bonds/moves, `custom_resources/mutable/`), `CreatureInstance` (live per-creature state: health/block/emotions, `custom_resources/runtime/`). `EmotionHandler` is stateless and operates on `instance.emotions` — emotions survive scene unloads.
+- **`BaseCreature.instance` has a setter** that re-routes `creature_stat_handler.identity`, `creature_stat_handler.creature_uid`, and `emotion_handler.instance` whenever the instance is reassigned at runtime (e.g. when `meadow.setup(player_data)` hands the real instance in after `_ready` has already built a default via `_ensure_stats`). Anything else that holds derived refs to `instance.identity` or `instance.uid` should hook into `_wire_instance()` too.
+- **JSON keys must match runtime concepts.** `creatures.json` uses `"identity"` for the per-creature stat/personality block (was `"stat_block"` pre-2026-05-12 rename). Any new JSON key drift across a rename will silently load defaults — verify the factory reads what `creatures.json` writes.
+- **Auto-seek is removed.** All movement is brain-driven via `&"move"` or `&"dash"`. If you see code re-introducing implicit movement, flag it as a vision violation.
 
 ---
 
@@ -260,27 +284,36 @@ queue_emptied → Brain.select_action()
   brain.gd                      ← Stateless action selector
   battle_actions/
     attack_action.gd
-    move_toward_action.gd
-    move_away_action.gd
     brace_action.gd
+    dash_action.gd
+    fire_projectile_action.gd
+    move_to_action.gd
   enemy_handler.gd
-  battle.gd                     ← Scene orchestrator
+  party_handler.gd
+  creature_combat_handler.gd
 /creatures
   base_creature.gd              ← Meadow creature base
   creature_battle_unit.gd       ← Extends BattleActor, party unit in combat
   enemy.gd                      ← Extends BattleActor, enemy unit in combat
+  emotion_handler.gd            ← Stateless — operates on instance.emotions
   creature_animation_handler.gd
   creature_skin_handler.gd
+  creature_stat_handler.gd
 /custom_resources
-  action_queue.gd               ← Shared by meadow + combat
-  battle_action.gd              ← Action base resource
-  creature_stats.gd
-  enemy_stats.gd
-  stats.gd
-  creature_stat_block.gd
-  stat_block.gd
-  meadow_world_item.gd
-  creature_food.gd
+  /static                       ← Immutable, shared across instances
+    creature_def.gd             ← Species template (max_health, frames, moves)
+    encounter_def.gd
+    battle_action.gd
+    item_def.gd                 ← + food_def, fragment_def, etc.
+  /mutable                      ← Slow-changing, per-creature persistent data
+    creature_identity.gd        ← growth stats, personality, bonds, moves
+    creature_growth_stat.gd
+    personality.gd
+    player_data.gd
+  /runtime                      ← Live state, scene-transient OR per-creature
+    creature_instance.gd        ← health/block/emotions + def/identity refs
+    action_queue.gd
+    ruins_world_item.gd
 /data
   /creatures.json
   /moves.json
@@ -305,15 +338,18 @@ queue_emptied → Brain.select_action()
 
 - Sessions are short — prioritize tasks with a clear finish line.
 - One small completable goal per session beats sprawling open-ended work.
-- When porting from PokéSpire, adapt — don't just copy. Remove Pokemon IP and improve where obvious.
-- If something feels wrong architecturally OR misaligned with the vision, say so early rather than building on a shaky foundation.
-- The developer wants real engagement. Push back when something drifts from the vision. Disagree clearly when warranted. "That sounds great!" when something is mediocre is worse than useless.
+- Be a guiding hand when able, don't just provide the solution. Help the developer stay sharp by guiding away from overreliance.
+- Always prioritize clean code and good programming principles such as prioritizing Composition over Inheritance, SRP, Don't Repeat Yourself.
+- Design reusable SYSTEMS as opposed to bespoke one shots.
+- We're never too busy to clean house. Always look to clean up code that is being utilized in multiple places.
+- If something feels wrong architecturally OR misaligned with the vision, say so early rather than building on a shaky foundation. More time is saved tearing it down and building a strong base than forcing it to work and having to tear it down again later.
+- The developer wants real engagement. Push back when something drifts from the vision. Disagree clearly when warranted. "That sounds great!" when something is mediocre is worse than useless - it's active sabotage. The developer wants to IMPROVE. That means poking holes in design architecture and pushing back if a system, function, or goal is inefficient, hacky, or just plain wrong.
 
 ---
 
 ## When In Doubt
 
-Ask: *what would make the player feel the creature they raised?*
+Ask: _Does this provide a challenge or unique situation for the player to witness the influence of how they've raised their creature?_
 
 If the answer points one direction and the proposed change points another, the change is wrong. Even if it's clean. Even if it's clever. Even if it's idiomatic. Vision wins. Always.
 

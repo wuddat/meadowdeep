@@ -12,4 +12,6 @@ export_presets.cfg
 pokespireproj/
 pokespire/
 art/*
-!art/game_art
+art/game_art
+!art/game_art/concepts/*
+art/game_art/concepts/
