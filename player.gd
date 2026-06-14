@@ -21,6 +21,7 @@ var roll_direction:Vector2 = Vector2.ZERO
 var is_attacking:bool = false
 var _movement_enabled:bool = true
 var _last_facing_dir: String = ""
+var _is_petting: bool = false
 
 var _curr_anim_loop:int = 0
 var _max_pet_anim_loop: int = 4
@@ -46,9 +47,9 @@ func _ready() -> void:
 	_establish_connections()
 
 func _physics_process(delta):
+	_assign_z_to_y()
 	if not _movement_enabled:
 		return
-	_assign_z_to_y()
 	var input_vector = Vector2.ZERO
 
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -161,6 +162,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _pet_creature() -> void:
 	if not nearby_creature or nearby_creature.is_busy():
 		return
+	_is_petting = true
 	nearby_creature.be_pet()
 	_movement_enabled = false
 	sprite.play("pet")
@@ -176,6 +178,7 @@ func _on_animation_looped() -> void:
 		if nearby_creature:
 			nearby_creature.end_pet()
 		sprite.play("idle")
+		_is_petting = false
 	
 func _show_stat_view() -> void:
 	if not held_creature or not held_creature.get("instance"):
@@ -216,6 +219,9 @@ func _on_camera_target_requested(camera_target: Node) -> void:
 		_movement_enabled = true
 
 func _assign_z_to_y() -> void:
+	if _is_petting:
+		self.z_index = 1000
+		return
 	self.z_index = int(z_sort_pos.global_position.y)
 
 func _establish_connections() -> void:

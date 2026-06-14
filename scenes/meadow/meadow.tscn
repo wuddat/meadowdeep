@@ -59,7 +59,7 @@ metadata/_custom_type_script = "uid://b4saeaban3m3y"
 
 [sub_resource type="Resource" id="Resource_foo57"]
 script = ExtResource("24_u018s")
-pips = 80
+pips = 8
 id = "pwr_test_spawn"
 display_name = "pwr_test_spawn"
 description = "pwr_test_spawn"
