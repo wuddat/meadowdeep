@@ -7,7 +7,12 @@
       "Bash(sort -t'\"' -k4)",
       "Bash(uniq -f3)",
       "Bash(python3 -c ':*)",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\steve\\\\Desktop\\\\Code\\\\meadowdeep\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(rm -rf archive)",
+      "Bash(rm -f scenes/ruins/ruins_ui.tscn.gd scenes/ruins/ruins_ui.tscn.gd.uid)",
+      "Bash(git *)"
     ]
   }
 }

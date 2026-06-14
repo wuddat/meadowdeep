@@ -20,6 +20,10 @@ var roll_timer:float = 0.0
 var roll_direction:Vector2 = Vector2.ZERO
 var is_attacking:bool = false
 var _movement_enabled:bool = true
+var _last_facing_dir: String = ""
+
+var _curr_anim_loop:int = 0
+var _max_pet_anim_loop: int = 4
 
 var nearby_food: Node2D = null
 var nearby_creature: Node2D = null
@@ -78,6 +82,7 @@ func _physics_process(delta):
 			if input_vector.x != 0:
 				sprite.flip_h = input_vector.x < 0
 				shadow.flip_h = input_vector.x < 0
+				_last_facing_dir = "left" if input_vector.x < 0 else "right"
 				drop_position.position.x = _drop_offset_x * (-1.0 if sprite.flip_h else 1.0)
 				carry_position.position.x = _carry_offset_x * (-1.0 if sprite.flip_h else 1.0)
 				if carrying and held_creature:
@@ -116,6 +121,9 @@ func _physics_process(delta):
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if (event is InputEventKey and event.keycode == KEY_P and event.pressed and not event.echo):
+		_pet_creature()
+
 	if not (event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo):
 		return
 
@@ -126,10 +134,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		held_creature = null
 		_hide_stat_view()
 	elif nearby_creature:
-		nearby_creature.pickup(self)
-		held_creature = nearby_creature
-		nearby_creature = null
-		_show_stat_view()
+		if not nearby_creature.is_busy():
+			nearby_creature.pickup(self)
+			held_creature = nearby_creature
+			nearby_creature = null
+			_show_stat_view()
 	elif carried_food:
 		carried_food.global_position = drop_position.global_position
 		carried_food.drop()
@@ -149,7 +158,25 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif nearby_egg:
 		nearby_egg.begin_hatch()
 
+func _pet_creature() -> void:
+	if not nearby_creature or nearby_creature.is_busy():
+		return
+	nearby_creature.be_pet()
+	_movement_enabled = false
+	sprite.play("pet")
 
+func _on_animation_looped() -> void:
+	if sprite.animation != "pet":
+		return
+	if _curr_anim_loop < _max_pet_anim_loop:
+		_curr_anim_loop += 1
+	else:
+		_movement_enabled = true
+		_curr_anim_loop = 0
+		if nearby_creature:
+			nearby_creature.end_pet()
+		sprite.play("idle")
+	
 func _show_stat_view() -> void:
 	if not held_creature or not held_creature.get("instance"):
 		print("[StatView] no instance on held creature — panel skipped")
@@ -196,3 +223,5 @@ func _establish_connections() -> void:
 		sprite.frame_changed.connect(_on_frame_changed)
 	if not Events.camera_target_requested.is_connected(_on_camera_target_requested):
 		Events.camera_target_requested.connect(_on_camera_target_requested)
+	if not sprite.animation_looped.is_connected(_on_animation_looped):
+		sprite.animation_looped.connect(_on_animation_looped)

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ciojsm3e4u2k5" path="res://art/game_art/concepts/arch/arch_7_holding.png" id="4_u562n"]
 [ext_resource type="Texture2D" uid="uid://q3dar62uac7n" path="res://art/game_art/concepts/arch/final_arch/arch_carry_run_spritesheet.png" id="5_8b5tv"]
 [ext_resource type="Texture2D" uid="uid://dgw6xph4e2cjm" path="res://art/game_art/concepts/arch/final_arch/arch_walk_spritesheet.png" id="5_g5mh8"]
+[ext_resource type="Texture2D" uid="uid://h0tkol7rwu45" path="res://art/game_art/concepts/arch/final_arch/arch_petting_spritesheet.png" id="6_6nirf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u562n"]
 atlas = ExtResource("3_ejka7")
@@ -46,6 +47,18 @@ region = Rect2(210, 0, 35, 52)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vtw6e"]
 atlas = ExtResource("5_8b5tv")
 region = Rect2(245, 0, 35, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v852"]
+atlas = ExtResource("6_6nirf")
+region = Rect2(0, 0, 55, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnmat"]
+atlas = ExtResource("6_6nirf")
+region = Rect2(55, 0, 55, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mulyy"]
+atlas = ExtResource("6_6nirf")
+region = Rect2(110, 0, 55, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f3k5m"]
 atlas = ExtResource("5_g5mh8")
@@ -144,6 +157,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_4v852")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnmat")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mulyy")
+}],
+"loop": true,
+"name": &"pet",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_u562n")
 }],
 "loop": false,
@@ -197,9 +224,9 @@ texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
 sprite_frames = SubResource("SpriteFrames_2k1gd")
-animation = &"carry_run"
+animation = &"idle"
 autoplay = "run"
-frame_progress = 0.40157896
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
 unique_name_in_owner = true
