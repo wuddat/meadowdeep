@@ -195,6 +195,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"idle":
 			if not _being_pet:
 				creature_animation_handler.play_idle()
+			if _held_item:
+				toss_item(_held_item)
 			velocity = Vector2.ZERO
 			data["timer"] = randf_range(idle_time_min, idle_time_max)
 		&"wander":

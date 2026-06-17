@@ -1,0 +1,23 @@
+[gd_scene format=4 uid="uid://cv5wy47tlq6c6"]
+
+[ext_resource type="TileSet" uid="uid://cjsvgv11jyfq7" path="res://art/game_art/scenery/dungeon_tileset.tres" id="1_h2mho"]
+[ext_resource type="Script" uid="uid://dph2yhwxi0hbf" path="res://ruin_map_block.gd" id="2_barfm"]
+
+[node name="RuinMapBlock" type="TileMapLayer" unique_id=1028865105 node_paths=PackedStringArray("attach_points", "nav_points")]
+tile_map_data = PackedByteArray("AAAFAPz/AAACAAEAABAFAP3/AAACAAEAABAFAP7/AAACAAEAABAFAP//AAACAAEAABAFAAAAAAACAAEAABAFAAEAAAACAAEAABAFAAIAAAACAAEAABAFAAMAAAACAAEAABAFAAQAAAACAAEAABAFAAUAAAACAAEAABD///z/AAACAAEAAAD///3/AAACAAEAAAD///7/AAACAAEAAAD/////AAACAAEAAAD//wAAAAACAAEAAAD//wEAAAACAAEAAAD//wIAAAACAAEAAAD//wMAAAACAAEAAAD//wQAAAACAAEAAAD//wUAAAACAAEAAAD///v/AAACAAAAAAAFAPv/AAACAAAAABD+//v/AAABAAAAAAD9//v/AAABAAAAAAD8//v/AAABAAAAAAD7//v/AAABAAAAAAD6//v/AAABAAAAAAD5//v/AAABAAAAAAD4//v/AAABAAAAAAD3//v/AAABAAAAAAD2//v/AAABAAAAAAD2//X/AAABAAAAACD3//X/AAABAAAAACD4//X/AAABAAAAACD5//X/AAABAAAAACD6//X/AAABAAAAACD7//X/AAABAAAAACD8//X/AAABAAAAACD9//X/AAABAAAAACD+//X/AAABAAAAACD///X/AAABAAAAACAAAPX/AAABAAAAACABAPX/AAABAAAAACACAPX/AAABAAAAACADAPX/AAABAAAAACAEAPX/AAABAAAAACAOAPv/AAABAAAAABANAPv/AAABAAAAABAMAPv/AAABAAAAABALAPv/AAABAAAAABAKAPv/AAABAAAAABAJAPv/AAABAAAAABAIAPv/AAABAAAAABAHAPv/AAABAAAAABAGAPv/AAABAAAAABAFAPX/AAABAAAAACAGAPX/AAABAAAAACAHAPX/AAABAAAAACAIAPX/AAABAAAAACAJAPX/AAABAAAAACAKAPX/AAABAAAAACALAPX/AAABAAAAACAMAPX/AAABAAAAACANAPX/AAABAAAAACAOAPX/AAABAAAAACA=")
+tile_set = ExtResource("1_h2mho")
+script = ExtResource("2_barfm")
+attach_points = [NodePath("AttachPoint"), NodePath("AttachPoint2"), NodePath("AttachPoint3")]
+nav_points = [NodePath("NavPoint")]
+
+[node name="AttachPoint" type="Marker2D" parent="." unique_id=533008094]
+position = Vector2(80, 176)
+
+[node name="AttachPoint2" type="Marker2D" parent="." unique_id=1124616263]
+position = Vector2(-304, -240)
+
+[node name="AttachPoint3" type="Marker2D" parent="." unique_id=1962328827]
+position = Vector2(464, -240)
+
+[node name="NavPoint" type="Marker2D" parent="." unique_id=802791253]
+position = Vector2(80, -240)

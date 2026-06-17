@@ -154,7 +154,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [Vector2(17, 10)]
 }
 tracks/9/type = "method"
 tracks/9/imported = false
@@ -299,6 +299,48 @@ tracks/5/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_w1mro"]
+resource_name = "be_pet"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2, 0.5),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.04, 0.96), Vector2(1, 1), Vector2(0.96, 1.04), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.24926996, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureSkinHandler")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["slant", "smile"],
+"method": &"set_both"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_45v1c"]
 resource_name = "carrying"
 length = 1.4666667
@@ -354,7 +396,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(0, 6), Vector2(2, 7), Vector2(0, 6), Vector2(-2, 7)]
+"values": [Vector2(0, 0), Vector2(2, 1), Vector2(0, 0), Vector2(-2, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -407,7 +449,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_5crrt"]
 resource_name = "frolic"
-length = 0.4
+length = 0.7
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -416,10 +458,10 @@ tracks/0/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.03333334, 0.13333334, 0.23333335, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0.03333334, 0.13333334, 0.23333335, 0.33333334, 0.44, 0.54, 0.64, 0.74),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, -2), Vector2(2, 0), Vector2(0, 2), Vector2(-2, 0)]
+"values": [Vector2(0, -2), Vector2(2, 0), Vector2(0, 2), Vector2(-2, 0), Vector2(0, -2), Vector2(2, 0), Vector2(0, 2), Vector2(-2, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -428,10 +470,10 @@ tracks/1/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.03333334, 0.13333334, 0.23333335, 0.33333334),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0.03333334, 0.13333334, 0.23333335, 0.33333334, 0.44, 0.54, 0.64, 0.74),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 2), Vector2(-2, 0), Vector2(0, -2), Vector2(2, 0)]
+"values": [Vector2(0, 2), Vector2(-2, 0), Vector2(0, -2), Vector2(2, 0), Vector2(0, 2), Vector2(-2, 0), Vector2(0, -2), Vector2(2, 0)]
 }
 tracks/2/type = "method"
 tracks/2/imported = false
@@ -445,6 +487,44 @@ tracks/2/keys = {
 "values": [{
 "args": ["cl_tight", "grin"],
 "method": &"set_both"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, -9), Vector2(0, -9), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.8), Vector2(0.78125, 1.21875), Vector2(1, 0.9), Vector2(0.78125, 1.21875), Vector2(1, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CreatureAnimationHandler")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.19),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"footstep"
 }]
 }
 
@@ -465,29 +545,36 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -3)]
 }
 
-[sub_resource type="Animation" id="Animation_ok274"]
-resource_name = "on_hurt"
-length = 0.25
-tracks/0/type = "method"
+[sub_resource type="Animation" id="Animation_bcjtj"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CreatureSkinHandler")
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(2.3431145e-05, 0.01030032, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [],
-"method": &"reset_base"
-}, {
-"args": ["tears", "hurt"],
-"method": &"set_both"
-}, {
-"args": [],
-"method": &"reset_base"
-}]
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2, 0.5),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.04, 0.96), Vector2(1, 1), Vector2(0.96, 1.04), Vector2(1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.24926996, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0), Vector2(0, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4ktp7"]
+resource_name = "on_hurt"
 
 [sub_resource type="Animation" id="Animation_p73fv"]
 resource_name = "pickup"
@@ -541,10 +628,25 @@ tracks/3/keys = {
 "values": [Vector2(0, 18), Vector2(0, 17), Vector2(4.012948, 12.987052), Vector2(4.8914614, 10.108539)]
 }
 
+[sub_resource type="Animation" id="Animation_gfpqt"]
+resource_name = "pickup_item"
+length = 0.24
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.10197679, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.3019419605950192, 0.0]
+}
+
 [sub_resource type="Animation" id="Animation_hx68g"]
 resource_name = "punch"
-length = 0.5
-step = 0.0333
+length = 3.5
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -552,14 +654,11 @@ tracks/0/path = NodePath("CreatureSkinHandler")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.49821267),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": ["determined", "smile"],
-"method": &"set_both"
-}, {
-"args": [],
-"method": &"reset_base"
+"args": ["determined"],
+"method": &"set_eyes"
 }]
 }
 tracks/1/type = "value"
@@ -569,7 +668,7 @@ tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.06739837, 0.11753188, 0.13740523, 0.1451884, 0.15871377, 0.17678152, 0.26437157, 0.3620118, 0.48082584),
+"times": PackedFloat32Array(0, 0.6333333, 1.8449403, 1.8759159, 1.883699, 1.9, 1.9333333, 2.1333334, 2.5333333, 3.0938377),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-3, 0), Vector2(-3, 0), Vector2(-5, 0), Vector2(-5, 0), Vector2(12, 0), Vector2(12, 0), Vector2(14, 0), Vector2(9, 0), Vector2(0, 0)]
@@ -581,24 +680,10 @@ tracks/2/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.041289493, 0.12217216, 0.18235932, 0.23239915, 0.2657593, 0.31163603, 0.35527837),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.33247757, 0.7930657, 0.96666664, 1.1333333, 1.3666667, 1.5800309, 1.8301517, 1.9666667, 2.0666666, 2.1333334, 2.2333336, 2.4333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(4, 0), Vector2(0, 0), Vector2(-10, -9), Vector2(19, -2), Vector2(25, -2), Vector2(25, -2), Vector2(18, -2), Vector2(0, 0)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("CreatureAnimationHandler")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.20091218),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"emit_damage"
-}]
+"values": [Vector2(4, 0), Vector2(0, 0), Vector2(-10.442799, -5), Vector2(-12, -7), Vector2(-10, -4), Vector2(-8, -9), Vector2(-10.442799, -5), Vector2(-10, -9), Vector2(19, -2), Vector2(25, -2), Vector2(25, -2), Vector2(18, -2), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_5vuag"]
@@ -753,6 +838,55 @@ tracks/4/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_or6bf"]
+resource_name = "sleep"
+length = 1.0000033
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.76666665, 1),
+"transitions": PackedFloat32Array(0.26794344, 0.57434905, 1, 0.26794344),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(0.9, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.76666665, 1),
+"transitions": PackedFloat32Array(0.267, 0.57434905, 1, 0.26794344),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1), Vector2(0, 3), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureSkinHandler")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.46666667, 0.76666665),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": ["cl_soft", "hurt"],
+"method": &"set_both"
+}, {
+"args": ["open"],
+"method": &"set_mouth"
+}, {
+"args": ["hurt"],
+"method": &"set_mouth"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_t2q5c"]
 resource_name = "think"
 length = 2.45
@@ -791,6 +925,144 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(3, 0), Vector2(6, -2), Vector2(6.75, -2), Vector2(6, -2), Vector2(6, -2), Vector2(6, -2), Vector2(3, 0), Vector2(3, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mp7dq"]
+resource_name = "uppies"
+length = 0.7
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, -9), Vector2(0, -9), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.8), Vector2(0.78125, 1.21875), Vector2(1, 0.9), Vector2(0.78125, 1.21875), Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureAnimationHandler")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"footstep"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CreatureNode/CreatureTextures/LeftArm:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(23, -11), Vector2(24, -17.5), Vector2(28.16, -10.666667), Vector2(24, -10.000002), Vector2(24.701756, -8.495575)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CreatureNode/CreatureTextures/RightArm:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -6), Vector2(1.0000019, -11.25), Vector2(6.3999996, -6.5641026), Vector2(6, -7.7777777), Vector2(3.368421, -7.551622)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CreatureNode/CreatureTextures/Eyes:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, -1)]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CreatureSkinHandler")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["open"],
+"method": &"set_mouth"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_flnyy"]
+resource_name = "walk_hop"
+length = 0.70001
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CreatureNode/CreatureTextures:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, -9), Vector2(0, -9), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CreatureNode/CreatureTextures:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.8), Vector2(0.78125, 1.21875), Vector2(1, 0.9), Vector2(0.78125, 1.21875), Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CreatureAnimationHandler")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"footstep"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_v1wfr"]
@@ -877,20 +1149,26 @@ tracks/5/keys = {
 }]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ws817"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ok274"]
 _data = {
 &"RESET": SubResource("Animation_i8k6i"),
 &"absorb_item": SubResource("Animation_w4qan"),
+&"be_pet": SubResource("Animation_w1mro"),
 &"carrying": SubResource("Animation_45v1c"),
 &"eat": SubResource("Animation_tpqfy"),
 &"frolic": SubResource("Animation_5crrt"),
 &"hover": SubResource("Animation_ode48"),
-&"on_hurt": SubResource("Animation_ok274"),
+&"idle": SubResource("Animation_bcjtj"),
+&"on_hurt": SubResource("Animation_4ktp7"),
 &"pickup": SubResource("Animation_p73fv"),
+&"pickup_item": SubResource("Animation_gfpqt"),
 &"punch": SubResource("Animation_hx68g"),
 &"roar": SubResource("Animation_5vuag"),
 &"sad": SubResource("Animation_4cryv"),
+&"sleep": SubResource("Animation_or6bf"),
 &"think": SubResource("Animation_t2q5c"),
+&"uppies": SubResource("Animation_mp7dq"),
+&"walk_hop": SubResource("Animation_flnyy"),
 &"wave": SubResource("Animation_v1wfr")
 }
 
@@ -914,10 +1192,13 @@ collider = NodePath("CollisionShape2D")
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
 
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1297873367]
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=851082528 node_paths=PackedStringArray("emotion_display", "emotion_player", "particles")]
 unique_name_in_owner = true
-libraries/ = SubResource("AnimationLibrary_ws817")
+libraries/ = SubResource("AnimationLibrary_ok274")
 script = ExtResource("23_rlrki")
+emotion_display = NodePath("")
+emotion_player = NodePath("")
+particles = NodePath("")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 unique_name_in_owner = true
@@ -932,8 +1213,7 @@ scale = Vector2(0.96875, 1)
 texture = ExtResource("8_kdnho")
 
 [node name="CreatureNode" type="Node2D" parent="." unique_id=679157180]
-position = Vector2(1, 4)
-scale = Vector2(0.96875, 1)
+unique_name_in_owner = true
 
 [node name="CreatureTextures" parent="CreatureNode" unique_id=969795458 instance=ExtResource("12_83sfk")]
 unique_name_in_owner = true
@@ -945,6 +1225,9 @@ position = Vector2(-7, 9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CreatureNode/CreatureTextures/LeftArm/Hitbox" unique_id=1791354512]
 shape = SubResource("CircleShape2D_ji0g7")
+
+[node name="HoldPos" parent="CreatureNode/CreatureTextures" index="4" unique_id=317333411]
+position = Vector2(17, 10)
 
 [node name="ProjectileSpawn" type="Marker2D" parent="CreatureNode/CreatureTextures" unique_id=449928542]
 unique_name_in_owner = true

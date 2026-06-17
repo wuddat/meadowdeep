@@ -114,8 +114,10 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			var mod:Modifier = modifier_handler.get_modifier(Modifier.Type.DMG_TAKEN)
 			var dur:float = data["duration"]
 			mod.add_new_value(ModifierValue.Type.PERCENTAGE, &"counter", -50, dur)
+		_:
+			print("[BATTLEACTOR]: end of _on_action_start")
 
-
+#Unused for now
 func _check_battle_triggers() -> void:
 	pass
 

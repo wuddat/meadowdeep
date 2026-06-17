@@ -3,8 +3,15 @@
 class_name CreatureBattleUnit
 extends BattleActor
 
+signal navigation_node_requested(pos: Vector2)
+
+enum State { FOLLOW, COMBAT, NAVIGATE }
 
 const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
+const NAV_ARRIVE_DISTANCE: float = 8.0
+const WALL_LAYER: int = 1 << 3  # collision layer 4
+const MOVE_SFX = preload("uid://dlxj66hun1l4t")
+
 
 @export var spawn_position: String
 @export var sprite_frames: SpriteFrames
@@ -17,7 +24,9 @@ const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 @onready var hitbox: Area2D = %Hitbox
 @onready var creature_skin_handler: CreatureSkinHandler = %CreatureSkinHandler
 @onready var status_graphic: Sprite2D = %StatusGraphic
+@onready var creature_node: Node2D = %CreatureNode
 
+var state: State = State.FOLLOW
 
 var health_bar_ui: Node = null
 var _queued_health_bar_ui: Node = null
@@ -32,6 +41,9 @@ const FOLLOW_DISTANCE := 48.0
 const ACTION_INTERVAL: float = 0.4
 
 var _following_player: bool = false
+var nav_target: Node = null
+
+@export var debug_draw_nav: bool = true
 
 var is_snared: bool = false
 
@@ -49,10 +61,18 @@ func _ready() -> void:
 		if instance:
 			creature_skin_handler.identity = instance.identity
 			creature_skin_handler.refresh_palette()
+	set_state("follow")
 
-	# Default behavior outside combat: follow the player.
-	start_following_player()
-
+func set_state(new_state: String) -> void:
+	action_queue.clear()
+	match new_state:
+		"follow":
+			state = State.FOLLOW
+		"combat":
+			state = State.COMBAT
+		"navigate":
+			nav_target = null
+			state = State.NAVIGATE
 
 func start_combat() -> void:
 	_action_fill = action_timer.get_node("Fill")
@@ -84,17 +104,29 @@ func stop_following_player() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if _in_combat:
-		super(delta)
-		return
-	if not _following_player or is_snared:
+	if state == State.FOLLOW:
+		if _in_combat:
+			stop_combat()
+		if not _following_player:
+			start_following_player()
+	elif state == State.COMBAT:
+		if not _in_combat:
+			start_combat()
+			super(delta)
+			return
+	elif state == State.NAVIGATE:
+		if not is_instance_valid(nav_target):
+			navigation_node_requested.emit(global_position)
+		if not action_queue.current_action == &"navigate":
+			action_queue.enqueue(&"navigate", {})
+		if debug_draw_nav:
+			queue_redraw()
+	if is_snared or state == State.COMBAT:
 		return
 	_tick_current_action(delta)
 	_decay_knockback(delta)
 	velocity = base_velocity + knockback_velocity
 	move_and_slide()
-
-
 
 
 
@@ -105,13 +137,18 @@ func _tick_current_action(delta: float) -> void:
 			&"idle":       _tick_idle(current["data"], delta)
 			&"seek":       _tick_seek_player(current["data"], delta)
 			&"tackle":     _tick_contact_damage_action(current["data"], delta)
+			&"navigate":   _tick_navigate(current["data"], delta)
 			_:             super(delta)
 
 
 func _on_action_start(id: StringName, data: Dictionary) -> void:
+	if creature_animation_handler and not creature_animation_handler.move_SFX:
+		creature_animation_handler.move_SFX = MOVE_SFX
 	if action_name:
 		action_name.text = String(id).capitalize()
 	match id:
+		&"idle":
+			_try_play_animation(&"idle")
 		&"seek":       _play_animation(&"idle")
 		&"strike":     _run_one_damage_frame_action(data)
 		&"tackle":     
@@ -121,6 +158,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			_play_animation(&"buff") 
 			for buff in data["buffs"]:
 				modifier_handler.add_timed_value(buff.mod, buff.mod_type, buff.source, buff.amount, buff.duration)
+		&"navigate":
+			_try_play_animation(&"walk_hop")
 		_:             super(id, data)
 
 
@@ -161,21 +200,47 @@ func _tick_contact_damage_action(data: Dictionary, delta) -> void:
 				EffectExecutor.run(effects, [body], self)
 				_already_damaged_bodies.append(body)
 
+func _tick_navigate(data: Dictionary, _delta: float) -> void:
+	if not is_instance_valid(nav_target):
+		base_velocity = Vector2.ZERO
+		_try_play_animation(&"idle")
+		return
+	var to_target: Vector2 = nav_target.global_position - global_position
+	if to_target.length() <= NAV_ARRIVE_DISTANCE:
+		base_velocity = Vector2.ZERO
+		nav_target = null
+		return
+	var desired := to_target.normalized()
+	# deflect off walls (layer 4) hit last frame so we don't grind into a jamb/corner.
+	# ignore enemies/other bodies so they don't steer the creature.
+	for i in get_slide_collision_count():
+		var col := get_slide_collision(i)
+		var collider := col.get_collider()
+		if not (collider is CollisionObject2D) or (collider.collision_layer & WALL_LAYER) == 0:
+			continue
+		var n := col.get_normal()
+		if desired.dot(n) < 0.0:
+			desired = desired.slide(n)
+	base_velocity = desired.normalized() * _current_movespeed if desired.length() > 0.01 else Vector2.ZERO
+	_try_play_animation(&"walk_hop")
+	_face_direction(base_velocity)
+		
+
 func _tick_seek_player(data: Dictionary, _delta: float) -> void:
 	var player := _get_player()
 	var follow_dist: float = data.get("distance", FOLLOW_DISTANCE)
 	if not is_instance_valid(player):
 		base_velocity = Vector2.ZERO
-		_play_animation(&"idle")
+		_try_play_animation(&"idle")
 		return
 	var to_player: Vector2 = player.global_position - global_position
 	var dist := to_player.length()
 	if dist <= follow_dist:
 		base_velocity = Vector2.ZERO
-		_play_animation(&"idle")
+		_try_play_animation(&"idle")
 		return
 	base_velocity = to_player.normalized() * _current_movespeed
-	_play_animation(&"run")
+	_try_play_animation(&"walk_hop")
 	_face_direction(base_velocity)
 
 func _tick_strike(data: Dictionary, delta: float) -> void:
@@ -225,7 +290,16 @@ func play_animation(anim_name: StringName) -> void:
 
 
 func _face_direction(vel: Vector2) -> void:
-	creature_textures.scale.x = -1.0 if vel.x < 0 else 1.0
+	creature_node.scale.x = -1.0 if vel.x < 0 else 1.0
+
+
+func _draw() -> void:
+	if not debug_draw_nav or state != State.NAVIGATE or not is_instance_valid(nav_target):
+		return
+	# root node isn't flipped (only creature_node is), so local coords are safe
+	var local_target := to_local(nav_target.global_position)
+	draw_line(Vector2.ZERO, local_target, Color.YELLOW, 2.0)
+	draw_circle(local_target, 4.0, Color.RED)
 
 
 
@@ -233,6 +307,9 @@ func _update_action_timer_ui(remaining: float) -> void:
 	if _action_fill:
 		_action_fill.size.x = action_timer.size.x * (1.0 - remaining / _get_action_interval())
 
+func _try_play_animation(anim_name: StringName) -> void:
+	if creature_animation_handler and creature_animation_handler.current_animation != anim_name:
+			creature_animation_handler.play(anim_name)
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
