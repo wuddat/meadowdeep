@@ -75,11 +75,15 @@ func set_state(new_state: String) -> void:
 			state = State.NAVIGATE
 
 func start_combat() -> void:
+	base_velocity = Vector2.ZERO
 	_action_fill = action_timer.get_node("Fill")
 	action_name.text = ""
 	_following_player = false
 	action_queue.clear()
 	super()
+	var target := _get_target()
+	if is_instance_valid(target):
+		_face_direction(target.global_position - global_position)
 
 
 func stop_combat() -> void:
@@ -112,8 +116,9 @@ func _physics_process(delta: float) -> void:
 	elif state == State.COMBAT:
 		if not _in_combat:
 			start_combat()
+		if not is_snared:
 			super(delta)
-			return
+		return
 	elif state == State.NAVIGATE:
 		if not is_instance_valid(nav_target):
 			navigation_node_requested.emit(global_position)
@@ -437,7 +442,6 @@ func snare() -> void:
 func unsnare() -> void:
 	status_graphic.visible = false
 	is_snared = false
-	print("[IDLE]: unSNARE")
 	action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 	Events.creature_freed.emit(self)
 

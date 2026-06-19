@@ -40,8 +40,6 @@ func _ready() -> void:
 
 func start_combat() -> void:
 	_in_combat = true
-	if self is CreatureBattleUnit:
-		print("[IDLE]: combat start")
 	action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
 
@@ -72,26 +70,26 @@ func _on_queue_emptied() -> void:
 		return
 	if brain == null or battle_action_list.is_empty():
 		if self is CreatureBattleUnit:
-			print("[IDLE]: brain NULL or action_list EMPTY")
+			push_warning("[IDLE]: brain NULL or action_list EMPTY")
 		action_queue.enqueue(&"idle", {"timer": BRAIN_DELAY})
 		return
 	var chosen := brain.select_action()
 	if chosen == null:
 		if self is CreatureBattleUnit:
-			print("[IDLE]: _queue_emptied chosen == null")
+			push_warning("[IDLE]: _queue_emptied chosen == null")
 		action_queue.enqueue(&"idle", {"timer": BRAIN_DELAY})
 		return
 	var steps := chosen.build_steps(self)
 	if steps.is_empty():
 		if self is CreatureBattleUnit:
-			print("[IDLE]: steps.is_empty")
+			push_warning("[IDLE]: steps.is_empty")
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 		return
 	for step in steps:
 		action_queue.enqueue(step["id"], step["data"])
 	if action_queue.peek().is_empty():
 		if self is CreatureBattleUnit:
-			print("[IDLE]: action_queue.peek().is_empty():")
+			push_warning("[IDLE]: action_queue.peek().is_empty():")
 		action_queue.enqueue(&"idle", {"timer": _get_action_interval()})
 
 
@@ -278,8 +276,6 @@ func apply_knockback(source_pos: Vector2, strength: float = -1.0) -> void:
 			if not creature_animation_handler.is_playing():
 				creature_animation_handler.RESET()
 				creature_animation_handler.play("on_hurt")
-		if self is CreatureBattleUnit:
-			print("[IDLE]: apply_knockback")
 		if action_queue.current_action != &"idle":
 			action_queue.clear()
 			action_queue.enqueue(&"idle", {"timer": 0.1})

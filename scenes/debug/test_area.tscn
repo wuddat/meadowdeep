@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ck2pkpxx26f1n"]
 
-[ext_resource type="Script" uid="uid://xoc2pwqeqc3v" path="res://scenes/debug/test_map_generator_root.gd" id="1_6buml"]
+[ext_resource type="Script" uid="uid://xoc2pwqeqc3v" path="res://scenes/debug/test_area.gd" id="1_6buml"]
 [ext_resource type="Script" uid="uid://dhrofm80oe52v" path="res://scenes/debug/test_map_generator.gd" id="2_qgbgy"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="3_78un0"]
 [ext_resource type="Script" uid="uid://cjqjp8fjbha1r" path="res://scenes/debug/ruin_map_assembler.gd" id="4_3wu3x"]
@@ -9,11 +9,20 @@
 [ext_resource type="PackedScene" uid="uid://46ndpkc5etc8" path="res://scenes/ruins/ruin_map_blocks/corner_block_1.tscn" id="7_cmp30"]
 [ext_resource type="PackedScene" uid="uid://cv5wy47tlq6c6" path="res://scenes/ruins/ruin_map_blocks/t_block_1.tscn" id="8_poicf"]
 [ext_resource type="PackedScene" uid="uid://cwial0uhsvvxd" path="res://scenes/ruins/ruin_map_blocks/x_block_1.tscn" id="9_ikjfj"]
+[ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="10_qgbgy"]
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="10_sbpa6"]
 [ext_resource type="Resource" uid="uid://dmj4y8go643i6" path="res://data/test_player_data.tres" id="11_lwtph"]
+[ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="11_xtb2t"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="12_cmp30"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="12_ldiwu"]
 [ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="13_0iv2w"]
+[ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="13_poicf"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="14_fahna"]
+[ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="14_ikjfj"]
+
+[sub_resource type="Resource" id="Resource_sbpa6"]
+script = ExtResource("12_cmp30")
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6buml"]
 radius = 64.0
@@ -29,6 +38,16 @@ encounter_pool = ExtResource("3_78un0")
 script = ExtResource("4_3wu3x")
 creature = NodePath("../CreatureBattleUnit")
 block_scenes = Array[PackedScene]([ExtResource("5_4axnl"), ExtResource("6_xtb2t"), ExtResource("7_cmp30"), ExtResource("8_poicf"), ExtResource("9_ikjfj")])
+
+[node name="EnemyHandler" type="Node2D" parent="." unique_id=1427632466 groups=["enemy_handler"]]
+unique_name_in_owner = true
+script = ExtResource("10_qgbgy")
+player_data = SubResource("Resource_sbpa6")
+enemy_scene = ExtResource("13_poicf")
+
+[node name="CreatureCombatHandler" type="Node" parent="." unique_id=1391428805]
+unique_name_in_owner = true
+script = ExtResource("14_ikjfj")
 
 [node name="Maze" type="Node2D" parent="." unique_id=1006488204]
 

@@ -3,12 +3,16 @@
 [ext_resource type="TileSet" uid="uid://cjsvgv11jyfq7" path="res://art/game_art/scenery/dungeon_tileset.tres" id="1_fviw3"]
 [ext_resource type="Script" uid="uid://dph2yhwxi0hbf" path="res://ruin_map_block.gd" id="2_1cc71"]
 
-[node name="RuinMapBlock" type="TileMapLayer" unique_id=1028865105 node_paths=PackedStringArray("attach_points", "nav_points")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fviw3"]
+size = Vector2(160, 160)
+
+[node name="RuinMapBlock" type="TileMapLayer" unique_id=1028865105 node_paths=PackedStringArray("attach_points", "nav_points", "combat_trigger_area")]
 tile_map_data = PackedByteArray("AADY//j/AAAAAAMAAADY//n/AAAAAAQAAADZ//j/AAABAAMAAADZ//n/AAABAAQAAADa//j/AAACAAMAAADa//n/AAACAAQAAADb//j/AAADAAMAAADb//n/AAADAAQAAADc//j/AAAEAAMAAADc//n/AAAEAAQAAADd//j/AAAFAAMAAADd//n/AAAFAAQAAADe//j/AAAGAAMAAADe//n/AAAGAAQAAAD8//X/AAABAAAAACD8//v/AAABAAAAAAAFAPz/AAACAAEAABAFAAIAAAACAAEAABD2//X/AAABAAAAACD2//v/AAABAAAAAAD3//X/AAABAAAAACD3//v/AAABAAAAAAD4//X/AAABAAAAACD4//v/AAABAAAAAAD5//X/AAABAAAAACD5//v/AAABAAAAAAD6//X/AAABAAAAACD6//v/AAABAAAAAAD7//X/AAABAAAAACD7//v/AAABAAAAAAD9//X/AAABAAAAACD9//v/AAABAAAAAAD+//X/AAABAAAAACD+//v/AAABAAAAAAD//+v/AAACAAEAAAD//+z/AAACAAEAAAD//+3/AAACAAEAAAD//+7/AAACAAEAAAD//+//AAACAAEAAAD///D/AAACAAEAAAD///H/AAACAAEAAAD///L/AAACAAEAAAD///P/AAACAAEAAAD///T/AAACAAEAAAD///X/AAACAAAAACD///v/AAACAAAAAAD///z/AAACAAEAAAD///3/AAACAAEAAAD///7/AAACAAEAAAD/////AAACAAEAAAD//wAAAAACAAEAAAD//wEAAAACAAEAAAD//wIAAAACAAEAAAD//wMAAAACAAEAAAD//wQAAAACAAEAAAD//wUAAAACAAEAAAAFAOv/AAACAAEAABAFAOz/AAACAAEAABAFAO3/AAACAAEAABAFAO7/AAACAAEAABAFAO//AAACAAEAABAFAPD/AAACAAEAABAFAPH/AAACAAEAABAFAPL/AAACAAEAABAFAPP/AAACAAEAABAFAPT/AAACAAEAABAFAPX/AAACAAAAADAFAPv/AAACAAAAABAFAP3/AAACAAEAABAFAP7/AAACAAEAABAFAP//AAACAAEAABAFAAAAAAACAAEAABAFAAEAAAACAAEAABAFAAMAAAACAAEAABAFAAQAAAACAAEAABAFAAUAAAACAAEAABAGAPX/AAABAAAAACAGAPv/AAABAAAAABAHAPX/AAABAAAAACAHAPv/AAABAAAAABAIAPX/AAABAAAAACAIAPv/AAABAAAAABAJAPX/AAABAAAAACAJAPv/AAABAAAAABAKAPX/AAABAAAAACAKAPv/AAABAAAAABALAPX/AAABAAAAACALAPv/AAABAAAAABAMAPX/AAABAAAAACAMAPv/AAABAAAAABANAPX/AAABAAAAACANAPv/AAABAAAAABAOAPX/AAABAAAAACAOAPv/AAABAAAAABA=")
 tile_set = ExtResource("1_fviw3")
 script = ExtResource("2_1cc71")
 attach_points = [NodePath("AttachPoint"), NodePath("AttachPoint2"), NodePath("AttachPoint3"), NodePath("AttachPoint4")]
 nav_points = [NodePath("NavPoint")]
+combat_trigger_area = NodePath("Area2D")
 
 [node name="AttachPoint" type="Marker2D" parent="." unique_id=533008094]
 position = Vector2(80, 176)
@@ -24,3 +28,23 @@ position = Vector2(80, -656)
 
 [node name="NavPoint" type="Marker2D" parent="." unique_id=188942662]
 position = Vector2(80, -232)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1526475071]
+position = Vector2(80, 176)
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1311670481]
+shape = SubResource("RectangleShape2D_fviw3")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" unique_id=265681362]
+position = Vector2(384, -416)
+shape = SubResource("RectangleShape2D_fviw3")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D" unique_id=608919310]
+position = Vector2(-384, -416)
+shape = SubResource("RectangleShape2D_fviw3")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D" unique_id=990473614]
+position = Vector2(0, -832)
+shape = SubResource("RectangleShape2D_fviw3")

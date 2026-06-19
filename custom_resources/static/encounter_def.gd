@@ -6,6 +6,7 @@ extends Resource
 @export_range(0.0, 10.0) var weight: float
 
 @export var spawn_layout: PackedScene   # Scene that defines enemy count and placement
+@export var spawn_coords: Array[Vector2]
 @export var is_boss: bool = false
 @export var min_enemies: int = 1
 @export var max_enemies: int = 1

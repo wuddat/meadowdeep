@@ -92,9 +92,10 @@ func _spawn(room:Room, container: Node2D) -> RuinMapBlock:
 		push_warning("RuinBlockAssembler: Unmatched shape %s @ %s" % [key, room.grid_pos])
 		return null
 	var entry: Dictionary = _catalog[key]
-	var block := (entry["scene"] as PackedScene).instantiate() as RuinMapBlock
+	var block:RuinMapBlock = (entry["scene"] as PackedScene).instantiate() as RuinMapBlock
 	container.add_child(block)
 	block.rotation = entry["rotation"]
+	block.room = room
 	return block
 
 

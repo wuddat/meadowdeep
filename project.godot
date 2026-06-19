@@ -23,7 +23,6 @@ buses/default_bus_layout="uid://b8wr0hwoqop4v"
 [autoload]
 
 Events="*uid://bjprdav8m6dv5"
-SaveMgr="*uid://c5i8cf1r1tqr3"
 RNG="*uid://c1fxnlev86vbu"
 Shaker="*uid://buj7kaqos1l3l"
 ActionData="*uid://caf6ahbhbist5"
@@ -33,6 +32,7 @@ MusicPlayer="*res://global/music_player.tscn"
 SFXPlayer="*uid://dh8pu62u743l5"
 QTEController="*uid://bbb5qqrujky84"
 EffectExecutor="*uid://bxd3rx826sv1s"
+SaveMgr="*uid://c5i8cf1r1tqr3"
 
 [display]
 

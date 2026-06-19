@@ -23,7 +23,7 @@ func set_character(new_player_data: PlayerData) -> void:
 	player_data = new_player_data
 
 
-func setup_enemies(bat_stats: EncounterDef) -> void:
+func setup_enemies(bat_stats: EncounterDef, spawn_points: Array[Vector2] = []) -> void:
 	if not bat_stats:
 		return
 	encounter = bat_stats.duplicate()
@@ -35,13 +35,11 @@ func setup_enemies(bat_stats: EncounterDef) -> void:
 	if not encounter.spawn_layout:
 		push_error("EnemyHandler: EncounterDef.enemies PackedScene is not set")
 		return
-	if _is_boss(species_ids):
+	if _is_boss(species_ids, spawn_points):
 		return
-	var spawn_layout = encounter.spawn_layout.instantiate()
-	var enemy_nodes = spawn_layout.get_children()
-	for i in range(min(species_ids.size(), enemy_nodes.size())):
-		_spawn_enemy(species_ids[i], enemy_nodes[i])
-	spawn_layout.queue_free()
+	var count: int = min(species_ids.size(), spawn_points.size())
+	for i in range(count):
+		spawn_enemy(species_ids[i], spawn_points[i])
 
 
 func start_combat() -> void:
@@ -49,16 +47,14 @@ func start_combat() -> void:
 		enemy.start_combat()
 
 
-func _spawn_enemy(species_id: String, enemy_spawn_node: Node2D, scene: PackedScene = enemy_scene) -> void:
-	if not is_instance_valid(enemy_spawn_node):
-		return
+func spawn_enemy(species_id: String, spawn_pos: Vector2, scene: PackedScene = enemy_scene) -> void:
 	if not scene:
 		push_error("EnemyHandler: enemy_scene is not set in the inspector")
 		return
 
 	var enemy: Enemy = scene.instantiate()
-	if enemy_spawn_node:
-		enemy.global_position = enemy_spawn_node.global_position
+	if spawn_pos:
+		enemy.global_position = spawn_pos
 
 	var instance: CreatureInstance = CreatureData.create_creature_instance(species_id)
 	if not instance:
@@ -88,11 +84,9 @@ func _on_enemy_fainted(enemy: Enemy) -> void:
 func get_enemies() -> Array[Node]:
 	return get_children()
 
-func _is_boss(species_ids) -> bool:
+func _is_boss(species_ids, spawn_points: Array[Vector2]) -> bool:
 	if encounter is BossEncounterDef and encounter.boss_scene:
-		var spawn_node := Node2D.new()
-		spawn_node.position = encounter.spawn_coords
-		_spawn_enemy(species_ids[0], spawn_node, encounter.boss_scene)
-		spawn_node.queue_free()
+		var pos: Vector2 = spawn_points[0] if not spawn_points.is_empty() else global_position
+		spawn_enemy(species_ids[0], pos, encounter.boss_scene)
 		return true
 	return false

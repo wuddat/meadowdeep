@@ -23,22 +23,10 @@ func select_action() -> BattleAction:
 			return a.intent == intent and a.can_execute(_actor) and _gcd_check(a, now)
 	)
 
-	var intent_pool_size := pool.size()
-
 	if pool.is_empty():
 		pool = _actor.battle_action_list.filter(
 			func(a: BattleAction) -> bool: return a.can_execute(_actor) and _gcd_check(a,now)
 		)
-
-	if _actor is CreatureBattleUnit:
-		var executable := _actor.battle_action_list.filter(
-			func(a: BattleAction) -> bool: return a.can_execute(_actor)
-		).size()
-		print("[BRAIN] intent=%s intent_pool=%d fallback_pool=%d | total=%d can_execute=%d gcd_blocked=%s (now=%.2f ready_in=%.2f)" % [
-			BattleAction.Intent.keys()[intent], intent_pool_size, pool.size(),
-			_actor.battle_action_list.size(), executable,
-			str(now < _gcd_ready_in), now, _gcd_ready_in
-		])
 
 	var chosen := _pick_weighted(pool)
 	if chosen and chosen.on_gcd:

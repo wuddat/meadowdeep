@@ -7,9 +7,20 @@ extends Node
 const ACTIONS_ROOT := "res://battles/battle_actions"
 
 var _actions: Dictionary = {}  # id (String) → BattleAction
+var _scanned: bool = false
 
 
 func _ready() -> void:
+	_ensure_scanned()
+
+
+# Scan lazily on first access. Autoload _ready order isn't guaranteed before
+# scene-export hydration (e.g. SaveMgr boot-resume loads a scene before this
+# autoload is even constructed), so any accessor self-initializes the registry.
+func _ensure_scanned() -> void:
+	if _scanned:
+		return
+	_scanned = true
 	_scan_dir(ACTIONS_ROOT)
 
 
@@ -56,10 +67,12 @@ func _register(res_path: String, id: String) -> void:
 
 
 func get_action(id: String) -> BattleAction:
+	_ensure_scanned()
 	return _actions.get(id)
 
 
 func get_actions(ids: Array) -> Array[BattleAction]:
+	_ensure_scanned()
 	var out: Array[BattleAction] = []
 	for id in ids:
 		var m := get_action(id)
@@ -71,8 +84,10 @@ func get_actions(ids: Array) -> Array[BattleAction]:
 
 
 func has_action(id: String) -> bool:
+	_ensure_scanned()
 	return _actions.has(id)
 
 
 func all_ids() -> Array:
+	_ensure_scanned()
 	return _actions.keys()

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dl4u7eflxg1fh"]
 
 [ext_resource type="Script" uid="uid://dhrofm80oe52v" path="res://scenes/debug/test_map_generator.gd" id="1_1mlnh"]
-[ext_resource type="Script" uid="uid://xoc2pwqeqc3v" path="res://scenes/debug/test_map_generator_root.gd" id="1_4slwm"]
+[ext_resource type="Script" uid="uid://xoc2pwqeqc3v" path="res://scenes/debug/test_area.gd" id="1_4slwm"]
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="1_m038x"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="2_1mlnh"]
 [ext_resource type="Script" uid="uid://cjqjp8fjbha1r" path="res://scenes/debug/ruin_map_assembler.gd" id="2_kx4uo"]

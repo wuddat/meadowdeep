@@ -17,6 +17,7 @@ func is_complete(handler: EnemyHandler) -> bool:
 	return _remaining <= 0 and handler.get_enemies().is_empty()
 
 func _refill(handler: EnemyHandler) -> void:
-	while handler.get_enemies().size() < max_active and _remaining > 0:
-		handler.spawn_enemy(_pick_species(1)[0], _pick_spawn_point())
-		_remaining -= 1
+	pass
+	#while handler.get_enemies().size() < max_active and _remaining > 0:
+		#handler.spawn_enemy(_pick_species(1)[0], _pick_spawn_point())
+		#_remaining -= 1
