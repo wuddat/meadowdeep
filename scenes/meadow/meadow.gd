@@ -3,7 +3,7 @@ extends Node2D
 
 const MEADOW_WORLD_ITEM := preload("uid://d4g4hbpijemuw")
 const MEADOW_CREATURE_SCN := preload("uid://bio1g4lsk4beu")
-const MEADOW = preload("uid://byyiynr17r81x")
+const MEADOW_LOOP = preload("uid://7fru4w84gh5m")
 
 const SPAWN_COORDS: Array[Vector2] = [Vector2(486,331), Vector2(461,336), Vector2(631,461)]
 
@@ -21,7 +21,7 @@ const START_LOOT_SPAWN_DELAY := 3.0
 var player_data: PlayerData
 
 func _ready() -> void:
-	MusicPlayer.play(MEADOW)
+	MusicPlayer.play(MEADOW_LOOP)
 
 
 func setup(run_data: PlayerData) -> void:

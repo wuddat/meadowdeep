@@ -31,5 +31,5 @@ func _cardinal(marker_coords: Vector2) -> StringName:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is CreatureBattleUnit and room and room.type in [Room.Type.COMBAT, Room.Type.BOSS] and not room.cleared:
-		combat_triggered.emit(self)
-		combat_trigger_area.monitoring = false
+		combat_trigger_area.set_deferred("monitoring", false)
+		call_deferred("emit_signal", "combat_triggered", self)

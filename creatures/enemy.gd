@@ -33,6 +33,7 @@ func _ready() -> void:
 		animated_sprite_2d.play("idle")
 	spawn_coords = global_position
 
+
 func set_instance(creature: CreatureInstance) -> void:
 	instance = creature
 	if not instance:
@@ -84,9 +85,9 @@ func _get_action_interval() -> float:
 func _play_animation(anim_name: StringName) -> void:
 	if animated_sprite_2d.sprite_frames:
 		if animated_sprite_2d.sprite_frames.has_animation(anim_name):
-			animated_sprite_2d.play(anim_name)
+			animated_sprite_2d.play(anim_name)	
 		else:
-			animated_sprite_2d.play("default")
+			animated_sprite_2d.play()
 
 func _tick_strike(data: Dictionary, delta: float) -> void:
 	var targets: Array[Node] = data.get("target", [] as Array[Node])

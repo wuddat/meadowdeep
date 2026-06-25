@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dur4byw1wa8hn"]
+
+[ext_resource type="Script" uid="uid://boyt7w58lji88" path="res://battles/animated_hit_box.gd" id="1_1y1y0"]
+[ext_resource type="PackedScene" uid="uid://dp6skaha4pvqw" path="res://battles/hit_box.tscn" id="2_rtlc0"]
+[ext_resource type="SpriteFrames" uid="uid://dsjb816efs7tx" path="res://art/game_art/attack_frames/bite.tres" id="3_72dnk"]
+
+[node name="AnimatedHitBox" type="Node2D" unique_id=2023233416]
+script = ExtResource("1_1y1y0")
+damage_frame = 1
+
+[node name="HitBox" parent="." unique_id=409566626 instance=ExtResource("2_rtlc0")]
+unique_name_in_owner = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=776313271]
+unique_name_in_owner = true
+sprite_frames = ExtResource("3_72dnk")

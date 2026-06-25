@@ -54,13 +54,13 @@ script = ExtResource("14_ikjfj")
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("10_sbpa6")]
 position = Vector2(24, 8)
 collision_mask = 9
-speed = 250.0
+speed = 300.0
 roll_speed = 50.0
 stats = ExtResource("11_lwtph")
 
 [node name="CreatureBattleUnit" parent="." unique_id=1852223125 instance=ExtResource("12_ldiwu")]
 position = Vector2(-80, 0)
-base_movespeed = 200.0
+base_movespeed = 100.0
 instance = ExtResource("13_0iv2w")
 
 [node name="BondRadius" type="Node2D" parent="CreatureBattleUnit" unique_id=314227536]

@@ -1179,6 +1179,7 @@ radius = 45.82914
 radius = 13.0
 
 [node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider") groups=["active_creatures"]]
+collision_layer = 3
 collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_cbu01")
@@ -1192,13 +1193,10 @@ collider = NodePath("CollisionShape2D")
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
 
-[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=851082528 node_paths=PackedStringArray("emotion_display", "emotion_player", "particles")]
+[node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=851082528]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_ok274")
 script = ExtResource("23_rlrki")
-emotion_display = NodePath("")
-emotion_player = NodePath("")
-particles = NodePath("")
 
 [node name="CreatureSkinHandler" type="Node" parent="." unique_id=1413077260]
 unique_name_in_owner = true

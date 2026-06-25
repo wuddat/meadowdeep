@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="TackleAction" format=3 uid="uid://gyb42o5nit4w"]
+
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_ce1pp"]
+[ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="2_38eol"]
+[ext_resource type="AudioStream" uid="uid://ct7r4pojsmc8y" path="res://art/game_art/sfx/woosh2.wav" id="3_ce1pp"]
+[ext_resource type="Script" uid="uid://b4745be6xl1i6" path="res://effects/knockback_effect.gd" id="4_kollv"]
+[ext_resource type="Script" uid="uid://b6wiiic2sqvv0" path="res://battles/battle_actions/tackle_action.gd" id="5_fymtq"]
+
+[sub_resource type="Resource" id="Resource_r4bb5"]
+script = ExtResource("2_38eol")
+amount = 3
+sound = ExtResource("3_ce1pp")
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[sub_resource type="Resource" id="Resource_77i4v"]
+script = ExtResource("4_kollv")
+metadata/_custom_type_script = "uid://b4745be6xl1i6"
+
+[resource]
+script = ExtResource("5_fymtq")
+speed = 250.0
+max_duration = 0.5
+max_range = 250.0
+hit_effects = Array[ExtResource("1_ce1pp")]([SubResource("Resource_r4bb5"), SubResource("Resource_77i4v")])
+indicate_duration = 0.3
+stat_categories = Array[int]([1])
+display_name = "Enemy_Dash"
+metadata/_custom_type_script = "uid://b6wiiic2sqvv0"

@@ -8,7 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_aph3l"]
 script = ExtResource("2_24vcv")
-amount = 10
+amount = 5
 sound = ExtResource("3_aph3l")
 metadata/_custom_type_script = "uid://dweghcmycchb4"
 

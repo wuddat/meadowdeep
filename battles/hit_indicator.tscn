@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://chqjwfc5xsls0"]
+
+[ext_resource type="Script" uid="uid://bm6grebhvxc58" path="res://battles/hit_indicator.gd" id="1_alpnd"]
+
+[node name="HitIndicator" type="Node2D" unique_id=409566626]
+z_index = -1
+script = ExtResource("1_alpnd")

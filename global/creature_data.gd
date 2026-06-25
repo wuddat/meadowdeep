@@ -54,6 +54,7 @@ func _build_definitions() -> void:
 		def.creature_name = data.get("creature_name", species_id)
 		def.element_type = data.get("element_type", "normal")
 		def.max_health = data.get("max_health", 10)
+		def.base_speed = data.get("base_speed", 0.0)
 		def.egg_rarity = data.get("egg_rarity", "common")
 		def.egg_depth_found = data.get("egg_depth_found", 0)
 		var sprite_res = load(data.get("sprite_path", "res://art/placeholder.png"))

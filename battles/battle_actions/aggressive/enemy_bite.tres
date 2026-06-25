@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BiteAction" format=3 uid="uid://d3qlwqpct8afv"]
+
+[ext_resource type="PackedScene" uid="uid://dur4byw1wa8hn" path="res://battles/animated_hit_box.tscn" id="1_52pup"]
+[ext_resource type="Script" uid="uid://binddwb1vjacc" path="res://effects/effect.gd" id="1_hvxhw"]
+[ext_resource type="Script" uid="uid://dc5n75c1y8nsk" path="res://battles/battle_actions/bite_action.gd" id="2_k3hb2"]
+[ext_resource type="Script" uid="uid://dweghcmycchb4" path="res://effects/damage_effect.gd" id="3_soh7o"]
+[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="4_52pup"]
+
+[sub_resource type="Resource" id="Resource_p4kfd"]
+script = ExtResource("3_soh7o")
+amount = 8
+sound = ExtResource("4_52pup")
+metadata/_custom_type_script = "uid://dweghcmycchb4"
+
+[resource]
+script = ExtResource("2_k3hb2")
+animated_hitbox = ExtResource("1_52pup")
+bite_duration = 0.2
+hit_effects = Array[ExtResource("1_hvxhw")]([SubResource("Resource_p4kfd")])
+stat_categories = Array[int]([1])
+display_name = "Enemy_Bite"
+metadata/_custom_type_script = "uid://dc5n75c1y8nsk"

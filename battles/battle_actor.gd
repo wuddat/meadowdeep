@@ -10,9 +10,12 @@ extends CharacterBody2D
 @export var instance: CreatureInstance : set = set_instance
 @export var modifier_handler: ModifierHandler
 @export var collider: CollisionShape2D
+@export var hit_box: HitBox
 
 const MIN_MOVESPEED: float = 45.0
 const BRAIN_DELAY: float = 0.1
+const HIT_INDICATOR_SCENE := preload("uid://chqjwfc5xsls0")
+const KNOCKBACK_IMMUNE: Array[StringName] = [&"tackle", &"dash"]  # committed bursts ignore knockback
 var _current_movespeed: float
 
 var _in_combat: bool = false
@@ -49,9 +52,12 @@ func stop_combat() -> void:
 
 func set_instance(value: CreatureInstance) -> void:
 	_hydrate_actions()
-	var min_spd: float = MIN_MOVESPEED + value.identity.AGI.get_combat_mod()
-	if base_movespeed < min_spd:
-		base_movespeed = MIN_MOVESPEED + value.identity.AGI.get_combat_mod()
+	if value.definition and value.definition.base_speed > 0.0:
+		base_movespeed = value.definition.base_speed
+	else:
+		var min_spd: float = MIN_MOVESPEED + value.identity.AGI.get_combat_mod()
+		if base_movespeed < min_spd:
+			base_movespeed = min_spd
 	_current_movespeed = base_movespeed
 
 
@@ -75,8 +81,8 @@ func _on_queue_emptied() -> void:
 		return
 	var chosen := brain.select_action()
 	if chosen == null:
-		if self is CreatureBattleUnit:
-			push_warning("[IDLE]: _queue_emptied chosen == null")
+		#if self is CreatureBattleUnit:
+			#push_warning("[IDLE]: _queue_emptied chosen == null")
 		action_queue.enqueue(&"idle", {"timer": BRAIN_DELAY})
 		return
 	var steps := chosen.build_steps(self)
@@ -100,7 +106,21 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"dash":       _play_animation(&"dash")
 		&"strike":     _play_animation(&"strike")
 		&"projectile": _play_animation(&"strike")
-		&"tackle":     _play_animation(&"tackle")
+		&"tackle":
+			_play_animation(&"tackle")
+			# The damaging charge: arm the body hitbox for the travel window, sized to
+			# our body. Actors without a hit_box component (e.g. the player, which uses
+			# its own _tick_contact_damage_action) skip this.
+			if hit_box and not data.get("effects", [] as Array[Effect]).is_empty():
+				var extents := Vector2.ZERO
+				if collider and collider.shape is RectangleShape2D:
+					extents = (collider.shape as RectangleShape2D).size
+				hit_box.setup(data["effects"], self, extents)
+				hit_box.activate()
+		&"indicate":   _spawn_hit_indicator(data)
+		&"bite":
+			_play_animation(&"bite")
+			_spawn_bite_fang(data)
 		&"buff":       
 			_play_animation(&"buff") 
 			for buff in data["buffs"]:
@@ -132,14 +152,14 @@ func _tick_current_action(delta: float) -> void:
 		&"projectile": _tick_projectile(current["data"], delta)
 		&"counter":    _tick_counter(current["data"], delta)
 		&"buff":        _tick_buff(current["data"], delta)
+		&"tackle":     _tick_tackle(current["data"], delta)
+		&"indicate":   _tick_indicate(current["data"], delta)
+		&"bite":       _tick_bite(current["data"], delta)
 
 
 func _tick_idle(data: Dictionary, delta: float) -> void:
-	data["timer"] -= delta
-	_update_action_timer_ui(data["timer"])
-	if data["timer"] > 0.0:
-		return
-	action_queue.done()
+	_update_action_timer_ui(data["timer"] - delta)
+	_tick_timed(data, delta)
 
 
 func _tick_brace(data:Dictionary, delta: float) -> void:
@@ -210,6 +230,26 @@ func _tick_move(data: Dictionary, delta: float) -> void:
 			var tangent := to_target.normalized().rotated(PI / 2)
 			base_velocity = tangent * _current_movespeed
 
+		MoveToAction.Mode.PING_PONG:
+			var toward := to_target.normalized()
+			var max_range: float = data.get("max_range", 160.0)
+			# Persistent travel direction — only changes on events, never re-aimed per
+			# frame (that's what got it stuck homing into walls). Bounce off walls; softly
+			# curve back toward the target when it drifts past max_range (the leash).
+			var dir: Vector2 = data.get("dir", Vector2.ZERO)
+			if dir == Vector2.ZERO:
+				dir = toward
+			# We only physically collide with walls (collision_mask = layer 4), so any
+			# slide collision IS a wall — bounce off its normal. TileMap walls aren't
+			# CollisionObject2D, so we can't/needn't filter by collider type or layer.
+			if get_slide_collision_count() > 0:
+				dir = dir.bounce(get_slide_collision(0).get_normal())
+			elif dist >= max_range:
+				dir = dir.lerp(toward, 0.08)  # past the leash — curve home, don't snap
+			dir = dir.normalized()
+			data["dir"] = dir
+			base_velocity = dir * _current_movespeed
+
 	_face_direction(base_velocity)
 
 
@@ -228,7 +268,7 @@ func _tick_projectile(data: Dictionary, _delta: float) -> void:
 	p.duration = data.get("duration", 0.0)
 	p.max_distance = data.get("max_distance", 0.0)
 	p.speed = data.get("speed", 0.0)
-	get_parent().add_child(p)
+	_vfx_parent().add_child(p)
 	p.setup(self, target)
 	action_queue.done()
 
@@ -239,6 +279,19 @@ func _tick_dash(data: Dictionary, delta: float) -> void:
 	if data["duration"] <= 0.0:
 		base_velocity = Vector2.ZERO
 		is_dodging = false
+		action_queue.done()
+
+
+# Damaging charge for actors with a hit_box component (enemies). Velocity over a
+# duration; the armed hit_box self-delivers on contact. CreatureBattleUnit overrides
+# &"tackle" with its own _tick_contact_damage_action, so this is the enemy path.
+func _tick_tackle(data: Dictionary, delta: float) -> void:
+	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 160.0)
+	data["duration"] -= delta
+	if data["duration"] <= 0.0:
+		base_velocity = Vector2.ZERO
+		if hit_box:
+			hit_box.deactivate()
 		action_queue.done()
 
 func _tick_buff(data: Dictionary, delta: float) -> void:
@@ -254,8 +307,62 @@ func _tick_counter(data: Dictionary, delta: float) -> void:
 		is_countering = false
 		_counter_completed = false
 		action_queue.done()
-	
-	
+
+
+# indicate and bite both just hold for a beat — the work happens on action-start
+# (spawn the lane indicator / spawn the fang). The spawned node does the rest.
+func _tick_indicate(data: Dictionary, delta: float) -> void:
+	_tick_timed(data, delta)
+
+
+func _tick_bite(data: Dictionary, delta: float) -> void:
+	_tick_timed(data, delta)
+
+
+func _tick_timed(data: Dictionary, delta: float) -> void:
+	data["timer"] -= delta
+	if data["timer"] > 0.0:
+		return
+	action_queue.done()
+
+
+# Where transient VFX (indicators, fangs, projectiles) should live. Enemies are nested
+# under EnemyHandler, whose children must stay strictly Enemy (it iterates them typed and
+# uses child_count as the combat-cleared check) — so bubble up to the room for those.
+func _vfx_parent() -> Node:
+	var p := get_parent()
+	return p.get_parent() if p is EnemyHandler else p
+
+
+# Paint the lane a dive is about to sweep. Lives in world space (added to the arena,
+# not to self) so it stays put while we charge through it. add_child before setup —
+# the indicator's fade tween needs the node in-tree.
+func _spawn_hit_indicator(data: Dictionary) -> void:
+	var indicator := HIT_INDICATOR_SCENE.instantiate() as HitIndicator
+	_vfx_parent().add_child(indicator)
+	indicator.setup(
+		global_position,
+		data.get("direction", Vector2.RIGHT),
+		data.get("length", 64.0),
+		data.get("width", 24.0),
+		data.get("indicator_duration", data.get("timer", 0.5)),
+	)
+
+
+# Spawn the committing, animation-driven fang over the target. The fang's own
+# AnimationPlayer toggles its HitBox on/off — we just place it and inject what to deal.
+func _spawn_bite_fang(data: Dictionary) -> void:
+	var scene: PackedScene = data.get("animated_hitbox")
+	if scene == null:
+		return
+	var fang := scene.instantiate()
+	_vfx_parent().add_child(fang)
+	var target = data.get("target")
+	fang.global_position = target.global_position if is_instance_valid(target) else global_position
+	if fang.has_method("setup"):
+		fang.setup(data.get("effects", [] as Array[Effect]), self)
+
+
 # ── Virtual hooks ─────────────────────────────────────────────────────────────
 
 func _get_action_interval() -> float:
@@ -268,6 +375,8 @@ func get_movespeed() -> float:
 func apply_knockback(source_pos: Vector2, strength: float = -1.0) -> void:
 	if "knockbackable" in self and not knockbackable:
 		return
+	if action_queue.current_action in KNOCKBACK_IMMUNE:
+		return  # committed charge — don't let knockback shove or cancel the dive
 	var force := strength if strength >= 0.0 else knockback_strength
 	var direction := (global_position - source_pos).normalized()
 	knockback_velocity = direction * force

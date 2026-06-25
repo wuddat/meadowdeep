@@ -9,7 +9,6 @@ enum State { FOLLOW, COMBAT, NAVIGATE }
 
 const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 const NAV_ARRIVE_DISTANCE: float = 8.0
-const WALL_LAYER: int = 1 << 3  # collision layer 4
 const MOVE_SFX = preload("uid://dlxj66hun1l4t")
 
 
@@ -178,6 +177,8 @@ func _run_one_damage_frame_action(data: Dictionary) -> void:
 	var aoe_radius:float = data.get("aoe_radius", 0.0)
 	if aoe_radius > 0:
 		var targets: Array[Node] = AttackAction.find_opponents_in_radius(self, aoe_radius)
+		if targets.is_empty():
+			return  # everyone left the radius before the damage frame — the swing whiffs
 		_face_direction(targets[0].global_position - global_position)
 		EffectExecutor.run(effects, targets, self)
 		return
@@ -216,14 +217,11 @@ func _tick_navigate(data: Dictionary, _delta: float) -> void:
 		nav_target = null
 		return
 	var desired := to_target.normalized()
-	# deflect off walls (layer 4) hit last frame so we don't grind into a jamb/corner.
-	# ignore enemies/other bodies so they don't steer the creature.
+	# deflect along walls hit last frame so we slide around jambs/corners instead of
+	# grinding. Our body only collides with walls (mask = layer 4), so every slide is a
+	# wall — don't filter by collider type (tilemap walls aren't CollisionObject2D).
 	for i in get_slide_collision_count():
-		var col := get_slide_collision(i)
-		var collider := col.get_collider()
-		if not (collider is CollisionObject2D) or (collider.collision_layer & WALL_LAYER) == 0:
-			continue
-		var n := col.get_normal()
+		var n := get_slide_collision(i).get_normal()
 		if desired.dot(n) < 0.0:
 			desired = desired.slide(n)
 	base_velocity = desired.normalized() * _current_movespeed if desired.length() > 0.01 else Vector2.ZERO

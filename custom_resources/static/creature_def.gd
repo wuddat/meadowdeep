@@ -13,6 +13,7 @@ extends Resource
 # ── Combat baseline ───────────────────────────────────────────────────────────
 @export_group("Combat")
 @export var max_health: int = 1
+@export var base_speed: float = 0.0  # 0 = fall back to the AGI-derived default
 
 # ── Visuals ───────────────────────────────────────────────────────────────────
 @export_group("Visuals")

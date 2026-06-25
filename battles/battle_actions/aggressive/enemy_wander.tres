@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MoveToAction" format=3 uid="uid://bsk5v7l8r6hg4"]
+
+[ext_resource type="Script" uid="uid://dgftoxf418knu" path="res://battles/battle_actions/move_to_action.gd" id="1_oniyd"]
+
+[resource]
+script = ExtResource("1_oniyd")
+max_duration = 2.0
+stop_distance = 100.0
+mode = 4
+display_name = "Wander"
+on_gcd = false
+metadata/_custom_type_script = "uid://dgftoxf418knu"

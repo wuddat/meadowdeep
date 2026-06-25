@@ -48,7 +48,8 @@
 			"egg_depth_found": 0.0,
 			"sprite_path": "res://art/game_art/creatures/bat/bat_sprite_frames.tres",
 			"icon_path": "res://art/placeholder.png",
-			"starting_actions": ["strike", "move_toward"],
+			"starting_actions": ["enemy_wander", "enemy_dash", "enemy_bite"],
+			"base_speed": 200,
 			"identity": {
 				"personality": "brave",
 				"PWR_grade": 3.0,

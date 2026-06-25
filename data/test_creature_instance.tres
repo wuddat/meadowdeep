@@ -14,7 +14,7 @@ creature_name = "Testarino"
 element_type = "Test_Element"
 max_health = 500
 frames = ExtResource("1_6tcn4")
-starting_actions = Array[String](["roar", "move_toward", "dash_in", "move_away"])
+starting_actions = Array[String](["roar", "move_toward"])
 egg_rarity = "test_egg_rarity"
 metadata/_custom_type_script = "uid://bv7nks8mfcsfs"
 
@@ -57,8 +57,8 @@ RES = SubResource("Resource_y7n80")
 MYS = SubResource("Resource_hfthu")
 FOC = SubResource("Resource_ph36t")
 personality = SubResource("Resource_4xtvp")
-known_actions = Array[String](["roar", "move_toward", "dash_in", "move_away"])
-assigned_actions = Array[String](["roar", "move_toward", "dash_in", "move_away"])
+known_actions = Array[String](["roar", "move_toward"])
+assigned_actions = Array[String](["roar", "move_toward"])
 metadata/_custom_type_script = "uid://bcwufleh1p85m"
 
 [resource]

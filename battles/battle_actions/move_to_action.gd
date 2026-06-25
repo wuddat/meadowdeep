@@ -1,7 +1,7 @@
 class_name MoveToAction
 extends BattleAction
 
-enum Mode {TOWARD, AWAY, ORBITL, ORBITR}
+enum Mode {TOWARD, AWAY, ORBITL, ORBITR, PING_PONG}
 
 @export var max_duration: float = 0
 @export var stop_distance: float = 32.0
@@ -18,7 +18,7 @@ func can_execute(user: BattleActor) -> bool:
 			return not within
 		Mode.AWAY:
 			return within
-		Mode.ORBITL, Mode.ORBITR:
+		Mode.ORBITL, Mode.ORBITR, Mode.PING_PONG:
 			return true
 	return false
 
@@ -27,6 +27,8 @@ func build_steps(user: BattleActor) -> Array[Dictionary]:
 	var t := find_nearest_opponent(user)
 	if t == null: return []
 	var data:={"target": t, "mode": mode, "stop_distance": stop_distance, }
+	if mode == Mode.PING_PONG:
+		data["lateral"] = 1.0  # weave side, flipped on wall contact by _tick_move
 	if max_duration > 0.0:
 		data["duration"] = max_duration
 	return [{"id": &"move", "data": data}]
