@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://c1mldp0ubbicq" path="res://art/game_art/creatures/base_creature/eyes_cl_tight.png" id="22_ji0g7"]
 [ext_resource type="Texture2D" uid="uid://bj27t8cl4xhfy" path="res://art/game_art/status_effect/chained.png" id="23_ok274"]
 [ext_resource type="Script" uid="uid://dcgk4p83q1mly" path="res://creatures/creature_animation_handler.gd" id="23_rlrki"]
+[ext_resource type="PackedScene" uid="uid://dp6skaha4pvqw" path="res://battles/hit_box.tscn" id="24_kwc3e"]
 
 [sub_resource type="Resource" id="Resource_gwgry"]
 script = ExtResource("7_rlrki")
@@ -1172,13 +1173,17 @@ _data = {
 &"wave": SubResource("Animation_v1wfr")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ji0g7"]
-radius = 45.82914
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_dnym6"]
 radius = 13.0
 
-[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider") groups=["active_creatures"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ok274"]
+radius = 11.0
+height = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vyn8i"]
+radius = 43.011627
+
+[node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider", "hit_box", "hurt_box") groups=["active_creatures", "pets"]]
 collision_layer = 3
 collision_mask = 8
 motion_mode = 1
@@ -1189,6 +1194,8 @@ battle_action_list = Array[ExtResource("3_r6ech")]([SubResource("Resource_g8vsc"
 creature_animation_handler = NodePath("CreatureAnimationHandler")
 modifier_handler = NodePath("ModifierHandler")
 collider = NodePath("CollisionShape2D")
+hit_box = NodePath("HitBox")
+hurt_box = NodePath("HurtBox")
 
 [node name="Brain" type="Node" parent="." unique_id=1274749943]
 script = ExtResource("8_skpnv")
@@ -1216,13 +1223,6 @@ unique_name_in_owner = true
 [node name="CreatureTextures" parent="CreatureNode" unique_id=969795458 instance=ExtResource("12_83sfk")]
 unique_name_in_owner = true
 animation = &"idle"
-
-[node name="Hitbox" type="Area2D" parent="CreatureNode/CreatureTextures/LeftArm" parent_id_path=PackedInt32Array(969795458, 67353298) index="0" unique_id=1949318630]
-unique_name_in_owner = true
-position = Vector2(-7, 9)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CreatureNode/CreatureTextures/LeftArm/Hitbox" unique_id=1791354512]
-shape = SubResource("CircleShape2D_ji0g7")
 
 [node name="HoldPos" parent="CreatureNode/CreatureTextures" index="4" unique_id=317333411]
 position = Vector2(17, 10)
@@ -1269,5 +1269,23 @@ unique_name_in_owner = true
 visible = false
 texture = ExtResource("23_ok274")
 
+[node name="HurtBox" type="Area2D" parent="." unique_id=1690723946]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=951455602]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_ok274")
+debug_color = Color(0.9818997, 0.13531008, 5.7756904e-07, 0.41960785)
+
+[node name="HitBox" parent="." unique_id=409566626 instance=ExtResource("24_kwc3e")]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" parent="HitBox/Area2D" parent_id_path=PackedInt32Array(409566626, 115174480) index="0" unique_id=617038983]
+shape = SubResource("CircleShape2D_vyn8i")
+
 [editable path="ModifierHandler"]
 [editable path="CreatureNode/CreatureTextures"]
+[editable path="HitBox"]

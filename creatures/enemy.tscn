@@ -41,7 +41,10 @@ metadata/_custom_type_script = "uid://bjabwshglkugs"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enm01"]
 size = Vector2(19, 17)
 
-[node name="Enemy" type="CharacterBody2D" unique_id=1956526154 node_paths=PackedStringArray("modifier_handler", "collider", "hit_box") groups=["enemies"]]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ljyq2"]
+height = 22.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1956526154 node_paths=PackedStringArray("modifier_handler", "collider", "hit_box", "hurt_box") groups=["enemies"]]
 collision_layer = 5
 collision_mask = 8
 motion_mode = 1
@@ -52,6 +55,7 @@ battle_action_list = Array[ExtResource("3_slkkl")]([ExtResource("4_4wx45"), ExtR
 modifier_handler = NodePath("ModifierHandler")
 collider = NodePath("CollisionShape2D")
 hit_box = NodePath("HitBox")
+hurt_box = NodePath("HurtBox")
 
 [node name="Brain" type="Node" parent="." unique_id=1628127531]
 script = ExtResource("6_2bth1")
@@ -124,3 +128,14 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 122.0
 offset_bottom = 7.0
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1645326024]
+unique_name_in_owner = true
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1223674704]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_ljyq2")
+debug_color = Color(0.9818997, 0.13531008, 5.7756904e-07, 0.41960785)

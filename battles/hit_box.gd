@@ -3,7 +3,7 @@ extends Node2D
 
 # Faction groups: a HitBox never delivers to a body that shares the owner's faction.
 # Everything sits on collision layer 1 — friend/foe is decided by group, not layer.
-const FACTION_GROUPS: Array[StringName] = [&"enemies", &"active_creatures"]
+const FACTION_GROUPS: Array[StringName] = [&"enemies", &"pets", &"player"]
 
 @onready var area_2d: Area2D = $Area2D
 @onready var collider: CollisionShape2D = $Area2D/CollisionShape2D
@@ -19,19 +19,22 @@ func _physics_process(_delta: float) -> void:
 		deliver()
 
 
-# One pass: hit every overlapping body once (the _already_hit guard makes repeat calls
-# safe). Call directly for a frame-synced one-shot (bite damage frame), or let
+# One pass: for every overlapping HurtBox, hit its owning actor once (the _already_hit
+# guard makes repeat calls safe). Detection is area-vs-area — the HurtBox is the
+# damageable region, decoupled from the physics body. The owner is the HurtBox's parent.
+# Call directly for a frame-synced one-shot (bite/strike damage frame), or let
 # _physics_process call it every frame while active.
 func deliver() -> void:
-	for body in area_2d.get_overlapping_bodies():
-		if body == _hit_source or body in _already_hit:
+	for hurt_box in area_2d.get_overlapping_areas():
+		var actor := hurt_box.get_parent()
+		if actor == _hit_source or actor in _already_hit:
 			continue
-		if not body.has_method("take_damage"):
+		if not actor.has_method("take_damage"):
 			continue
-		if _shares_faction(body):
+		if _shares_faction(actor):
 			continue
-		_already_hit.append(body)
-		EffectExecutor.run(effects, [body], _hit_source)
+		_already_hit.append(actor)
+		EffectExecutor.run(effects, [actor], _hit_source)
 
 
 # True when body is on the owner's side (shares a faction group) — skip allies.
@@ -43,6 +46,10 @@ func _shares_faction(body: Node) -> bool:
 			return true
 	return false
 
+# Begin an attack window: inject what/who, arm detection, and clear stale hits. Callers
+# that want continuous delivery follow with activate(); one-shot callers (bite/strike)
+# just deliver() on the damage frame. Arming here means monitoring is live before any
+# await, giving the physics server frames to register overlaps.
 func setup(hit_effects: Array[Effect], hit_source: Node, extents: Vector2 = Vector2.ZERO) -> void:
 	if hit_effects:
 		effects = hit_effects
@@ -50,6 +57,8 @@ func setup(hit_effects: Array[Effect], hit_source: Node, extents: Vector2 = Vect
 		_hit_source = hit_source
 	if extents != Vector2.ZERO:
 		set_extents(extents)
+	area_2d.monitoring = true
+	_already_hit.clear()
 
 
 # Resize the box (e.g. to match the owner's body for a dive sweep). Assigns a fresh

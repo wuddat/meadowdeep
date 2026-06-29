@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
-		_set_creature_state("follow")
+		_test_particle_spawn()
 		Events.camera_target_requested.emit(player)
 	if event.is_action_pressed("right_mouse"):
 		_set_creature_state("navigate")

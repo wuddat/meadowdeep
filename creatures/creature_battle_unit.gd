@@ -20,7 +20,6 @@ const MOVE_SFX = preload("uid://dlxj66hun1l4t")
 @onready var action_timer: Panel = %ActionTimer
 @onready var action_name: Label = %ActionName
 @onready var projectile_spawn: Marker2D = %ProjectileSpawn
-@onready var hitbox: Area2D = %Hitbox
 @onready var creature_skin_handler: CreatureSkinHandler = %CreatureSkinHandler
 @onready var status_graphic: Sprite2D = %StatusGraphic
 @onready var creature_node: Node2D = %CreatureNode
@@ -34,7 +33,6 @@ var last_damage_taken: int = 0
 
 var _action_fill: ColorRect = null
 var _enemy: Enemy
-var _already_damaged_bodies: Array[Node] = []
 
 const FOLLOW_DISTANCE := 48.0
 const ACTION_INTERVAL: float = 0.4
@@ -48,7 +46,7 @@ var is_snared: bool = false
 
 func _ready() -> void:
 	super()
-	add_to_group("active_creatures")
+	add_to_group("pets")
 
 	if _queued_health_bar_ui != null:
 		set_health_bar_ui(_queued_health_bar_ui)
@@ -140,7 +138,6 @@ func _tick_current_action(delta: float) -> void:
 		match current["id"]:
 			&"idle":       _tick_idle(current["data"], delta)
 			&"seek":       _tick_seek_player(current["data"], delta)
-			&"tackle":     _tick_contact_damage_action(current["data"], delta)
 			&"navigate":   _tick_navigate(current["data"], delta)
 			_:             super(delta)
 
@@ -155,9 +152,6 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 			_try_play_animation(&"idle")
 		&"seek":       _play_animation(&"idle")
 		&"strike":     _run_one_damage_frame_action(data)
-		&"tackle":     
-			_already_damaged_bodies.clear()
-			super(id, data)
 		&"buff":
 			_play_animation(&"buff") 
 			for buff in data["buffs"]:
@@ -182,29 +176,12 @@ func _run_one_damage_frame_action(data: Dictionary) -> void:
 		_face_direction(targets[0].global_position - global_position)
 		EffectExecutor.run(effects, targets, self)
 		return
-	var hits := hitbox.get_overlapping_bodies()
-	for body in hits:
-		if body != self:
-			if is_instance_valid(body) and not effects.is_empty():
-				_face_direction(body.global_position - global_position)
-				EffectExecutor.run(effects, [body], self)
+	# Collision melee: arm the hit_box (clears already-hit, monitoring live) and fire a
+	# one-shot against overlapping hurt boxes on the damage frame — same path as the bite.
+	if hit_box and not effects.is_empty():
+		hit_box.setup(effects, self)
+		hit_box.deliver()
 
-
-func _tick_contact_damage_action(data: Dictionary, delta) -> void:
-	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 120.0)
-	data["duration"] -= delta
-	if data["duration"] <= 0.0:
-		base_velocity = Vector2.ZERO
-		_already_damaged_bodies.clear()
-		action_queue.done()
-		return
-	var effects: Array[Effect] = data.get("effects", [] as Array[Effect])
-	var hits := _get_hit_bodies()
-	for body in hits:
-		if body not in _already_damaged_bodies:
-			if is_instance_valid(body) and not effects.is_empty():
-				EffectExecutor.run(effects, [body], self)
-				_already_damaged_bodies.append(body)
 
 func _tick_navigate(data: Dictionary, _delta: float) -> void:
 	if not is_instance_valid(nav_target):
@@ -268,14 +245,6 @@ func _get_target() -> Node2D:
 			return null
 		_enemy = enemies[0] as Enemy
 	return _enemy
-
-func _get_hit_bodies() -> Array[Node]:
-	var all_hits := hitbox.get_overlapping_bodies()
-	var hits: Array[Node]
-	for body in all_hits:
-		if body != self:
-			hits.append(body)
-	return hits
 
 func _get_action_interval() -> float:
 	if not instance or not instance.definition:

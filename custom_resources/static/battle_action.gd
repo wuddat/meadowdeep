@@ -32,8 +32,11 @@ static func range_check(user: Node, target: Node, max_range: float) -> bool:
 
 static func find_opponents_in_radius(user: Node, aoe_radius: float) -> Array[Node]:
 	var radius := int(aoe_radius)
-	var group := "enemies" if user.is_in_group("active_creatures") else "active_creatures"
+	var group := "enemies" if user.is_in_group("pets") else "pets"
 	var candidates := user.get_tree().get_nodes_in_group(group)
+	if group == "pets":
+		var player := user.get_tree().get_nodes_in_group("player")
+		candidates.append_array(player)
 	var opps: Array[Node] = []
 	for c in candidates:
 		if not is_instance_valid(c):
@@ -46,8 +49,11 @@ static func find_opponents_in_radius(user: Node, aoe_radius: float) -> Array[Nod
 	return opps
 
 static func find_nearest_opponent(user: BattleActor) -> Node:
-	var group := "enemies" if user.is_in_group("active_creatures") else "active_creatures"
+	var group := "enemies" if user.is_in_group("pets") else "pets"
 	var candidates := user.get_tree().get_nodes_in_group(group)
+	if group == "pets":
+		var player := user.get_tree().get_nodes_in_group("player")
+		candidates.append_array(player)
 	var nearest: Node = null
 	var nearest_dist := INF
 	for c in candidates:
@@ -61,10 +67,10 @@ static func find_nearest_opponent(user: BattleActor) -> Node:
 			nearest = c
 	return nearest
 
-static func collider_radius(actor: BattleActor) -> float:
+static func collider_radius(actor: Node) -> float:
 	if not ("collider" in actor) or actor.collider == null:
 		return 0.0
-	var shape := actor.collider.shape
+	var shape: Shape2D = actor.collider.shape
 	if shape is CircleShape2D or shape is CapsuleShape2D:
 		return shape.radius
 	if shape is RectangleShape2D:

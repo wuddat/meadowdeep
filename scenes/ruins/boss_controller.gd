@@ -22,7 +22,7 @@ func next_steps(boss: BattleActor) -> Array[Dictionary]:
 	if not _boss:
 		_boss = boss
 	if not is_instance_valid(_creature):
-		_creature = _get_node("active_creatures")
+		_creature = _get_node("pets")
 		
 	if _creature == null:
 		return []

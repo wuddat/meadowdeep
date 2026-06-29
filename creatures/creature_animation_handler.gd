@@ -23,7 +23,7 @@ const HAH = preload("uid://c7des6ggaas3i")
 
 const ABSORB_ITEM = preload("uid://bhgt7fphiyuus")
 const GIVE_ITEM = preload("uid://bavc86swxvjti")
-
+const SFX_VOL: float = -20.0
 
 const IDLE_WEIGHTS := {
 	"think": 1,

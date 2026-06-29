@@ -70,10 +70,10 @@ func update_enemy() -> void:
 # ── BattleActor virtual hooks ─────────────────────────────────────────────────
 
 func _get_target() -> Node2D:
-	var creatures := get_tree().get_nodes_in_group("active_creatures")
-	if creatures.is_empty():
+	var targets := get_tree().get_nodes_in_group("pets")
+	if targets.is_empty():
 		return null
-	return creatures[0] as Node2D
+	return targets[0] as Node2D
 
 
 func _get_action_interval() -> float:

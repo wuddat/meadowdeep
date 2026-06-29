@@ -11,26 +11,27 @@ extends CharacterBody2D
 @export var modifier_handler: ModifierHandler
 @export var collider: CollisionShape2D
 @export var hit_box: HitBox
+@export var hurt_box: Area2D
 
 const MIN_MOVESPEED: float = 45.0
 const BRAIN_DELAY: float = 0.1
 const HIT_INDICATOR_SCENE := preload("uid://chqjwfc5xsls0")
 const KNOCKBACK_IMMUNE: Array[StringName] = [&"tackle", &"dash"]  # committed bursts ignore knockback
-var _current_movespeed: float
+
 
 var _in_combat: bool = false
 var action_queue := ActionQueue.new()
 var _current_action: BattleAction
 
-var knockbackable: bool = true
 var is_dodging: bool = false
 var is_countering: bool = false
 var _counter_completed:bool = false
 
-
+var knockbackable: bool = true
 var knockback_strength: float = 1000.0
 var knockback_exp: float = 8.0
 
+var _current_movespeed: float
 var base_velocity: Vector2 = Vector2.ZERO
 var knockback_velocity: Vector2 = Vector2.ZERO
 
@@ -109,8 +110,8 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"tackle":
 			_play_animation(&"tackle")
 			# The damaging charge: arm the body hitbox for the travel window, sized to
-			# our body. Actors without a hit_box component (e.g. the player, which uses
-			# its own _tick_contact_damage_action) skip this.
+			# our body when it's a rectangle collider. Actors without a hit_box
+			# component skip this.
 			if hit_box and not data.get("effects", [] as Array[Effect]).is_empty():
 				var extents := Vector2.ZERO
 				if collider and collider.shape is RectangleShape2D:
@@ -282,9 +283,9 @@ func _tick_dash(data: Dictionary, delta: float) -> void:
 		action_queue.done()
 
 
-# Damaging charge for actors with a hit_box component (enemies). Velocity over a
-# duration; the armed hit_box self-delivers on contact. CreatureBattleUnit overrides
-# &"tackle" with its own _tick_contact_damage_action, so this is the enemy path.
+# Damaging charge for actors with a hit_box component (enemies and creatures).
+# Velocity over a duration; the armed hit_box self-delivers against overlapping hurt
+# boxes each frame, then deactivates at the end of the window.
 func _tick_tackle(data: Dictionary, delta: float) -> void:
 	base_velocity = data.get("direction", Vector2.ZERO) * data.get("speed", 160.0)
 	data["duration"] -= delta

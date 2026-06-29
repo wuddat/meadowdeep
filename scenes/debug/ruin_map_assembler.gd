@@ -6,8 +6,6 @@ extends Node
 #Random Walk
 @export var creature: CreatureBattleUnit
 
-const ROTATIONS: Array[float] = [0.0, PI * 0.5, PI, PI * 1.5]
-
 const DELTA_DIR := {
 	Vector2i.UP: &"N",
 	Vector2i.DOWN: &"S",
@@ -46,11 +44,11 @@ func _build_catalog() -> void:
 	_catalog.clear()
 	for scene: PackedScene in block_scenes:
 		var block := scene.instantiate() as RuinMapBlock
-		for rotation_dir: float in ROTATIONS:
-			block.rotation = rotation_dir
-			var key := _key(block.anchor_directions())
-			if not _catalog.has(key):
-				_catalog[key] = {"scene": scene, "rotation": rotation_dir}
+		var key := _key(block.anchor_directions())
+		if _catalog.has(key):
+			push_warning("RuinBlockAssembler: duplicate shape %s — %s ignored" % [key, scene.resource_path])
+		else:
+			_catalog[key] = scene
 		block.free()
 
 
@@ -91,10 +89,8 @@ func _spawn(room:Room, container: Node2D) -> RuinMapBlock:
 	if not _catalog.has(key):
 		push_warning("RuinBlockAssembler: Unmatched shape %s @ %s" % [key, room.grid_pos])
 		return null
-	var entry: Dictionary = _catalog[key]
-	var block:RuinMapBlock = (entry["scene"] as PackedScene).instantiate() as RuinMapBlock
+	var block:RuinMapBlock = (_catalog[key] as PackedScene).instantiate() as RuinMapBlock
 	container.add_child(block)
-	block.rotation = entry["rotation"]
 	block.room = room
 	return block
 

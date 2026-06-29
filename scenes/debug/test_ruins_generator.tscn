@@ -6,14 +6,24 @@
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="2_1mlnh"]
 [ext_resource type="Script" uid="uid://cjqjp8fjbha1r" path="res://scenes/debug/ruin_map_assembler.gd" id="2_kx4uo"]
 [ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="3_0mia4"]
-[ext_resource type="PackedScene" uid="uid://no0ymsktmjk1" path="res://scenes/ruins/ruin_map_blocks/dead_end_1.tscn" id="5_yfh0e"]
+[ext_resource type="PackedScene" uid="uid://no0ymsktmjk1" path="res://scenes/ruins/ruin_map_blocks/end_block_n.tscn" id="5_yfh0e"]
 [ext_resource type="Resource" uid="uid://dmj4y8go643i6" path="res://data/test_player_data.tres" id="6_6wrni"]
-[ext_resource type="PackedScene" uid="uid://ddk3crpq8aoqh" path="res://scenes/ruins/ruin_map_blocks/vert_block_1.tscn" id="6_ylvw8"]
+[ext_resource type="PackedScene" uid="uid://ddk3crpq8aoqh" path="res://scenes/ruins/ruin_map_blocks/vert_block_ns.tscn" id="6_ylvw8"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="7_ecx3e"]
-[ext_resource type="PackedScene" uid="uid://46ndpkc5etc8" path="res://scenes/ruins/ruin_map_blocks/corner_block_1.tscn" id="7_q0ajm"]
+[ext_resource type="PackedScene" uid="uid://46ndpkc5etc8" path="res://scenes/ruins/ruin_map_blocks/corner_block_es.tscn" id="7_q0ajm"]
 [ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="8_dhlfg"]
-[ext_resource type="PackedScene" uid="uid://cv5wy47tlq6c6" path="res://scenes/ruins/ruin_map_blocks/t_block_1.tscn" id="8_eybuf"]
+[ext_resource type="PackedScene" uid="uid://cv5wy47tlq6c6" path="res://scenes/ruins/ruin_map_blocks/t_block_esw.tscn" id="8_eybuf"]
 [ext_resource type="PackedScene" uid="uid://cwial0uhsvvxd" path="res://scenes/ruins/ruin_map_blocks/x_block_1.tscn" id="9_dqw38"]
+[ext_resource type="PackedScene" uid="uid://gec307ambgkp" path="res://scenes/ruins/ruin_map_blocks/end_block_e.tscn" id="10_ee"]
+[ext_resource type="PackedScene" uid="uid://0o21p3x7n8ax" path="res://scenes/ruins/ruin_map_blocks/end_block_s.tscn" id="11_es"]
+[ext_resource type="PackedScene" uid="uid://7jjy0wt51syr" path="res://scenes/ruins/ruin_map_blocks/end_block_w.tscn" id="12_ew"]
+[ext_resource type="PackedScene" uid="uid://but0vreewuwbc" path="res://scenes/ruins/ruin_map_blocks/vert_block_ew.tscn" id="13_vew"]
+[ext_resource type="PackedScene" uid="uid://da0v1frde65i3" path="res://scenes/ruins/ruin_map_blocks/corner_block_ne.tscn" id="14_cne"]
+[ext_resource type="PackedScene" uid="uid://t7bqu4n7b4kx" path="res://scenes/ruins/ruin_map_blocks/corner_block_nw.tscn" id="15_cnw"]
+[ext_resource type="PackedScene" uid="uid://di58evhcy815h" path="res://scenes/ruins/ruin_map_blocks/corner_block_sw.tscn" id="16_csw"]
+[ext_resource type="PackedScene" uid="uid://bd8h65yypjlp0" path="res://scenes/ruins/ruin_map_blocks/t_block_nes.tscn" id="17_tnes"]
+[ext_resource type="PackedScene" uid="uid://dwoj8klprpn78" path="res://scenes/ruins/ruin_map_blocks/t_block_new.tscn" id="18_tnew"]
+[ext_resource type="PackedScene" uid="uid://d1rfwkctyjkcx" path="res://scenes/ruins/ruin_map_blocks/t_block_nsw.tscn" id="19_tnsw"]
 
 [node name="TestArea" type="Node2D" unique_id=1919408686]
 script = ExtResource("1_4slwm")
@@ -24,7 +34,7 @@ encounter_pool = ExtResource("3_0mia4")
 
 [node name="RuinBlockAssembler" type="Node" parent="." unique_id=1764192801]
 script = ExtResource("2_kx4uo")
-block_scenes = Array[PackedScene]([ExtResource("5_yfh0e"), ExtResource("6_ylvw8"), ExtResource("7_q0ajm"), ExtResource("8_eybuf"), ExtResource("9_dqw38")])
+block_scenes = Array[PackedScene]([ExtResource("5_yfh0e"), ExtResource("10_ee"), ExtResource("11_es"), ExtResource("12_ew"), ExtResource("6_ylvw8"), ExtResource("13_vew"), ExtResource("7_q0ajm"), ExtResource("14_cne"), ExtResource("15_cnw"), ExtResource("16_csw"), ExtResource("8_eybuf"), ExtResource("17_tnes"), ExtResource("18_tnew"), ExtResource("19_tnsw"), ExtResource("9_dqw38")])
 
 [node name="Maze" type="Node2D" parent="." unique_id=1006488204]
 

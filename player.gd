@@ -14,8 +14,10 @@ const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
 @onready var shadow: Sprite2D = %Shadow
 @onready var z_sort_pos: Marker2D = %ZSortPos
 @onready var collider: CollisionShape2D = %CollisionShape2D
+@onready var hurt_box: Area2D = %HurtBox
 
 var is_rolling:bool = false
+var is_dodging:bool = false
 var roll_timer:float = 0.0
 var roll_direction:Vector2 = Vector2.ZERO
 var is_attacking:bool = false
@@ -68,10 +70,11 @@ func _physics_process(delta):
 		roll_direction = input_vector if input_vector != Vector2.ZERO else Vector2.RIGHT
 		sprite.play("roll")
 
-	elif Input.is_action_just_pressed("attack") and not is_attacking:
-		is_attacking = true
-		velocity = Vector2.ZERO
-		sprite.play("attack")
+	#TODO: Replace w Player Left Click actions
+	#elif Input.is_action_just_pressed("attack") and not is_attacking:
+		#is_attacking = true
+		#velocity = Vector2.ZERO
+		#sprite.play("attack")
 
 	elif not is_attacking:
 		velocity = input_vector * speed
@@ -158,6 +161,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		nearby_item = null
 	elif nearby_egg:
 		nearby_egg.begin_hatch()
+
+#TODO placeholder to test enemy targeting for player interaction
+func take_damage(amount: int, mod: Modifier.Type, user: Node) -> void:
+	sprite.modulate = Color.RED
+	sprite.scale.y = 1.5
+	var curr_x = sprite.scale.x
+	
+	var t := create_tween()
+	t.set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(sprite, "scale", Vector2(curr_x, 1.0), 0.25)
+	t.tween_property(sprite, "modulate", Color.WHITE, 0.25)
+
 
 func _pet_creature() -> void:
 	if not nearby_creature or nearby_creature.is_busy():
