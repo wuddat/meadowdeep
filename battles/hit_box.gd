@@ -34,7 +34,8 @@ func deliver() -> void:
 		if _shares_faction(actor):
 			continue
 		_already_hit.append(actor)
-		EffectExecutor.run(effects, [actor], _hit_source)
+		if is_instance_valid(actor) and is_instance_valid(_hit_source):
+			EffectExecutor.run(effects, [actor], _hit_source)
 
 
 # True when body is on the owner's side (shares a faction group) — skip allies.

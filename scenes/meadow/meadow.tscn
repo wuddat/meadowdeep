@@ -93,6 +93,7 @@ art = ExtResource("9_5ncuc")
 metadata/_custom_type_script = "uid://ce0btr4rfpgp"
 
 [node name="Meadow" type="Node2D" unique_id=428296654 node_paths=PackedStringArray("base_creature")]
+y_sort_enabled = true
 script = ExtResource("1_foo57")
 base_creature = NodePath("BaseCreature")
 
@@ -100,7 +101,6 @@ base_creature = NodePath("BaseCreature")
 z_index = -1000
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("2_nrc7r")]
-z_index = 1
 position = Vector2(447, 369)
 collision_layer = 5
 collision_mask = 5

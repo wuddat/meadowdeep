@@ -63,7 +63,6 @@ const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 @onready var creature_animation_handler: AnimationPlayer = %CreatureAnimationHandler
 @onready var creature_skin_handler: CreatureSkinHandler  = $CreatureSkinHandler
 @onready var hold_pos: Node2D = %CreatureTextures/HoldPos
-@onready var z_sort_pos: Marker2D = %ZSortPos
 @onready var collider: CollisionShape2D = %CollisionShape2D
 @onready var mouse_detector: Area2D = $MouseDetector
 
@@ -163,7 +162,6 @@ func _ensure_stats() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	_assign_z_to_y()
 	if _being_pet:
 		return
 	if is_held:
@@ -174,9 +172,6 @@ func _physics_process(delta: float) -> void:
 	emotion_handler.tick_emotions(delta, action_queue.current_action)
 	_check_emotion_triggers()
 	_tick_current_action(delta)
-
-func _assign_z_to_y() -> void:
-	self.z_index = int(z_sort_pos.global_position.y)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Action Queue

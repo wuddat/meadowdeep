@@ -23,6 +23,9 @@ const BIT_DIR := {
 }
 
 @export var block_scenes: Array[PackedScene]
+@export var chest_loot_table: LootTable
+
+const CHEST_SCENE := preload("uid://c3edij8wnfsgp")
 
 var _catalog: Dictionary = {}
 var _placed: Dictionary = {}
@@ -92,7 +95,16 @@ func _spawn(room:Room, container: Node2D) -> RuinMapBlock:
 	var block:RuinMapBlock = (_catalog[key] as PackedScene).instantiate() as RuinMapBlock
 	container.add_child(block)
 	block.room = room
+	_add_chest(block)
 	return block
+
+
+# Drops a chest at the block's local origin (0,0) — the room center.
+func _add_chest(block: RuinMapBlock) -> void:
+	var chest: Chest = CHEST_SCENE.instantiate()
+	chest.loot_table = chest_loot_table
+	block.add_child(chest)
+	chest.position = Vector2.ZERO
 
 
 func _snap(parent_block: RuinMapBlock, child_block: RuinMapBlock, dir:StringName) -> void:

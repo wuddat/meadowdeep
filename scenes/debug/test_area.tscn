@@ -29,15 +29,27 @@
 [ext_resource type="PackedScene" uid="uid://dwoj8klprpn78" path="res://scenes/ruins/ruin_map_blocks/t_block_new.tscn" id="15_s2irw"]
 [ext_resource type="PackedScene" uid="uid://d1rfwkctyjkcx" path="res://scenes/ruins/ruin_map_blocks/t_block_nsw.tscn" id="16_bb1uf"]
 [ext_resource type="PackedScene" uid="uid://ddk3crpq8aoqh" path="res://scenes/ruins/ruin_map_blocks/vert_block_ns.tscn" id="18_3g74x"]
+[ext_resource type="Resource" uid="uid://c2tqxii8u64gm" path="res://scenes/ruins/resources/loot_table_test.tres" id="20_f0vtn"]
 
 [sub_resource type="Resource" id="Resource_sbpa6"]
 script = ExtResource("12_cmp30")
 metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
 
+[sub_resource type="Gradient" id="Gradient_dekq5"]
+offsets = PackedFloat32Array(0, 0.9778598)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_f0vtn"]
+gradient = SubResource("Gradient_dekq5")
+fill = 1
+fill_from = Vector2(0.4957265, 0.4957265)
+fill_to = Vector2(0.85897434, 0.14102565)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_6buml"]
 radius = 64.0
 
 [node name="TestArea" type="Node2D" unique_id=1919408686]
+y_sort_enabled = true
 script = ExtResource("1_6buml")
 
 [node name="TestMapGenerator" type="Node" parent="." unique_id=358687206]
@@ -48,9 +60,11 @@ encounter_pool = ExtResource("3_78un0")
 script = ExtResource("4_3wu3x")
 creature = NodePath("../CreatureBattleUnit")
 block_scenes = Array[PackedScene]([ExtResource("7_cmp30"), ExtResource("6_dekq5"), ExtResource("7_f0vtn"), ExtResource("8_xmsec"), ExtResource("9_6qu6p"), ExtResource("5_4axnl"), ExtResource("11_q077l"), ExtResource("12_er86u"), ExtResource("8_poicf"), ExtResource("14_vtkah"), ExtResource("15_s2irw"), ExtResource("16_bb1uf"), ExtResource("6_xtb2t"), ExtResource("18_3g74x"), ExtResource("9_ikjfj")])
+chest_loot_table = ExtResource("20_f0vtn")
 
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=1427632466 groups=["enemy_handler"]]
 unique_name_in_owner = true
+y_sort_enabled = true
 script = ExtResource("10_qgbgy")
 player_data = SubResource("Resource_sbpa6")
 enemy_scene = ExtResource("13_poicf")
@@ -60,6 +74,7 @@ unique_name_in_owner = true
 script = ExtResource("14_ikjfj")
 
 [node name="Maze" type="Node2D" parent="." unique_id=1006488204]
+y_sort_enabled = true
 
 [node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("10_sbpa6")]
 position = Vector2(24, 8)
@@ -67,6 +82,11 @@ collision_mask = 9
 speed = 125.0
 roll_speed = 500.0
 stats = ExtResource("11_lwtph")
+
+[node name="PointLight2D" type="PointLight2D" parent="PlayerModel" unique_id=855429006]
+energy = 0.61
+texture = SubResource("GradientTexture2D_f0vtn")
+texture_scale = 6.72
 
 [node name="CreatureBattleUnit" parent="." unique_id=1852223125 instance=ExtResource("12_ldiwu")]
 position = Vector2(-80, 0)
@@ -87,3 +107,7 @@ scale = Vector2(82.46371, 8.475021)
 zoom = Vector2(1.1, 1.1)
 script = ExtResource("14_fahna")
 _camera_target = NodePath("../PlayerModel")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1439653243]
+z_index = 999
+color = Color(0.427493, 0.42749307, 0.42749307, 1)

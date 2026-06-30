@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 const STAT_VIEW_SCENE := preload("res://scenes/meadow/creature_stat_view.tscn")
 const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
+const PET_SORT_Z := 1000
 
 @export var speed: float = 200.0
 @export var roll_speed: float = 400.0
@@ -12,7 +13,6 @@ const FOOTSTEP_STONE = preload("uid://b1862561egxuj")
 @onready var carry_position: Node2D = %CarryPosition
 @onready var drop_position: Node2D = %DropPosition
 @onready var shadow: Sprite2D = %Shadow
-@onready var z_sort_pos: Marker2D = %ZSortPos
 @onready var collider: CollisionShape2D = %CollisionShape2D
 @onready var hurt_box: Area2D = %HurtBox
 
@@ -49,7 +49,6 @@ func _ready() -> void:
 	_establish_connections()
 
 func _physics_process(delta):
-	_assign_z_to_y()
 	if not _movement_enabled:
 		return
 	var input_vector = Vector2.ZERO
@@ -180,6 +179,7 @@ func _pet_creature() -> void:
 	_is_petting = true
 	nearby_creature.be_pet()
 	_movement_enabled = false
+	z_index = PET_SORT_Z  # pop above the creature being pet; y-sort resumes on release
 	sprite.play("pet")
 
 func _on_animation_looped() -> void:
@@ -192,6 +192,7 @@ func _on_animation_looped() -> void:
 		_curr_anim_loop = 0
 		if nearby_creature:
 			nearby_creature.end_pet()
+		z_index = 0  # rejoin the y-sort pool
 		sprite.play("idle")
 		_is_petting = false
 	
@@ -232,12 +233,6 @@ func _on_camera_target_requested(camera_target: Node) -> void:
 		_movement_enabled = false
 	else:
 		_movement_enabled = true
-
-func _assign_z_to_y() -> void:
-	if _is_petting:
-		self.z_index = 1000
-		return
-	self.z_index = int(z_sort_pos.global_position.y)
 
 func _establish_connections() -> void:
 	if not sprite.frame_changed.is_connected(_on_frame_changed):

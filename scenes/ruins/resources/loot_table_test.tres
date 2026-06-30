@@ -1,20 +1,35 @@
 [gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://c2tqxii8u64gm"]
 
 [ext_resource type="Script" uid="uid://hfrflgf1ontv" path="res://custom_resources/static/loot_table_drop.gd" id="1_mg0d6"]
-[ext_resource type="Resource" uid="uid://bmfmewl6e8gem" path="res://scenes/ruins/resources/test1.tres" id="2_4v4jx"]
+[ext_resource type="Script" uid="uid://b5yeq04ytyeec" path="res://custom_resources/static/item_def.gd" id="2_4v4jx"]
 [ext_resource type="Script" uid="uid://bjabwshglkugs" path="res://custom_resources/static/loot_table.gd" id="2_tiknt"]
 [ext_resource type="Resource" uid="uid://cxtgdej4hal1f" path="res://scenes/ruins/resources/test2.tres" id="3_je6ki"]
 
+[sub_resource type="Resource" id="Resource_e0yqp"]
+metadata/__load_path__ = "res://art/game_art/creatures/greenie/greenie_armR.png"
+
+[sub_resource type="Resource" id="Resource_je6ki"]
+script = ExtResource("2_4v4jx")
+id = "test_loot_1"
+display_name = "TestLoot1"
+description = "TestLoot1_desc"
+category = 4
+value = 100
+art = SubResource("Resource_e0yqp")
+metadata/_custom_type_script = "uid://b5yeq04ytyeec"
+
 [sub_resource type="Resource" id="Resource_noq14"]
 script = ExtResource("1_mg0d6")
-item = ExtResource("2_4v4jx")
-min_qty = 0
+item = SubResource("Resource_je6ki")
+min_qty = 2
+max_qty = 3
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [sub_resource type="Resource" id="Resource_ngmlf"]
 script = ExtResource("1_mg0d6")
 item = ExtResource("3_je6ki")
-max_qty = 2
+min_qty = 3
+max_qty = 5
 metadata/_custom_type_script = "uid://hfrflgf1ontv"
 
 [resource]
