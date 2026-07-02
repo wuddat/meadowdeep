@@ -1,7 +1,7 @@
 class_name Particles
 extends Node2D
 
-@onready var gpu_particles_2d: GPUParticles2D = $GPUParticles2D
+@export var gpu_particles_2d: GPUParticles2D
 
 var duration: float = 1.0
 

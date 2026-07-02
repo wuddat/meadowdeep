@@ -49,8 +49,9 @@ scale_max = 0.59999996
 scale_curve = SubResource("CurveTexture_2f0qf")
 alpha_curve = SubResource("CurveTexture_0fosr")
 
-[node name="Particles" type="Node2D" unique_id=2079994363]
+[node name="Particles" type="Node2D" unique_id=2079994363 node_paths=PackedStringArray("gpu_particles_2d")]
 script = ExtResource("1_qaunl")
+gpu_particles_2d = NodePath("GPUParticles2D")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1679800620]
 emitting = false

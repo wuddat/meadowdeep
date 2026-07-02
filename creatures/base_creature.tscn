@@ -1230,7 +1230,7 @@ script = ExtResource("1_b2jx7")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=554806506]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-2.9802322e-08, 4)
+position = Vector2(0.49999806, -10.5)
 scale = Vector2(1.0312499, 1)
 texture = ExtResource("2_tam7t")
 
@@ -1241,6 +1241,7 @@ position = Vector2(2.3841858e-07, 11)
 [node name="CreatureNode" type="CanvasGroup" parent="." unique_id=276495048]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_t2q5c")
+position = Vector2(0.4999981, -14.5)
 fit_margin = 0.0
 clear_margin = 0.0
 
@@ -1263,13 +1264,13 @@ position = Vector2(17, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2144795676]
 unique_name_in_owner = true
-position = Vector2(1, 15)
+position = Vector2(1.4999981, 0.5)
 shape = SubResource("RectangleShape2D_hx7dx")
 
 [node name="EmotionDisplay" type="Sprite2D" parent="." unique_id=981894687]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
-position = Vector2(10, -15)
+position = Vector2(10.499998, -29.5)
 scale = Vector2(0.53125, 0.53125)
 texture = ExtResource("5_k81i3")
 
@@ -1301,7 +1302,7 @@ unique_name_in_owner = true
 script = ExtResource("16_t2q5c")
 
 [node name="Particles" parent="." unique_id=2079994363 instance=ExtResource("14_w4qan")]
-position = Vector2(2, -17)
+position = Vector2(2.499998, -31.5)
 
 [node name="CreatureAnimationHandler" type="AnimationPlayer" parent="." unique_id=1263077136 node_paths=PackedStringArray("emotion_display", "emotion_player", "particles")]
 unique_name_in_owner = true
@@ -1312,6 +1313,7 @@ emotion_player = NodePath("../EmotionDisplay/EmotionPlayer")
 particles = NodePath("../Particles")
 
 [node name="MouseDetector" type="Area2D" parent="." unique_id=2038709639]
+position = Vector2(0.4999981, -14.5)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseDetector" unique_id=1794281987]

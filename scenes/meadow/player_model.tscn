@@ -221,11 +221,12 @@ speed = 75.0
 unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 z_index = -1
-position = Vector2(2, 13)
+position = Vector2(-1.59375, -11.5)
 scale = Vector2(1.2128906, 1)
 texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
+position = Vector2(-3.59375, -24.5)
 sprite_frames = SubResource("SpriteFrames_2k1gd")
 animation = &"idle"
 autoplay = "run"
@@ -233,20 +234,20 @@ frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
 unique_name_in_owner = true
-position = Vector2(3.5, 24)
+position = Vector2(-0.09375, -0.5)
 shape = SubResource("RectangleShape2D_8aly8")
 
 [node name="CarryPosition" type="Node2D" parent="." unique_id=501755239]
 unique_name_in_owner = true
-position = Vector2(18, 4)
+position = Vector2(14.40625, -20.5)
 
 [node name="DropPosition" type="Node2D" parent="." unique_id=1981231435]
 unique_name_in_owner = true
-position = Vector2(46, 16)
+position = Vector2(42.40625, -8.5)
 
 [node name="ZSortPos" type="Marker2D" parent="." unique_id=208391832]
 unique_name_in_owner = true
-position = Vector2(3, 21)
+position = Vector2(-0.59375, -3.5)
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=1894366685]
 unique_name_in_owner = true
