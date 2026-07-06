@@ -47,6 +47,7 @@
 			"egg_rarity": "common",
 			"egg_depth_found": 0.0,
 			"sprite_path": "res://art/game_art/creatures/bat/bat_sprite_frames.tres",
+			"battlecry": "res://art/game_art/sfx/bat_sfx1.wav",
 			"icon_path": "res://art/placeholder.png",
 			"starting_actions": ["enemy_wander", "enemy_dash", "enemy_bite"],
 			"base_speed": 200,

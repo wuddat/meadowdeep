@@ -62,6 +62,9 @@ func _build_definitions() -> void:
 			def.frames = sprite_res
 		else:
 			def.art = sprite_res
+		var battlecry = data.get("battlecry", "")
+		if battlecry != "":
+			def.battlecry = load(battlecry)
 		def.action_ids = Utils.to_typed_string_array(data.get("action_ids", []))
 		def.starting_actions = Utils.to_typed_string_array(data.get("starting_actions", []))
 		def.evolves_to = data.get("evolves_to", "")

@@ -26,6 +26,8 @@ signal item_picked_up(item, qty)
 # Player
 @warning_ignore("unused_signal")
 signal player_died
+@warning_ignore("unused_signal")
+signal player_damaged(amount: int)
 
 # Combat lifecycle
 @warning_ignore("unused_signal")

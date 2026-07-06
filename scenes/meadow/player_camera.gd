@@ -37,8 +37,13 @@ func _on_camera_target_requested(camera_target: Node) -> void:
 		_transitioning_target = true
 		_camera_target = camera_target
 
+func _on_player_damaged(amount: int) -> void:
+	await Shaker.shake(self, amount)
+
 func _establish_connections() -> void:
 	if not Events.shake_camera_requested.is_connected(_on_shake_requested):
 		Events.shake_camera_requested.connect(_on_shake_requested)
 	if not Events.camera_target_requested.is_connected(_on_camera_target_requested):
 		Events.camera_target_requested.connect(_on_camera_target_requested)
+	if not Events.player_damaged.is_connected(_on_player_damaged):
+		Events.player_damaged.connect(_on_player_damaged)

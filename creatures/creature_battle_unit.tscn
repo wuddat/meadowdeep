@@ -1184,9 +1184,11 @@ height = 22.0
 radius = 43.011627
 
 [node name="CreatureBattleUnit" type="CharacterBody2D" unique_id=1852223125 node_paths=PackedStringArray("creature_animation_handler", "modifier_handler", "collider", "hit_box", "hurt_box") groups=["active_creatures", "pets"]]
-collision_layer = 3
-collision_mask = 8
+collision_layer = 2
+collision_mask = 9
 motion_mode = 1
+platform_floor_layers = 0
+platform_wall_layers = 8
 script = ExtResource("1_cbu01")
 sprite_frames = ExtResource("2_yfbhk")
 base_movespeed = 80.0

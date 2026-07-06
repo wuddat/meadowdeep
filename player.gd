@@ -8,6 +8,7 @@ const PET_SORT_Z := 1000
 @export var roll_speed: float = 400.0
 @export var roll_duration: float = 0.3
 @export var stats:PlayerData
+@export var lerp_speed: float = 10
 
 @onready var sprite: AnimatedSprite2D = $Player
 @onready var carry_position: Node2D = %CarryPosition
@@ -15,6 +16,7 @@ const PET_SORT_Z := 1000
 @onready var shadow: Sprite2D = %Shadow
 @onready var collider: CollisionShape2D = %CollisionShape2D
 @onready var hurt_box: Area2D = %HurtBox
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 var is_rolling:bool = false
 var is_dodging:bool = false
@@ -58,10 +60,14 @@ func _physics_process(delta):
 	input_vector = input_vector.normalized()
 
 	if is_rolling:
+		if not animation_player.is_playing():
+			animation_player.play("roll")
+		self.collision_layer = 0
 		roll_timer -= delta
 		velocity = roll_direction * roll_speed
 		if roll_timer <= 0:
 			is_rolling = false
+			self.collision_layer = 1
 
 	elif Input.is_action_just_pressed("ui_accept"):
 		is_rolling = true
@@ -76,7 +82,7 @@ func _physics_process(delta):
 		#sprite.play("attack")
 
 	elif not is_attacking:
-		velocity = input_vector * speed
+		_apply_movement(input_vector, delta)
 		var carrying := held_creature or carried_food or carried_item
 		if input_vector != Vector2.ZERO:
 			var run_anim := "carry_run" if carrying else "run"
@@ -122,6 +128,9 @@ func _physics_process(delta):
 				nearby_creature = _collider
 				break
 
+func _apply_movement(input:Vector2, delta: float) -> void:
+	var target_velocity: Vector2 = input * speed
+	velocity = velocity.lerp(target_velocity, lerp_speed * delta )
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventKey and event.keycode == KEY_P and event.pressed and not event.echo):
@@ -171,6 +180,8 @@ func take_damage(amount: int, mod: Modifier.Type, user: Node) -> void:
 	t.set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	t.tween_property(sprite, "scale", Vector2(curr_x, 1.0), 0.25)
 	t.tween_property(sprite, "modulate", Color.WHITE, 0.25)
+	
+	Events.player_damaged.emit(amount)
 
 
 func _pet_creature() -> void:

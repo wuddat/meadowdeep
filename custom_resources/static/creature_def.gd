@@ -25,6 +25,7 @@ extends Resource
 @export_group("BattleActions")
 @export var action_ids: Array[String] = []        # learnable pool
 @export var starting_actions: Array[String] = []  # moves at creation
+@export var battlecry: AudioStream
 
 # ── Egg Origin ────────────────────────────────────────────────────────────────
 @export_group("Egg Origin")

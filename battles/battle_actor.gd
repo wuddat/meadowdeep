@@ -22,6 +22,7 @@ const KNOCKBACK_IMMUNE: Array[StringName] = [&"tackle", &"dash"]  # committed bu
 var _in_combat: bool = false
 var action_queue := ActionQueue.new()
 var _current_action: BattleAction
+var battlecry: AudioStream
 
 var is_dodging: bool = false
 var is_countering: bool = false
@@ -118,7 +119,9 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 					extents = (collider.shape as RectangleShape2D).size
 				hit_box.setup(data["effects"], self, extents)
 				hit_box.activate()
-		&"indicate":   _spawn_hit_indicator(data)
+		&"indicate":   
+			_play_battlecry()
+			_spawn_hit_indicator(data)
 		&"bite":
 			_play_animation(&"bite")
 			_spawn_bite_fang(data)
@@ -416,6 +419,11 @@ func _face_target(data: Dictionary) -> void:
 	var target = data.get("target")
 	if is_instance_valid(target):
 		_face_direction(target.global_position - global_position)
+
+func _play_battlecry() -> void:
+	if not battlecry:
+		return
+	SFXPlayer.pitch_play(battlecry)
 
 func _update_action_timer_ui(_remaining: float) -> void:
 	pass

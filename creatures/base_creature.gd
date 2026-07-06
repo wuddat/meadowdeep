@@ -21,19 +21,6 @@ const JOY_BUBBLE     = preload("uid://b2g1rvgiv1pxs")
 const STAT_PALETTE_SHADER := preload("uid://boy12gwxxdf87")
 const QUESTION_BUBBLE = preload("uid://bpd78uay7a3i6")
 
-
-const EYES_CLOSED = preload("uid://skq2nptaavw4")
-const EYES_CUTE = preload("uid://capxhpxiavcru")
-const EYES_HAPPY = preload("uid://bpik3cnbaygqr")
-const EYES_HEART = preload("uid://ca3ebsrm3drr")
-const EYES_SAD = preload("uid://dnx21qcy3ajs2")
-const MOUTH_FROWN = preload("uid://bxx62nul0ymkg")
-const MOUTH_GRIN = preload("uid://vbg5tgivr72c")
-const MOUTH_SMILE = preload("uid://bdc3kfksvk4uu")
-const MOUTH_SURPRISE = preload("uid://cf2hju6xyyjsb")
-const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
-
-
 # ── Tuning ────────────────────────────────────────────────────────────────────
 @export_group("Movement")
 @export var movespeed: float        = 40.0
@@ -49,6 +36,7 @@ const MOUTH_TONGUE = preload("uid://bajaqeslch3vf")
 # ── Action queue ──────────────────────────────────────────────────────────────
 var action_queue := ActionQueue.new()
 const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
+const HUNGER_REFILL: float = 10.0
 
 # ── Scene refs ────────────────────────────────────────────────────────────────
 @onready var _sprite: CreatureTextures         = %CreatureTextures
@@ -65,6 +53,7 @@ const BUSY_ACTIONS: Array[StringName] = [&"sleep", &"eat_food", &"absorb_item"]
 @onready var hold_pos: Node2D = %CreatureTextures/HoldPos
 @onready var collider: CollisionShape2D = %CollisionShape2D
 @onready var mouse_detector: Area2D = $MouseDetector
+@onready var shadow: Sprite2D = %Shadow
 
 # ── Creature Ref ────────────────────────────────────────────────────────────────
 @export var instance: CreatureInstance : set = set_instance
@@ -86,6 +75,7 @@ var is_held := false
 var _saved_collision_layer := 0
 var _saved_collision_mask := 0
 var _being_pet:bool = false
+var _shadow_base_pos: Vector2
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Lifecycle
@@ -162,11 +152,14 @@ func _ensure_stats() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not _shadow_base_pos:
+		_shadow_base_pos = shadow.position
 	if _being_pet:
 		return
 	if is_held:
 		var carry_node := _holder.get("carry_position") as Node2D
-		global_position = carry_node.global_position if carry_node else _holder.global_position + HOLD_OFFSET
+		global_position = (carry_node.global_position - Vector2(0, -10)) if carry_node else _holder.global_position + HOLD_OFFSET
+		shadow.global_position = global_position
 		velocity = Vector2.ZERO
 		return
 	emotion_handler.tick_emotions(delta, action_queue.current_action)
@@ -197,8 +190,6 @@ func _on_action_start(id: StringName, data: Dictionary) -> void:
 		&"wander":
 			if creature_animation_handler:
 				creature_animation_handler.play_move_animation()
-			if eyes:
-				eyes.texture = EYES_CUTE
 		&"sleep":
 			velocity = Vector2.ZERO
 			if creature_skin_handler:
@@ -364,7 +355,7 @@ func _tick_eat_food(data: Dictionary, delta: float) -> void:
 		var food_data: FoodDef = _eating_food.get("item_data")
 		if food_data and creature_stat_handler:
 			creature_stat_handler.apply_food(food_data)
-	instance.raise_emotion(&"hunger", 20.0 * delta)
+	instance.raise_emotion(&"hunger", HUNGER_REFILL * delta)
 	if not action_sfx.playing:
 		action_sfx.pitch_scale = randf_range(0.9, 1.1)
 		action_sfx.play()
@@ -457,6 +448,8 @@ func toss_item(item:WorldItemBase) -> void:
 func release() -> void:
 	is_held = false
 	_holder = null
+	shadow.global_position = global_position
+	shadow.position = _shadow_base_pos
 	collision_layer = _saved_collision_layer
 	collision_mask = _saved_collision_mask
 	action_queue.push_front(&"idle", {})

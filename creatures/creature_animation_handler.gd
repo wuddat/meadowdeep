@@ -6,6 +6,7 @@ signal damage_frame
 @export var emotion_display: Node2D
 @export var emotion_player: AnimationPlayer
 @export var particles: Particles
+@export var hold_pos: Node
 
 var move_SFX: AudioStream
 var move_anim: String = "move_hop"
@@ -20,6 +21,8 @@ const QUESTION_BUBBLE = preload("res://art/game_art/emoticons/question.png")
 
 const CURIOUS_1 = preload("res://art/game_art/sfx/curious1.wav")
 const HAH = preload("uid://c7des6ggaas3i")
+
+const PARTICLES = preload("uid://d03ef5edxdj2c")
 
 const ABSORB_ITEM = preload("uid://bhgt7fphiyuus")
 const GIVE_ITEM = preload("uid://bavc86swxvjti")
@@ -86,9 +89,11 @@ func footstep() -> void:
 		SFXPlayer.pitch_play(move_SFX)
 
 func release_particles() -> void:
-	if particles:
-		particles.emit_particles()
-		SFXPlayer.play(ABSORB_ITEM)
+	var _particles: = PARTICLES.instantiate() as Particles
+	_particles.global_position =  hold_pos.global_position
+	add_child(_particles)
+	_particles.emit_particles()
+	SFXPlayer.play(ABSORB_ITEM)
 
 func play_growth_item_received_SFX() -> void:
 	SFXPlayer.play(GIVE_ITEM)

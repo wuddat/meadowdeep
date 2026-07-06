@@ -32,6 +32,7 @@ MusicPlayer="*res://global/music_player.tscn"
 SFXPlayer="*uid://dh8pu62u743l5"
 QTEController="*uid://bbb5qqrujky84"
 EffectExecutor="*uid://bxd3rx826sv1s"
+Hitstop="*uid://ddy0to6upysgk"
 SaveMgr="*uid://c5i8cf1r1tqr3"
 
 [display]

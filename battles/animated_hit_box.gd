@@ -3,10 +3,6 @@ extends Node2D
 
 signal deliver_damage
 
-# A committing, animation-driven bite. The AnimatedSprite2D drives the hit: on
-# `damage_frame` we fire a one-shot HitBox.deliver(); the fang frees itself when the
-# (non-looping) animation finishes. We just inject what to deal and play it.
-
 
 @onready var animated_sprite: AnimatedSprite2D = %AnimatedSprite2D
 @onready var hit_box: HitBox = %HitBox
@@ -30,7 +26,7 @@ func setup(effects: Array[Effect], source: Node) -> void:
 	if animated_sprite:
 		animated_sprite.play(ANIMATION)
 	else:
-		queue_free()  # nothing to play — kill
+		queue_free()
 
 func _on_frame_changed() -> void:
 	if animated_sprite.frame == damage_frame:

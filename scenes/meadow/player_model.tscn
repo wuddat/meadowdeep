@@ -213,7 +213,47 @@ size = Vector2(19, 6)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6nirf"]
 height = 40.0
 
+[sub_resource type="Animation" id="Animation_6nirf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_swpig"]
+resource_name = "roll"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.48296815, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r6vod"]
+_data = {
+&"RESET": SubResource("Animation_6nirf"),
+&"roll": SubResource("Animation_swpig")
+}
+
 [node name="PlayerModel" type="CharacterBody2D" unique_id=1075955909 groups=["player"]]
+collision_mask = 8
+platform_floor_layers = 4294901760
+platform_wall_layers = 8
 script = ExtResource("1_ju0yt")
 speed = 75.0
 
@@ -221,12 +261,12 @@ speed = 75.0
 unique_name_in_owner = true
 modulate = Color(0, 0, 0, 1)
 z_index = -1
-position = Vector2(-1.59375, -11.5)
+position = Vector2(1, -12)
 scale = Vector2(1.2128906, 1)
 texture = ExtResource("2_u562n")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1128078783]
-position = Vector2(-3.59375, -24.5)
+position = Vector2(1, -24.5)
 sprite_frames = SubResource("SpriteFrames_2k1gd")
 animation = &"idle"
 autoplay = "run"
@@ -234,24 +274,24 @@ frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=4162160]
 unique_name_in_owner = true
-position = Vector2(-0.09375, -0.5)
+position = Vector2(4.5, -0.5)
 shape = SubResource("RectangleShape2D_8aly8")
 
 [node name="CarryPosition" type="Node2D" parent="." unique_id=501755239]
 unique_name_in_owner = true
-position = Vector2(14.40625, -20.5)
+position = Vector2(19, -20.5)
 
 [node name="DropPosition" type="Node2D" parent="." unique_id=1981231435]
 unique_name_in_owner = true
-position = Vector2(42.40625, -8.5)
+position = Vector2(32, -1)
 
 [node name="ZSortPos" type="Marker2D" parent="." unique_id=208391832]
 unique_name_in_owner = true
-position = Vector2(-0.59375, -3.5)
+position = Vector2(4, -3.5)
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=1894366685]
 unique_name_in_owner = true
-visible = false
+position = Vector2(2.59375, -24)
 collision_layer = 32
 collision_mask = 0
 monitoring = false
@@ -260,5 +300,9 @@ monitoring = false
 position = Vector2(1, 0)
 shape = SubResource("CapsuleShape2D_6nirf")
 debug_color = Color(0.9818997, 0.13531008, 5.7756904e-07, 0.41960785)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=727435834]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_r6vod")
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]
