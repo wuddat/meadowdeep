@@ -12,7 +12,9 @@ The developer already knows GDScript well and has shipped a complete Godot proje
 
 ## Read This First, Every Session
 
-Before suggesting code, writing code, or accepting a design, the **vision** must be in scope. The emotional core of MeadowDeep is the lens through which every decision is evaluated. Architecture serves the feeling. The feeling does not serve the architecture.
+Before suggesting code, writing code, or accepting a design, the **vision** must be in scope. The lynchpin of MeadowDeep is **FUN** — the game has to feel good to play and pull you back. Everything else, creature expression included, serves that. Architecture serves the feeling; the feeling serves the fun.
+
+Fun has two layers, and the order between them is load-bearing. The **floor** — mechanics, feel, juice, and a loop worth repeating — must exist before the **ceiling** — expression, the creature you raised revealing itself — can land. A creature emoting beautifully inside a mushy, unsatisfying fight is not fun. Build the floor first; the ceiling sits on top of it.
 
 This document holds both the vision (the WHY) and the technical state (the WHAT). When they conflict, the vision wins.
 
@@ -20,9 +22,11 @@ This document holds both the vision (the WHY) and the technical state (the WHAT)
 
 ## The Emotional Core
 
-> **MeadowDeep is about watching the creature you raised reveal itself.**
+> **The lynchpin is FUN — the game has to feel good to play and pull you back.**
+>
+> **Its highest form — the ceiling — is watching the creature you raised reveal itself.**
 
-Every system exists to support that single feeling. The act of raising a creature — feeding it, playing with it, building bonds, exploring with it — must culminate in moments where the player SEES who the creature became under their care. Combat is the most powerful of these moments because it's where character is most visibly expressed: how the creature moves, what it chooses to do, how it handles pressure, whether it hesitates or charges, whether it protects or pursues.
+Expression is the ceiling, not a rival to fun and not a substitute for it. It is *how MeadowDeep reaches its highest fun* — the thing that makes this game's fun distinct from a generic autobattler — and it only lands on a floor that already feels good. With that ordering held, everything below about expression still holds: it is the peak the whole machine is built to reach. The act of raising a creature — feeding it, playing with it, building bonds, exploring with it — must culminate in moments where the player SEES who the creature became under their care. Combat is the most powerful of these moments because it's where character is most visibly expressed: how the creature moves, what it chooses to do, how it handles pressure, whether it hesitates or charges, whether it protects or pursues.
 
 This is the Chao Garden lineage. Chao races weren't emotionally powerful because of stat math. They were powerful because the player watched a creature they had personally shaped EXPRESS who it had become. The race was a stage. The stats were a vocabulary. The chao was the actor. MeadowDeep wants the same relationship between player, creature, and combat.
 
@@ -36,16 +40,43 @@ If a system in this codebase doesn't ultimately serve that — directly or indir
 
 ---
 
+## The Floor and the Ceiling — What FUN Is Made Of
+
+FUN is the lynchpin. It resolves into four buckets, built roughly in this order. Every board item is one of these.
+
+**FLOOR — mechanics, feel, juice. "It visibly CHANGED."** The game must feel good to play and pull you back *even with a generic sprite as the fighter.* The dependency layer everything else stands on:
+- **Feel & juice** — combat game-feel and feedback: hitstop, knockback, camera shake, death FX, readable damage/threat, satisfying loot pickups.
+- **Progression mechanics** — numbers go up, and the creature's *form and color visibly change* as a readable function of those numbers (`morph_from_stats` shape morph + `StatPalette` color), with behavior-weight hooks wired and expandable (`_evaluate_intent` proven on Courage). Systemic, legible change — not yet characterful.
+- **Ruins loop** — the descent carried to floor-fidelity with solid juice: real enemy archetypes, rewards worth wanting, a legible boss, mechanical room beats, in-run stakes and spending.
+
+Readability lives in the floor: if you can't read the fight, no fun of any kind lands. Floor telegraphs are non-animated tells (indicators, flashes); the animated wind-up is ceiling.
+
+**CEILING — expression via animation and behavior. "It visibly ACTS like someone."** The distinctive MeadowDeep high: the creature you raised revealing itself as a *character*. The differentiator — but built *on top of* a floor that already feels good. Expressive animation (posture, flinch, facial states); the animation layer of `morph_from_stats`; the Brain's rich axis expansion past Courage; bond effects; the player's in-fight director role; elemental identity as behavior; the egg/hatch reveal; ruin write-back onto the creature.
+
+**CONTENT** — breadth that populates systems that already work (more enemies, rooms, moves, biomes). Gated: don't scale past what's needed to prove the loop is fun until a floor pillar and the expression keystone are standing.
+
+**SUPPORT** — surrounding tissue the game can be proven fun without (story, tutorial, meadow-sink economy, habitat, accessibility, audio content, polish). Valuable; later.
+
+**Split lines we've committed:**
+- `morph_from_stats()` splits — mechanical *shape* morph is **floor**; expressive animation on top is **ceiling**.
+- The Brain splits — wired, expandable weights are **floor substrate** (Courage proves the hook); rich personality performance is **ceiling**.
+- Economy splits — in-run spending is **floor** (loop stakes); the meadow-sink is **support**.
+- Telegraphs split — non-animated tells are **floor** (readability); animated wind-ups are **ceiling**.
+
+**Build order: floor first.** The ceiling is not touched until the floor stands. Everything creature-*expressive* waits on a fight that already feels good and a loop already worth repeating.
+
+---
+
 ## What This Means In Practice
 
 ### Combat is a stage, not a calculator
 
 The game pivoted from card-based combat to a **brain-driven autobattler**. The player is the AUDIENCE, not the operator. Combat is something the player has MINIMAL interaction with. They WATCH what the creature does, with light interaction for engagement. This shapes everything:
 
-- Damage equations are not the point. **Visible behavior is the point.**
-- A creature winning by 1 HP because it hesitated bravely is more valuable than a creature winning cleanly with optimal play.
-- "Watching numbers play themselves" is the failure mode. If combat reads as math instead of acting, the design has failed.
-- Animation, timing, posture, and decision visibility are not polish — they are the product.
+- The fight must first **feel good to watch** — hits land with weight, feedback is juicy and readable. That's the floor. **Visible behavior is the ceiling** the floor is built to carry.
+- A creature winning by 1 HP because it hesitated bravely is more valuable than a creature winning cleanly with optimal play — *once the fight already feels good.* Expression on top of mush isn't compelling.
+- Two failure modes, not one: "watching numbers play themselves," and "watching a limp, feelless fight." If combat reads as math, or reads as mush, the design has failed.
+- Game-feel and readability are the floor; animation, timing, posture, and decision visibility are the ceiling it carries. Both are the product — in that order.
 
 ### Stats are character, not numbers
 
@@ -80,17 +111,19 @@ When designing meadow systems, ask: _does this create something the player will 
 
 Before suggesting code, writing code, or accepting a design, run the proposal through these questions. Ordered by importance.
 
-1. **Does this make the creature more visible as a character?** The single most important question. Visibility means: the player can SEE who the creature is, in motion, in choice, in expression.
+1. **Is it FUN — or on the path to it?** The lynchpin. Does this make the game feel better to play, or more worth repeating? For floor work the answer is direct. For ceiling, content, or support work, the honest test is: *if I only built this, would the next playtest be more fun?* If no, it's probably support — park it until a floor pillar or the expression keystone is standing.
 
-2. **Does this honor the player's investment?** The player has spent time in the meadow. Does the system REWARD that investment by making it visible, or does it bypass it?
+2. **Floor or ceiling — and is the floor under it standing yet?** Expression, personality, and the reveal are the ceiling; feel, readability, progression mechanics, and a repeatable loop are the floor. If a proposal is ceiling work and the floor beneath it isn't fun yet, it's out of order.
 
-3. **Is the player a director or an operator here?** Director good. Operator bad. If a feature pulls the player toward micromanaging combat decisions, it's drifting toward operator.
+3. **Does this make the creature more visible as a character?** The ceiling's core question. The player can SEE who the creature is, in motion, in choice, in expression. Vital — but it lands only on a floor that already feels good.
 
-4. **Could a wild creature do this exactly the same way?** If yes, the system isn't expressing the bond/raising relationship. A raised creature should fight, behave, and respond differently from a wild one.
+4. **Does this honor the player's investment?** Does the system REWARD the raising by making it visible, or bypass it?
 
-5. **Is this code on the path to expression, or off it?** Plumbing is fine — flag it as plumbing. But "feature" code that doesn't ladder up to character expression should be questioned.
+5. **Is the player a director or an operator here?** Director good. Operator bad. If a feature pulls the player toward micromanaging combat decisions, it's drifting toward operator.
 
-6. **Would removing this lose anything emotionally important?** The strongest test of whether a system earns its keep.
+6. **Could a wild creature do this exactly the same way?** If yes, the system isn't expressing the bond/raising relationship.
+
+7. **Would removing this lose anything — fun or emotionally important?** The strongest test of whether a system earns its keep.
 
 ---
 
@@ -109,10 +142,6 @@ These are the load-bearing decisions. Don't undo them without understanding why 
 ### The Brain is stateless
 
 **Why:** so the same brain implementation works for any actor. The actor brings its own action pool and context. The brain reads, scores, picks. It doesn't remember.
-
-### Cards are dormant, not deleted
-
-**Why:** they were built for a different vision (player-as-operator). The pivot didn't need their absence; it needed their irrelevance. Leaving them on disk costs nothing and preserves optionality. **But: do not revive them.**
 
 ### Meadow and battle are parallel, not unified
 
@@ -146,7 +175,11 @@ Globals are seductive. Use autoloads for genuinely global concerns (Events, RNG)
 
 ### The "the architecture works, let's add content" trap
 
-Adding more BattleActions, creatures, items, rooms is tempting because it shows visible progress. But content built on top of a system whose VISION isn't fully expressed yet is content the player won't feel. Make existing systems sing before adding more instruments.
+Adding more BattleActions, creatures, items, rooms is tempting because it shows visible progress. But content poured onto a floor that isn't fun yet — a fight that doesn't feel good, a loop not worth repeating — is content the player won't feel. Make the floor fun before adding more instruments.
+
+### The "polish the ceiling on a mushy floor" trap
+
+Reaching for expression — expressive animation, personality nuance, the reveal — before the fight feels good and the loop pulls. The ceiling is the whole point, but it cannot be *felt* on a floor that isn't fun. If you catch yourself building expression while the moment-to-moment still reads limp or unreadable, stop and finish the floor. Floor first. Always.
 
 ---
 
@@ -197,7 +230,7 @@ Eggs are the primary way to acquire new creatures.
 
 ### Engine
 
-Godot 4.4, GDScript, JSON-driven data for creatures/moves/items.
+Godot 4.4, GDScript. Creature species data is JSON-driven (`data/creatures.json`); moves and items are now authored as Godot resources (`.tres`), not JSON.
 
 **JSON footgun:** `JSON.parse_string` returns numeric literals as **floats** (`5.0`, not `5`). Godot `Dictionary` lookups are type-strict, so `dict[5]` and `dict[5.0]` are different keys. When JSON data feeds an int-keyed lookup (enum maps, grade tables, type IDs), `int()`-cast at the boundary. Silent miss otherwise — `.get(default)` just returns the default and you'll chase a phantom for an hour.
 
@@ -241,33 +274,59 @@ queue_emptied → Brain.select_action()
                   ├─ filter battle_action_list by intent + can_execute()
                   └─ _pick_weighted() → BattleAction
               → BattleActor calls action.execute_action(self)
-              → action enqueues primitive (&"move", &"attack", &"projectile", &"idle")
+              → action enqueues primitive (&"move", &"strike", &"projectile", &"idle")
               → BattleActor ticks the primitive until it calls action_queue.done()
               → repeat
 ```
 
-### Current Action Roster
+### Action Roster
 
-| Action                 | Intent                  | Condition                    | Enqueues                                           |
-| ---------------------- | ----------------------- | ---------------------------- | -------------------------------------------------- |
-| `AttackAction`         | AGGRESSIVE              | in range                     | `&"strike"`                                        |
-| `DashAction`           | AGGRESSIVE or DEFENSIVE | out of stop_distance         | `&"dash" enum Mode { TOWARD, AWAY, LEFT, RIGHT }`  |
-| `MoveToAction`         | AGGRESSIVE or DEFENSIVE | closer than desired_distance | `&"move" enum Mode {TOWARD, AWAY, ORBITL, ORBITR}` |
-| `FireProjectileAction` | AGGRESSIVE or DEFENSIVE | closer than desired_distance | `&"projectile"`                                    |
-| `BraceAction`          | DEFENSIVE               | always                       | `&"brace"`                                         |
+Actions are `BattleAction` resources (`.tres`) auto-registered by the **`ActionData`** autoload, which scans `battles/battle_actions/**/*.tres` by filename stem. Each is tagged `AGGRESSIVE` or `DEFENSIVE` (mirrored by the `aggressive/` and `defensive/` subfolders); the Brain filters by intent + `can_execute()`, then weight-picks one. A `BattleActor` hydrates its pool in the order `assigned → known → starting_actions`. Each action enqueues a primitive (`&"strike"`, `&"dash"`, `&"move"`, `&"projectile"`, `&"tackle"`, `&"bite"`, `&"brace"`, `&"indicate"`, …) that the actor ticks to completion before the queue empties and the Brain picks again.
+
+Representative actions: `strike`, `move_toward`/`move_away`/`move_orbitL`/`move_orbitR`, `dash_in`/`dash_out`, `tackle`, `bite`, `counter`, `shove_away`, `reversal`, `roar`, `buff_charge`, `buff_brace`, `throw_rock`, `shoot`. Enemy-only variants: `enemy_bite`, `enemy_dash`, `enemy_wander`. The action script types (`attack_action.gd`, `dash_action.gd`, `move_to_action.gd`, `fire_projectile_action.gd`, `buff_action.gd`, `counter_action.gd`, `bite_action.gd`, `tackle_action.gd`) are the behaviors those resources bind to.
 
 ### What Is True Right Now
 
-- **The core loop is closed (2026-05-30).** Meadow creature growth → ruins descent → combat (brain-driven, stats + behaviors + weights) → loot gain → boss fight → return all function end-to-end. The skeleton is whole; remaining work is **content, not plumbing** (care verbs, bonds, growth/evolution, elements, statuses, enemy/boss variety, ruins room types & biomes, roguelite depth, progression, polish). See [[project_content_roadmap]] for the categorized backlog. The failure mode to resist now is "architecture works, let's add content" decoupled from expression — every content add must ladder to making the raised creature visible (run it through The Lens).
+- **The core loop is closed (2026-05-30).** Meadow creature growth → ruins descent → combat (brain-driven, stats + behaviors + weights) → loot gain → boss fight → return all function end-to-end. The skeleton is whole; remaining work is **content, not plumbing** (care verbs, bonds, growth/evolution, elements, statuses, enemy/boss variety, ruins room types & biomes, roguelite depth, progression, polish). See [[project_content_roadmap]] for the categorized backlog. The failure mode to resist now is "architecture works, let's add content" decoupled from **fun** — the floor (feel, readable combat, functional progression, a loop worth repeating) has to be fun before ceiling expression or breadth content earns its place. Floor first; run every add through The Lens.
 - **The Brain exists** as a proof of concept. A brave ember fights differently than a cautious one. Once there is more content like battle actions, actual goals in the ruins, and more concrete stat implementation, this should be revisited for more impactful weighting and expansion past just Courage weighting. Reads personality via `_actor.instance.identity.personality`.
 - **Cards are purged** (2026-05-12). Do not revive.
 - **The QTE system is functional but cosmetic/inert** — QTE while player is a present entity in the ruins is clunky and distracts from the main focus, the creature.
-- **Stats exist as numbers** but the eventual goal is behavioral expression. The bridge from "stat number" to "visible behavior fingerprint" is a necessary wiring once the content foundation is laid.
+- **Stats are numbers becoming change.** The color bridge shipped — `StatPalette` turns stat investment into body color (see Shipped Systems). The missing **floor** half is `morph_from_stats` shape morph: the creature visibly *changing form* as you raise it. The *expressive* bridge — that change performed as personality — is the **ceiling**, and waits on the floor.
 - **The meadow has mechanical foundations** (creatures, food, items) but its emotional surface (bond, habitat, eggs, personality emergence) is largely stubbed.
 - **Creature data uses a three-tier split:** `CreatureDef` (static species template, `custom_resources/static/`), `CreatureIdentity` (mutable identity/growth/bonds/moves, `custom_resources/mutable/`), `CreatureInstance` (live per-creature state: health/block/emotions, `custom_resources/runtime/`). `EmotionHandler` is stateless and operates on `instance.emotions` — emotions survive scene unloads.
 - **`BaseCreature.instance` has a setter** that re-routes `creature_stat_handler.identity`, `creature_stat_handler.creature_uid`, and `emotion_handler.instance` whenever the instance is reassigned at runtime (e.g. when `meadow.setup(player_data)` hands the real instance in after `_ready` has already built a default via `_ensure_stats`). Anything else that holds derived refs to `instance.identity` or `instance.uid` should hook into `_wire_instance()` too.
 - **JSON keys must match runtime concepts.** `creatures.json` uses `"identity"` for the per-creature stat/personality block (was `"stat_block"` pre-2026-05-12 rename). Any new JSON key drift across a rename will silently load defaults — verify the factory reads what `creatures.json` writes.
 - **Auto-seek is removed.** All movement is brain-driven via `&"move"` or `&"dash"`. If you see code re-introducing implicit movement, flag it as a vision violation.
+
+---
+
+## Shipped Systems Reference
+
+Systems that exist and work end-to-end. These are plumbing in service of the loop — run each through The Lens before extending. (Kept in sync with end-of-session notes; verify against code before asserting file:line facts.)
+
+### The Ruins Descent (orchestration → maze)
+
+- **`Run`** (`scenes/run.gd`) is the persistent top-level orchestrator, holding `active_stats: PlayerData` for the whole session. Scene routing is ONLY via `Events.scene_transition_requested(scene_id)` — never `change_scene_to_file`. `SCENES` maps `"meadow"`/`"ruins_prep"`/`"ruins"` → PackedScene, loaded into `$CurrentView`. Every loadable scene root exposes `setup(stats: PlayerData)`, called after `await ready`. `Events.ruins_run_started(creature)` stashes the chosen creature on `active_stats.ruins_creature`.
+- **`RuinsPrepMenu`** (`scenes/ruins/ruins_prep_menu.gd`) — pre-descent staging: pick which creature descends and assign its active actions. The player's pre-fight investment layer. `_on_start_pressed` emits `ruins_run_started` + transitions to `"ruins"`.
+- **Ruins is a continuous block-maze** (`scenes/ruins/ruins.tscn` + `RuinsManager`), replacing the old discrete-room `ruin_room.gd`/doors model (deleted 2026-07-07). Two-stage generation: `MapGenerator` (`scenes/ruins/map_generator.gd`) spiders a grid graph of `Room`s (phased skeleton→sprawl, loop fusion, room-type assignment); `RuinMapAssembler` (`scenes/debug/ruin_map_assembler.gd` — still on the debug path though used in prod) realizes it into snapped `RuinMapBlock` geometry, anchor-matched by connection shape and catalog-validated. `RuinsManager.setup()` injects the raised creature (`creature.instance = stats.ruins_creature`) — the vision link. Combat triggers per-block via `combat_trigger_area`; the creature explores autonomously via nav-target signals. Open debt: boss/defeat handling not yet re-integrated into the maze flow; per-block chest is test scaffolding.
+
+### Combat Damage Delivery (HitBox → HurtBox)
+
+Damage is area-vs-area, not proximity math. `HitBox` (`battles/hit_box.gd`) detects a dedicated `HurtBox` Area2D (physics layer 6), NOT the physics body — body colliders are movement-sized, so separate hittable volumes decouple "where I am" from "where I'm hittable." `setup(effects, source)` arms the window; `deliver()` does a one-shot overlap pass, faction-filtered by group. Unified across enemies and creatures; the player is damageable (own HurtBox + `take_damage`). `AnimatedHitBox` (`battles/animated_hit_box.gd`) is the reusable spawned variant (bite fang, frame-synced to `damage_frame`). Telegraphed charges: `TackleAction` emits `[&"indicate", &"tackle"]`.
+
+### Boss
+
+`Boss extends Enemy` (`battles/boss.gd`) bypasses the Brain: `BossController` (`scenes/ruins/boss_controller.gd`) is a scripted `SNARING→ATTACKING→VULNERABLE` state machine returning primitive steps. This does NOT violate the single-decision-maker pillar — that pillar governs *raised creatures*; the boss is the stage. `is_snared` on `CreatureBattleUnit` freezes the creature during the snare; the VULNERABLE window is the revelation moment where the creature's Brain runs free. Spawned via `BossEncounterDef.boss_scene`.
+
+### Persistence & Economy
+
+- **Save** — `SaveMgr` autoload (`global/save_mgr.gd`) + typed `SaveData` Resource (`custom_resources/save_data.gd`: `creatures`, `inventory`, `ruins_creature`, `current_scene`). Typed end-to-end, no JSON/Dict. `Run._save_game_state` fires on entering `"meadow"`/`"ruins"` (before the outgoing scene frees); cold launch resumes `current_scene`. Because `CreatureInstance` is Resource-by-ref, meadow mutations persist automatically — no harvest step.
+- **Loot** — `LootHandler` (`scenes/ruins/loot_handler.gd`), one per ruins scene. `generate_battle_loot()` (called at combat start, after enemies spawn) pre-rolls each enemy's `LootTable` into `_pending_drops` keyed by `instance.uid`; on `Events.enemy_fainted` it spawns `WorldItemBase` pickups in-world. `loot_table` is a per-enemy export on `enemy.tscn`. Pickups auto-add to `active_stats.inventory` and survive the trip back to the meadow — closing the ruins→meadow resource loop.
+- **Reward** — non-boss victory pops `RewardUI` (`scenes/ruins/reward_ui.gd`) via `Events.reward_ui_requested`; the player picks a stat-boost `RewardDef` applied through the creature's `ModifierHandler`. Growth made visible at the moment of victory.
+
+### Stat → Color (StatPalette)
+
+The first concrete "stat number → visible fingerprint" bridge. `StatPalette` (`custom_resources/static/stat_palette.gd`, static/pure) maps `identity` stat points → a gradient, applied via a luma→gradient shader through `CreatureSkinHandler`. Hue = which stat dominates; saturation = `purity × depth` (how committed the investment). Un-raised creatures stay near-gray; pure single-stat creatures bloom richer color. This is the direction the whole stat system is meant to travel.
 
 ---
 
@@ -282,15 +341,21 @@ queue_emptied → Brain.select_action()
 /battles
   battle_actor.gd               ← BattleActor base
   brain.gd                      ← Stateless action selector
-  battle_actions/
+  battle_actions/               ← .gd behaviors; .tres instances in aggressive/ + defensive/
     attack_action.gd
-    brace_action.gd
     dash_action.gd
-    fire_projectile_action.gd
     move_to_action.gd
+    fire_projectile_action.gd
+    buff_action.gd
+    counter_action.gd
+    bite_action.gd
+    tackle_action.gd
   enemy_handler.gd
   party_handler.gd
   creature_combat_handler.gd
+  boss.gd
+  hit_box.gd                    ← HitBox→HurtBox area damage delivery
+  animated_hit_box.gd
 /creatures
   base_creature.gd              ← Meadow creature base
   creature_battle_unit.gd       ← Extends BattleActor, party unit in combat
@@ -315,20 +380,25 @@ queue_emptied → Brain.select_action()
     action_queue.gd
     ruins_world_item.gd
 /data
-  /creatures.json
-  /moves.json
-  /items.json
+  creatures.json                ← species templates (only remaining JSON data)
 /effects
-/global
+/global                         ← autoloads
   events.gd
-  qte_controller.gd
   rng.gd
-  utils.gd
   shaker.gd
-/meadow
-/ruins
+  action_data.gd                ← BattleAction .tres registry
+  creature_data.gd              ← creature_instance factory
+  effect_executor.gd
+  sfx_player.gd
+  music_player.gd (.tscn)
+  qte_controller.gd             ← dormant, awaiting re-wire
+  hitstop.gd
+  save_mgr.gd
 /scenes
-/statuses
+  /meadow                       ← meadow scene + player_model
+  /ruins                        ← ruins.tscn + RuinsManager, MapGenerator, RuinMapAssembler, blocks
+  /modifier_handler
+  /debug
 /utils
 ```
 
@@ -349,8 +419,8 @@ queue_emptied → Brain.select_action()
 
 ## When In Doubt
 
-Ask: _Does this provide a challenge or unique situation for the player to witness the influence of how they've raised their creature?_
+Ask, in order: _Is it fun?_ Then: _is the floor under it standing?_ Then: _does it let the player witness the creature they raised?_
 
-If the answer points one direction and the proposed change points another, the change is wrong. Even if it's clean. Even if it's clever. Even if it's idiomatic. Vision wins. Always.
+If the answer points one direction and the proposed change points another, the change is wrong. Even if it's clean. Even if it's clever. Even if it's idiomatic. Fun wins. Always.
 
-The mechanics serve the feeling. The feeling does not serve the mechanics. 🌿
+The mechanics are the floor. The feeling is the ceiling. The ceiling stands on the floor — build it that way. 🌿

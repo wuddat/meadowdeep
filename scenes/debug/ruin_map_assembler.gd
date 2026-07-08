@@ -1,10 +1,12 @@
-class_name RuinBlockAssembler
+class_name RuinMapAssembler
 extends Node
 
 #If you forget the systems you used for generation and creature pathing look up:
 #BFS (Breadth First Search)
 #Random Walk
 @export var creature: CreatureBattleUnit
+@export var start_block: PackedScene
+const ORIGIN := Vector2i.ZERO
 
 const DELTA_DIR := {
 	Vector2i.UP: &"N",
@@ -16,10 +18,10 @@ const DELTA_DIR := {
 const OPPOSITE := { &"N": &"S", &"S": &"N", &"E": &"W", &"W": &"E", }
 
 const BIT_DIR := {
-	TestMapGenerator.DOOR_N: &"N",
-	TestMapGenerator.DOOR_S: &"S",
-	TestMapGenerator.DOOR_E: &"E",
-	TestMapGenerator.DOOR_W: &"W",
+	MapGenerator.ROOM_CONNECT_N: &"N",
+	MapGenerator.ROOM_CONNECT_S: &"S",
+	MapGenerator.ROOM_CONNECT_E: &"E",
+	MapGenerator.ROOM_CONNECT_W: &"W",
 }
 
 @export var block_scenes: Array[PackedScene]
@@ -31,7 +33,6 @@ var _catalog: Dictionary = {}
 var _placed: Dictionary = {}
 var _room_map: Dictionary = {}
 var _visited_rooms: Dictionary = {}
-var _origin: Vector2
 var _current_room: Vector2i = Vector2i.ZERO
 var _pending_room: Vector2i = Vector2i.ZERO
 var _has_pending: bool = false
@@ -61,7 +62,8 @@ func assemble(room_map: Dictionary, container: Node2D) -> Dictionary:
 	if not room_map.has(start):
 		push_warning("RuinBlockAssembler: no start room at ZERO")
 		return placed
-	placed[start] = _spawn(room_map[start], container)
+	_validate_map_shapes(room_map)
+	placed[start] = _spawn_start(room_map[start], container)
 	var queue: Array[Vector2i] = [start]
 	while not queue.is_empty():
 		var current_block: Vector2i = queue.pop_front()
@@ -79,7 +81,6 @@ func assemble(room_map: Dictionary, container: Node2D) -> Dictionary:
 			queue.append(npos)
 	_placed = placed
 	_room_map = room_map
-	_origin = placed[start].global_position
 	_visited_rooms.clear()
 	_current_room = start
 	_has_pending = false
@@ -92,14 +93,47 @@ func _spawn(room:Room, container: Node2D) -> RuinMapBlock:
 	if not _catalog.has(key):
 		push_warning("RuinBlockAssembler: Unmatched shape %s @ %s" % [key, room.grid_pos])
 		return null
-	var block:RuinMapBlock = (_catalog[key] as PackedScene).instantiate() as RuinMapBlock
+	return _build_block(_catalog[key] as PackedScene, room, container)
+
+
+# Origin always uses the exported start_block scene, ignoring shape-matching.
+# Still validates its attach points cover the room's generated doors, so
+# neighbors snap correctly (the invariant the catalog normally guarantees).
+func _spawn_start(room:Room, container: Node2D) -> RuinMapBlock:
+	if start_block == null:
+		push_warning("RuinBlockAssembler: start_block unset — falling back to catalog")
+		return _spawn(room, container)
+	var block := _build_block(start_block, room, container)
+	var anchors := block.anchor_directions()
+	for door: StringName in _dirs_from_mask(room.doors):
+		if door not in anchors:
+			push_warning("RuinBlockAssembler: origin door %s has no start_block anchor — neighbor won't snap" % door)
+	return block
+
+
+func origin_anchor_dirs() -> Array[Vector2i]:
+	var out: Array[Vector2i] = []
+	if start_block == null:
+		return out
+	var block := start_block.instantiate() as RuinMapBlock
+	var anchors := block.anchor_directions()
+	for delta: Vector2i in DELTA_DIR:
+		if DELTA_DIR[delta] in anchors:
+			out.append(delta)
+	block.free()
+	return out
+
+
+func _build_block(scene: PackedScene, room:Room, container: Node2D) -> RuinMapBlock:
+	var block:RuinMapBlock = scene.instantiate() as RuinMapBlock
 	container.add_child(block)
 	block.room = room
 	_add_chest(block)
 	return block
 
 
-# Drops a chest at the block's local origin (0,0) — the room center.
+#TEST Drops a chest at the block's local origin (0,0) — the room center.
+#TODO Placeholder for testing, will add proper coord generation
 func _add_chest(block: RuinMapBlock) -> void:
 	var chest: Chest = CHEST_SCENE.instantiate()
 	chest.loot_table = chest_loot_table
@@ -208,6 +242,15 @@ func _first_step_to_unvisited(start: Vector2i) -> Vector2i:
 			came_from[n] = cur
 			queue.append(n)
 	return start
+
+func _validate_map_shapes(room_map: Dictionary) -> void:
+	for pos: Vector2i in room_map:
+		var room: Room = room_map[pos]
+		if pos == Vector2i.ZERO:
+			continue
+		var key := _key(_dirs_from_mask(room.doors))
+		if not _catalog.has(key):
+			push_error("[RUINASSEMBLER]: No block for shape '%s' at %s" % [key,pos])
 
 func _establish_connections() -> void:
 	if creature:

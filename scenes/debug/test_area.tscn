@@ -1,35 +1,16 @@
 [gd_scene format=3 uid="uid://ck2pkpxx26f1n"]
 
 [ext_resource type="Script" uid="uid://xoc2pwqeqc3v" path="res://scenes/debug/test_area.gd" id="1_6buml"]
-[ext_resource type="Script" uid="uid://dhrofm80oe52v" path="res://scenes/debug/test_map_generator.gd" id="2_qgbgy"]
-[ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="3_78un0"]
-[ext_resource type="Script" uid="uid://cjqjp8fjbha1r" path="res://scenes/debug/ruin_map_assembler.gd" id="4_3wu3x"]
-[ext_resource type="PackedScene" uid="uid://no0ymsktmjk1" path="res://scenes/ruins/ruin_map_blocks/end_block_n.tscn" id="5_4axnl"]
-[ext_resource type="PackedScene" uid="uid://da0v1frde65i3" path="res://scenes/ruins/ruin_map_blocks/corner_block_ne.tscn" id="6_dekq5"]
-[ext_resource type="PackedScene" uid="uid://but0vreewuwbc" path="res://scenes/ruins/ruin_map_blocks/vert_block_ew.tscn" id="6_xtb2t"]
-[ext_resource type="PackedScene" uid="uid://46ndpkc5etc8" path="res://scenes/ruins/ruin_map_blocks/corner_block_es.tscn" id="7_cmp30"]
-[ext_resource type="PackedScene" uid="uid://t7bqu4n7b4kx" path="res://scenes/ruins/ruin_map_blocks/corner_block_nw.tscn" id="7_f0vtn"]
-[ext_resource type="PackedScene" uid="uid://cv5wy47tlq6c6" path="res://scenes/ruins/ruin_map_blocks/t_block_esw.tscn" id="8_poicf"]
-[ext_resource type="PackedScene" uid="uid://di58evhcy815h" path="res://scenes/ruins/ruin_map_blocks/corner_block_sw.tscn" id="8_xmsec"]
-[ext_resource type="PackedScene" uid="uid://gec307ambgkp" path="res://scenes/ruins/ruin_map_blocks/end_block_e.tscn" id="9_6qu6p"]
-[ext_resource type="PackedScene" uid="uid://cwial0uhsvvxd" path="res://scenes/ruins/ruin_map_blocks/x_block_1.tscn" id="9_ikjfj"]
 [ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="10_qgbgy"]
 [ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="10_sbpa6"]
 [ext_resource type="Resource" uid="uid://dmj4y8go643i6" path="res://data/test_player_data.tres" id="11_lwtph"]
-[ext_resource type="PackedScene" uid="uid://0o21p3x7n8ax" path="res://scenes/ruins/ruin_map_blocks/end_block_s.tscn" id="11_q077l"]
 [ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="11_xtb2t"]
 [ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="12_cmp30"]
-[ext_resource type="PackedScene" uid="uid://7jjy0wt51syr" path="res://scenes/ruins/ruin_map_blocks/end_block_w.tscn" id="12_er86u"]
 [ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="12_ldiwu"]
 [ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="13_0iv2w"]
 [ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="13_poicf"]
 [ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="14_fahna"]
 [ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="14_ikjfj"]
-[ext_resource type="PackedScene" uid="uid://bd8h65yypjlp0" path="res://scenes/ruins/ruin_map_blocks/t_block_nes.tscn" id="14_vtkah"]
-[ext_resource type="PackedScene" uid="uid://dwoj8klprpn78" path="res://scenes/ruins/ruin_map_blocks/t_block_new.tscn" id="15_s2irw"]
-[ext_resource type="PackedScene" uid="uid://d1rfwkctyjkcx" path="res://scenes/ruins/ruin_map_blocks/t_block_nsw.tscn" id="16_bb1uf"]
-[ext_resource type="PackedScene" uid="uid://ddk3crpq8aoqh" path="res://scenes/ruins/ruin_map_blocks/vert_block_ns.tscn" id="18_3g74x"]
-[ext_resource type="Resource" uid="uid://c2tqxii8u64gm" path="res://scenes/ruins/resources/loot_table_test.tres" id="20_f0vtn"]
 [ext_resource type="Script" uid="uid://sw0qqe1767dv" path="res://scenes/ruins/bond_radius.gd" id="30_xmsec"]
 [ext_resource type="Shader" uid="uid://o1fm7jprwbry" path="res://art/game_art/shaders/bond_radius.gdshader" id="31_6qu6p"]
 [ext_resource type="Texture2D" uid="uid://85b7mr5ca8ag" path="res://art/linedot.png" id="32_q077l"]
@@ -60,16 +41,6 @@ shader_parameter/edge_softness = 0.0010000000475
 [node name="TestArea" type="Node2D" unique_id=1919408686]
 y_sort_enabled = true
 script = ExtResource("1_6buml")
-
-[node name="TestMapGenerator" type="Node" parent="." unique_id=358687206]
-script = ExtResource("2_qgbgy")
-encounter_pool = ExtResource("3_78un0")
-
-[node name="RuinBlockAssembler" type="Node" parent="." unique_id=1764192801 node_paths=PackedStringArray("creature")]
-script = ExtResource("4_3wu3x")
-creature = NodePath("../CreatureBattleUnit")
-block_scenes = Array[PackedScene]([ExtResource("7_cmp30"), ExtResource("6_dekq5"), ExtResource("7_f0vtn"), ExtResource("8_xmsec"), ExtResource("9_6qu6p"), ExtResource("5_4axnl"), ExtResource("11_q077l"), ExtResource("12_er86u"), ExtResource("8_poicf"), ExtResource("14_vtkah"), ExtResource("15_s2irw"), ExtResource("16_bb1uf"), ExtResource("6_xtb2t"), ExtResource("18_3g74x"), ExtResource("9_ikjfj")])
-chest_loot_table = ExtResource("20_f0vtn")
 
 [node name="EnemyHandler" type="Node2D" parent="." unique_id=1427632466 groups=["enemy_handler"]]
 unique_name_in_owner = true

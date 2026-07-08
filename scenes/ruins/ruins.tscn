@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://x77r6gdi5b23"]
+
+[ext_resource type="Script" uid="uid://srxuw7mrkfa7" path="res://scenes/ruins/ruins_manager.gd" id="1_vkjxt"]
+[ext_resource type="Script" uid="uid://dp0s6p5opmpoq" path="res://scenes/ruins/prop_controller.gd" id="2_t3xkk"]
+[ext_resource type="Script" uid="uid://6fsil35vyp4g" path="res://battles/enemy_handler.gd" id="3_ty32b"]
+[ext_resource type="Script" uid="uid://b4saeaban3m3y" path="res://custom_resources/runtime/creature_instance.gd" id="4_htf4b"]
+[ext_resource type="Script" uid="uid://d1c6hpk5eaxbm" path="res://custom_resources/mutable/player_data.gd" id="5_xqdwu"]
+[ext_resource type="PackedScene" uid="uid://r741b0rgs5aa" path="res://creatures/enemy.tscn" id="6_81y5d"]
+[ext_resource type="Script" uid="uid://c55lw07ty4dqf" path="res://battles/creature_combat_handler.gd" id="7_k85n5"]
+[ext_resource type="Script" uid="uid://c8hfqggmjj1qk" path="res://scenes/ruins/loot_handler.gd" id="8_hey4b"]
+[ext_resource type="PackedScene" uid="uid://j6ctanr2ca2c" path="res://scenes/meadow/player_model.tscn" id="10_mcnqj"]
+[ext_resource type="Script" uid="uid://cjqjp8fjbha1r" path="res://scenes/debug/ruin_map_assembler.gd" id="10_vkjxt"]
+[ext_resource type="PackedScene" uid="uid://cwial0uhsvvxd" path="res://scenes/ruins/ruin_map_blocks/x_block_1.tscn" id="11_lsma6"]
+[ext_resource type="Script" uid="uid://bkucmrieq1n36" path="res://scenes/meadow/player_camera.gd" id="11_vkjxt"]
+[ext_resource type="PackedScene" uid="uid://46ndpkc5etc8" path="res://scenes/ruins/ruin_map_blocks/corner_block_es.tscn" id="12_3vuu6"]
+[ext_resource type="Script" uid="uid://b1wbdhu786eta" path="res://scenes/ruins/map_generator.gd" id="12_lsma6"]
+[ext_resource type="Resource" uid="uid://bqd6df5iy5ol8" path="res://battles/test_battle_pool.tres" id="13_3vuu6"]
+[ext_resource type="PackedScene" uid="uid://da0v1frde65i3" path="res://scenes/ruins/ruin_map_blocks/corner_block_ne.tscn" id="13_8pnvg"]
+[ext_resource type="PackedScene" uid="uid://cbu0mdw000001" path="res://creatures/creature_battle_unit.tscn" id="14_8pnvg"]
+[ext_resource type="PackedScene" uid="uid://t7bqu4n7b4kx" path="res://scenes/ruins/ruin_map_blocks/corner_block_nw.tscn" id="14_d6sd1"]
+[ext_resource type="PackedScene" uid="uid://di58evhcy815h" path="res://scenes/ruins/ruin_map_blocks/corner_block_sw.tscn" id="15_aa2om"]
+[ext_resource type="PackedScene" uid="uid://gec307ambgkp" path="res://scenes/ruins/ruin_map_blocks/end_block_e.tscn" id="16_5ea5x"]
+[ext_resource type="PackedScene" uid="uid://no0ymsktmjk1" path="res://scenes/ruins/ruin_map_blocks/end_block_n.tscn" id="17_hecxc"]
+[ext_resource type="PackedScene" uid="uid://0o21p3x7n8ax" path="res://scenes/ruins/ruin_map_blocks/end_block_s.tscn" id="18_k8auo"]
+[ext_resource type="PackedScene" uid="uid://7jjy0wt51syr" path="res://scenes/ruins/ruin_map_blocks/end_block_w.tscn" id="19_fosjr"]
+[ext_resource type="PackedScene" uid="uid://cv5wy47tlq6c6" path="res://scenes/ruins/ruin_map_blocks/t_block_esw.tscn" id="20_7pqpb"]
+[ext_resource type="PackedScene" uid="uid://bd8h65yypjlp0" path="res://scenes/ruins/ruin_map_blocks/t_block_nes.tscn" id="21_2bsp1"]
+[ext_resource type="PackedScene" uid="uid://dwoj8klprpn78" path="res://scenes/ruins/ruin_map_blocks/t_block_new.tscn" id="22_vs74v"]
+[ext_resource type="PackedScene" uid="uid://d1rfwkctyjkcx" path="res://scenes/ruins/ruin_map_blocks/t_block_nsw.tscn" id="23_3l1mp"]
+[ext_resource type="Resource" uid="uid://b15ej7nmh0ka" path="res://data/test_creature_instance.tres" id="24_3l1mp"]
+[ext_resource type="PackedScene" uid="uid://but0vreewuwbc" path="res://scenes/ruins/ruin_map_blocks/vert_block_ew.tscn" id="24_5ovbr"]
+[ext_resource type="PackedScene" uid="uid://ddk3crpq8aoqh" path="res://scenes/ruins/ruin_map_blocks/vert_block_ns.tscn" id="25_gt404"]
+[ext_resource type="Resource" uid="uid://c2tqxii8u64gm" path="res://scenes/ruins/resources/loot_table_test.tres" id="26_tdbi8"]
+[ext_resource type="Resource" uid="uid://dmj4y8go643i6" path="res://data/test_player_data.tres" id="30_81y5d"]
+[ext_resource type="PackedScene" uid="uid://dbchva62s1pjx" path="res://scenes/ruins/reward_ui.tscn" id="31_lw85a"]
+[ext_resource type="Script" uid="uid://sw0qqe1767dv" path="res://scenes/ruins/bond_radius.gd" id="41_8pnvg"]
+[ext_resource type="Shader" uid="uid://o1fm7jprwbry" path="res://art/game_art/shaders/bond_radius.gdshader" id="42_d6sd1"]
+[ext_resource type="Texture2D" uid="uid://85b7mr5ca8ag" path="res://art/linedot.png" id="43_aa2om"]
+
+[sub_resource type="Resource" id="Resource_1lbdh"]
+script = ExtResource("5_xqdwu")
+metadata/_custom_type_script = "uid://d1c6hpk5eaxbm"
+
+[sub_resource type="Gradient" id="Gradient_k85n5"]
+offsets = PackedFloat32Array(0, 0.9778598)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hey4b"]
+gradient = SubResource("Gradient_k85n5")
+fill = 1
+fill_from = Vector2(0.4957265, 0.4957265)
+fill_to = Vector2(0.85897434, 0.14102565)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kuwij"]
+radius = 73.00685
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mcnqj"]
+shader = ExtResource("42_d6sd1")
+shader_parameter/progress = 0.33600001596
+shader_parameter/fill_color = Color(1, 0.8127154, 0.8053555, 0.34901962)
+shader_parameter/edge_softness = 0.0010000000475
+
+[node name="Ruins" type="Node2D" unique_id=1210557673 node_paths=PackedStringArray("generator", "assembler", "maze")]
+y_sort_enabled = true
+script = ExtResource("1_vkjxt")
+generator = NodePath("MapGenerator")
+assembler = NodePath("RuinMapAssembler")
+maze = NodePath("Maze")
+
+[node name="Maze" type="Node2D" parent="." unique_id=1239442074]
+
+[node name="MapGenerator" type="Node" parent="." unique_id=719299934]
+script = ExtResource("12_lsma6")
+combat_only = true
+encounter_pool = ExtResource("13_3vuu6")
+
+[node name="RuinMapAssembler" type="Node" parent="." unique_id=1528971253 node_paths=PackedStringArray("creature")]
+script = ExtResource("10_vkjxt")
+creature = NodePath("")
+start_block = ExtResource("11_lsma6")
+block_scenes = Array[PackedScene]([ExtResource("12_3vuu6"), ExtResource("13_8pnvg"), ExtResource("14_d6sd1"), ExtResource("15_aa2om"), ExtResource("16_5ea5x"), ExtResource("17_hecxc"), ExtResource("18_k8auo"), ExtResource("19_fosjr"), ExtResource("20_7pqpb"), ExtResource("21_2bsp1"), ExtResource("22_vs74v"), ExtResource("23_3l1mp"), ExtResource("24_5ovbr"), ExtResource("25_gt404"), ExtResource("11_lsma6")])
+chest_loot_table = ExtResource("26_tdbi8")
+
+[node name="LootHandler" type="Node" parent="." unique_id=1629679477 node_paths=PackedStringArray("enemy_handler")]
+unique_name_in_owner = true
+script = ExtResource("8_hey4b")
+enemy_handler = NodePath("../EnemyHandler")
+
+[node name="PropController" type="Node2D" parent="." unique_id=501971802]
+script = ExtResource("2_t3xkk")
+
+[node name="EnemyHandler" type="Node2D" parent="." unique_id=637328052 node_paths=PackedStringArray("prop_controller") groups=["enemy_handler"]]
+unique_name_in_owner = true
+script = ExtResource("3_ty32b")
+player_data = SubResource("Resource_1lbdh")
+enemy_scene = ExtResource("6_81y5d")
+prop_controller = NodePath("../PropController")
+
+[node name="CreatureCombatHandler" type="Node" parent="." unique_id=1983730526]
+unique_name_in_owner = true
+script = ExtResource("7_k85n5")
+
+[node name="PlayerModel" parent="." unique_id=1075955909 instance=ExtResource("10_mcnqj")]
+unique_name_in_owner = true
+position = Vector2(409, 150)
+collision_mask = 25
+speed = 125.0
+roll_speed = 500.0
+stats = ExtResource("30_81y5d")
+
+[node name="PointLight2D" type="PointLight2D" parent="PlayerModel" unique_id=1367941227]
+energy = 0.61
+texture = SubResource("GradientTexture2D_hey4b")
+texture_scale = 6.72
+
+[node name="PlayerCreature" parent="." unique_id=1852223125 instance=ExtResource("14_8pnvg")]
+unique_name_in_owner = true
+position = Vector2(217, 140)
+collision_mask = 13
+base_movespeed = 100.0
+instance = ExtResource("24_3l1mp")
+
+[node name="BondRadius" type="Node2D" parent="PlayerCreature" unique_id=1484724542 node_paths=PackedStringArray("player_model")]
+z_index = -1
+script = ExtResource("41_8pnvg")
+player_model = NodePath("")
+
+[node name="BondRadiusArea" type="Area2D" parent="PlayerCreature/BondRadius" unique_id=1711764140]
+position = Vector2(0, -10)
+
+[node name="BondRadiusCollider" type="CollisionShape2D" parent="PlayerCreature/BondRadius/BondRadiusArea" unique_id=416870235]
+shape = SubResource("CircleShape2D_kuwij")
+debug_color = Color(0.5742738, 0.53816044, 0.38254538, 0.41960785)
+
+[node name="RadiusBorder" type="Sprite2D" parent="PlayerCreature/BondRadius" unique_id=182626578]
+
+[node name="RadiusFill" type="Sprite2D" parent="PlayerCreature/BondRadius" unique_id=1558923024]
+material = SubResource("ShaderMaterial_mcnqj")
+position = Vector2(1, -5)
+scale = Vector2(30, 15)
+texture = ExtResource("43_aa2om")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=346309896 node_paths=PackedStringArray("_camera_target")]
+position = Vector2(319.00003, 179.00002)
+scale = Vector2(82.46371, 8.475021)
+zoom = Vector2(1.1, 1.1)
+script = ExtResource("11_vkjxt")
+_camera_target = NodePath("../PlayerModel")
+
+[node name="RoomTypeLabel" type="Label" parent="." unique_id=593852780]
+modulate = Color(1, 1, 1, 0.15294118)
+offset_left = 262.0
+offset_top = 177.0
+offset_right = 364.0
+offset_bottom = 200.0
+text = "RoomTypeLabel"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1455113439]
+color = Color(0.427493, 0.42749307, 0.42749307, 1)
+
+[node name="PosID" type="Marker2D" parent="." unique_id=1114982930]
+position = Vector2(322, 138)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=720247368]
+
+[node name="RewardUI" parent="CanvasLayer" unique_id=861013308 node_paths=PackedStringArray("creature") instance=ExtResource("31_lw85a")]
+visible = false
+creature = NodePath("../../PlayerCreature")
+
+[connection signal="body_entered" from="PlayerCreature/BondRadius/BondRadiusArea" to="PlayerCreature/BondRadius" method="_on_bond_radius_area_body_entered"]
+[connection signal="body_exited" from="PlayerCreature/BondRadius/BondRadiusArea" to="PlayerCreature/BondRadius" method="_on_bond_radius_area_body_exited"]
+
+[editable path="PlayerCreature"]
+[editable path="PlayerCreature/ModifierHandler"]
+[editable path="PlayerCreature/CreatureNode/CreatureTextures"]
+[editable path="PlayerCreature/HitBox"]

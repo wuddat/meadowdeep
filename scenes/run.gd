@@ -4,8 +4,7 @@ extends Node
 const SCENES: Dictionary = {
 	"meadow": preload("uid://ckvqrdjwvkti2"),
 	"ruins_prep": preload("uid://31pta4kuy77o"),
-	"ruins_old": preload("uid://uxisf2rn7cwt"),
-	"ruins": preload("uid://cf0hfkwhoxaqh"), #ruins_2 uid://cf0hfkwhoxaqh #ruins_3 uid://xgg86h41drx3
+	"ruins": preload("uid://x77r6gdi5b23"),
 }
 
 const SAVE_ON_ENTER: Array[String] = ["meadow", "ruins"]

@@ -1,18 +1,41 @@
-#map_generator.gd
 class_name MapGenerator
 extends Node
 
-const ROOM_BASE := 6
+const ROOM_BASE := 20
 const FLOOR_MOD := 2
-const MAX_RADIUS := 8
+const MAX_RADIUS := 25
 
-const DOOR_N := 1
-const DOOR_S := 2
-const DOOR_E := 4
-const DOOR_W := 8
+const CARDINALS := [
+	Vector2i.UP,
+	Vector2i.DOWN,
+	Vector2i.LEFT,
+	Vector2i.RIGHT
+]
+
+const ROOM_CONNECT_N := 1
+const ROOM_CONNECT_S := 2
+const ROOM_CONNECT_E := 4
+const ROOM_CONNECT_W := 8
 
 const ROOM_PIXEL_SPACING := Vector2(32, 32)
-const SAFETY_CONST := 500
+const SAFETY_LIMIT := 4000
+
+enum FrontierSelection { NEWEST, RANDOM }
+
+const SKELETON_ROOM_CONNECTS_PER_VISIT := 1
+const SPRAWL_ROOM_CONNECTS_PER_VISIT := 4
+const ROOM_CONNECTS_PER_VISIT_BY_PHASE := [SKELETON_ROOM_CONNECTS_PER_VISIT, SPRAWL_ROOM_CONNECTS_PER_VISIT]
+
+const FRONTIER_SELECTION_BY_PHASE := [FrontierSelection.NEWEST, FrontierSelection.RANDOM]
+
+const LOOP_FUSION_CHANCE := 0.12
+const SKELETON_FRACTION_OF_TARGET := 0.35
+
+const BLOB_NEIGHBOR_THRESHOLD := 3
+const LOOP_NEIGHBOR_THRESHOLD := 2
+
+const SKELETON_PHASE := 0
+const SPRAWL_PHASE := 1
 
 const COMBAT_WEIGHT := 100.0
 const REST_SITE_WEIGHT := 0
@@ -20,10 +43,13 @@ const SHOP_WEIGHT := 0
 const EVENT_WEIGHT := 0
 const EGG_CHAMBER_WEIGHT := 0
 
+@export var combat_only: bool = false
 @export var encounter_pool: EncounterPool
 
 var _random_room_weights: Dictionary = {}
 var _total_weight := 0.0
+
+var allowed_origin_dirs: Array[Vector2i] = []
 
 var room_map: Dictionary = {}
 
@@ -42,46 +68,77 @@ func _spider(target: int) -> void:
 	var start := Vector2i.ZERO
 	room_map[start] = _make_room(start)
 
-	# Seed start with 1-3 doors. Start itself is NOT added to queue —
-	# this caps its door count at the rolled value.
-	var start_door_count := RNG.instance.randi_range(1, 3)
-	var seed_dirs := [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
-	seed_dirs.shuffle()
-	var queue: Array[Vector2i] = []
-	var seeded := 0
-	for dir: Vector2i in seed_dirs:
-		if seeded >= start_door_count or room_map.size() >= target:
-			break
-		var n: Vector2i = start + dir
-		room_map[n] = _make_room(n)
-		queue.append(n)
-		seeded += 1
+	var expandable_rooms: Array[Vector2i] = [start]
+	var skeleton_room_target := int(target * SKELETON_FRACTION_OF_TARGET)
+	var remaining_attempts := SAFETY_LIMIT
 
-	var safety := SAFETY_CONST
-	while room_map.size() < target and not queue.is_empty() and safety > 0:
-		safety -= 1
-		var current: Vector2i = queue[RNG.instance.randi_range(0, queue.size() - 1)]
-		var dirs := [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
-		dirs.shuffle()
+	while room_map.size() < target and remaining_attempts > 0:
+		remaining_attempts -= 1
 
-		var expanded: bool = false
-		for dir: Vector2i in dirs:
-			var neighbor: Vector2i = current + dir
+		var phase := SKELETON_PHASE if room_map.size() < skeleton_room_target else SPRAWL_PHASE
+		var doors_to_open: int = ROOM_CONNECTS_PER_VISIT_BY_PHASE[phase]
+		var selection_mode: int = FRONTIER_SELECTION_BY_PHASE[phase]
+
+		if expandable_rooms.is_empty():
+			expandable_rooms = _rooms_with_open_neighbor()
+			if expandable_rooms.is_empty():
+				break
+
+		var expandable_room_index: int
+		if selection_mode == FrontierSelection.NEWEST:
+			expandable_room_index = expandable_rooms.size() - 1
+		else:
+			expandable_room_index = RNG.instance.randi_range(0, expandable_rooms.size() - 1)
+		var current: Vector2i = expandable_rooms[expandable_room_index]
+
+		var directions := CARDINALS.duplicate()
+		directions.shuffle()
+		var doors_opened := 0
+
+		for direction: Vector2i in directions:
+			if doors_opened >= doors_to_open:
+				break
+			var neighbor: Vector2i = current + direction
+			if not _can_place(neighbor):
+				continue
+			room_map[neighbor] = _make_room(neighbor)
+			expandable_rooms.append(neighbor)
+			doors_opened += 1
+			if room_map.size() >= target:
+				break
+
+		if doors_opened == 0:
+			expandable_rooms.remove_at(expandable_room_index)
+
+
+func _can_place(pos: Vector2i) -> bool:
+	if room_map.has(pos):
+		return false
+	if abs(pos.x) + abs(pos.y) > MAX_RADIUS:
+		return false
+	if not allowed_origin_dirs.is_empty() and pos in CARDINALS and pos not in allowed_origin_dirs:
+		return false
+	var neighbor_count := _count_neighbors(pos)
+	if neighbor_count >= BLOB_NEIGHBOR_THRESHOLD:
+		return false
+	if neighbor_count == LOOP_NEIGHBOR_THRESHOLD:
+		return RNG.instance.randf() < LOOP_FUSION_CHANCE
+	return true
+
+
+func _rooms_with_open_neighbor() -> Array[Vector2i]:
+	var rooms_with_room_to_grow: Array[Vector2i] = []
+	for pos: Vector2i in room_map.keys():
+		for direction: Vector2i in CARDINALS:
+			var neighbor: Vector2i = pos + direction
 			if room_map.has(neighbor):
 				continue
 			if abs(neighbor.x) + abs(neighbor.y) > MAX_RADIUS:
 				continue
-			#count neighbors inc current (<=1 means no OTHER rooms touch)
-			if _count_neighbors(neighbor) > 1:
-				continue
-			room_map[neighbor] = _make_room(neighbor)
-			queue.append(neighbor)
-			expanded = true
-			if room_map.size() >= target:
-				return
-		#no parent options, kill
-		if not expanded:
-			queue.erase(current)
+			if _count_neighbors(neighbor) <= 1:
+				rooms_with_room_to_grow.append(pos)
+				break
+	return rooms_with_room_to_grow
 
 
 func _make_room(grid_pos: Vector2i) -> Room:
@@ -94,7 +151,7 @@ func _make_room(grid_pos: Vector2i) -> Room:
 
 func _count_neighbors(pos: Vector2i) -> int:
 	var count:int = 0
-	for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+	for dir in CARDINALS:
 		if room_map.has(pos + dir):
 			count += 1
 	return count
@@ -105,16 +162,16 @@ func _calc_doors() -> void:
 		var room: Room = room_map[pos]
 		var mask:int = 0
 		if room_map.has(pos + Vector2i.UP):
-			mask |= DOOR_N
+			mask |= ROOM_CONNECT_N
 			room.next_rooms.append(room_map[pos + Vector2i.UP])
 		if room_map.has(pos + Vector2i.DOWN):
-			mask |= DOOR_S
+			mask |= ROOM_CONNECT_S
 			room.next_rooms.append(room_map[pos + Vector2i.DOWN])
 		if room_map.has(pos + Vector2i.RIGHT):
-			mask |= DOOR_E
+			mask |= ROOM_CONNECT_E
 			room.next_rooms.append(room_map[pos + Vector2i.RIGHT])
 		if room_map.has(pos + Vector2i.LEFT):
-			mask |= DOOR_W
+			mask |= ROOM_CONNECT_W
 			room.next_rooms.append(room_map[pos + Vector2i.LEFT])
 		room.doors = mask
 
@@ -129,7 +186,7 @@ func _calc_depths() -> void:
 		var pos: Vector2i = frontier.pop_front()
 		var d: int = visited[pos]
 		room_map[pos].depth = d
-		for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+		for dir in CARDINALS:
 			var n: Vector2i = pos + dir
 			if room_map.has(n) and not visited.has(n):
 				visited[n] = d+ 1
@@ -141,7 +198,6 @@ func _assign_room_types(_floor_num: int) -> void:
 	_setup_random_room_weights()
 
 	# start room — left as NOT_ASSIGNED, identified by grid_pos == ZERO
-	# (add Room.Type.START to enum if you want a dedicated tag)
 	var start := Vector2i.ZERO
 	room_map[start].tier = 0
 
@@ -168,17 +224,17 @@ func _assign_room_types(_floor_num: int) -> void:
 	if terminals.size() > 0:
 		terminals.pop_back().type = Room.Type.REST_SITE
 
-	# fill remaining non-start rooms with weighted random
+	# fill remaining non-start rooms with combat
 	for room: Room in room_map.values():
 		if room.grid_pos == Vector2i.ZERO:
 			continue
 		if room.type != Room.Type.NOT_ASSIGNED:
 			continue
-		var t := _get_random_room_type_by_weight()
+		var t := Room.Type.COMBAT if combat_only else _get_random_room_type_by_weight()
 		room.type = t
+		var tier := 1 if room.depth > 4 else 0
+		room.tier = tier
 		if t == Room.Type.COMBAT:
-			var tier := 1 if room.depth > 4 else 0
-			room.tier = tier
 			room.encounter = encounter_pool.get_wild_battle_for_tier(tier)
 
 func _get_terminals() -> Array[Room]:
@@ -192,7 +248,7 @@ func _get_terminals() -> Array[Room]:
 
 func _door_count(mask: int) -> int:
 	var c: int = 0
-	for bit in [DOOR_N, DOOR_S, DOOR_E, DOOR_W]:
+	for bit in [ROOM_CONNECT_N, ROOM_CONNECT_S, ROOM_CONNECT_E, ROOM_CONNECT_W]:
 		if mask & bit:
 			c += 1
 	return c
@@ -228,7 +284,7 @@ func _get_random_room_type_by_weight() -> Room.Type:
 # Useful for adjacency rules (e.g. no two rest sites touching).
 # In BoI grid model "parent" = any connected neighbor.
 func _room_has_parent_of_type(room: Room, type: Room.Type) -> bool:
-	for dir in [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]:
+	for dir in CARDINALS:
 		var n: Vector2i = room.grid_pos + dir
 		if room_map.has(n) and room_map[n].type == type:
 			return true

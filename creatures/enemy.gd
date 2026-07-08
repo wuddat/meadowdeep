@@ -132,11 +132,9 @@ func take_damage(damage: int, mod_type: Modifier.Type, attacker: Node) -> void:
 	Shaker.shake(self, 25, 0.15)
 	tween.tween_callback(instance.take_damage.bind(modified_damage))
 	tween.parallel().tween_property(self, "modulate", Color.RED, 0.1)
-	tween.parallel().tween_property(self, "scale", Vector2(0.5,1.5), 0.1)
 	tween.tween_interval(0.17)
 	tween.finished.connect(func():
 		self.modulate = Color.WHITE
-		self.scale = Vector2.ONE
 		if instance.health <= 0:
 			if death_sfx:
 				SFXPlayer.pitch_play(death_sfx)

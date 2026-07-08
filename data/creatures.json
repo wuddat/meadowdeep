@@ -43,7 +43,7 @@
 			"species_id": "test_chaser",
 			"creature_name": "test_chaser",
 			"element_type": "test_chaser",
-			"max_health": 50.0,
+			"max_health": 5.0,
 			"egg_rarity": "common",
 			"egg_depth_found": 0.0,
 			"sprite_path": "res://art/game_art/creatures/bat/bat_sprite_frames.tres",

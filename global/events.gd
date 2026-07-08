@@ -39,6 +39,7 @@ signal creature_ensnared(creature: CreatureBattleUnit)
 @warning_ignore("unused_signal")
 signal creature_freed(creature: CreatureBattleUnit)
 
+
 # Enemy
 @warning_ignore("unused_signal")
 signal enemy_fainted(enemy: Enemy)

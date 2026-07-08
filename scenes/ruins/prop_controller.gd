@@ -1,10 +1,10 @@
 class_name PropController
 extends Node2D
 
-@onready var pylon_1: Sprite2D = $"../Pylon1"
-@onready var pylon_2: Sprite2D = $"../Pylon2"
-@onready var pylon_3: Sprite2D = $"../Pylon3"
-@onready var fire: Node2D = $"../Fire"
+@onready var pylon_1: Sprite2D
+@onready var pylon_2: Sprite2D
+@onready var pylon_3: Sprite2D
+@onready var fire: Node2D
 
 #in case you ever delete the pylons because we both know you will
 const pylon_1_pos = Vector2(149,148)

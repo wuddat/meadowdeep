@@ -14,6 +14,7 @@ var encounter: EncounterDef = null
 const BAT_SFX_1 = preload("uid://b6ei6ar836t2r")
 const BAT_DEATH_1 = preload("uid://c3284gsyob4n7")
 
+var _in_combat: bool = false
 
 func _ready() -> void:
 	Events.enemy_fainted.connect(_on_enemy_fainted)
@@ -27,8 +28,10 @@ func setup_enemies(bat_stats: EncounterDef, spawn_points: Array[Vector2] = []) -
 	if not bat_stats:
 		return
 	encounter = bat_stats.duplicate()
-	for enemy: Enemy in get_children():
-		enemy.queue_free()
+	if not _in_combat:
+		for enemy: Enemy in get_children():
+			enemy.queue_free()
+		_in_combat = true
 	if encounter.enemy_creature_party.is_empty():
 		encounter.assign_creature_party()
 	var species_ids: Array[String] = encounter.enemy_creature_party.duplicate()
@@ -69,8 +72,6 @@ func spawn_enemy(species_id: String, spawn_pos: Vector2, scene: PackedScene = en
 	add_child(enemy)
 	if "boss_controller" in enemy:
 		enemy.boss_controller.prop_controller = prop_controller
-		#print("boss_controller DETECTED: Assigning PropController")
-
 
 
 func _on_enemy_fainted(enemy: Enemy) -> void:
@@ -79,6 +80,7 @@ func _on_enemy_fainted(enemy: Enemy) -> void:
 	if is_instance_valid(enemy):
 		enemy.queue_free()
 	child_order_changed.emit()
+
 
 
 func get_enemies() -> Array[Node]:

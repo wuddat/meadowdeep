@@ -1,14 +1,16 @@
+class_name RuinsManager
 extends Node2D
 
 
-@onready var generator: TestMapGenerator = $TestMapGenerator
-@onready var assembler: RuinBlockAssembler = $RuinBlockAssembler
-@onready var maze: Node2D = $Maze
-@onready var player: CharacterBody2D = $PlayerModel
-@onready var creature: CreatureBattleUnit = $CreatureBattleUnit
-@onready var bond_radius: CollisionShape2D = $CreatureBattleUnit/BondRadius/BondRadiusArea/BondRadiusCollider
+@export var generator: MapGenerator
+@export var assembler: RuinMapAssembler
+@export var maze: Node2D
+@onready var player: CharacterBody2D = %PlayerModel
+@onready var creature: CreatureBattleUnit = %PlayerCreature
+@onready var bond_radius: CollisionShape2D = %BondRadiusCollider
 @onready var creature_combat_handler: CreatureCombatHandler = %CreatureCombatHandler
 @onready var enemy_handler: EnemyHandler = %EnemyHandler
+@onready var loot_handler: LootHandler = %LootHandler
 
 var _test_combat: bool = false
 var _current_block: RuinMapBlock = null
@@ -38,10 +40,8 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
-		_test_particle_spawn()
 		Events.camera_target_requested.emit(player)
 	if event.is_action_pressed("right_mouse"):
-		_set_creature_state("navigate")
 		Events.camera_target_requested.emit(creature)
 		
 
@@ -74,15 +74,6 @@ func _test_combat_toggle() -> void:
 		creature.stop_combat()
 		_test_combat = false
 
-func _test_particle_spawn() -> void:
-	var distance = player.global_position.distance_to(bond_radius.global_position)
-	if distance < bond_radius.shape.radius:
-		var p := PARTICLES.instantiate() as Particles
-		add_child(p)
-		p.global_position = player.global_position
-		p.emit_particles()
-	#print("distance: %s, radius: %s" % [distance, bond_radius.shape.radius])
-
 
 func _park_player_at_start(placed: Dictionary) -> void:
 	var start: RuinMapBlock = placed.get(Vector2i.ZERO)
@@ -101,6 +92,7 @@ func _on_combat_triggered(block: RuinMapBlock) -> void:
 	for nav_point in block.nav_points:
 		enemy_spawn_points.append(nav_point.global_position)
 	enemy_handler.setup_enemies(block.room.encounter, enemy_spawn_points)
+	loot_handler.generate_battle_loot()
 	_current_block = block
 	creature.set_state("combat")
 	creature_combat_handler.start_combat([creature])
@@ -111,10 +103,17 @@ func _on_combat_triggered(block: RuinMapBlock) -> void:
 
 func _check_battle_progress(_enemy: Enemy) -> void:
 	await get_tree().create_timer(1).timeout
-	if not enemy_handler.get_children():
-		_current_block.room.cleared = true
-		creature.set_state("follow")
-		enemy_handler._in_combat = false
+	if not enemy_handler.get_children().is_empty() or _current_block == null:
+		return
+	# Snapshot + clear up front so a second faint can't re-enter and double-pop the reward UI.
+	var block := _current_block
+	_current_block = null
+	block.room.cleared = true
+	enemy_handler._in_combat = false
+	if block.room.type != Room.Type.BOSS:
+		Events.reward_ui_requested.emit()
+		await Events.reward_ui_dismissed
+	creature.set_state("follow")
 
 func _establish_connections() -> void:
 	Events.enemy_fainted.connect(_check_battle_progress)
